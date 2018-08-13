@@ -6,6 +6,10 @@ class SeqIOException(Exception):
     def __init__(self, str):
         super().__init__(str)
 
+class SeqIOGapException(SeqIOException):
+    def __init__(self, str):
+        super().__init__(str)
+
 class AminoAcid:
     """Class representing an Amino Acid."""
 
@@ -55,14 +59,14 @@ class AminoAcids:
 class Residue:
     """Class to represent a protein residue."""
 
-    def __init__(self, aa, num, pdb_label):
+    def __init__(self, aa, seq_num, pdb_label):
         self.aa = aa
-        self.num = num
+        self.seq_num = seq_num
         self.pdb_label = pdb_label
     
     def __str__(self):
-        return "res: aa={}, num={}, pdb_label={}".format(
-            self.aa, self.num, self.pdb_label)
+        return "res: aa={}, seq_num={}, pdb_label={}".format(
+            self.aa, self.seq_num, self.pdb_label)
 
 class Segment:
     """Class to represent a protein segment."""
@@ -77,6 +81,8 @@ class Segment:
 class Sequence:
     """Class to represent a protein sequence."""
 
+    re_gap_chars = r'[.\-]'
+
     def __init__(self, hdr: str, seq: str):
         self.hdr = hdr
         self._seq = seq
@@ -88,6 +94,7 @@ class Sequence:
         self.features = hdr_info['features']
     
     def get_res_at_offset(self, offset):
+        """Return the residue character at the given sequence position (includes gaps)."""
         try:
             res = self.seq[offset]
         except:
@@ -96,11 +103,44 @@ class Sequence:
 
         return res
 
+    def get_res_at_seq_position(self, seq_pos):
+        """Return the residue character at the given sequence position (ignores gaps)."""
+        seq_nogap = re.sub(Sequence.re_gap_chars, '', self.seq)
+        try:
+            res = seq_nogap[seq_pos-1]
+        except:
+            raise SeqIOException("Error: failed to get residue at position {} from sequence with {} non-gap sequence positions: '{}'".format(
+                offset, len(seq_nogap), self.seq))
+
+        return res
+
+    def get_seq_position_at_offset(self, offset):
+        """Return the sequence position (ignores gaps) of the given residue offset (may include gaps)."""
+        seq_to_offset = self.seq[:offset+1]
+        if re.match(seq_to_offset[-1], Sequence.re_gap_chars):
+            raise SeqIOGapException("Cannot get sequence position at offset {} since this corresponds to a gap".format(offset))
+
+        seq_nogap = re.sub(Sequence.re_gap_chars, '', seq_to_offset)
+        return len(seq_nogap)
+
+    def get_offset_at_seq_position(self, seq_pos):
+        """Return the offset (with gaps) of the given sequence position (ignores gaps)."""
+        current_seq_pos=0
+        for offset in range(len(self.seq)):
+            if not re.match(Sequence.re_gap_chars, self.seq[offset]):
+                current_seq_pos += 1
+            if current_seq_pos == seq_pos:
+                return offset
+
+        raise SeqIOException("failed to find offset at sequence position {}".format(seq_pos))
+
     def length(self):
+        """Return the length of the sequence."""
         return len(self.seq)
     
     @property
     def seq(self):
+        """Return the amino acid sequence as a string."""
         return self._seq
 
     def _set_sequence(self, seq):
@@ -151,7 +191,7 @@ class Sequence:
                 if len(f) == 2:
                     features[f[0]] = f[1]
                 else:
-                    logging.warn( "failed to parse feature from string {}".format(features_str) )
+                    logging.warning( "failed to parse feature from string {}".format(features_str) )
 
         return({'id': id, 'id_type': id_type, 'id_ver': id_ver, 
             'segs': segs, 'features': features})
@@ -368,10 +408,10 @@ class Alignment:
         ref_seq_in_merge = merge_aln.find_seq_by_id(ref_seq_id)
         ref_aln_pos=0
         merge_aln_pos=0
-        logging.info("ref_alignment.positions: {}".format(self.aln_positions))
-        logging.info("merge_alignment.positions: {}".format(merge_aln.aln_positions))
-        logging.info("ref_seq_in_ref:   {}".format(str(ref_seq_in_ref)))
-        logging.info("ref_seq_in_merge: {}".format(str(ref_seq_in_merge)))
+        logging.debug("ref_alignment.positions: {}".format(self.aln_positions))
+        logging.debug("merge_alignment.positions: {}".format(merge_aln.aln_positions))
+        logging.debug("ref_seq_in_ref:   {}".format(str(ref_seq_in_ref)))
+        logging.debug("ref_seq_in_merge: {}".format(str(ref_seq_in_merge)))
 
         while True:
 
@@ -431,7 +471,6 @@ class Alignment:
             ref_aln_pos   += 1
             merge_aln_pos += 1
 
-
         logging.info("FINISHED MERGE")
         for seq in self.seqs:
             logging.debug( "{:<10} {}".format("REF", str(seq)) )
@@ -448,33 +487,47 @@ class Alignment:
         # 1. get sequences that correspond to the input aln
         # 2. remove alignment positions where there's a gap in the reference sequence
 
-        nongap_offset_in_merged=0
-        for seq in self.seqs:
-            original_seq = merge_aln.find_seq_by_id(seq.id)
-            for aln_pos in range(self.aln_positions):
+        for original_seq in merge_aln.seqs:
+            seq = self.find_seq_by_id(original_seq.id)
 
-                ref_res = ref_seq_in_ref.get_res_at_offset(aln_pos)
+            if not seq:
+                raise SeqIOException("failed to find sequence with id '{}' in merge aln".format(seq.id))
 
-                merged_res = seq.get_res_at_offset(aln_pos)
+            for aln_offset in range(self.aln_positions):
+
+                ref_res = ref_seq_in_ref.get_res_at_offset(aln_offset)
+
+                merged_res_at_aln_offset = seq.get_res_at_offset(aln_offset)
 
                 if ref_res == '.':
                     # everything else should be a '.' or a lowercase residue
-                    assert merged_res == '.' or re.match(r'a-z', merged_res)
+                    assert( merged_res_at_aln_offset == '.' or re.match(r'[a-z]', merged_res_at_aln_offset) )
                 elif ref_res == '-':
                     # everything else should be a '-' or an uppercase residue
-                    assert merged_res == '-' or re.match(r'A-Z', merged_res)
+                    assert( merged_res_at_aln_offset == '-' or re.match(r'[A-Z]', merged_res_at_aln_offset) )
                 else:
-                    # TODO: the following doesn't yet work as expected
+                    # find the sequence offset of this aln position in the ref sequence
+                    ref_seq_pos = ref_seq_in_ref.get_seq_position_at_offset(aln_offset)
 
-                    # else the residue should still align to the same residue 
-                    # it did in the original alignment
-                    nongap_offset_in_merged += 1
-                    original_res = original_seq.get_res_at_offset(nongap_offset_in_merged)
-                    if merged_res != original_res:
-                        logging.warn("ORIGINAL_SEQ: {}".format(str(original_seq)))
-                        logging.warn("MERGED_SEQ:   {}".format(str(seq)))
-                        raise Exception("Error: expected the merged residue '{}' to match the original residue '{}' at alignment position '{}' (sequence: {})".format(
-                            merged_res, original_res, nongap_offset_in_merged, seq.id
+                    # find the aln offset for the equivalent position in the original merge alignment
+                    ref_merge_offset = ref_seq_in_merge.get_offset_at_seq_position(ref_seq_pos)
+
+                    # find the residue at the equivalent position in the merge alignment
+                    original_res = original_seq.get_res_at_offset(ref_merge_offset)
+
+                    if merged_res_at_aln_offset != original_res:
+                        raise SeqIOException(("Error: expected the merged residue '{}' to match the original residue '{}' at alignment offset {} (sequence: '{}')\n" +
+                            "REF_SEQ_IN_REF:   {}\n" +
+                            "REF_SEQ_IN_MERGE: {}\n" +
+                            "ORIGINAL_SEQ:     {}\n" +
+                            "MERGED_SEQ:       {}\n" +
+                            "aln_offset: {}, ref_seq_pos: {}, ref_merge_offset: {}").format(
+                            merged_res_at_aln_offset, original_res, aln_offset, seq.id,
+                            str(ref_seq_in_ref),
+                            str(ref_seq_in_merge),
+                            str(original_seq),
+                            str(seq),
+                            aln_offset, ref_seq_pos, ref_merge_offset,
                         ))
 
 
