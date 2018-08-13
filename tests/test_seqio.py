@@ -4,7 +4,7 @@ import re
 import tempfile
 import unittest
 
-from seqio import AminoAcids, Residue, Segment, Sequence, Alignment 
+from cathpy.seqio import AminoAcids, Residue, Segment, Sequence, Alignment 
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -106,6 +106,13 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         seq.insert_gap_at_offset(-3, gap_char='.')
         self.assertEqual(seq.seq, '---AK-GHP--GPKAPGPA.K--')
 
+    def test_sequence_methods(self):
+        seq = Sequence('id1/23-123', '---AKGHP--GPKAPGPAK--')
+        self.assertEqual(seq.get_offset_at_seq_position(1), 3) # seq pos '1' 'A' -> offset '3' 
+        self.assertEqual(seq.get_res_at_seq_position(2), 'K')
+        self.assertEqual(seq.get_seq_position_at_offset(5), 3)  # offset 5 'G' -> seq pos 3 'AKG'
+        self.assertEqual(seq.get_res_at_offset(5), 'G')
+
     def test_sequence_lower_case(self):
         seq = Sequence('id1/23-123', '---AKGHP--GPKAPGPAK--')
         seq.lower_case_at_offset(6)
@@ -192,14 +199,6 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         aln_after_merge2 = Alignment.new_from_fasta(self.fasta_aln_after_merge2)
         self.assertEqual(aln_after_merge2.count_sequences, 6)
         self.assertEqual(aln_ref.count_sequences, 6)
-
-        original_seqs = [seq for seqs in (aln_merge1.seqs, aln_merge2.seqs) for seq in seqs]
-        for original_seq in original_seqs:
-            print("seq_id" + str(original_seq.id))
-            merged_seq = aln_ref.find_seq_by_id(original_seq.id)
-            print("MERGE:    " + str(merged_seq.seq))
-            print("EXPECTED: " + str(original_seq.seq))
-            self.assertEqual(merged_seq.seq.replace('.', '').upper(), original_seq.seq)
 
     def log_title(self, title):
         hr = "=" * 80
