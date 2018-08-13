@@ -1,18 +1,21 @@
-import setuptools
+#!/usr/bin/env python
+
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-setuptools.setup(
+setup(
     name="cathpy",
     version="0.0.1",
     author="Ian Sillitoe",
     author_email="i.sillitoe@ucl.ac.uk",
-    description="Protein Bioinformatics related helpers",
+    description="CathPy - Yet Another Python Bioinformatics Toolkit",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/sillitoe/cathpy",
-    packages=setuptools.find_packages(),
+    url="https://github.com/UCL/cathpy",
+    packages=find_packages(include='cathpy.*'),
+    test_suite="tests.test_seqio",
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
