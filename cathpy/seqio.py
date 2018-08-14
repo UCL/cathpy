@@ -3,10 +3,12 @@ import logging
 import io
 
 class SeqIOException(Exception):
+    """General Exception class within the SeqIO module"""
     def __init__(self, str):
         super().__init__(str)
 
 class SeqIOGapException(SeqIOException):
+    """Exception raised when trying to find residue information about a gap position."""
     def __init__(self, str):
         super().__init__(str)
 
@@ -19,6 +21,7 @@ class AminoAcid:
         self.word = word
 
     def __str__(self):
+        """Return this AminoAcid as a single character string"""
         return self.one
 
 class AminoAcids:
@@ -53,6 +56,7 @@ class AminoAcids:
 
     @classmethod
     def get_by_id(cls, aa):
+        """Return the AminoAcid object by the given single character aa code."""
         return cls.aa_by_id[aa.upper()]
 
 
@@ -197,6 +201,7 @@ class Sequence:
             'segs': segs, 'features': features})
 
     def to_fasta(self, wrap_width=80):
+        """Return a string for this Sequence in FASTA format."""
         str = ""
         str += '>' + self.hdr + '\n'
         if wrap_width:
@@ -218,6 +223,7 @@ class Sequence:
         self._set_sequence( new_seq )
 
     def set_gap_char_at_offset(self, offset, gap_char):
+        """If the residue at a given position is a gap, then override the gap char with the given character."""
         residues = list(self.seq)
         if Sequence.is_gap(residues[offset]) and residues[offset] != gap_char:
             residues[offset] = gap_char
@@ -230,8 +236,7 @@ class Sequence:
         
         old_seq = self.seq
         new_seq = old_seq[:start] + old_seq[start:end].lower() + old_seq[end:]
-        self._set_sequence( new_seq )
-
+        self._set_sequence(new_seq)
 
     def slice_seq(self, start, end=None):
         """Return a slice of this sequence."""
@@ -243,7 +248,7 @@ class Sequence:
 
     @staticmethod
     def is_gap(res_char):
-        return res_char in [ '-', '.' ]
+        return res_char in ['-', '.']
 
     def __str__(self):
         return('{:<30} {}'.format(self.hdr, self.seq))
@@ -260,6 +265,7 @@ class Alignment:
 
     @property
     def aln_positions(self):
+        """Return the number of alignment positions."""
         return self.__aln_positions
     
     @aln_positions.setter
@@ -268,9 +274,11 @@ class Alignment:
 
     @property
     def count_sequences(self):
+        """Return the number of sequences in the alignment."""
         return len(self.seqs)
 
     def find_seq_by_id(self, id):
+        """Return the Sequence corresponding to the provided id."""
         seqs_with_id = [seq for seq in self.seqs if seq.id == id]
         if len(seqs_with_id) > 1:
             raise SeqIOException("Found more than one sequence matching id '{}'".format(id))
@@ -279,6 +287,7 @@ class Alignment:
         return seqs_with_id[0]
 
     def get_seq_at_offset(self, offset):
+        """Return the Sequence at the given offset (zero-based)."""
         return self.seqs[offset]
 
     @classmethod
@@ -289,7 +298,8 @@ class Alignment:
         return aln
     
     def read_sequences_from_fasta(self, fasta_io):
-        """Parse sequences from FASTA, return a list of Sequence objects."""
+        """Parse aligned sequences from FASTA (str, file, io) and adds them to the current
+        Alignment object. Returns the number of sequences that are added."""
 
         if (type(fasta_io) == str):
             if (fasta_io[0] == '>'):
@@ -329,14 +339,13 @@ class Alignment:
 
         return seq_added
 
-    def add_sequence(self, seq):
+    def add_sequence(self, seq: Sequence):
         """Add a sequence to this alignment."""
 
         if self.aln_positions:
             if self.aln_positions != seq.length():
-                raise SeqIOException( "Error: cannot add a sequence (id:{}) with {} positions to an alignment with {} positions.".format(
-                    seq.id, seq.length(), self.aln_positions)
-                )
+                raise SeqIOException("Error: cannot add a sequence (id:{}) with {} positions to an alignment with {} positions.".format(
+                    seq.id, seq.length(), self.aln_positions))
         else:
             self.__aln_positions = seq.length()
 
@@ -360,7 +369,7 @@ class Alignment:
                     # print( "seq[{}:{}] pos:{} res:{}".format(aln_pos, seqs[seq_pos].id, seq_pos, res) )
                     new_seq_strings[ seq_pos ] += res
             else:
-                logging.info( "Removing complete gap from alignment position: {}".format(aln_pos) )
+                logging.info("Removing complete gap from alignment position: {}".format(aln_pos))
 
         new_aln = Alignment()
         for seq_pos in range(len(new_seq_strings)):
@@ -372,16 +381,18 @@ class Alignment:
         return new_aln
 
     def insert_gap_at_offset(self, offset, gap_char='-'):
+        """Insert a gap char at the given offset (zero-based)."""
         self.__aln_positions += 1
         for s in self.seqs:
             s.insert_gap_at_offset(offset, gap_char) 
 
     def set_gap_char_at_offset(self, offset, gap_char):
+        """Override the gap char for all sequences at a given offset."""
         for s in self.seqs:
             s.set_gap_char_at_offset(offset, gap_char)
 
     def lower_case_at_offset(self, start, end=None):
-        """Make the residues in the given alignment window lower case."""
+        """Lower case all the residues in the given alignment window."""
         for s in self.seqs:
             s.lower_case_at_offset(start, end)
 
@@ -393,15 +404,12 @@ class Alignment:
         """Merge the given alignment into the current alignment, using ref_seq 
         (reference sequence) to provide the equivalences used for the mapping.
         It is assumed that ref_seq can be found in both the current alignment and
-        the reference alignment. If the reference sequence does not have a 1:1
-        mapping between the residues in the reference alignment and the merge 
-        alignment (eg ATOM vs SEQRES records) then this alignment can be provided
+        the reference alignment. If the reference sequence does NOT have a 1:1
+        mapping between the residues in the reference alignment and the residues 
+        in the merge alignment (eg. ATOM vs SEQRES records), then the alignment
+        between the sequence in ref alignment and merge alignment can be provided 
         in ref_seq_alignment."""
         
-        # work through the ref sequence in the source alignment (self)
-        #  - add gaps in the merge sequences whenever there's a gap in the reference sequence
-        #  - 
-
         merge_aln = merge_aln.copy()
 
         ref_seq_in_ref = self.find_seq_by_id(ref_seq_id)
@@ -532,7 +540,7 @@ class Alignment:
 
 
     def copy(self):
-        """Return a deepcopy of this object.""" 
+        """Return a deepcopy of this object."""
         new_aln = Alignment()
         new_seqs = [s.copy() for s in self.seqs]
         new_aln.seqs = new_seqs
