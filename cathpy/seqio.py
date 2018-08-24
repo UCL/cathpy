@@ -297,6 +297,146 @@ class Sequence(object):
         return('{:<30} {}'.format(self.hdr, self.seq))
 
 
+class Correspondence(object):
+    """
+    Provides a mapping between ATOM and SEQRES residues.
+
+    A correspondence is a type of alignment that provides the equivalences
+    between the residues in the protein sequence (eg ``SEQRES`` records) and 
+    the residues actually observed in the structure (eg ``ATOM`` records).
+    """
+
+    GCF_GAP_CHAR = '*'
+    FASTA_GAP_CHAR = '-'
+
+    def __init__(self, id=None, residues=None, **kwargs):
+        """Create a new Correspondence object."""
+
+        self.id = id
+        self.residues = residues if residues else []
+        super().__init__(**kwargs)
+
+    @classmethod
+    def new_from_gcf(cls, gcf_io):
+        """Create a new Correspondence object from a GCF io / filename / string"""
+
+        """
+        >gi|void|ref1
+        A   1   5   A
+        K   2   6   K
+        G   3   7   G
+        H   4   8   H
+        P   5   9   P
+        G   6  10   G
+        P   7  10A  P
+        K   8  10B  K
+        A   9  11   A
+        P  10   *   *
+        G  11   *   * 
+        """
+
+        corr = Correspondence()
+
+        if (type(gcf_io) == str):
+            if (gcf_io[0] == '>'):
+                gcf_io = io.StringIO(gcf_io)
+            else:
+                gcf_io = open(gcf_io)
+
+        try:
+            hdr = gcf_io.readline()
+            id = hdr.strip().split('|')[-1]
+            corr.id = id
+
+        except AttributeError:
+            # make a potentially confusing error slightly less so
+            raise SeqIOError("encountered an error trying to readline() on GCF io ({})".format(gcf_io))
+
+        line_no = 1
+        for line in gcf_io:
+            line_no += 1
+
+            try:
+                seqres_aa, seqres_num, pdb_label, pdb_aa = line.split()
+                if pdb_aa is not seqres_aa and pdb_aa is not Correspondence.GCF_GAP_CHAR:
+                    logging.warning("pdb_aa '{}' does not match seqres_aa '{}' (line: {})".format(pdb_aa, seqres_aa, line_no))
+            except:
+                raise SeqIOError("Error: failed to parse GCF '{}' ({}:{})".format(
+                    line, str(gcf_io), line_no
+                ))
+
+            if pdb_label is Correspondence.GCF_GAP_CHAR:
+                pdb_label = None
+                pdb_aa = None
+
+            res = Residue(seqres_aa, int(seqres_num), pdb_label)
+            corr.residues.append(res)
+        
+        gcf_io.close()
+
+        return corr
+
+    @property
+    def seqres_length(self) -> int:
+        """Return the number of SEQRES residues"""
+        return len(self.residues)
+
+    @property
+    def atom_length(self) -> int:
+        """Return the number of ATOM residues"""
+        atom_residues = [res for res in self.residues if res.pdb_label is not None]
+        return len(atom_residues)
+
+    def get_res_at_offset(self, offset: int):
+        """Return the ``Residue`` at the given offset (zero-based)"""
+        return self.residues[offset]
+
+    def get_res_by_seq_num(self, seq_num: int):
+        """Return the ``Residue`` with the given sequence number"""
+        res = self.residues[seq_num - 1]
+        assert res.seq_num is seq_num
+        return res
+
+    def get_res_by_pdb_label(self, pdb_label):
+        res = next((res for res in self.residues if res.pdb_label == pdb_label), None)
+        return res
+
+    def get_res_by_atom_pos(self, pos):
+        """Return the Residue corresponding to the given position in the ATOM sequence (ignores gaps)."""
+        atom_residues = [res for res in self.residues if res.pdb_label is not None]
+        res = atom_residues[pos-1]
+        return res
+
+    @property
+    def atom_sequence(self):
+        id = "atom|{}".format(self.id)
+        res = [res.aa if res.pdb_label else Correspondence.FASTA_GAP_CHAR for res in self.residues]
+        return Sequence(id, "".join(res))
+
+    @property
+    def seqres_sequence(self):
+        id = "seqres|{}".format(self.id)
+        res = [res.aa for res in self.residues]
+        return Sequence(id, "".join(res))
+
+    def to_sequences(self):
+        seqs = (self.seqres_sequence, self.atom_sequence)
+        return seqs
+
+    def to_fasta(self, **kwargs):
+        seqs = self.to_sequences()
+        return seqs[0].to_fasta(**kwargs) + seqs[1].to_fasta(**kwargs)
+        
+    def to_aln(self):
+        seqs = self.to_sequences()
+        return Alignment(seqs = seqs)
+        
+    def __str__(self):
+        return self.to_fasta()
+
+    def __repr__(self):
+        return self.to_fasta()
+
 class Alignment(object):
     """Object storing a protein sequence alignment"""
 
@@ -445,33 +585,40 @@ class Alignment(object):
         """Return an array of Sequence objects from start to end."""
         return [Sequence(s.hdr, s.slice_seq(start, end)) for s in self.seqs]
 
-    def merge_alignment(self, merge_aln, ref_seq_id, ref_correspondence=None):
+    def merge_alignment(self, merge_aln, ref_seq_id: str, ref_correspondence = None):
         """
-        Merges sequences from another Alignment into the current alignment using 
-        equivalences provided by the reference sequence ref_seq_id.
+        Merges sequences from an alignment into the current object.
 
-        Args:
-            merge_aln: An Alignment containing the reference sequence and any
-                additional sequences to merge. 
-            ref_seq_id: A String that will be used to find the reference sequence
-                in the current alignment and merge_aln
-            ref_correspondence: An optional Correspondence object that provides
-                the mapping between the reference sequence found in the current
-                alignment and the reference sequence found in merge_aln 
-                (eg when mapping between structure-based sequences).
+        Sequences in ``merge_aln`` are brought into the current alignment using
+        the equivalences identified in reference sequence ``ref_seq_id`` (which
+        must exist in both the ``self`` and ``merge_aln``).
 
-        Returns:
-            seqs: array of Sequence objects added to the current alignment
+        This function was originally written to merge FunFam alignments
+        according to structural equivalences identified by CORA (a multiple
+        structural alignment tool). Moving between structure and sequence 
+        provides the added complication that
+        sequences in the structural alignment (CORA) are based on ATOM records,
+        whereas sequences in the merge alignment (FunFams) are based on SEQRES
+        records. The ``ref_correspondence`` argument allows this mapping to be
+        taken into account.
 
-        Raises:
-            SeqIOMergeCorrespondenceError: problem mapping reference sequence
-                between alignment and correspondence 
-        
-        Note: if the reference sequence does NOT have a 1:1
-        mapping between the residues in the reference alignment and the residues 
-        in the merge alignment (eg. ATOM vs SEQRES records), then the correspondence
-        between the sequence in ref alignment and merge alignment can be provided 
-        in ref_correspondence.
+        Args: 
+            merge_aln (Alignment): An Alignment containing the reference
+                sequence and any additional sequences to merge. 
+            ref_seq_id (str): A str that will be used to find the reference 
+                sequence in the current alignment and merge_aln 
+            ref_correspondence (Correspondence): An optional Correspondence 
+                object that provides a mapping between the reference 
+                sequence found in ``self`` (ATOM records) and reference 
+                sequence as it appears in ``merge_aln`` (SEQRES records).
+
+        Returns: 
+            [Sequence]: Array of Sequences added to the current alignment.
+
+        Raises: 
+            SeqIOMergeCorrespondenceError: problem mapping reference
+                sequence between alignment and correspondence 
+
         """
 
         merge_aln = merge_aln.copy()
@@ -705,136 +852,3 @@ class Alignment(object):
 
     def __str__(self):
         return "\n".join( [ str(seq) for seq in self.seqs ] )
-
-
-class Correspondence(object):
-    """
-    A correspondence is a type of alignment that provides the equivalences
-    between the residues in the protein sequence (eg SEQRES records) and 
-    the residues actually observed in the structure (eg ATOM records).
-    """
-
-    GCF_GAP_CHAR = '*'
-    FASTA_GAP_CHAR = '-'
-
-    def __init__(self, id=None, residues=None, **kwargs):
-        self.id = id
-        self.residues = residues if residues else []
-        super().__init__(**kwargs)
-
-    @classmethod
-    def new_from_gcf(cls, gcf_io):
-        """Create a new Correspondence object from a GCF io / filename / string"""
-
-        """
-        >gi|void|ref1
-        A   1   5   A
-        K   2   6   K
-        G   3   7   G
-        H   4   8   H
-        P   5   9   P
-        G   6  10   G
-        P   7  10A  P
-        K   8  10B  K
-        A   9  11   A
-        P  10   *   *
-        G  11   *   * 
-        """
-
-        corr = Correspondence()
-
-        if (type(gcf_io) == str):
-            if (gcf_io[0] == '>'):
-                gcf_io = io.StringIO(gcf_io)
-            else:
-                gcf_io = open(gcf_io)
-
-        try:
-            hdr = gcf_io.readline()
-            id = hdr.strip().split('|')[-1]
-            corr.id = id
-
-        except AttributeError:
-            # make a potentially confusing error slightly less so
-            raise SeqIOError("encountered an error trying to readline() on GCF io ({})".format(gcf_io))
-
-        line_no = 1
-        for line in gcf_io:
-            line_no += 1
-
-            try:
-                seqres_aa, seqres_num, pdb_label, pdb_aa = line.split()
-                if pdb_aa is not seqres_aa and pdb_aa is not Correspondence.GCF_GAP_CHAR:
-                    logging.warning("pdb_aa '{}' does not match seqres_aa '{}' (line: {})".format(pdb_aa, seqres_aa, line_no))
-            except:
-                raise SeqIOError("Error: failed to parse GCF '{}' ({}:{})".format(
-                    line, str(gcf_io), line_no
-                ))
-
-            if pdb_label is Correspondence.GCF_GAP_CHAR:
-                pdb_label = None
-                pdb_aa = None
-
-            res = Residue(seqres_aa, int(seqres_num), pdb_label)
-            corr.residues.append(res)
-        
-        gcf_io.close()
-
-        return corr
-
-    @property
-    def seqres_length(self):
-        return len(self.residues)
-
-    @property
-    def atom_length(self):
-        atom_residues = [res for res in self.residues if res.pdb_label is not None]
-        return len(atom_residues)
-
-    def get_res_at_offset(self, offset):
-        return self.residues[offset]
-
-    def get_res_by_seq_num(self, seq_num):
-        res = self.residues[seq_num - 1]
-        assert res.seq_num is seq_num
-        return res
-
-    def get_res_by_pdb_label(self, pdb_label):
-        res = next((res for res in self.residues if res.pdb_label == pdb_label), None)
-        return res
-
-    def get_res_by_atom_pos(self, pos):
-        """Return the Residue corresponding to the given position in the ATOM sequence (ignores gaps)."""
-        atom_residues = [res for res in self.residues if res.pdb_label is not None]
-        res = atom_residues[pos-1]
-        return res
-
-    @property
-    def atom_sequence(self):
-        id = "atom|{}".format(self.id)
-        res = [res.aa if res.pdb_label else Correspondence.FASTA_GAP_CHAR for res in self.residues]
-        return Sequence(id, "".join(res))
-
-    @property
-    def seqres_sequence(self):
-        id = "seqres|{}".format(self.id)
-        res = [res.aa for res in self.residues]
-        return Sequence(id, "".join(res))
-
-    def to_sequences(self):
-        seqs = (self.seqres_sequence, self.atom_sequence)
-        return seqs
-
-    def to_fasta(self, **kwargs):
-        seqs = self.to_sequences()
-        return seqs[0].to_fasta(**kwargs) + seqs[1].to_fasta(**kwargs)
-        
-    def to_aln(self):
-        seqs = self.to_sequences()
-        return Alignment(seqs = seqs)
-        
-    def __str__(self):
-        return self.to_fasta()
-
-    def __repr__(self):
-        return self.to_fasta()

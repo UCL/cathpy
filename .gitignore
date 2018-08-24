@@ -3,3 +3,4 @@ data/1.10.510.10/
 __pycache__/
 *.pyc
 cathpy.egg-info/
+docs/_build/
