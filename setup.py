@@ -15,7 +15,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/UCL/cathpy",
     packages=find_packages(include='cathpy.*'),
-    test_suite="tests.test_seqio",
+    test_suite="tests",
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
