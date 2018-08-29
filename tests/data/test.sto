@@ -1,0 +1,324 @@
+# STOCKHOLM 1.0
+#=GF ID 1.10.8.10/FF/14534
+#=GF DE FAS-associated factor 2
+#=GF AC 1.10.8.10/FF/14534
+#=GF TP FunFam
+#=GF DR CATH: 4.2
+#=GF DR DOPS: 61.529
+#=GS 2damA00/1-67     AC Q96CS3
+#=GS 2damA00/1-67     OS Homo sapiens
+#=GS 2damA00/1-67     DE FAS-associated factor 2
+#=GS 2damA00/1-67     DR CATH; 2dam; A:1-67; 
+#=GS 2damA00/1-67     DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens; 
+#=GS 2damA00/1-67     DR GO; GO:0005515; GO:0005576; GO:0005783; GO:0005811; GO:0030433; GO:0030970; GO:0031625; GO:0034098; GO:0034389; GO:0035473; GO:0035578; GO:0043130; GO:0043312; GO:0055102; 
+#=GS Q96CS3/1-60      AC Q96CS3
+#=GS Q96CS3/1-60      OS Homo sapiens
+#=GS Q96CS3/1-60      DE FAS-associated factor 2
+#=GS Q96CS3/1-60      DR GENE3D; 6fde8c403bf64bec6f262bd14b921d73/1-60; 
+#=GS Q96CS3/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens; 
+#=GS Q96CS3/1-60      DR GO; GO:0005515; GO:0005576; GO:0005783; GO:0005811; GO:0030433; GO:0030970; GO:0031625; GO:0034098; GO:0034389; GO:0035473; GO:0035578; GO:0043130; GO:0043312; GO:0055102; 
+#=GS Q3TDN2/1-60      AC Q3TDN2
+#=GS Q3TDN2/1-60      OS Mus musculus
+#=GS Q3TDN2/1-60      DE FAS-associated factor 2
+#=GS Q3TDN2/1-60      DR GENE3D; 373e5d090349868d3de22fbf90191953/1-60; 
+#=GS Q3TDN2/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Muridae; Murinae; Mus; Mus; Mus musculus; 
+#=GS Q3TDN2/1-60      DR GO; GO:0005783; GO:0005811; GO:0030433; GO:0030970; GO:0031625; GO:0034098; GO:0034389; GO:0035473; GO:0043130; GO:0055102; 
+#=GS B4E2M8/1-60      AC B4E2M8
+#=GS B4E2M8/1-60      OS Homo sapiens
+#=GS B4E2M8/1-60      DE cDNA FLJ61076, highly similar to UBX domain-containing protein 8
+#=GS B4E2M8/1-60      DR GENE3D; 2dbe0567fee6ec676e6d0e98f63a79c1/1-60; 
+#=GS B4E2M8/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens; 
+#=GS Q2HJD0/1-60      AC Q2HJD0
+#=GS Q2HJD0/1-60      OS Bos taurus
+#=GS Q2HJD0/1-60      DE FAS-associated factor 2
+#=GS Q2HJD0/1-60      DR GENE3D; 4b11e7098ed97339fcb2de033fca0a53/1-60; 
+#=GS Q2HJD0/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Ruminantia; Pecora; Bovidae; Bovinae; Bos; Bos taurus; 
+#=GS Q2HJD0/1-60      DR GO; GO:0030433; 
+#=GS T0NRL3/1-46      AC T0NRL3
+#=GS T0NRL3/1-46      OS Camelus ferus
+#=GS T0NRL3/1-46      DE FAS-associated factor 2 isoform 1
+#=GS T0NRL3/1-46      DR GENE3D; 06ee88408ce5b88696e5317971faf519/1-46; 
+#=GS T0NRL3/1-46      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Tylopoda; Camelidae; Camelus; Camelus ferus; 
+#=GS Q28BP9/1-60      AC Q28BP9
+#=GS Q28BP9/1-60      OS Xenopus tropicalis
+#=GS Q28BP9/1-60      DE FAS-associated factor 2
+#=GS Q28BP9/1-60      DR GENE3D; 1143a7eadccb948b2b1f190b9a67e91e/1-60; 
+#=GS Q28BP9/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Amphibia; Batrachia; Anura; Pipoidea; Pipidae; Xenopodinae; Xenopus; Silurana; Xenopus tropicalis; 
+#=GS L7N2T6/1-60      AC L7N2T6
+#=GS L7N2T6/1-60      OS Xenopus tropicalis
+#=GS L7N2T6/1-60      DE FAS-associated factor 2
+#=GS L7N2T6/1-60      DR GENE3D; 119277c5a2c7f654568719aabded7917/1-60; 
+#=GS L7N2T6/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Amphibia; Batrachia; Anura; Pipoidea; Pipidae; Xenopodinae; Xenopus; Silurana; Xenopus tropicalis; 
+#=GS V8P9H4/1-60      AC V8P9H4
+#=GS V8P9H4/1-60      OS Ophiophagus hannah
+#=GS V8P9H4/1-60      DE FAS-associated factor 2
+#=GS V8P9H4/1-60      DR GENE3D; 138568b92a267a55613125c5d79186f3/1-60; 
+#=GS V8P9H4/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Lepidosauria; Squamata; Serpentes; Colubroidea; Elapidae; Elapinae; Ophiophagus; Ophiophagus hannah; 
+#=GS A0A0S7KIM9/1-63  AC A0A0S7KIM9
+#=GS A0A0S7KIM9/1-63  OS Poeciliopsis prolifica
+#=GS A0A0S7KIM9/1-63  DE FAF2
+#=GS A0A0S7KIM9/1-63  DR GENE3D; 1613ae1f5ce4908bdd51ed9326fd03a9/1-63; 
+#=GS A0A0S7KIM9/1-63  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Poeciliidae; Poeciliinae; Poeciliopsis; Poeciliopsis prolifica; 
+#=GS F1NUY5/1-60      AC F1NUY5
+#=GS F1NUY5/1-60      OS Gallus gallus
+#=GS F1NUY5/1-60      DE Uncharacterized protein
+#=GS F1NUY5/1-60      DR GENE3D; 19dcac9c585c2d4d6fd12e6b25b75bcf/1-60; 
+#=GS F1NUY5/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Galliformes; Phasianidae; Phasianinae; Gallus; Gallus gallus; 
+#=GS A0A093GUJ3/1-61  AC A0A093GUJ3
+#=GS A0A093GUJ3/1-61  OS Picoides pubescens
+#=GS A0A093GUJ3/1-61  DE FAS-associated factor 2
+#=GS A0A093GUJ3/1-61  DR GENE3D; 1a29a08d9017d1828d6376fe4daab2cf/1-61; 
+#=GS A0A093GUJ3/1-61  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Piciformes; Picidae; Picoides; Picoides pubescens; 
+#=GS G5BPZ0/1-60      AC G5BPZ0
+#=GS G5BPZ0/1-60      OS Heterocephalus glaber
+#=GS G5BPZ0/1-60      DE FAS-associated factor 2
+#=GS G5BPZ0/1-60      DR GENE3D; 2055b478f56363243dc72b5e459e0b1e/1-60; 
+#=GS G5BPZ0/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Hystricomorpha; Bathyergidae; Heterocephalus; Heterocephalus glaber; 
+#=GS H0YQI7/5-67      AC H0YQI7
+#=GS H0YQI7/5-67      OS Taeniopygia guttata
+#=GS H0YQI7/5-67      DE Uncharacterized protein
+#=GS H0YQI7/5-67      DR GENE3D; 209b3b0e446a33d9e1795c5c29d0a335/5-67; 
+#=GS H0YQI7/5-67      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Passeriformes; Passeroidea; Estrildidae; Estrildinae; Taeniopygia; Taeniopygia guttata; 
+#=GS L5JXA3/1-60      AC L5JXA3
+#=GS L5JXA3/1-60      OS Pteropus alecto
+#=GS L5JXA3/1-60      DE FAS-associated factor 2
+#=GS L5JXA3/1-60      DR GENE3D; 2c7a8759c1f1b49985d5ea868abbbb29/1-60; 
+#=GS L5JXA3/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Chiroptera; Megachiroptera; Pteropodidae; Pteropodinae; Pteropus; Pteropus alecto; 
+#=GS A0A0S7KJ97/1-63  AC A0A0S7KJ97
+#=GS A0A0S7KJ97/1-63  OS Poeciliopsis prolifica
+#=GS A0A0S7KJ97/1-63  DE FAF2
+#=GS A0A0S7KJ97/1-63  DR GENE3D; 35e797c5308391632994492a04d7f498/1-63; 
+#=GS A0A0S7KJ97/1-63  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Poeciliidae; Poeciliinae; Poeciliopsis; Poeciliopsis prolifica; 
+#=GS W5K6J8/7-70      AC W5K6J8
+#=GS W5K6J8/7-70      OS Astyanax mexicanus
+#=GS W5K6J8/7-70      DE Uncharacterized protein
+#=GS W5K6J8/7-70      DR GENE3D; 36d4fc03ad4bf5c4672428545e6fd8b3/7-70; 
+#=GS W5K6J8/7-70      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Characiphysae; Characiformes; Characoidei; Characidae; Astyanax; Astyanax mexicanus; 
+#=GS G3Q390/1-60      AC G3Q390
+#=GS G3Q390/1-60      OS Gasterosteus aculeatus
+#=GS G3Q390/1-60      DE Uncharacterized protein
+#=GS G3Q390/1-60      DR GENE3D; 3cfdf773d932d7cd518d4a534ba43205/1-60; 
+#=GS G3Q390/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Perciformes; Cottioidei; Gasterosteales; Gasterosteidae; Gasterosteus; Gasterosteus aculeatus; 
+#=GS G3SW31/1-60      AC G3SW31
+#=GS G3SW31/1-60      OS Loxodonta africana
+#=GS G3SW31/1-60      DE Uncharacterized protein
+#=GS G3SW31/1-60      DR GENE3D; 4d380bfec7d3ed49927dcf1006b6e2ed/1-60; 
+#=GS G3SW31/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Afrotheria; Proboscidea; Elephantidae; Loxodonta; Loxodonta africana; 
+#=GS H2TUG1/1-60      AC H2TUG1
+#=GS H2TUG1/1-60      OS Takifugu rubripes
+#=GS H2TUG1/1-60      DE Uncharacterized protein
+#=GS H2TUG1/1-60      DR GENE3D; 4f68cef96d428788ab72a207a8f4aa95/1-60; 
+#=GS H2TUG1/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GS M3XCS5/1-60      AC M3XCS5
+#=GS M3XCS5/1-60      OS Felis catus
+#=GS M3XCS5/1-60      DE Uncharacterized protein
+#=GS M3XCS5/1-60      DR GENE3D; 53c918598f195067034b36ac8e33e12b/1-60; 
+#=GS M3XCS5/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Carnivora; Feliformia; Felidae; Felinae; Felis; Felis catus; 
+#=GS H2PHG4/1-60      AC H2PHG4
+#=GS H2PHG4/1-60      OS Pongo abelii
+#=GS H2PHG4/1-60      DE Uncharacterized protein
+#=GS H2PHG4/1-60      DR GENE3D; 53c918598f195067034b36ac8e33e12b/1-60; 
+#=GS H2PHG4/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Ponginae; Pongo; Pongo abelii; 
+#=GS A0A0D9RAG2/1-60  AC A0A0D9RAG2
+#=GS A0A0D9RAG2/1-60  OS Chlorocebus sabaeus
+#=GS A0A0D9RAG2/1-60  DE Uncharacterized protein
+#=GS A0A0D9RAG2/1-60  DR GENE3D; 53c918598f195067034b36ac8e33e12b/1-60; 
+#=GS A0A0D9RAG2/1-60  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Cercopithecoidea; Cercopithecidae; Cercopithecinae; Chlorocebus; Chlorocebus sabaeus; 
+#=GS A0A1D5QU10/1-60  AC A0A1D5QU10
+#=GS A0A1D5QU10/1-60  OS Macaca mulatta
+#=GS A0A1D5QU10/1-60  DE FAS-associated factor 2
+#=GS A0A1D5QU10/1-60  DR GENE3D; 53c918598f195067034b36ac8e33e12b/1-60; 
+#=GS A0A1D5QU10/1-60  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Cercopithecoidea; Cercopithecidae; Cercopithecinae; Macaca; Macaca mulatta; 
+#=GS G3RM78/1-60      AC G3RM78
+#=GS G3RM78/1-60      OS Gorilla gorilla gorilla
+#=GS G3RM78/1-60      DE Uncharacterized protein
+#=GS G3RM78/1-60      DR GENE3D; 53c918598f195067034b36ac8e33e12b/1-60; 
+#=GS G3RM78/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Gorilla; Gorilla gorilla; Gorilla gorilla gorilla; 
+#=GS H2QS26/1-60      AC H2QS26
+#=GS H2QS26/1-60      OS Pan troglodytes
+#=GS H2QS26/1-60      DE Fas associated factor family member 2
+#=GS H2QS26/1-60      DR GENE3D; 53c918598f195067034b36ac8e33e12b/1-60; 
+#=GS H2QS26/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Pan; Pan troglodytes; 
+#=GS E2R2I4/1-60      AC E2R2I4
+#=GS E2R2I4/1-60      OS Canis lupus familiaris
+#=GS E2R2I4/1-60      DE Uncharacterized protein
+#=GS E2R2I4/1-60      DR GENE3D; 53c918598f195067034b36ac8e33e12b/1-60; 
+#=GS E2R2I4/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Carnivora; Caniformia; Canidae; Canis; Canis lupus; Canis lupus familiaris; 
+#=GS A0A096NF51/1-60  AC A0A096NF51
+#=GS A0A096NF51/1-60  OS Papio anubis
+#=GS A0A096NF51/1-60  DE Uncharacterized protein
+#=GS A0A096NF51/1-60  DR GENE3D; 53c918598f195067034b36ac8e33e12b/1-60; 
+#=GS A0A096NF51/1-60  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Cercopithecoidea; Cercopithecidae; Cercopithecinae; Papio; Papio anubis; 
+#=GS A0A091DSN1/1-60  AC A0A091DSN1
+#=GS A0A091DSN1/1-60  OS Fukomys damarensis
+#=GS A0A091DSN1/1-60  DE FAS-associated factor 2
+#=GS A0A091DSN1/1-60  DR GENE3D; 55039bda3f826c1221bb31ec0f114084/1-60; 
+#=GS A0A091DSN1/1-60  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Hystricomorpha; Bathyergidae; Fukomys; Fukomys damarensis; 
+#=GS A0A0G2JTA0/1-60  AC A0A0G2JTA0
+#=GS A0A0G2JTA0/1-60  OS Rattus norvegicus
+#=GS A0A0G2JTA0/1-60  DE FAS-associated factor 2
+#=GS A0A0G2JTA0/1-60  DR GENE3D; 5aff8f49ce4b7ed4700c69de6245f070/1-60; 
+#=GS A0A0G2JTA0/1-60  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Muridae; Murinae; Rattus; Rattus norvegicus; 
+#=GS F6SC77/1-60      AC F6SC77
+#=GS F6SC77/1-60      OS Xenopus tropicalis
+#=GS F6SC77/1-60      DE FAS-associated factor 2
+#=GS F6SC77/1-60      DR GENE3D; 689392c6128d502112b408701159738a/1-60; 
+#=GS F6SC77/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Amphibia; Batrachia; Anura; Pipoidea; Pipidae; Xenopodinae; Xenopus; Silurana; Xenopus tropicalis; 
+#=GS A0A140LGE8/1-60  AC A0A140LGE8
+#=GS A0A140LGE8/1-60  OS Danio rerio
+#=GS A0A140LGE8/1-60  DE Fas-associated factor family member 2
+#=GS A0A140LGE8/1-60  DR GENE3D; 73b984db64c1d7fe94e24082b85f341c/1-60; 
+#=GS A0A140LGE8/1-60  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Cypriniphysae; Cypriniformes; Cyprinoidea; Cyprinidae; Danio; Danio rerio; 
+#=GS A9ULP0/1-60      AC A9ULP0
+#=GS A9ULP0/1-60      OS Xenopus tropicalis
+#=GS A9ULP0/1-60      DE Expressed in T-cells and eosinophils in atopic dermatitis etea
+#=GS A9ULP0/1-60      DR GENE3D; 758651de32718187f07a6d125d03a5b3/1-60; 
+#=GS A9ULP0/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Amphibia; Batrachia; Anura; Pipoidea; Pipidae; Xenopodinae; Xenopus; Silurana; Xenopus tropicalis; 
+#=GS F1Q6Z1/1-60      AC F1Q6Z1
+#=GS F1Q6Z1/1-60      OS Danio rerio
+#=GS F1Q6Z1/1-60      DE Fas-associated factor family member 2
+#=GS F1Q6Z1/1-60      DR GENE3D; 778b5495817b0437bcd49d4884fb5223/1-60; 
+#=GS F1Q6Z1/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Cypriniphysae; Cypriniformes; Cyprinoidea; Cyprinidae; Danio; Danio rerio; 
+#=GS I3KMG7/1-60      AC I3KMG7
+#=GS I3KMG7/1-60      OS Oreochromis niloticus
+#=GS I3KMG7/1-60      DE Uncharacterized protein
+#=GS I3KMG7/1-60      DR GENE3D; 7a7de36a89dd15d2ad98af77642262a9/1-60; 
+#=GS I3KMG7/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Cichlomorphae; Cichliformes; Cichlidae; Pseudocrenilabrinae; Oreochromini; Oreochromis; Oreochromis niloticus; 
+#=GS W5N1W2/2-65      AC W5N1W2
+#=GS W5N1W2/2-65      OS Lepisosteus oculatus
+#=GS W5N1W2/2-65      DE Uncharacterized protein
+#=GS W5N1W2/2-65      DR GENE3D; 7efdc27f9d7c30fe668e7efd273c88cb/2-65; 
+#=GS W5N1W2/2-65      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Holostei; Semionotiformes; Lepisosteidae; Lepisosteus; Lepisosteus oculatus; 
+#=GS M4A712/1-60      AC M4A712
+#=GS M4A712/1-60      OS Xiphophorus maculatus
+#=GS M4A712/1-60      DE Uncharacterized protein
+#=GS M4A712/1-60      DR GENE3D; 7ff36dc07750b8c144e66399ca027ef5/1-60; 
+#=GS M4A712/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Poeciliidae; Poeciliinae; Xiphophorus; Xiphophorus maculatus; 
+#=GS G1P493/1-60      AC G1P493
+#=GS G1P493/1-60      OS Myotis lucifugus
+#=GS G1P493/1-60      DE Uncharacterized protein
+#=GS G1P493/1-60      DR GENE3D; 8254a38b18288c3810dbb8ea1eed9f9c/1-60; 
+#=GS G1P493/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Chiroptera; Microchiroptera; Vespertilionidae; Myotis; Myotis lucifugus; 
+#=GS K4G0G6/2-63      AC K4G0G6
+#=GS K4G0G6/2-63      OS Callorhinchus milii
+#=GS K4G0G6/2-63      DE FAS-associated factor 2
+#=GS K4G0G6/2-63      DR GENE3D; 83fb3226bd7c238b1d2aa7808544999f/2-63; 
+#=GS K4G0G6/2-63      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Chondrichthyes; Holocephali; Chimaeriformes; Callorhinchidae; Callorhinchus; Callorhinchus milii; 
+#=GS U3K1N6/1-60      AC U3K1N6
+#=GS U3K1N6/1-60      OS Ficedula albicollis
+#=GS U3K1N6/1-60      DE Uncharacterized protein
+#=GS U3K1N6/1-60      DR GENE3D; 847f3e5ba5bea69ca4592422fb938d45/1-60; 
+#=GS U3K1N6/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Passeriformes; Muscicapidae; Ficedula; Ficedula albicollis; 
+#=GS K9K9B3/1-60      AC K9K9B3
+#=GS K9K9B3/1-60      OS Equus caballus
+#=GS K9K9B3/1-60      DE FAS-associated factor 2-like protein
+#=GS K9K9B3/1-60      DR GENE3D; a56e3c0640ee97e1505c8dadaa0619aa/1-60; 
+#=GS K9K9B3/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Perissodactyla; Equidae; Equus; Equus; Equus caballus; 
+#=GS H2LSS2/3-66      AC H2LSS2
+#=GS H2LSS2/3-66      OS Oryzias latipes
+#=GS H2LSS2/3-66      DE Uncharacterized protein
+#=GS H2LSS2/3-66      DR GENE3D; a6218a68a01dda7610db349cadcd791f/3-66; 
+#=GS H2LSS2/3-66      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Beloniformes; Adrianichthyoidei; Adrianichthyidae; Oryziinae; Oryzias; Oryzias latipes; 
+#=GS F6R8G3/1-60      AC F6R8G3
+#=GS F6R8G3/1-60      OS Equus caballus
+#=GS F6R8G3/1-60      DE Uncharacterized protein
+#=GS F6R8G3/1-60      DR GENE3D; ae31cd4893c25da23371cb623c0f0efa/1-60; 
+#=GS F6R8G3/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Perissodactyla; Equidae; Equus; Equus; Equus caballus; 
+#=GS H3B591/1-60      AC H3B591
+#=GS H3B591/1-60      OS Latimeria chalumnae
+#=GS H3B591/1-60      DE Uncharacterized protein
+#=GS H3B591/1-60      DR GENE3D; af22dd00c630886223fb60e65715782b/1-60; 
+#=GS H3B591/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Coelacanthiformes; Coelacanthidae; Latimeria; Latimeria chalumnae; 
+#=GS A0A146ZBM1/1-60  AC A0A146ZBM1
+#=GS A0A146ZBM1/1-60  OS Fundulus heteroclitus
+#=GS A0A146ZBM1/1-60  DE FAS-associated factor 2
+#=GS A0A146ZBM1/1-60  DR GENE3D; cca1d1946f1e4285df061ef35a2da472/1-60; 
+#=GS A0A146ZBM1/1-60  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Fundulidae; Fundulus; Fundulus heteroclitus; 
+#=GS G5DZV3/1-61      AC G5DZV3
+#=GS G5DZV3/1-61      OS Hymenochirus curtipes
+#=GS G5DZV3/1-61      DE Putative expressed in t-cells and eosinophils in atopic dermatitis etea
+#=GS G5DZV3/1-61      DR GENE3D; cd996506c42ffde49b4745e8da3a4974/1-61; 
+#=GS G5DZV3/1-61      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Amphibia; Batrachia; Anura; Pipoidea; Pipidae; Pipinae; Hymenochirus; Hymenochirus curtipes; 
+#=GS A0A060YPE4/1-60  AC A0A060YPE4
+#=GS A0A060YPE4/1-60  OS Oncorhynchus mykiss
+#=GS A0A060YPE4/1-60  DE Uncharacterized protein
+#=GS A0A060YPE4/1-60  DR GENE3D; d9425a1d83dcfeb6ebac69328e5a3a07/1-60; 
+#=GS A0A060YPE4/1-60  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Salmoniformes; Salmonidae; Salmoninae; Oncorhynchus; Oncorhynchus mykiss; 
+#=GS G1T866/1-60      AC G1T866
+#=GS G1T866/1-60      OS Oryctolagus cuniculus
+#=GS G1T866/1-60      DE Uncharacterized protein
+#=GS G1T866/1-60      DR GENE3D; de82a9c28de28819333dfafdd045992b/1-60; 
+#=GS G1T866/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Lagomorpha; Leporidae; Oryctolagus; Oryctolagus cuniculus; 
+#=GS M3YM87/1-60      AC M3YM87
+#=GS M3YM87/1-60      OS Mustela putorius furo
+#=GS M3YM87/1-60      DE Uncharacterized protein
+#=GS M3YM87/1-60      DR GENE3D; ebdc62f13f729400e25b0735abf238e0/1-60; 
+#=GS M3YM87/1-60      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Carnivora; Caniformia; Mustelidae; Mustelinae; Mustela; Mustela putorius; Mustela putorius furo; 
+#=GS A0A087X539/1-60  AC A0A087X539
+#=GS A0A087X539/1-60  OS Poecilia formosa
+#=GS A0A087X539/1-60  DE Uncharacterized protein
+#=GS A0A087X539/1-60  DR GENE3D; edeef8f8ad67cbd646f24b3f898d64ee/1-60; 
+#=GS A0A087X539/1-60  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Poeciliidae; Poeciliinae; Poecilia; Poecilia formosa; 
+#=GS A0A151MZJ7/1-60  AC A0A151MZJ7
+#=GS A0A151MZJ7/1-60  OS Alligator mississippiensis
+#=GS A0A151MZJ7/1-60  DE FAS-associated factor 2
+#=GS A0A151MZJ7/1-60  DR GENE3D; ff60dc25c40778049d2aff16727ac790/1-60; 
+#=GS A0A151MZJ7/1-60  DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Crocodylia; Alligatoridae; Alligatorinae; Alligator; Alligator mississippiensis; 
+#=GF TC 129.3 2.3E-42
+#=GF SQ 51
+2damA00/1-67             GSSGSSGAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGSGPSSG
+Q96CS3/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+Q3TDN2/1-60              -----MAAP--EEQDLTQEQTEKLLQFQDLTGIESMEQCRLALEQHNWNMEAAVQDRLNEQEGV-PSV-
+B4E2M8/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+Q2HJD0/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+T0NRL3/1-46              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAL----------------
+Q28BP9/1-60              -----MAAP--EERELSQEQTEKLLQFQDLTGIESMDQCRQTLQQHNWNIEAAVQDRLNEQEGV-PSV-
+L7N2T6/1-60              -----MAAP--EERELSQEQTEKLLQFQDLTGIESMDQCRQTLQQHNWNIEAAVQDRLNEQEGV-PSV-
+V8P9H4/1-60              -----MAAP--DERELSAEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+A0A0S7KIM9/1-63          --RGKMAAP--EEPELSQAQTEKLLQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+F1NUY5/1-60              -----MAAP--EERELTAEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+A0A093GUJ3/1-61          ----KMAAP--EERELTAEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+G5BPZ0/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+H0YQI7/5-67              --RQKMAAP--EERELTAEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+L5JXA3/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+A0A0S7KJ97/1-63          --RGKMAAP--EEPELSQAQTEKLLQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+W5K6J8/7-70              -WRGKMAAP--EEQELSQAQTEKLLQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+G3Q390/1-60              -----MAAP--EEPELSQAQTEKLLQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+G3SW31/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+H2TUG1/1-60              -----MAAP--EEPELSQAQTEKLLQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDTLNEQEGV-PSL-
+M3XCS5/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+H2PHG4/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+A0A0D9RAG2/1-60          -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+A0A1D5QU10/1-60          -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+G3RM78/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+H2QS26/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+E2R2I4/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+A0A096NF51/1-60          -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+A0A091DSN1/1-60          -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+A0A0G2JTA0/1-60          -----MAAP--EEQDLTQEQTEKLLQFQDLTGIDSMEQCRLALEQHNWNMEAAVQDRLNEQEGV-PSV-
+F6SC77/1-60              -----MAAP--EERELSQEQTEKLLQFQDLTGIESMDQCRQTLQQHNWNIEAAVQDRLNEQEGV-PSV-
+A0A140LGE8/1-60          -----MAAP--EEQELSQAQTEKLIQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+A9ULP0/1-60              -----MAAP--EERELSQEQTEKLLQFQDLTGIESMDQCRQTLQQHNWNIEAAVQDRLNEQEGV-PSV-
+F1Q6Z1/1-60              -----MAAP--EEQELSQAQTEKLIQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+I3KMG7/1-60              -----MAAP--EEPELSQAQTEKLLQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+W5N1W2/2-65              --RGKMAAP--EEQELSQEQTEKLLQFQDLTGIESMDQCRRTLEHHNWNIEAAVQDRLNEQEGV-PSVF
+M4A712/1-60              -----MAAP--EEPELSQAQTEKLLQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+G1P493/1-60              -----MAAP--EEQDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+K4G0G6/2-63              ------AAPGQREEDLSQEQTEKLLQFQDLTGIESMDQCRQTLEQHHWNIEAAVQDRLNEQEGV-PSVF
+U3K1N6/1-60              -----MAAP--EERELTAEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+K9K9B3/1-60              -----MAAP--EDRDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+H2LSS2/3-66              -WRGKMAAP--EEPELSQAQTEKLLQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+F6R8G3/1-60              -----MAAP--EDRDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+H3B591/1-60              -----MAAP--EEQELTQEQTEKLLQFQDLTGIESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+A0A146ZBM1/1-60          -----MAAP--EEPELSQAQTEKLLQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+G5DZV3/1-61              -----MAGP--EERELSQEQTEKLLQFQDLTGIESMDQCRQTLQQHNWNIEAAVQDRLNEQEGV-PSVF
+A0A060YPE4/1-60          -----MAAP--EEQELSQAQTEKLLQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+G1T866/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+M3YM87/1-60              -----MAAP--EERDLTQEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+A0A087X539/1-60          -----MAAP--EEPELSQAQTEKLLQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+A0A151MZJ7/1-60          -----MAAP--AERELTAEQTEKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV-
+#=GC scorecons           000007889008857967699999899999996899899958988989989977777777777707760
+#=GC scorecons_70        _____****__**_**_*_*********************_***********************_***_
+#=GC scorecons_80        _____****__**__*_*_*************_*******_**********************__**__
+#=GC scorecons_90        ______***__**__*___*************_*******_***********_________________
+//

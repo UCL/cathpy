@@ -1,0 +1,101 @@
+# STOCKHOLM 1.0
+#=GF ID 1.10.8.10/FF/5069
+#=GF DE mRNA export factor MEX67
+#=GF AC 1.10.8.10/FF/5069
+#=GF TP FunFam
+#=GF DR CATH: 4.2
+#=GF DR DOPS: 7.808
+#=GS 2jp7A00/1-57        AC Q99257
+#=GS 2jp7A00/1-57        OS Saccharomyces cerevisiae S288C
+#=GS 2jp7A00/1-57        DE mRNA export factor MEX67
+#=GS 2jp7A00/1-57        DR CATH; 2jp7; A:543-599; 
+#=GS 2jp7A00/1-57        DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae; 
+#=GS 2jp7A00/1-57        DR GO; GO:0000055; GO:0000056; GO:0003723; GO:0005515; GO:0005737; GO:0006406; GO:0016973; GO:0042272; 
+#=GS 2khhA00/1-59        AC Q99257
+#=GS 2khhA00/1-59        OS Saccharomyces cerevisiae S288C
+#=GS 2khhA00/1-59        DE mRNA export factor MEX67
+#=GS 2khhA00/1-59        DR CATH; 2khh; A:543-599; 
+#=GS 2khhA00/1-59        DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae; 
+#=GS 2khhA00/1-59        DR GO; GO:0000055; GO:0000056; GO:0003723; GO:0005515; GO:0005737; GO:0006406; GO:0016973; GO:0042272; 
+#=GS Q99257/543-599      AC Q99257
+#=GS Q99257/543-599      OS Saccharomyces cerevisiae S288C
+#=GS Q99257/543-599      DE mRNA export factor MEX67
+#=GS Q99257/543-599      DR GENE3D; d001dc541a40ec57162cadf491f23183/543-599; 
+#=GS Q99257/543-599      DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae; 
+#=GS Q99257/543-599      DR GO; GO:0000055; GO:0000056; GO:0003723; GO:0005515; GO:0005737; GO:0006406; GO:0016973; GO:0042272; 
+#=GS E7QA81/532-588      AC E7QA81
+#=GS E7QA81/532-588      OS Saccharomyces cerevisiae FostersB
+#=GS E7QA81/532-588      DE Mex67p
+#=GS E7QA81/532-588      DR GENE3D; 4dc5d92d105faf67c39580b01a38eec9/532-588; 
+#=GS E7QA81/532-588      DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae; 
+#=GS E7QL87/543-599      AC E7QL87
+#=GS E7QL87/543-599      OS Saccharomyces cerevisiae VL3
+#=GS E7QL87/543-599      DE Mex67p
+#=GS E7QL87/543-599      DR GENE3D; 873a454fb3531c37961e44062c68de38/543-599; 
+#=GS E7QL87/543-599      DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae; 
+#=GS G2WP13/543-599      AC G2WP13
+#=GS G2WP13/543-599      OS Saccharomyces cerevisiae Kyokai no. 7
+#=GS G2WP13/543-599      DE K7_Mex67p
+#=GS G2WP13/543-599      DR GENE3D; 8d3eaa21c3142037de2b810922dfdaa4/543-599; 
+#=GS G2WP13/543-599      DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae; 
+#=GS E7KVF3/532-588      AC E7KVF3
+#=GS E7KVF3/532-588      OS Saccharomyces cerevisiae Lalvin QA23
+#=GS E7KVF3/532-588      DE Mex67p
+#=GS E7KVF3/532-588      DR GENE3D; a66777291ae25208e4fa3e03cda759d8/532-588; 
+#=GS E7KVF3/532-588      DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae; 
+#=GS J8LH74/543-599      AC J8LH74
+#=GS J8LH74/543-599      OS Saccharomyces arboricola H-6
+#=GS J8LH74/543-599      DE Mex67p
+#=GS J8LH74/543-599      DR GENE3D; a9bc13c291af70dcadcf9db088402dcc/543-599; 
+#=GS J8LH74/543-599      DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces arboricola; 
+#=GS N1NWZ9/543-599      AC N1NWZ9
+#=GS N1NWZ9/543-599      OS Saccharomyces cerevisiae CEN.PK113-7D
+#=GS N1NWZ9/543-599      DE Mex67p
+#=GS N1NWZ9/543-599      DR GENE3D; d001dc541a40ec57162cadf491f23183/543-599; 
+#=GS N1NWZ9/543-599      DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae; 
+#=GS A0A0L8VFI0/543-599  AC A0A0L8VFI0
+#=GS A0A0L8VFI0/543-599  OS Saccharomyces sp. 'boulardii'
+#=GS A0A0L8VFI0/543-599  DE MEX67p Poly(A)RNA binding protein involved in nuclear mRNA export
+#=GS A0A0L8VFI0/543-599  DR GENE3D; d001dc541a40ec57162cadf491f23183/543-599; 
+#=GS A0A0L8VFI0/543-599  DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces sp. 'boulardii'; 
+#=GS B3LKQ9/543-599      AC B3LKQ9
+#=GS B3LKQ9/543-599      OS Saccharomyces cerevisiae RM11-1a
+#=GS B3LKQ9/543-599      DE MEX67
+#=GS B3LKQ9/543-599      DR GENE3D; ea0086cc42305c99592d87cfa1999af6/543-599; 
+#=GS B3LKQ9/543-599      DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae; 
+#=GS C7GJC0/543-599      AC C7GJC0
+#=GS C7GJC0/543-599      OS Saccharomyces cerevisiae JAY291
+#=GS C7GJC0/543-599      DE Mex67p
+#=GS C7GJC0/543-599      DR GENE3D; ea0086cc42305c99592d87cfa1999af6/543-599; 
+#=GS C7GJC0/543-599      DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae; 
+#=GS C8ZIK9/543-599      AC C8ZIK9
+#=GS C8ZIK9/543-599      OS Saccharomyces cerevisiae EC1118
+#=GS C8ZIK9/543-599      DE Mex67p
+#=GS C8ZIK9/543-599      DR GENE3D; ea0086cc42305c99592d87cfa1999af6/543-599; 
+#=GS C8ZIK9/543-599      DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae; 
+#=GS A6ZW84/543-599      AC A6ZW84
+#=GS A6ZW84/543-599      OS Saccharomyces cerevisiae YJM789
+#=GS A6ZW84/543-599      DE Poly(A)RNA binding protein
+#=GS A6ZW84/543-599      DR GENE3D; f41e81134e31572948d658e571cde402/543-599; 
+#=GS A6ZW84/543-599      DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae; 
+#=GF TC 150.6 3.6E-48
+#=GF SQ 14
+2jp7A00/1-57                --RLNPVQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+2khhA00/1-59                GSRLNPVQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+Q99257/543-599              --RLNPVQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+E7QA81/532-588              --RLNPVQLELLNKLHLETKLNAEYTFILAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+E7QL87/543-599              --RLNPVQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+G2WP13/543-599              --RLNPVQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+E7KVF3/532-588              --RLNPVQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+J8LH74/543-599              --RLNPIQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+N1NWZ9/543-599              --RLNPVQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+A0A0L8VFI0/543-599          --RLNPVQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+B3LKQ9/543-599              --RLNPVQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+C7GJC0/543-599              --RLNPVQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+C8ZIK9/543-599              --RLNPVQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+A6ZW84/543-599              --RLNPVQLELLNKLHLETKLNAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF
+#=GC scorecons              00999989999999999999999999979999999999999999999999999999999
+#=GC scorecons_70           __*********************************************************
+#=GC scorecons_80           __*********************************************************
+#=GC scorecons_90           __*************************_*******************************
+//

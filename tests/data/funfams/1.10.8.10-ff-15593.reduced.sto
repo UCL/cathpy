@@ -1,0 +1,1250 @@
+# STOCKHOLM 1.0
+#=GF ID 1.10.8.10/FF/15593
+#=GF DE E3 ubiquitin-protein ligase CBL-B
+#=GF AC 1.10.8.10/FF/15593
+#=GF TP FunFam
+#=GF DR CATH: 4.2
+#=GF DR DOPS: 95.881
+#=GS 2jujA00/1-56          AC P22681
+#=GS 2jujA00/1-56          OS Homo sapiens
+#=GS 2jujA00/1-56          DE E3 ubiquitin-protein ligase CBL
+#=GS 2jujA00/1-56          DR CATH; 2juj; A:1-56; 
+#=GS 2jujA00/1-56          DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens; 
+#=GS 2jujA00/1-56          DR GO; GO:0003700; GO:0004842; GO:0005515; GO:0005829; GO:0005886; GO:0007166; GO:0007173; GO:0007179; GO:0008543; GO:0014068; GO:0016567; GO:0017124; GO:0035635; GO:0042059; GO:0042787; GO:0043066; GO:0045296; GO:0045742; GO:0046875; GO:0048260; GO:0061024; GO:0061630; 
+#=GS 2jujA00/1-56          DR EC; 2.3.2.27; 
+#=GS 2oo9A00/1-46          AC P22681
+#=GS 2oo9A00/1-46          OS Homo sapiens
+#=GS 2oo9A00/1-46          DE E3 ubiquitin-protein ligase CBL
+#=GS 2oo9A00/1-46          DR CATH; 2oo9; A:854-899; 
+#=GS 2oo9A00/1-46          DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens; 
+#=GS 2oo9A00/1-46          DR GO; GO:0003700; GO:0004842; GO:0005515; GO:0005829; GO:0005886; GO:0007166; GO:0007173; GO:0007179; GO:0008543; GO:0014068; GO:0016567; GO:0017124; GO:0035635; GO:0042059; GO:0042787; GO:0043066; GO:0045296; GO:0045742; GO:0046875; GO:0048260; GO:0061024; GO:0061630; 
+#=GS 2oo9A00/1-46          DR EC; 2.3.2.27; 
+#=GS 2oo9B00/1-46          AC P22681
+#=GS 2oo9B00/1-46          OS Homo sapiens
+#=GS 2oo9B00/1-46          DE E3 ubiquitin-protein ligase CBL
+#=GS 2oo9B00/1-46          DR CATH; 2oo9; B:855-898; 
+#=GS 2oo9B00/1-46          DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens; 
+#=GS 2oo9B00/1-46          DR GO; GO:0003700; GO:0004842; GO:0005515; GO:0005829; GO:0005886; GO:0007166; GO:0007173; GO:0007179; GO:0008543; GO:0014068; GO:0016567; GO:0017124; GO:0035635; GO:0042059; GO:0042787; GO:0043066; GO:0045296; GO:0045742; GO:0046875; GO:0048260; GO:0061024; GO:0061630; 
+#=GS 2oo9B00/1-46          DR EC; 2.3.2.27; 
+#=GS 2ooaA00/1-52          AC Q13191
+#=GS 2ooaA00/1-52          OS Homo sapiens
+#=GS 2ooaA00/1-52          DE E3 ubiquitin-protein ligase CBL-B
+#=GS 2ooaA00/1-52          DR CATH; 2ooa; A:932-973; 
+#=GS 2ooaA00/1-52          DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens; 
+#=GS 2ooaA00/1-52          DR GO; GO:0005515; GO:0005654; GO:0005829; GO:0005886; GO:0006607; GO:0007165; GO:0008270; 
+#=GS 2ooaA00/1-52          DR EC; 2.3.2.27; 
+#=GS 2ooaB00/1-52          AC Q13191
+#=GS 2ooaB00/1-52          OS Homo sapiens
+#=GS 2ooaB00/1-52          DE E3 ubiquitin-protein ligase CBL-B
+#=GS 2ooaB00/1-52          DR CATH; 2ooa; B:932-973; 
+#=GS 2ooaB00/1-52          DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens; 
+#=GS 2ooaB00/1-52          DR GO; GO:0005515; GO:0005654; GO:0005829; GO:0005886; GO:0006607; GO:0007165; GO:0008270; 
+#=GS 2ooaB00/1-52          DR EC; 2.3.2.27; 
+#=GS P22681/851-906        AC P22681
+#=GS P22681/851-906        OS Homo sapiens
+#=GS P22681/851-906        DE E3 ubiquitin-protein ligase CBL
+#=GS P22681/851-906        DR GENE3D; c615e733e9af5b2c2cda9b0a3e197b05/851-906; 
+#=GS P22681/851-906        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens; 
+#=GS P22681/851-906        DR GO; GO:0003700; GO:0004842; GO:0005515; GO:0005829; GO:0005886; GO:0007166; GO:0007173; GO:0007179; GO:0008543; GO:0014068; GO:0016567; GO:0017124; GO:0035635; GO:0042059; GO:0042787; GO:0043066; GO:0045296; GO:0045742; GO:0046875; GO:0048260; GO:0061024; GO:0061630; 
+#=GS P22681/851-906        DR EC; 2.3.2.27; 
+#=GS P22682/858-913        AC P22682
+#=GS P22682/858-913        OS Mus musculus
+#=GS P22682/858-913        DE E3 ubiquitin-protein ligase CBL
+#=GS P22682/858-913        DR GENE3D; 5d3da331e3336cdf30f4488d3bcdd42b/858-913; 
+#=GS P22682/858-913        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Muridae; Murinae; Mus; Mus; Mus musculus; 
+#=GS P22682/858-913        DR GO; GO:0005515; GO:0005829; GO:0005886; GO:0006468; GO:0014068; GO:0017124; GO:0042059; GO:0042787; GO:0043066; GO:0045296; GO:0045453; GO:0046875; GO:0048260; 
+#=GS P22682/858-913        DR EC; 2.3.2.27; 
+#=GS Q9VSK2/834-875        AC Q9VSK2
+#=GS Q9VSK2/834-875        OS Drosophila melanogaster
+#=GS Q9VSK2/834-875        DE Cbl long isoform
+#=GS Q9VSK2/834-875        DR GENE3D; dc297ac816a3926b6bbc4a0ace6ed608/834-875; 
+#=GS Q9VSK2/834-875        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Sophophora; melanogaster group; melanogaster subgroup; Drosophila melanogaster; 
+#=GS Q9VSK2/834-875        DR GO; GO:0001754; GO:0001784; GO:0004842; GO:0005515; GO:0005737; GO:0005938; GO:0006109; GO:0006508; GO:0006897; GO:0007173; GO:0007175; GO:0007298; GO:0007465; GO:0007476; GO:0008069; GO:0008270; GO:0009950; GO:0010941; GO:0016874; GO:0030971; GO:0032353; GO:0042059; GO:0042127; GO:0042787; GO:0048134; 
+#=GS Q19RV3/387-428        AC Q19RV3
+#=GS Q19RV3/387-428        OS Drosophila melanogaster
+#=GS Q19RV3/387-428        DE Cbl long isoform
+#=GS Q19RV3/387-428        DR GENE3D; 0181acf588d72b5613cac034062d2d29/387-428; 
+#=GS Q19RV3/387-428        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Sophophora; melanogaster group; melanogaster subgroup; Drosophila melanogaster; 
+#=GS A0A0U1RQ85/841-896    AC A0A0U1RQ85
+#=GS A0A0U1RQ85/841-896    OS Mus musculus
+#=GS A0A0U1RQ85/841-896    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A0U1RQ85/841-896    DR GENE3D; 5d1acd4799530f7becf74201954dce73/841-896; 
+#=GS A0A0U1RQ85/841-896    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Muridae; Murinae; Mus; Mus; Mus musculus; 
+#=GS A0A0U1RR39/807-862    AC A0A0U1RR39
+#=GS A0A0U1RR39/807-862    OS Homo sapiens
+#=GS A0A0U1RR39/807-862    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A0U1RR39/807-862    DR GENE3D; 6d105d69c497d1ddba1ad7098e1c40a8/807-862; 
+#=GS A0A0U1RR39/807-862    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens; 
+#=GS Q9VRF3/479-518        AC Q9VRF3
+#=GS Q9VRF3/479-518        OS Drosophila melanogaster
+#=GS Q9VRF3/479-518        DE LD38858p
+#=GS Q9VRF3/479-518        DR GENE3D; 7e4441dc60bc40eea48c2d327e91582b/479-518; 
+#=GS Q9VRF3/479-518        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Sophophora; melanogaster group; melanogaster subgroup; Drosophila melanogaster; 
+#=GS A0A0X1KG61/814-869    AC A0A0X1KG61
+#=GS A0A0X1KG61/814-869    OS Mus musculus
+#=GS A0A0X1KG61/814-869    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A0X1KG61/814-869    DR GENE3D; cd46d1e05f3a06dc4bdd836c18a5a0f6/814-869; 
+#=GS A0A0X1KG61/814-869    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Muridae; Murinae; Mus; Mus; Mus musculus; 
+#=GS T1L459/240-281        AC T1L459
+#=GS T1L459/240-281        OS Tetranychus urticae
+#=GS T1L459/240-281        DE Uncharacterized protein
+#=GS T1L459/240-281        DR GENE3D; 1437b8eb95296d46a5eb468019440331/240-281; 
+#=GS T1L459/240-281        DR ORG; Eukaryota; Metazoa; Arthropoda; Chelicerata; Arachnida; Acari; Acariformes; Prostigmata; Eleutherengona; Tetranychoidea; Tetranychidae; Tetranychus; Tetranychus urticae; 
+#=GS A0A139WLD4/200-239    AC A0A139WLD4
+#=GS A0A139WLD4/200-239    OS Tribolium castaneum
+#=GS A0A139WLD4/200-239    DE Uncharacterized protein
+#=GS A0A139WLD4/200-239    DR GENE3D; 46e3b52097660192ac0ffc87274db739/200-239; 
+#=GS A0A139WLD4/200-239    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Coleoptera; Polyphaga; Cucujiformia; Tenebrionoidea; Tenebrionidae; Tribolium; Tribolium castaneum; 
+#=GS Q5TRN9/833-875        AC Q5TRN9
+#=GS Q5TRN9/833-875        OS Anopheles gambiae
+#=GS Q5TRN9/833-875        DE AGAP005449-PA
+#=GS Q5TRN9/833-875        DR GENE3D; 92b118311ccf09c9daeadb7b26407d31/833-875; 
+#=GS Q5TRN9/833-875        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Cellia; Anopheles gambiae; 
+#=GS A0A067QZW8/693-733    AC A0A067QZW8
+#=GS A0A067QZW8/693-733    OS Zootermopsis nevadensis
+#=GS A0A067QZW8/693-733    DE E3 ubiquitin-protein ligase CBL-B
+#=GS A0A067QZW8/693-733    DR GENE3D; 9d5eab71b50565efd7f71e03353a556a/693-733; 
+#=GS A0A067QZW8/693-733    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Polyneoptera; Blattodea; Blattoidea; Termopsidae; Termopsinae; Termopsini; Zootermopsis; Zootermopsis nevadensis; 
+#=GS T1IWL0/661-701        AC T1IWL0
+#=GS T1IWL0/661-701        OS Strigamia maritima
+#=GS T1IWL0/661-701        DE Uncharacterized protein
+#=GS T1IWL0/661-701        DR GENE3D; e95442ce57ff4ab7b36c2c6466534607/661-701; 
+#=GS T1IWL0/661-701        DR ORG; Eukaryota; Metazoa; Arthropoda; Myriapoda; Chilopoda; Pleurostigmophora; Geophilomorpha; Linotaeniidae; Strigamia; Strigamia maritima; 
+#=GS H2Q4Y2/851-906        AC H2Q4Y2
+#=GS H2Q4Y2/851-906        OS Pan troglodytes
+#=GS H2Q4Y2/851-906        DE Cas-Br-M (Murine) ecotropic retroviral transforming sequence
+#=GS H2Q4Y2/851-906        DR GENE3D; c615e733e9af5b2c2cda9b0a3e197b05/851-906; 
+#=GS H2Q4Y2/851-906        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Pan; Pan troglodytes; 
+#=GS H2Q4Y2/851-906        DR EC; 2.3.2.27; 
+#=GS D3ZV15/859-914        AC D3ZV15
+#=GS D3ZV15/859-914        OS Rattus norvegicus
+#=GS D3ZV15/859-914        DE Cbl proto-oncogene
+#=GS D3ZV15/859-914        DR GENE3D; 9841789c0a53a085631e0db0563993ed/859-914; 
+#=GS D3ZV15/859-914        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Muridae; Murinae; Rattus; Rattus norvegicus; 
+#=GS D3ZV15/859-914        DR GO; GO:0000209; GO:0005154; GO:0005515; GO:0005829; GO:0005886; GO:0005925; GO:0006513; GO:0006974; GO:0008584; GO:0010332; GO:0014823; GO:0017124; GO:0019901; GO:0030424; GO:0030426; GO:0033574; GO:0036120; GO:0036312; GO:0042594; GO:0043303; GO:0045121; GO:0045471; GO:0046677; GO:0048471; GO:0061630; GO:0070997; GO:0071364; GO:0090650; GO:1901215; GO:1990090; GO:1990782; 
+#=GS A0A061I5T4/879-934    AC A0A061I5T4
+#=GS A0A061I5T4/879-934    OS Cricetulus griseus
+#=GS A0A061I5T4/879-934    DE E3 ubiquitin-protein ligase
+#=GS A0A061I5T4/879-934    DR GENE3D; f849a366c80a7f24f05e4f150c4448e5/879-934; 
+#=GS A0A061I5T4/879-934    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Cricetidae; Cricetinae; Cricetulus; Cricetulus griseus; 
+#=GS A0A061I5T4/879-934    DR GO; GO:0005515; 
+#=GS A0A093EPI4/799-854    AC A0A093EPI4
+#=GS A0A093EPI4/799-854    OS Pterocles gutturalis
+#=GS A0A093EPI4/799-854    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A093EPI4/799-854    DR GENE3D; 021284cdff28f8e8033fb4ecbc7ea58e/799-854; 
+#=GS A0A093EPI4/799-854    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Ciconiiformes; Pteroclidae; Pterocles; Pterocles gutturalis; 
+#=GS K7G1C0/487-542        AC K7G1C0
+#=GS K7G1C0/487-542        OS Pelodiscus sinensis
+#=GS K7G1C0/487-542        DE Uncharacterized protein
+#=GS K7G1C0/487-542        DR GENE3D; 067f1a55153f47ac0e2dab8b960d89ef/487-542; 
+#=GS K7G1C0/487-542        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Testudines; Cryptodira; Trionychidae; Pelodiscus; Pelodiscus sinensis; 
+#=GS G1SMK5/791-846        AC G1SMK5
+#=GS G1SMK5/791-846        OS Oryctolagus cuniculus
+#=GS G1SMK5/791-846        DE Uncharacterized protein
+#=GS G1SMK5/791-846        DR GENE3D; 0718871929539c2f74727d41a9823ed2/791-846; 
+#=GS G1SMK5/791-846        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Lagomorpha; Leporidae; Oryctolagus; Oryctolagus cuniculus; 
+#=GS A0A182P3E0/944-986    AC A0A182P3E0
+#=GS A0A182P3E0/944-986    OS Anopheles epiroticus
+#=GS A0A182P3E0/944-986    DE Uncharacterized protein
+#=GS A0A182P3E0/944-986    DR GENE3D; 078244babf3ceae1e46ba600e9509694/944-986; 
+#=GS A0A182P3E0/944-986    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Cellia; Anopheles epiroticus; 
+#=GS G3I962/2423-2478      AC G3I962
+#=GS G3I962/2423-2478      OS Cricetulus griseus
+#=GS G3I962/2423-2478      DE NLR family member X1
+#=GS G3I962/2423-2478      DR GENE3D; 08c8f097b6c48d62460f17ecf2d7ba64/2423-2478; 
+#=GS G3I962/2423-2478      DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Cricetidae; Cricetinae; Cricetulus; Cricetulus griseus; 
+#=GS A0A0L0BWK2/857-898    AC A0A0L0BWK2
+#=GS A0A0L0BWK2/857-898    OS Lucilia cuprina
+#=GS A0A0L0BWK2/857-898    DE Uncharacterized protein
+#=GS A0A0L0BWK2/857-898    DR GENE3D; 09e80aa671238a95c0c2dd594306f13c/857-898; 
+#=GS A0A0L0BWK2/857-898    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Oestroidea; Calliphoridae; Luciliinae; Lucilia; Lucilia cuprina; 
+#=GS I3JG35/856-911        AC I3JG35
+#=GS I3JG35/856-911        OS Oreochromis niloticus
+#=GS I3JG35/856-911        DE Uncharacterized protein
+#=GS I3JG35/856-911        DR GENE3D; 0a21f5f90fd1c664379b6f9ae772c586/856-911; 
+#=GS I3JG35/856-911        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Cichlomorphae; Cichliformes; Cichlidae; Pseudocrenilabrinae; Oreochromini; Oreochromis; Oreochromis niloticus; 
+#=GS A0A0M4EI18/752-793    AC A0A0M4EI18
+#=GS A0A0M4EI18/752-793    OS Drosophila busckii
+#=GS A0A0M4EI18/752-793    DE Cbl
+#=GS A0A0M4EI18/752-793    DR GENE3D; 0c5a94913b96f3ba0bf64c392880ae8d/752-793; 
+#=GS A0A0M4EI18/752-793    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Dorsilopha; Drosophila busckii; 
+#=GS F7ECX4/796-851        AC F7ECX4
+#=GS F7ECX4/796-851        OS Monodelphis domestica
+#=GS F7ECX4/796-851        DE Uncharacterized protein
+#=GS F7ECX4/796-851        DR GENE3D; 0cddcd25edf17372f872e9c6b83fae16/796-851; 
+#=GS F7ECX4/796-851        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Didelphimorphia; Didelphidae; Didelphinae; Monodelphis; Monodelphis domestica; 
+#=GS G7PPA7/787-842        AC G7PPA7
+#=GS G7PPA7/787-842        OS Macaca fascicularis
+#=GS G7PPA7/787-842        DE Putative uncharacterized protein
+#=GS G7PPA7/787-842        DR GENE3D; 13569bd8dd6b68240f7b36785e0fcf99/787-842; 
+#=GS G7PPA7/787-842        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Cercopithecoidea; Cercopithecidae; Cercopithecinae; Macaca; Macaca fascicularis; 
+#=GS G7NCK3/787-842        AC G7NCK3
+#=GS G7NCK3/787-842        OS Macaca mulatta
+#=GS G7NCK3/787-842        DE Uncharacterized protein
+#=GS G7NCK3/787-842        DR GENE3D; 13569bd8dd6b68240f7b36785e0fcf99/787-842; 
+#=GS G7NCK3/787-842        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Cercopithecoidea; Cercopithecidae; Cercopithecinae; Macaca; Macaca mulatta; 
+#=GS A0A182FHS5/1037-1090  AC A0A182FHS5
+#=GS A0A182FHS5/1037-1090  OS Anopheles albimanus
+#=GS A0A182FHS5/1037-1090  DE Uncharacterized protein
+#=GS A0A182FHS5/1037-1090  DR GENE3D; 15107801e83827b026279532e0ab49d1/1037-1090; 
+#=GS A0A182FHS5/1037-1090  DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Nyssorhynchus; Anopheles albimanus; 
+#=GS A0A0S7LXT1/132-187    AC A0A0S7LXT1
+#=GS A0A0S7LXT1/132-187    OS Poeciliopsis prolifica
+#=GS A0A0S7LXT1/132-187    DE CBL
+#=GS A0A0S7LXT1/132-187    DR GENE3D; 153ce62f8370d6bc8f5581ebb5a2b7df/132-187; 
+#=GS A0A0S7LXT1/132-187    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Poeciliidae; Poeciliinae; Poeciliopsis; Poeciliopsis prolifica; 
+#=GS A0A182WK71/718-760    AC A0A182WK71
+#=GS A0A182WK71/718-760    OS Anopheles minimus
+#=GS A0A182WK71/718-760    DE Uncharacterized protein
+#=GS A0A182WK71/718-760    DR GENE3D; 159955a965444f9e5eac78d01354dd08/718-760; 
+#=GS A0A182WK71/718-760    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Cellia; minimus group; Anopheles minimus; 
+#=GS A0A147A682/806-861    AC A0A147A682
+#=GS A0A147A682/806-861    OS Fundulus heteroclitus
+#=GS A0A147A682/806-861    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A147A682/806-861    DR GENE3D; 19dcb3eec55ff9fb37c1976cb0c55190/806-861; 
+#=GS A0A147A682/806-861    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Fundulidae; Fundulus; Fundulus heteroclitus; 
+#=GS A0A0M4EF83/801-842    AC A0A0M4EF83
+#=GS A0A0M4EF83/801-842    OS Drosophila busckii
+#=GS A0A0M4EF83/801-842    DE Cbl
+#=GS A0A0M4EF83/801-842    DR GENE3D; 1e3b630cb82b2c909d252d1d8e9f83a1/801-842; 
+#=GS A0A0M4EF83/801-842    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Dorsilopha; Drosophila busckii; 
+#=GS W5LE61/903-954        AC W5LE61
+#=GS W5LE61/903-954        OS Astyanax mexicanus
+#=GS W5LE61/903-954        DE Uncharacterized protein
+#=GS W5LE61/903-954        DR GENE3D; 2088b7a71ba20b59ae6fc24725896b31/903-954; 
+#=GS W5LE61/903-954        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Characiphysae; Characiformes; Characoidei; Characidae; Astyanax; Astyanax mexicanus; 
+#=GS H0YQ30/854-909        AC H0YQ30
+#=GS H0YQ30/854-909        OS Taeniopygia guttata
+#=GS H0YQ30/854-909        DE Uncharacterized protein
+#=GS H0YQ30/854-909        DR GENE3D; 20f570dda2bf60b2f26fc72f7f25439a/854-909; 
+#=GS H0YQ30/854-909        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Passeriformes; Passeroidea; Estrildidae; Estrildinae; Taeniopygia; Taeniopygia guttata; 
+#=GS M3Y236/858-913        AC M3Y236
+#=GS M3Y236/858-913        OS Mustela putorius furo
+#=GS M3Y236/858-913        DE Uncharacterized protein
+#=GS M3Y236/858-913        DR GENE3D; 2236d4fa3e9847cbed782d93a71e1814/858-913; 
+#=GS M3Y236/858-913        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Carnivora; Caniformia; Mustelidae; Mustelinae; Mustela; Mustela putorius; Mustela putorius furo; 
+#=GS A0A087YFS5/801-856    AC A0A087YFS5
+#=GS A0A087YFS5/801-856    OS Poecilia formosa
+#=GS A0A087YFS5/801-856    DE Uncharacterized protein
+#=GS A0A087YFS5/801-856    DR GENE3D; 267d710cde28def71717b4564855c26d/801-856; 
+#=GS A0A087YFS5/801-856    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Poeciliidae; Poeciliinae; Poecilia; Poecilia formosa; 
+#=GS H2NFK5/850-905        AC H2NFK5
+#=GS H2NFK5/850-905        OS Pongo abelii
+#=GS H2NFK5/850-905        DE Uncharacterized protein
+#=GS H2NFK5/850-905        DR GENE3D; 2a467e0b366e023fb6e401e906b61fc7/850-905; 
+#=GS H2NFK5/850-905        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Ponginae; Pongo; Pongo abelii; 
+#=GS A0A182IV24/1070-1112  AC A0A182IV24
+#=GS A0A182IV24/1070-1112  OS Anopheles atroparvus
+#=GS A0A182IV24/1070-1112  DE Uncharacterized protein
+#=GS A0A182IV24/1070-1112  DR GENE3D; 2b2a9dd557d102d5f52f81b268e497fb/1070-1112; 
+#=GS A0A182IV24/1070-1112  DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Anopheles; maculipennis group; Anopheles atroparvus; 
+#=GS A0A182H2U2/573-615    AC A0A182H2U2
+#=GS A0A182H2U2/573-615    OS Aedes albopictus
+#=GS A0A182H2U2/573-615    DE Uncharacterized protein
+#=GS A0A182H2U2/573-615    DR GENE3D; 2beebcbc7fd1a1e22892aaff8ce6f41c/573-615; 
+#=GS A0A182H2U2/573-615    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Culicinae; Aedini; Aedes; Stegomyia; Aedes albopictus; 
+#=GS A0A091P063/799-854    AC A0A091P063
+#=GS A0A091P063/799-854    OS Haliaeetus albicilla
+#=GS A0A091P063/799-854    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091P063/799-854    DR GENE3D; 2c9cef15d29ecd08fcaf98a617c6e223/799-854; 
+#=GS A0A091P063/799-854    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Falconiformes; Accipitridae; Accipitrinae; Haliaeetus; Haliaeetus albicilla; 
+#=GS A0A091PK30/799-854    AC A0A091PK30
+#=GS A0A091PK30/799-854    OS Leptosomus discolor
+#=GS A0A091PK30/799-854    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091PK30/799-854    DR GENE3D; 3020feb2381611935a95d2c2d7fddf05/799-854; 
+#=GS A0A091PK30/799-854    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Coraciiformes; Leptosomidae; Leptosomus; Leptosomus discolor; 
+#=GS A0A091UHI0/717-772    AC A0A091UHI0
+#=GS A0A091UHI0/717-772    OS Phaethon lepturus
+#=GS A0A091UHI0/717-772    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091UHI0/717-772    DR GENE3D; 30bdde6c61be3c88b5819817b2f9a6c8/717-772; 
+#=GS A0A091UHI0/717-772    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Pelecaniformes; Phaethontidae; Phaethon; Phaethon lepturus; 
+#=GS A0A1J1INM2/772-823    AC A0A1J1INM2
+#=GS A0A1J1INM2/772-823    OS Clunio marinus
+#=GS A0A1J1INM2/772-823    DE CLUMA_CG013363, isoform A
+#=GS A0A1J1INM2/772-823    DR GENE3D; 30e9a0967389852d3d9ea30bb18ab5f7/772-823; 
+#=GS A0A1J1INM2/772-823    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Chironomoidea; Chironomidae; Orthocladiinae; Clunio; Clunio marinus; 
+#=GS W5UG35/856-911        AC W5UG35
+#=GS W5UG35/856-911        OS Ictalurus punctatus
+#=GS W5UG35/856-911        DE E3 ubiquitin-protein ligase CBL
+#=GS W5UG35/856-911        DR GENE3D; 32c1a48e70d57a54c82461cb3f2ef186/856-911; 
+#=GS W5UG35/856-911        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Characiphysae; Siluriformes; Siluroidei; Ictaluridae; Ictalurus; Ictalurus punctatus; 
+#=GS G1R745/851-906        AC G1R745
+#=GS G1R745/851-906        OS Nomascus leucogenys
+#=GS G1R745/851-906        DE Uncharacterized protein
+#=GS G1R745/851-906        DR GENE3D; 33490d67ae52ed7bd3e84236f2a12b20/851-906; 
+#=GS G1R745/851-906        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hylobatidae; Nomascus; Nomascus leucogenys; 
+#=GS N6T6T7/675-714        AC N6T6T7
+#=GS N6T6T7/675-714        OS Dendroctonus ponderosae
+#=GS N6T6T7/675-714        DE Uncharacterized protein
+#=GS N6T6T7/675-714        DR GENE3D; 340291baf94a4f890b2771306ca42094/675-714; 
+#=GS N6T6T7/675-714        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Coleoptera; Polyphaga; Cucujiformia; Curculionoidea; Curculionidae; Scolytinae; Dendroctonus; Dendroctonus ponderosae; 
+#=GS Q566M6/869-923        AC Q566M6
+#=GS Q566M6/869-923        OS Xenopus tropicalis
+#=GS Q566M6/869-923        DE Cbl-prov protein
+#=GS Q566M6/869-923        DR GENE3D; 35d5fd7e18f70ef3ebff68aa0f6f54c6/869-923; 
+#=GS Q566M6/869-923        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Amphibia; Batrachia; Anura; Pipoidea; Pipidae; Xenopodinae; Xenopus; Silurana; Xenopus tropicalis; 
+#=GS A0A091QRR8/802-857    AC A0A091QRR8
+#=GS A0A091QRR8/802-857    OS Merops nubicus
+#=GS A0A091QRR8/802-857    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091QRR8/802-857    DR GENE3D; 3d1aaa4b3655f8c283037bb1f3a355e9/802-857; 
+#=GS A0A091QRR8/802-857    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Coraciiformes; Meropidae; Merops; Merops nubicus; 
+#=GS G3RNI2/851-906        AC G3RNI2
+#=GS G3RNI2/851-906        OS Gorilla gorilla gorilla
+#=GS G3RNI2/851-906        DE Uncharacterized protein
+#=GS G3RNI2/851-906        DR GENE3D; 3df670b46c8d7279fdd60ccd38078efb/851-906; 
+#=GS G3RNI2/851-906        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Gorilla; Gorilla gorilla; Gorilla gorilla gorilla; 
+#=GS V8P3J8/731-786        AC V8P3J8
+#=GS V8P3J8/731-786        OS Ophiophagus hannah
+#=GS V8P3J8/731-786        DE E3 ubiquitin-protein ligase CBL
+#=GS V8P3J8/731-786        DR GENE3D; 3e5f8326fc25215fc4a0ddc6b0eaa20c/731-786; 
+#=GS V8P3J8/731-786        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Lepidosauria; Squamata; Serpentes; Colubroidea; Elapidae; Elapinae; Ophiophagus; Ophiophagus hannah; 
+#=GS A0A087UE61/334-374    AC A0A087UE61
+#=GS A0A087UE61/334-374    OS Stegodyphus mimosarum
+#=GS A0A087UE61/334-374    DE E3 ubiquitin-protein ligase CBL-B-A
+#=GS A0A087UE61/334-374    DR GENE3D; 3ea7babed11ffd139a0673342e1ba55b/334-374; 
+#=GS A0A087UE61/334-374    DR ORG; Eukaryota; Metazoa; Arthropoda; Chelicerata; Arachnida; Araneae; Araneomorphae; Eresoidea; Eresidae; Stegodyphus; Stegodyphus mimosarum; 
+#=GS W5Q088/774-829        AC W5Q088
+#=GS W5Q088/774-829        OS Ovis aries
+#=GS W5Q088/774-829        DE Uncharacterized protein
+#=GS W5Q088/774-829        DR GENE3D; 3f7a13a15814f70fd01dc9d2ba775f39/774-829; 
+#=GS W5Q088/774-829        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Ruminantia; Pecora; Bovidae; Caprinae; Ovis; Ovis aries; 
+#=GS F7CSE3/846-901        AC F7CSE3
+#=GS F7CSE3/846-901        OS Callithrix jacchus
+#=GS F7CSE3/846-901        DE Uncharacterized protein
+#=GS F7CSE3/846-901        DR GENE3D; 3fd13b2089cb4ffa5917114d9b811696/846-901; 
+#=GS F7CSE3/846-901        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Platyrrhini; Cebidae; Callitrichinae; Callithrix; Callithrix; Callithrix jacchus; 
+#=GS A0A1A8B4M0/892-946    AC A0A1A8B4M0
+#=GS A0A1A8B4M0/892-946    OS Nothobranchius furzeri
+#=GS A0A1A8B4M0/892-946    DE Cbl proto-oncogene, E3 ubiquitin protein ligase
+#=GS A0A1A8B4M0/892-946    DR GENE3D; 40bf8fdef4ef3f13892001f19c32f45a/892-946; 
+#=GS A0A1A8B4M0/892-946    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Aplocheiloidei; Nothobranchiidae; Nothobranchius; Nothobranchius furzeri; 
+#=GS A0A0K8VYH1/879-921    AC A0A0K8VYH1
+#=GS A0A0K8VYH1/879-921    OS Bactrocera latifrons
+#=GS A0A0K8VYH1/879-921    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A0K8VYH1/879-921    DR GENE3D; 440fdf05c1028a89d2c364a5f9198a7b/879-921; 
+#=GS A0A0K8VYH1/879-921    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Tephritoidea; Tephritidae; Dacinae; Dacini; Bactrocera; Bactrocera; Bactrocera latifrons; 
+#=GS I3JSN9/809-863        AC I3JSN9
+#=GS I3JSN9/809-863        OS Oreochromis niloticus
+#=GS I3JSN9/809-863        DE Uncharacterized protein
+#=GS I3JSN9/809-863        DR GENE3D; 44443d9090e67af762b22f74a29dea0d/809-863; 
+#=GS I3JSN9/809-863        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Cichlomorphae; Cichliformes; Cichlidae; Pseudocrenilabrinae; Oreochromini; Oreochromis; Oreochromis niloticus; 
+#=GS A0A1B0G3D0/878-919    AC A0A1B0G3D0
+#=GS A0A1B0G3D0/878-919    OS Glossina morsitans morsitans
+#=GS A0A1B0G3D0/878-919    DE Uncharacterized protein
+#=GS A0A1B0G3D0/878-919    DR GENE3D; 44d3690636ac625079d1a045cd49b9b5/878-919; 
+#=GS A0A1B0G3D0/878-919    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Hippoboscoidea; Glossinidae; Glossina; Glossina; Glossina morsitans; Glossina morsitans morsitans; 
+#=GS A0A1B0AYF1/522-563    AC A0A1B0AYF1
+#=GS A0A1B0AYF1/522-563    OS Glossina palpalis gambiensis
+#=GS A0A1B0AYF1/522-563    DE Uncharacterized protein
+#=GS A0A1B0AYF1/522-563    DR GENE3D; 488ca3a46b30e9acce64ceca8ee40e00/522-563; 
+#=GS A0A1B0AYF1/522-563    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Hippoboscoidea; Glossinidae; Glossina; Nemorhina; Glossina palpalis; Glossina palpalis gambiensis; 
+#=GS H3BE20/848-903        AC H3BE20
+#=GS H3BE20/848-903        OS Latimeria chalumnae
+#=GS H3BE20/848-903        DE Uncharacterized protein
+#=GS H3BE20/848-903        DR GENE3D; 493991cef489f3c64b7a0d8b42c2c121/848-903; 
+#=GS H3BE20/848-903        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Coelacanthiformes; Coelacanthidae; Latimeria; Latimeria chalumnae; 
+#=GS H9G617/801-856        AC H9G617
+#=GS H9G617/801-856        OS Anolis carolinensis
+#=GS H9G617/801-856        DE Uncharacterized protein
+#=GS H9G617/801-856        DR GENE3D; 4b393d26c85294e852fe46083e0b3b7e/801-856; 
+#=GS H9G617/801-856        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Lepidosauria; Squamata; Iguania; Iguanidae; Polychrotinae; Anolis; Anolis carolinensis; 
+#=GS M3WT44/858-913        AC M3WT44
+#=GS M3WT44/858-913        OS Felis catus
+#=GS M3WT44/858-913        DE Uncharacterized protein
+#=GS M3WT44/858-913        DR GENE3D; 4e113b5f1ced8c79a6e971264d9e2720/858-913; 
+#=GS M3WT44/858-913        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Carnivora; Feliformia; Felidae; Felinae; Felis; Felis catus; 
+#=GS Q9I9L2/511-565        AC Q9I9L2
+#=GS Q9I9L2/511-565        OS Xenopus laevis
+#=GS Q9I9L2/511-565        DE Cbl proto-oncogene protein
+#=GS Q9I9L2/511-565        DR GENE3D; 4e34d4e8db4fd18e61a7197eff2987e4/511-565; 
+#=GS Q9I9L2/511-565        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Amphibia; Batrachia; Anura; Pipoidea; Pipidae; Xenopodinae; Xenopus; Xenopus; Xenopus laevis; 
+#=GS H2UNS4/863-918        AC H2UNS4
+#=GS H2UNS4/863-918        OS Takifugu rubripes
+#=GS H2UNS4/863-918        DE Uncharacterized protein
+#=GS H2UNS4/863-918        DR GENE3D; 505d32e43fa36ca5332cac0541f930a0/863-918; 
+#=GS H2UNS4/863-918        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GS A0A091WP85/796-851    AC A0A091WP85
+#=GS A0A091WP85/796-851    OS Opisthocomus hoazin
+#=GS A0A091WP85/796-851    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091WP85/796-851    DR GENE3D; 52bb5935d5e96b4ac3723e6e4c45f42a/796-851; 
+#=GS A0A091WP85/796-851    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Opisthocomiformes; Opisthocomidae; Opisthocomus; Opisthocomus hoazin; 
+#=GS F7CSA7/854-909        AC F7CSA7
+#=GS F7CSA7/854-909        OS Callithrix jacchus
+#=GS F7CSA7/854-909        DE E3 ubiquitin-protein ligase CBL
+#=GS F7CSA7/854-909        DR GENE3D; 53253fe2e7c309f6dfc11f1b8a2a5776/854-909; 
+#=GS F7CSA7/854-909        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Platyrrhini; Cebidae; Callitrichinae; Callithrix; Callithrix; Callithrix jacchus; 
+#=GS A0A099ZFP5/848-903    AC A0A099ZFP5
+#=GS A0A099ZFP5/848-903    OS Tinamus guttatus
+#=GS A0A099ZFP5/848-903    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A099ZFP5/848-903    DR GENE3D; 5477aaf386ea545761cd0f85d1cde239/848-903; 
+#=GS A0A099ZFP5/848-903    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Palaeognathae; Tinamiformes; Tinamidae; Tinamus; Tinamus guttatus; 
+#=GS Q7ZZ86/405-455        AC Q7ZZ86
+#=GS Q7ZZ86/405-455        OS Danio rerio
+#=GS Q7ZZ86/405-455        DE Novel protein similar to Cas-Br-M (Murine) ectopic retroviral transforming sequence (CBL)
+#=GS Q7ZZ86/405-455        DR GENE3D; 587572217ee6f571579454c7d1b3218e/405-455; 
+#=GS Q7ZZ86/405-455        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Cypriniphysae; Cypriniformes; Cyprinoidea; Cyprinidae; Danio; Danio rerio; 
+#=GS W5K1D9/673-728        AC W5K1D9
+#=GS W5K1D9/673-728        OS Astyanax mexicanus
+#=GS W5K1D9/673-728        DE Uncharacterized protein
+#=GS W5K1D9/673-728        DR GENE3D; 58abed3d7774e8e27d35a676646850ba/673-728; 
+#=GS W5K1D9/673-728        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Characiphysae; Characiformes; Characoidei; Characidae; Astyanax; Astyanax mexicanus; 
+#=GS A0A091FJY9/803-858    AC A0A091FJY9
+#=GS A0A091FJY9/803-858    OS Corvus brachyrhynchos
+#=GS A0A091FJY9/803-858    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091FJY9/803-858    DR GENE3D; 5a461142c81cd5f36326af6968674d50/803-858; 
+#=GS A0A091FJY9/803-858    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Passeriformes; Corvoidea; Corvidae; Corvus; Corvus brachyrhynchos; 
+#=GS Q4SEN1/863-917        AC Q4SEN1
+#=GS Q4SEN1/863-917        OS Tetraodon nigroviridis
+#=GS Q4SEN1/863-917        DE Chromosome undetermined SCAF14615, whole genome shotgun sequence
+#=GS Q4SEN1/863-917        DR GENE3D; 5a8bf0e74d74ac29b0ea8a780bc73e65/863-917; 
+#=GS Q4SEN1/863-917        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Tetraodon; Tetraodon nigroviridis; 
+#=GS B4IZE2/864-905        AC B4IZE2
+#=GS B4IZE2/864-905        OS Drosophila grimshawi
+#=GS B4IZE2/864-905        DE GH15065
+#=GS B4IZE2/864-905        DR GENE3D; 5b2aadd43b4863d338e4ed60fed4ceeb/864-905; 
+#=GS B4IZE2/864-905        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; grimshawi group; grimshawi subgroup; Drosophila grimshawi; 
+#=GS G3UM47/843-898        AC G3UM47
+#=GS G3UM47/843-898        OS Loxodonta africana
+#=GS G3UM47/843-898        DE Uncharacterized protein
+#=GS G3UM47/843-898        DR GENE3D; 5de9c070573b8890a6a8be63c2e4b915/843-898; 
+#=GS G3UM47/843-898        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Afrotheria; Proboscidea; Elephantidae; Loxodonta; Loxodonta africana; 
+#=GS A0A0P7TZT7/797-852    AC A0A0P7TZT7
+#=GS A0A0P7TZT7/797-852    OS Scleropages formosus
+#=GS A0A0P7TZT7/797-852    DE E3 ubiquitin-protein ligase CBL-like
+#=GS A0A0P7TZT7/797-852    DR GENE3D; 5f62882e146b4faa13f416712533933e/797-852; 
+#=GS A0A0P7TZT7/797-852    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Osteoglossiformes; Osteoglossidae; Scleropages; Scleropages formosus; 
+#=GS A0A182MIA0/1012-1054  AC A0A182MIA0
+#=GS A0A182MIA0/1012-1054  OS Anopheles culicifacies
+#=GS A0A182MIA0/1012-1054  DE Uncharacterized protein
+#=GS A0A182MIA0/1012-1054  DR GENE3D; 626ebada728c30ab2b6b2954c6f5ec8d/1012-1054; 
+#=GS A0A182MIA0/1012-1054  DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Cellia; Anopheles culicifacies; 
+#=GS A0A060VWA3/888-936    AC A0A060VWA3
+#=GS A0A060VWA3/888-936    OS Oncorhynchus mykiss
+#=GS A0A060VWA3/888-936    DE Uncharacterized protein
+#=GS A0A060VWA3/888-936    DR GENE3D; 64a69130892cbb7e761a68b6478d3c71/888-936; 
+#=GS A0A060VWA3/888-936    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Salmoniformes; Salmonidae; Salmoninae; Oncorhynchus; Oncorhynchus mykiss; 
+#=GS A0A1B6HX74/224-265    AC A0A1B6HX74
+#=GS A0A1B6HX74/224-265    OS Homalodisca liturata
+#=GS A0A1B6HX74/224-265    DE Uncharacterized protein
+#=GS A0A1B6HX74/224-265    DR GENE3D; 660a3abff9b93c1f04ae363fd2d65987/224-265; 
+#=GS A0A1B6HX74/224-265    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Paraneoptera; Hemiptera; Auchenorrhyncha; Cicadomorpha; Membracoidea; Cicadellidae; Cicadellinae; Homalodisca; Homalodisca liturata; 
+#=GS A0A093EM53/717-772    AC A0A093EM53
+#=GS A0A093EM53/717-772    OS Tyto alba
+#=GS A0A093EM53/717-772    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A093EM53/717-772    DR GENE3D; 685f8ee6a1d9676a389a04100b629fe2/717-772; 
+#=GS A0A093EM53/717-772    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Strigiformes; Tytonidae; Tyto; Tyto alba; 
+#=GS A0A091T4X0/717-772    AC A0A091T4X0
+#=GS A0A091T4X0/717-772    OS Pelecanus crispus
+#=GS A0A091T4X0/717-772    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091T4X0/717-772    DR GENE3D; 687b9213bfe02feaf54506fd5cbdd5d8/717-772; 
+#=GS A0A091T4X0/717-772    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Pelecaniformes; Pelecanidae; Pelecanus; Pelecanus crispus; 
+#=GS W5Q089/796-851        AC W5Q089
+#=GS W5Q089/796-851        OS Ovis aries
+#=GS W5Q089/796-851        DE Uncharacterized protein
+#=GS W5Q089/796-851        DR GENE3D; 6965469895e6938c93a3dddf16daf0c8/796-851; 
+#=GS W5Q089/796-851        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Ruminantia; Pecora; Bovidae; Caprinae; Ovis; Ovis aries; 
+#=GS A0A1D5RFE7/852-907    AC A0A1D5RFE7
+#=GS A0A1D5RFE7/852-907    OS Macaca mulatta
+#=GS A0A1D5RFE7/852-907    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A1D5RFE7/852-907    DR GENE3D; 6caf33417cc9b67189c1a9c1e89064a2/852-907; 
+#=GS A0A1D5RFE7/852-907    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Cercopithecoidea; Cercopithecidae; Cercopithecinae; Macaca; Macaca mulatta; 
+#=GS A0A093FWE0/839-894    AC A0A093FWE0
+#=GS A0A093FWE0/839-894    OS Picoides pubescens
+#=GS A0A093FWE0/839-894    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A093FWE0/839-894    DR GENE3D; 6d891bb4969f17ad8133b81588dbdcfe/839-894; 
+#=GS A0A093FWE0/839-894    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Piciformes; Picidae; Picoides; Picoides pubescens; 
+#=GS A0A087VIL4/799-854    AC A0A087VIL4
+#=GS A0A087VIL4/799-854    OS Balearica regulorum gibbericeps
+#=GS A0A087VIL4/799-854    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A087VIL4/799-854    DR GENE3D; 6ed73f1aff7279ddab2edc965bf86d4e/799-854; 
+#=GS A0A087VIL4/799-854    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Gruiformes; Gruidae; Balearica; Balearica regulorum; Balearica regulorum gibbericeps; 
+#=GS A0A0U1ZF16/747-802    AC A0A0U1ZF16
+#=GS A0A0U1ZF16/747-802    OS Rattus norvegicus
+#=GS A0A0U1ZF16/747-802    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A0U1ZF16/747-802    DR GENE3D; 70f557fb0f0d2b3451d3adff289285f5/747-802; 
+#=GS A0A0U1ZF16/747-802    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Muridae; Murinae; Rattus; Rattus norvegicus; 
+#=GS A0A0Q3ML33/816-871    AC A0A0Q3ML33
+#=GS A0A0Q3ML33/816-871    OS Amazona aestiva
+#=GS A0A0Q3ML33/816-871    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A0Q3ML33/816-871    DR GENE3D; 71070fb5b6a072fb4c7e8dada5bad9a1/816-871; 
+#=GS A0A0Q3ML33/816-871    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Psittaciformes; Psittacidae; Amazona; Amazona aestiva; 
+#=GS A0A091RDJ6/795-850    AC A0A091RDJ6
+#=GS A0A091RDJ6/795-850    OS Mesitornis unicolor
+#=GS A0A091RDJ6/795-850    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091RDJ6/795-850    DR GENE3D; 735428d06ff67233ec23fd679e7130b3/795-850; 
+#=GS A0A091RDJ6/795-850    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Gruiformes; Mesitornithidae; Mesitornis; Mesitornis unicolor; 
+#=GS A0A1B6LVB9/726-767    AC A0A1B6LVB9
+#=GS A0A1B6LVB9/726-767    OS Graphocephala atropunctata
+#=GS A0A1B6LVB9/726-767    DE Uncharacterized protein
+#=GS A0A1B6LVB9/726-767    DR GENE3D; 742f1e649485d34c2aa1b314e82cc2cf/726-767; 
+#=GS A0A1B6LVB9/726-767    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Paraneoptera; Hemiptera; Auchenorrhyncha; Cicadomorpha; Membracoidea; Cicadellidae; Cicadellinae; Cicadellini; Graphocephala; Graphocephala atropunctata; 
+#=GS A0A091LB51/715-770    AC A0A091LB51
+#=GS A0A091LB51/715-770    OS Cathartes aura
+#=GS A0A091LB51/715-770    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091LB51/715-770    DR GENE3D; 749aeb49b93410830f4182ebaaafeb0c/715-770; 
+#=GS A0A091LB51/715-770    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Ciconiiformes; Cathartidae; Cathartes; Cathartes aura; 
+#=GS A0A182HM65/763-805    AC A0A182HM65
+#=GS A0A182HM65/763-805    OS Anopheles arabiensis
+#=GS A0A182HM65/763-805    DE Uncharacterized protein
+#=GS A0A182HM65/763-805    DR GENE3D; 74be72d8ca49d0658352827278a67d0b/763-805; 
+#=GS A0A182HM65/763-805    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Cellia; Anopheles arabiensis; 
+#=GS A0A091JVL8/798-853    AC A0A091JVL8
+#=GS A0A091JVL8/798-853    OS Egretta garzetta
+#=GS A0A091JVL8/798-853    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091JVL8/798-853    DR GENE3D; 75dbdd593316df10436d993c87350dc0/798-853; 
+#=GS A0A091JVL8/798-853    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Pelecaniformes; Ardeidae; Egretta; Egretta garzetta; 
+#=GS H2U2R2/855-909        AC H2U2R2
+#=GS H2U2R2/855-909        OS Takifugu rubripes
+#=GS H2U2R2/855-909        DE Uncharacterized protein
+#=GS H2U2R2/855-909        DR GENE3D; 766acc72d334433b192cfb367d04bf4f/855-909; 
+#=GS H2U2R2/855-909        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GS E1BJS3/845-900        AC E1BJS3
+#=GS E1BJS3/845-900        OS Bos taurus
+#=GS E1BJS3/845-900        DE Uncharacterized protein
+#=GS E1BJS3/845-900        DR GENE3D; 777d66345cc825c0c5e120ec1e9dd948/845-900; 
+#=GS E1BJS3/845-900        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Ruminantia; Pecora; Bovidae; Bovinae; Bos; Bos taurus; 
+#=GS L5KNA4/854-909        AC L5KNA4
+#=GS L5KNA4/854-909        OS Pteropus alecto
+#=GS L5KNA4/854-909        DE E3 ubiquitin-protein ligase CBL
+#=GS L5KNA4/854-909        DR GENE3D; 7a2e9b82b57313ecdc247a676d3f95d5/854-909; 
+#=GS L5KNA4/854-909        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Chiroptera; Megachiroptera; Pteropodidae; Pteropodinae; Pteropus; Pteropus alecto; 
+#=GS H2UNS5/882-937        AC H2UNS5
+#=GS H2UNS5/882-937        OS Takifugu rubripes
+#=GS H2UNS5/882-937        DE Uncharacterized protein
+#=GS H2UNS5/882-937        DR GENE3D; 7a57cbe0e2fc31d837c89f040ef6d3ba/882-937; 
+#=GS H2UNS5/882-937        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GS F6SMS3/808-863        AC F6SMS3
+#=GS F6SMS3/808-863        OS Macaca mulatta
+#=GS F6SMS3/808-863        DE Uncharacterized protein
+#=GS F6SMS3/808-863        DR GENE3D; 7af24458358af0e74f84f5327c209536/808-863; 
+#=GS F6SMS3/808-863        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Cercopithecoidea; Cercopithecidae; Cercopithecinae; Macaca; Macaca mulatta; 
+#=GS A0A1A6FX84/663-715    AC A0A1A6FX84
+#=GS A0A1A6FX84/663-715    OS Neotoma lepida
+#=GS A0A1A6FX84/663-715    DE Uncharacterized protein
+#=GS A0A1A6FX84/663-715    DR GENE3D; 7bb81f236c9ec97c4593dd53fa0cbf90/663-715; 
+#=GS A0A1A6FX84/663-715    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Cricetidae; Neotominae; Neotoma; Neotoma lepida; 
+#=GS H2U2R3/841-895        AC H2U2R3
+#=GS H2U2R3/841-895        OS Takifugu rubripes
+#=GS H2U2R3/841-895        DE Uncharacterized protein
+#=GS H2U2R3/841-895        DR GENE3D; 7d32bb026c649c2604455f345971ffa9/841-895; 
+#=GS H2U2R3/841-895        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GS A0A182Y0T4/876-918    AC A0A182Y0T4
+#=GS A0A182Y0T4/876-918    OS Anopheles stephensi
+#=GS A0A182Y0T4/876-918    DE Uncharacterized protein
+#=GS A0A182Y0T4/876-918    DR GENE3D; 7f50279bb10bcb4cec238c4cf0d5a796/876-918; 
+#=GS A0A182Y0T4/876-918    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Cellia; Anopheles stephensi; 
+#=GS L5M8M1/612-667        AC L5M8M1
+#=GS L5M8M1/612-667        OS Myotis davidii
+#=GS L5M8M1/612-667        DE E3 ubiquitin-protein ligase CBL
+#=GS L5M8M1/612-667        DR GENE3D; 81c7c78662f2dfec5b7f18c8f4be35ea/612-667; 
+#=GS L5M8M1/612-667        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Chiroptera; Microchiroptera; Vespertilionidae; Myotis; Myotis davidii; 
+#=GS W5MCY6/934-983        AC W5MCY6
+#=GS W5MCY6/934-983        OS Lepisosteus oculatus
+#=GS W5MCY6/934-983        DE Uncharacterized protein
+#=GS W5MCY6/934-983        DR GENE3D; 8425aa0fdeb75e2d7c26499b741757f0/934-983; 
+#=GS W5MCY6/934-983        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Holostei; Semionotiformes; Lepisosteidae; Lepisosteus; Lepisosteus oculatus; 
+#=GS V9K8L8/918-968        AC V9K8L8
+#=GS V9K8L8/918-968        OS Callorhinchus milii
+#=GS V9K8L8/918-968        DE Cas-Br-M (Murine) ecotropic retroviral transforming sequence b
+#=GS V9K8L8/918-968        DR GENE3D; 8440e0f83d9e5de4b2c04fe5b8d0efbe/918-968; 
+#=GS V9K8L8/918-968        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Chondrichthyes; Holocephali; Chimaeriformes; Callorhinchidae; Callorhinchus; Callorhinchus milii; 
+#=GS F1P861/853-908        AC F1P861
+#=GS F1P861/853-908        OS Canis lupus familiaris
+#=GS F1P861/853-908        DE Uncharacterized protein
+#=GS F1P861/853-908        DR GENE3D; 8622f767e7bc257366066ba27db0212e/853-908; 
+#=GS F1P861/853-908        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Carnivora; Caniformia; Canidae; Canis; Canis lupus; Canis lupus familiaris; 
+#=GS M3W2R2/847-902        AC M3W2R2
+#=GS M3W2R2/847-902        OS Felis catus
+#=GS M3W2R2/847-902        DE Uncharacterized protein
+#=GS M3W2R2/847-902        DR GENE3D; 868f6b2b02f6d8bf587f5cc189c666ae/847-902; 
+#=GS M3W2R2/847-902        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Carnivora; Feliformia; Felidae; Felinae; Felis; Felis catus; 
+#=GS A0A096MW73/852-907    AC A0A096MW73
+#=GS A0A096MW73/852-907    OS Papio anubis
+#=GS A0A096MW73/852-907    DE Uncharacterized protein
+#=GS A0A096MW73/852-907    DR GENE3D; 86e480fb12dfc68619444c7efebdd110/852-907; 
+#=GS A0A096MW73/852-907    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Cercopithecoidea; Cercopithecidae; Cercopithecinae; Papio; Papio anubis; 
+#=GS A0A091KLL9/797-852    AC A0A091KLL9
+#=GS A0A091KLL9/797-852    OS Chlamydotis macqueenii
+#=GS A0A091KLL9/797-852    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091KLL9/797-852    DR GENE3D; 8712a243682bc62ef6450f3d416f5f0c/797-852; 
+#=GS A0A091KLL9/797-852    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Gruiformes; Otididae; Chlamydotis; Chlamydotis macqueenii; 
+#=GS G3SZI9/851-906        AC G3SZI9
+#=GS G3SZI9/851-906        OS Loxodonta africana
+#=GS G3SZI9/851-906        DE Uncharacterized protein
+#=GS G3SZI9/851-906        DR GENE3D; 8896d8eaa1b3df209719fb5ab9a9f330/851-906; 
+#=GS G3SZI9/851-906        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Afrotheria; Proboscidea; Elephantidae; Loxodonta; Loxodonta africana; 
+#=GS K7J5W6/616-666        AC K7J5W6
+#=GS K7J5W6/616-666        OS Nasonia vitripennis
+#=GS K7J5W6/616-666        DE Uncharacterized protein
+#=GS K7J5W6/616-666        DR GENE3D; 8b168244d445069bd33eac9b20764c7a/616-666; 
+#=GS K7J5W6/616-666        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Hymenoptera; Apocrita; Terebrantes; Chalcidoidea; Pteromalidae; Pteromalinae; Nasonia; Nasonia vitripennis; 
+#=GS F1Q5B6/883-933        AC F1Q5B6
+#=GS F1Q5B6/883-933        OS Danio rerio
+#=GS F1Q5B6/883-933        DE Cbl proto-oncogene B, E3 ubiquitin protein ligase
+#=GS F1Q5B6/883-933        DR GENE3D; 8bd576b8e3c7af604a3533a72bd7fcac/883-933; 
+#=GS F1Q5B6/883-933        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Cypriniphysae; Cypriniformes; Cyprinoidea; Cyprinidae; Danio; Danio rerio; 
+#=GS H2UNS6/870-925        AC H2UNS6
+#=GS H2UNS6/870-925        OS Takifugu rubripes
+#=GS H2UNS6/870-925        DE Uncharacterized protein
+#=GS H2UNS6/870-925        DR GENE3D; 8e2f7fb93a9f031bb0058159c07b4064/870-925; 
+#=GS H2UNS6/870-925        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GS A0A146WFJ5/590-645    AC A0A146WFJ5
+#=GS A0A146WFJ5/590-645    OS Fundulus heteroclitus
+#=GS A0A146WFJ5/590-645    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A146WFJ5/590-645    DR GENE3D; 903a5df1b51219a9f9a3191bd86fe416/590-645; 
+#=GS A0A146WFJ5/590-645    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Fundulidae; Fundulus; Fundulus heteroclitus; 
+#=GS H0WW30/850-905        AC H0WW30
+#=GS H0WW30/850-905        OS Otolemur garnettii
+#=GS H0WW30/850-905        DE Uncharacterized protein
+#=GS H0WW30/850-905        DR GENE3D; 932417e3ba0fa3549f189d8970eb46c8/850-905; 
+#=GS H0WW30/850-905        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Strepsirrhini; Lorisiformes; Galagidae; Otolemur; Otolemur garnettii; 
+#=GS I3JSP0/836-890        AC I3JSP0
+#=GS I3JSP0/836-890        OS Oreochromis niloticus
+#=GS I3JSP0/836-890        DE Uncharacterized protein
+#=GS I3JSP0/836-890        DR GENE3D; 93d9ef2cd535154e9aa42a8158e3c735/836-890; 
+#=GS I3JSP0/836-890        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Cichlomorphae; Cichliformes; Cichlidae; Pseudocrenilabrinae; Oreochromini; Oreochromis; Oreochromis niloticus; 
+#=GS A0A094N8F9/798-853    AC A0A094N8F9
+#=GS A0A094N8F9/798-853    OS Podiceps cristatus
+#=GS A0A094N8F9/798-853    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A094N8F9/798-853    DR GENE3D; 94a0ab97ade538334880bd98a5873815/798-853; 
+#=GS A0A094N8F9/798-853    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Podicipediformes; Podicipedidae; Podiceps; Podiceps cristatus; 
+#=GS H2UNS7/860-915        AC H2UNS7
+#=GS H2UNS7/860-915        OS Takifugu rubripes
+#=GS H2UNS7/860-915        DE Uncharacterized protein
+#=GS H2UNS7/860-915        DR GENE3D; 9554d791bd2be66b73a1308cefd8b07b/860-915; 
+#=GS H2UNS7/860-915        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GS W5U8P9/897-948        AC W5U8P9
+#=GS W5U8P9/897-948        OS Ictalurus punctatus
+#=GS W5U8P9/897-948        DE E3 ubiquitin-protein ligase CBL-B
+#=GS W5U8P9/897-948        DR GENE3D; 95ab860ee0ebfe45ff6593ce5bc48270/897-948; 
+#=GS W5U8P9/897-948        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Characiphysae; Siluriformes; Siluroidei; Ictaluridae; Ictalurus; Ictalurus punctatus; 
+#=GS G1KFF7/919-969        AC G1KFF7
+#=GS G1KFF7/919-969        OS Anolis carolinensis
+#=GS G1KFF7/919-969        DE Uncharacterized protein
+#=GS G1KFF7/919-969        DR GENE3D; 965dc19a659d7f0cdf258354b90ba5b1/919-969; 
+#=GS G1KFF7/919-969        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Lepidosauria; Squamata; Iguania; Iguanidae; Polychrotinae; Anolis; Anolis carolinensis; 
+#=GS A0A091GNK4/847-902    AC A0A091GNK4
+#=GS A0A091GNK4/847-902    OS Cuculus canorus
+#=GS A0A091GNK4/847-902    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091GNK4/847-902    DR GENE3D; 9846b7c4199aa806b2c6f7d21c6139a7/847-902; 
+#=GS A0A091GNK4/847-902    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Cuculiformes; Cuculidae; Cuculus; Cuculus canorus; 
+#=GS M4A2V2/830-883        AC M4A2V2
+#=GS M4A2V2/830-883        OS Xiphophorus maculatus
+#=GS M4A2V2/830-883        DE Uncharacterized protein
+#=GS M4A2V2/830-883        DR GENE3D; 98a328b329805e4e2415611bffc1078a/830-883; 
+#=GS M4A2V2/830-883        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Poeciliidae; Poeciliinae; Xiphophorus; Xiphophorus maculatus; 
+#=GS H2MHT7/847-900        AC H2MHT7
+#=GS H2MHT7/847-900        OS Oryzias latipes
+#=GS H2MHT7/847-900        DE Uncharacterized protein
+#=GS H2MHT7/847-900        DR GENE3D; 9943545d8496292e8d685fcbe77a9b19/847-900; 
+#=GS H2MHT7/847-900        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Beloniformes; Adrianichthyoidei; Adrianichthyidae; Oryziinae; Oryzias; Oryzias latipes; 
+#=GS A0A0P7V5Q7/905-960    AC A0A0P7V5Q7
+#=GS A0A0P7V5Q7/905-960    OS Scleropages formosus
+#=GS A0A0P7V5Q7/905-960    DE Uncharacterized protein
+#=GS A0A0P7V5Q7/905-960    DR GENE3D; 9a4e4f7d691caa557eee71cd67e9831a/905-960; 
+#=GS A0A0P7V5Q7/905-960    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Osteoglossiformes; Osteoglossidae; Scleropages; Scleropages formosus; 
+#=GS A0A087XQ15/892-947    AC A0A087XQ15
+#=GS A0A087XQ15/892-947    OS Poecilia formosa
+#=GS A0A087XQ15/892-947    DE Uncharacterized protein
+#=GS A0A087XQ15/892-947    DR GENE3D; 9e607f31d2cd1008905632ee804c1b41/892-947; 
+#=GS A0A087XQ15/892-947    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Poeciliidae; Poeciliinae; Poecilia; Poecilia formosa; 
+#=GS G3P2Y7/866-921        AC G3P2Y7
+#=GS G3P2Y7/866-921        OS Gasterosteus aculeatus
+#=GS G3P2Y7/866-921        DE Uncharacterized protein
+#=GS G3P2Y7/866-921        DR GENE3D; 9ef383e42bec4c20d3117aabd395733b/866-921; 
+#=GS G3P2Y7/866-921        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Perciformes; Cottioidei; Gasterosteales; Gasterosteidae; Gasterosteus; Gasterosteus aculeatus; 
+#=GS H0UVD2/797-852        AC H0UVD2
+#=GS H0UVD2/797-852        OS Cavia porcellus
+#=GS H0UVD2/797-852        DE Uncharacterized protein
+#=GS H0UVD2/797-852        DR GENE3D; a044656e8d8dd1684b614f2ca14b07f4/797-852; 
+#=GS H0UVD2/797-852        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Hystricomorpha; Caviidae; Cavia; Cavia porcellus; 
+#=GS A0A0K8W0X6/416-458    AC A0A0K8W0X6
+#=GS A0A0K8W0X6/416-458    OS Bactrocera latifrons
+#=GS A0A0K8W0X6/416-458    DE Uncharacterized protein
+#=GS A0A0K8W0X6/416-458    DR GENE3D; a5103fd33aced3abbeee8c26777bb9fa/416-458; 
+#=GS A0A0K8W0X6/416-458    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Tephritoidea; Tephritidae; Dacinae; Dacini; Bactrocera; Bactrocera; Bactrocera latifrons; 
+#=GS A0A182NMA9/351-403    AC A0A182NMA9
+#=GS A0A182NMA9/351-403    OS Anopheles dirus
+#=GS A0A182NMA9/351-403    DE Uncharacterized protein
+#=GS A0A182NMA9/351-403    DR GENE3D; a55f39ea54413e3a66f72da7b0a5a81d/351-403; 
+#=GS A0A182NMA9/351-403    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Cellia; leucosphyrus group; leucosphyrus subgroup; Anopheles dirus; 
+#=GS G3QMJ7/845-900        AC G3QMJ7
+#=GS G3QMJ7/845-900        OS Gorilla gorilla gorilla
+#=GS G3QMJ7/845-900        DE Uncharacterized protein
+#=GS G3QMJ7/845-900        DR GENE3D; a590a30f79b7260c3a894198442326c2/845-900; 
+#=GS G3QMJ7/845-900        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Gorilla; Gorilla gorilla; Gorilla gorilla gorilla; 
+#=GS A0A093HB71/804-859    AC A0A093HB71
+#=GS A0A093HB71/804-859    OS Struthio camelus australis
+#=GS A0A093HB71/804-859    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A093HB71/804-859    DR GENE3D; a8e985190ac1affbab4d202f92764abb/804-859; 
+#=GS A0A093HB71/804-859    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Palaeognathae; Struthioniformes; Struthionidae; Struthio; Struthio camelus; Struthio camelus australis; 
+#=GS A0A182XCT8/488-529    AC A0A182XCT8
+#=GS A0A182XCT8/488-529    OS Anopheles quadriannulatus
+#=GS A0A182XCT8/488-529    DE Uncharacterized protein
+#=GS A0A182XCT8/488-529    DR GENE3D; ac57627b53c9e2f4f72fc6c824f048d5/488-529; 
+#=GS A0A182XCT8/488-529    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Cellia; Anopheles quadriannulatus; 
+#=GS G1P6X5/787-842        AC G1P6X5
+#=GS G1P6X5/787-842        OS Myotis lucifugus
+#=GS G1P6X5/787-842        DE Uncharacterized protein
+#=GS G1P6X5/787-842        DR GENE3D; aea126620eeea629b74fb7fd1cd8e6df/787-842; 
+#=GS G1P6X5/787-842        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Chiroptera; Microchiroptera; Vespertilionidae; Myotis; Myotis lucifugus; 
+#=GS A0A182K093/380-422    AC A0A182K093
+#=GS A0A182K093/380-422    OS Anopheles christyi
+#=GS A0A182K093/380-422    DE Uncharacterized protein
+#=GS A0A182K093/380-422    DR GENE3D; aeea50ad97b755cff7bc042edab0df61/380-422; 
+#=GS A0A182K093/380-422    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Cellia; Anopheles christyi; 
+#=GS A0A087RIR8/799-854    AC A0A087RIR8
+#=GS A0A087RIR8/799-854    OS Aptenodytes forsteri
+#=GS A0A087RIR8/799-854    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A087RIR8/799-854    DR GENE3D; b24a2b6548cb222298d4b6fdd54a967b/799-854; 
+#=GS A0A087RIR8/799-854    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Sphenisciformes; Spheniscidae; Aptenodytes; Aptenodytes forsteri; 
+#=GS A0A147A3A2/897-952    AC A0A147A3A2
+#=GS A0A147A3A2/897-952    OS Fundulus heteroclitus
+#=GS A0A147A3A2/897-952    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A147A3A2/897-952    DR GENE3D; b684069187eb38210118723dec5aa95a/897-952; 
+#=GS A0A147A3A2/897-952    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Fundulidae; Fundulus; Fundulus heteroclitus; 
+#=GS U3JUA7/722-777        AC U3JUA7
+#=GS U3JUA7/722-777        OS Ficedula albicollis
+#=GS U3JUA7/722-777        DE Uncharacterized protein
+#=GS U3JUA7/722-777        DR GENE3D; b77632b4ca1be4c44cfdad79bcccf123/722-777; 
+#=GS U3JUA7/722-777        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Passeriformes; Muscicapidae; Ficedula; Ficedula albicollis; 
+#=GS B3NFS0/829-870        AC B3NFS0
+#=GS B3NFS0/829-870        OS Drosophila erecta
+#=GS B3NFS0/829-870        DE Uncharacterized protein
+#=GS B3NFS0/829-870        DR GENE3D; b95cf8bb766f4acbd660c104a9c13652/829-870; 
+#=GS B3NFS0/829-870        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Sophophora; melanogaster group; melanogaster subgroup; Drosophila erecta; 
+#=GS B4H639/816-857        AC B4H639
+#=GS B4H639/816-857        OS Drosophila persimilis
+#=GS B4H639/816-857        DE GL24706
+#=GS B4H639/816-857        DR GENE3D; ba6d96e8c0c133db2a670a0257d133e8/816-857; 
+#=GS B4H639/816-857        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Sophophora; obscura group; pseudoobscura subgroup; Drosophila persimilis; 
+#=GS G1MU46/844-899        AC G1MU46
+#=GS G1MU46/844-899        OS Meleagris gallopavo
+#=GS G1MU46/844-899        DE Uncharacterized protein
+#=GS G1MU46/844-899        DR GENE3D; bc03954bfecf7bbf2102e9fed58d417c/844-899; 
+#=GS G1MU46/844-899        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Galliformes; Phasianidae; Meleagridinae; Meleagris; Meleagris gallopavo; 
+#=GS A0A1A8VBG9/804-858    AC A0A1A8VBG9
+#=GS A0A1A8VBG9/804-858    OS Nothobranchius furzeri
+#=GS A0A1A8VBG9/804-858    DE Cbl proto-oncogene, E3 ubiquitin protein ligase
+#=GS A0A1A8VBG9/804-858    DR GENE3D; bda07e4010a4358cf3dfb0ffa466248b/804-858; 
+#=GS A0A1A8VBG9/804-858    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Aplocheiloidei; Nothobranchiidae; Nothobranchius; Nothobranchius furzeri; 
+#=GS F1NXW5/848-903        AC F1NXW5
+#=GS F1NXW5/848-903        OS Gallus gallus
+#=GS F1NXW5/848-903        DE Uncharacterized protein
+#=GS F1NXW5/848-903        DR GENE3D; be50284afedb54acbabfa8f1babcb4ab/848-903; 
+#=GS F1NXW5/848-903        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Galliformes; Phasianidae; Phasianinae; Gallus; Gallus gallus; 
+#=GS B4N6E0/886-927        AC B4N6E0
+#=GS B4N6E0/886-927        OS Drosophila willistoni
+#=GS B4N6E0/886-927        DE Uncharacterized protein
+#=GS B4N6E0/886-927        DR GENE3D; bf87fc70088b29d9f78bee2bd8a96427/886-927; 
+#=GS B4N6E0/886-927        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Sophophora; willistoni group; willistoni subgroup; Drosophila willistoni; 
+#=GS A0A093CFS6/796-851    AC A0A093CFS6
+#=GS A0A093CFS6/796-851    OS Tauraco erythrolophus
+#=GS A0A093CFS6/796-851    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A093CFS6/796-851    DR GENE3D; c12b6ddf9ce46e31caf9ae5d023b1517/796-851; 
+#=GS A0A093CFS6/796-851    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Musophagiformes; Musophagidae; Tauraco; Tauraco erythrolophus; 
+#=GS A0A151NFY2/134-189    AC A0A151NFY2
+#=GS A0A151NFY2/134-189    OS Alligator mississippiensis
+#=GS A0A151NFY2/134-189    DE Uncharacterized protein
+#=GS A0A151NFY2/134-189    DR GENE3D; c200f74cb1ab681e20d5021641e3412e/134-189; 
+#=GS A0A151NFY2/134-189    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Crocodylia; Alligatoridae; Alligatorinae; Alligator; Alligator mississippiensis; 
+#=GS A0A0A0ACH0/799-854    AC A0A0A0ACH0
+#=GS A0A0A0ACH0/799-854    OS Charadrius vociferus
+#=GS A0A0A0ACH0/799-854    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A0A0ACH0/799-854    DR GENE3D; c26568837e7342e9d297cdee4d957b12/799-854; 
+#=GS A0A0A0ACH0/799-854    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Charadriiformes; Charadriidae; Charadrius; Charadrius vociferus; 
+#=GS F7GCI0/171-226        AC F7GCI0
+#=GS F7GCI0/171-226        OS Ornithorhynchus anatinus
+#=GS F7GCI0/171-226        DE Uncharacterized protein
+#=GS F7GCI0/171-226        DR GENE3D; c3f1addf5740816e9f78f1c948a8687b/171-226; 
+#=GS F7GCI0/171-226        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Monotremata; Ornithorhynchidae; Ornithorhynchus; Ornithorhynchus anatinus; 
+#=GS A0A0P7US99/758-808    AC A0A0P7US99
+#=GS A0A0P7US99/758-808    OS Scleropages formosus
+#=GS A0A0P7US99/758-808    DE E3 ubiquitin-protein ligase CBL-B-like
+#=GS A0A0P7US99/758-808    DR GENE3D; c5aaacc9334e5d4bbe64b4ecc7252a26/758-808; 
+#=GS A0A0P7US99/758-808    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Osteoglossiformes; Osteoglossidae; Scleropages; Scleropages formosus; 
+#=GS B4KYE3/867-908        AC B4KYE3
+#=GS B4KYE3/867-908        OS Drosophila mojavensis
+#=GS B4KYE3/867-908        DE Uncharacterized protein
+#=GS B4KYE3/867-908        DR GENE3D; c7bbb298faa475ba381d4070b64f2102/867-908; 
+#=GS B4KYE3/867-908        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Drosophila; repleta group; mulleri subgroup; Drosophila mojavensis; 
+#=GS A0A0D9S3U9/852-907    AC A0A0D9S3U9
+#=GS A0A0D9S3U9/852-907    OS Chlorocebus sabaeus
+#=GS A0A0D9S3U9/852-907    DE Uncharacterized protein
+#=GS A0A0D9S3U9/852-907    DR GENE3D; c861f702be91c995e58451dbb73fc167/852-907; 
+#=GS A0A0D9S3U9/852-907    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Cercopithecoidea; Cercopithecidae; Cercopithecinae; Chlorocebus; Chlorocebus sabaeus; 
+#=GS F1R6A7/878-928        AC F1R6A7
+#=GS F1R6A7/878-928        OS Danio rerio
+#=GS F1R6A7/878-928        DE Cbl proto-oncogene B, E3 ubiquitin protein ligase
+#=GS F1R6A7/878-928        DR GENE3D; c939bae9651589d359594515507c8251/878-928; 
+#=GS F1R6A7/878-928        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Cypriniphysae; Cypriniformes; Cyprinoidea; Cyprinidae; Danio; Danio rerio; 
+#=GS H3AN31/768-818        AC H3AN31
+#=GS H3AN31/768-818        OS Latimeria chalumnae
+#=GS H3AN31/768-818        DE Uncharacterized protein
+#=GS H3AN31/768-818        DR GENE3D; c9f7e0054e6630c63b1303b9677024e7/768-818; 
+#=GS H3AN31/768-818        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Coelacanthiformes; Coelacanthidae; Latimeria; Latimeria chalumnae; 
+#=GS Q801W6/625-675        AC Q801W6
+#=GS Q801W6/625-675        OS Danio rerio
+#=GS Q801W6/625-675        DE Novel gene similar to Cas-Br-M (Murine) ecotropic retroviral transforming sequence (CBL)
+#=GS Q801W6/625-675        DR GENE3D; cac01970dd830b11870f3df8bfdb3d7b/625-675; 
+#=GS Q801W6/625-675        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Cypriniphysae; Cypriniformes; Cyprinoidea; Cyprinidae; Danio; Danio rerio; 
+#=GS B3M5I4/812-853        AC B3M5I4
+#=GS B3M5I4/812-853        OS Drosophila ananassae
+#=GS B3M5I4/812-853        DE Uncharacterized protein
+#=GS B3M5I4/812-853        DR GENE3D; cb4c7c35505cb0d776d46b139bf2e9d1/812-853; 
+#=GS B3M5I4/812-853        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Sophophora; melanogaster group; ananassae subgroup; Drosophila ananassae; 
+#=GS F1QI90/859-913        AC F1QI90
+#=GS F1QI90/859-913        OS Danio rerio
+#=GS F1QI90/859-913        DE Cbl proto-oncogene, E3 ubiquitin protein ligase
+#=GS F1QI90/859-913        DR GENE3D; cfb3dbf096808055554a648427465b2a/859-913; 
+#=GS F1QI90/859-913        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Cypriniphysae; Cypriniformes; Cyprinoidea; Cyprinidae; Danio; Danio rerio; 
+#=GS A0A084VDL6/1237-1279  AC A0A084VDL6
+#=GS A0A084VDL6/1237-1279  OS Anopheles sinensis
+#=GS A0A084VDL6/1237-1279  DE AGAP005449-PA-like protein
+#=GS A0A084VDL6/1237-1279  DR GENE3D; d06904a9e8da4add535a1d1b4b3f50ac/1237-1279; 
+#=GS A0A084VDL6/1237-1279  DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Anopheles; hyrcanus group; Anopheles sinensis; 
+#=GS D2GYA7/792-847        AC D2GYA7
+#=GS D2GYA7/792-847        OS Ailuropoda melanoleuca
+#=GS D2GYA7/792-847        DE Putative uncharacterized protein
+#=GS D2GYA7/792-847        DR GENE3D; d21b16b40f774b34b0117eb9493ba18a/792-847; 
+#=GS D2GYA7/792-847        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Carnivora; Caniformia; Ursidae; Ailuropoda; Ailuropoda melanoleuca; 
+#=GS A0A182VGU8/667-711    AC A0A182VGU8
+#=GS A0A182VGU8/667-711    OS Anopheles merus
+#=GS A0A182VGU8/667-711    DE Uncharacterized protein
+#=GS A0A182VGU8/667-711    DR GENE3D; d5fa655f6be4f2467ea5ba593765381f/667-711; 
+#=GS A0A182VGU8/667-711    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Cellia; Anopheles merus; 
+#=GS H2UNS8/864-919        AC H2UNS8
+#=GS H2UNS8/864-919        OS Takifugu rubripes
+#=GS H2UNS8/864-919        DE Uncharacterized protein
+#=GS H2UNS8/864-919        DR GENE3D; d7829d4e1716091fa6fff2fc4c0cc0d4/864-919; 
+#=GS H2UNS8/864-919        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GS H3CY46/781-835        AC H3CY46
+#=GS H3CY46/781-835        OS Tetraodon nigroviridis
+#=GS H3CY46/781-835        DE Uncharacterized protein
+#=GS H3CY46/781-835        DR GENE3D; d8f3cab83fefbeb25a083a390e3e995a/781-835; 
+#=GS H3CY46/781-835        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Tetraodon; Tetraodon nigroviridis; 
+#=GS M4A2Y3/865-918        AC M4A2Y3
+#=GS M4A2Y3/865-918        OS Xiphophorus maculatus
+#=GS M4A2Y3/865-918        DE Uncharacterized protein
+#=GS M4A2Y3/865-918        DR GENE3D; dc26462d91c0eb385a66d22ca749d8d7/865-918; 
+#=GS M4A2Y3/865-918        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Cyprinodontoidei; Poeciliidae; Poeciliinae; Xiphophorus; Xiphophorus maculatus; 
+#=GS A0A1A7XRW0/813-857    AC A0A1A7XRW0
+#=GS A0A1A7XRW0/813-857    OS Aphyosemion striatum
+#=GS A0A1A7XRW0/813-857    DE Cbl proto-oncogene, E3 ubiquitin protein ligase
+#=GS A0A1A7XRW0/813-857    DR GENE3D; dd69bd909e483cd64dd141af7417b44e/813-857; 
+#=GS A0A1A7XRW0/813-857    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Cyprinodontiformes; Aplocheiloidei; Nothobranchiidae; Aphyosemion; Aphyosemion striatum; 
+#=GS A0A0T6B9H2/248-287    AC A0A0T6B9H2
+#=GS A0A0T6B9H2/248-287    OS Oryctes borbonicus
+#=GS A0A0T6B9H2/248-287    DE Uncharacterized protein
+#=GS A0A0T6B9H2/248-287    DR GENE3D; dd86c9f93f80c26dd4e75570fcff540b/248-287; 
+#=GS A0A0T6B9H2/248-287    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Coleoptera; Polyphaga; Scarabaeiformia; Scarabaeoidea; Scarabaeidae; Dynastinae; Oryctes; Oryctes borbonicus; 
+#=GS H9JUV1/135-175        AC H9JUV1
+#=GS H9JUV1/135-175        OS Bombyx mori
+#=GS H9JUV1/135-175        DE Uncharacterized protein
+#=GS H9JUV1/135-175        DR GENE3D; ddb23dabc4c9c0db12ef0c693c9f5883/135-175; 
+#=GS H9JUV1/135-175        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Lepidoptera; Glossata; Neolepidoptera; Heteroneura; Bombycoidea; Bombycidae; Bombycinae; Bombyx; Bombyx mori; 
+#=GS W8BRP4/866-908        AC W8BRP4
+#=GS W8BRP4/866-908        OS Ceratitis capitata
+#=GS W8BRP4/866-908        DE E3 ubiquitin-protein ligase CBL
+#=GS W8BRP4/866-908        DR GENE3D; dec3344044f087804befe26979b50b9d/866-908; 
+#=GS W8BRP4/866-908        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Tephritoidea; Tephritidae; Dacinae; Ceratitidini; Ceratitis; Ceratitis; Ceratitis capitata; 
+#=GS W5M6I7/855-909        AC W5M6I7
+#=GS W5M6I7/855-909        OS Lepisosteus oculatus
+#=GS W5M6I7/855-909        DE Uncharacterized protein
+#=GS W5M6I7/855-909        DR GENE3D; ded7eb808830c9c358d13b20c0713f49/855-909; 
+#=GS W5M6I7/855-909        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Holostei; Semionotiformes; Lepisosteidae; Lepisosteus; Lepisosteus oculatus; 
+#=GS B3DLI0/834-888        AC B3DLI0
+#=GS B3DLI0/834-888        OS Xenopus tropicalis
+#=GS B3DLI0/834-888        DE Cbl protein
+#=GS B3DLI0/834-888        DR GENE3D; dfa8eb58f48295a80bb443b4040a1be4/834-888; 
+#=GS B3DLI0/834-888        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Amphibia; Batrachia; Anura; Pipoidea; Pipidae; Xenopodinae; Xenopus; Silurana; Xenopus tropicalis; 
+#=GS G5BHP2/797-852        AC G5BHP2
+#=GS G5BHP2/797-852        OS Heterocephalus glaber
+#=GS G5BHP2/797-852        DE E3 ubiquitin-protein ligase CBL
+#=GS G5BHP2/797-852        DR GENE3D; dfe5c37dcae90f1c5a7f032c6c48f767/797-852; 
+#=GS G5BHP2/797-852        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Hystricomorpha; Bathyergidae; Heterocephalus; Heterocephalus glaber; 
+#=GS H2LTW9/876-931        AC H2LTW9
+#=GS H2LTW9/876-931        OS Oryzias latipes
+#=GS H2LTW9/876-931        DE Uncharacterized protein
+#=GS H2LTW9/876-931        DR GENE3D; e20d56bac5f94f1582fd04cc1ce4f504/876-931; 
+#=GS H2LTW9/876-931        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Atherinomorphae; Beloniformes; Adrianichthyoidei; Adrianichthyidae; Oryziinae; Oryzias; Oryzias latipes; 
+#=GS S7MEZ0/325-380        AC S7MEZ0
+#=GS S7MEZ0/325-380        OS Myotis brandtii
+#=GS S7MEZ0/325-380        DE E3 ubiquitin-protein ligase CBL
+#=GS S7MEZ0/325-380        DR GENE3D; e342e5c1acd04809679f6b8154782f13/325-380; 
+#=GS S7MEZ0/325-380        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Chiroptera; Microchiroptera; Vespertilionidae; Myotis; Myotis brandtii; 
+#=GS F6PNG9/790-845        AC F6PNG9
+#=GS F6PNG9/790-845        OS Equus caballus
+#=GS F6PNG9/790-845        DE Uncharacterized protein
+#=GS F6PNG9/790-845        DR GENE3D; e5424f64bb3dbe22e6f3e4bba87f36e3/790-845; 
+#=GS F6PNG9/790-845        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Perissodactyla; Equidae; Equus; Equus; Equus caballus; 
+#=GS A0A0F8AXS4/813-867    AC A0A0F8AXS4
+#=GS A0A0F8AXS4/813-867    OS Larimichthys crocea
+#=GS A0A0F8AXS4/813-867    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A0F8AXS4/813-867    DR GENE3D; e60be2fe60b48367650a9cdf878c46f6/813-867; 
+#=GS A0A0F8AXS4/813-867    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Sciaenidae; Larimichthys; Larimichthys crocea; 
+#=GS H2Y2P8/120-161        AC H2Y2P8
+#=GS H2Y2P8/120-161        OS Ciona intestinalis
+#=GS H2Y2P8/120-161        DE Uncharacterized protein
+#=GS H2Y2P8/120-161        DR GENE3D; ebed856a8c747df52649dbb937c2e502/120-161; 
+#=GS H2Y2P8/120-161        DR ORG; Eukaryota; Metazoa; Chordata; Tunicata; Ascidiacea; Enterogona; Phlebobranchia; Cionidae; Ciona; Ciona intestinalis; 
+#=GS A0A182LJR6/321-366    AC A0A182LJR6
+#=GS A0A182LJR6/321-366    OS Anopheles coluzzii
+#=GS A0A182LJR6/321-366    DE Uncharacterized protein
+#=GS A0A182LJR6/321-366    DR GENE3D; f15cf9e31488757272a306b0b995c242/321-366; 
+#=GS A0A182LJR6/321-366    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Cellia; Anopheles coluzzii; 
+#=GS A0A060WN12/853-906    AC A0A060WN12
+#=GS A0A060WN12/853-906    OS Oncorhynchus mykiss
+#=GS A0A060WN12/853-906    DE Uncharacterized protein
+#=GS A0A060WN12/853-906    DR GENE3D; f19cd973cb134522fe6830e843cd44e5/853-906; 
+#=GS A0A060WN12/853-906    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Salmoniformes; Salmonidae; Salmoninae; Oncorhynchus; Oncorhynchus mykiss; 
+#=GS B0WYB8/632-674        AC B0WYB8
+#=GS B0WYB8/632-674        OS Culex quinquefasciatus
+#=GS B0WYB8/632-674        DE Putative uncharacterized protein
+#=GS B0WYB8/632-674        DR GENE3D; f2b43e05eeaf9742c85b4a540fbd9d8b/632-674; 
+#=GS B0WYB8/632-674        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Culicinae; Culicini; Culex; Culex; Culex quinquefasciatus; 
+#=GS A0A091S535/456-511    AC A0A091S535
+#=GS A0A091S535/456-511    OS Nestor notabilis
+#=GS A0A091S535/456-511    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091S535/456-511    DR GENE3D; f46aa4c2f92ebb1597b739aafc3ec3ba/456-511; 
+#=GS A0A091S535/456-511    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Psittaciformes; Psittacidae; Nestor; Nestor notabilis; 
+#=GS R0L6V1/800-855        AC R0L6V1
+#=GS R0L6V1/800-855        OS Anas platyrhynchos
+#=GS R0L6V1/800-855        DE E3 ubiquitin-protein ligase CBL
+#=GS R0L6V1/800-855        DR GENE3D; f4d11b57284fa5a4d558c9a1b4f92185/800-855; 
+#=GS R0L6V1/800-855        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Anseriformes; Anatidae; Anas; Anas platyrhynchos; 
+#=GS M7BA18/781-836        AC M7BA18
+#=GS M7BA18/781-836        OS Chelonia mydas
+#=GS M7BA18/781-836        DE E3 ubiquitin-protein ligase CBL
+#=GS M7BA18/781-836        DR GENE3D; f5da6dfe100aa094d4802b6f8ca7b6af/781-836; 
+#=GS M7BA18/781-836        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Testudines; Cryptodira; Chelonioidea; Cheloniidae; Chelonia; Chelonia mydas; 
+#=GS A0A1I8Q872/884-925    AC A0A1I8Q872
+#=GS A0A1I8Q872/884-925    OS Stomoxys calcitrans
+#=GS A0A1I8Q872/884-925    DE Uncharacterized protein
+#=GS A0A1I8Q872/884-925    DR GENE3D; f614161f1537ab2778e801fca865c498/884-925; 
+#=GS A0A1I8Q872/884-925    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Muscoidea; Muscidae; Muscinae; Stomoxyini; Stomoxys; Stomoxys calcitrans; 
+#=GS L9KKE7/834-889        AC L9KKE7
+#=GS L9KKE7/834-889        OS Tupaia chinensis
+#=GS L9KKE7/834-889        DE E3 ubiquitin-protein ligase CBL
+#=GS L9KKE7/834-889        DR GENE3D; f6f8be357611d8cd35c03638b9affaa2/834-889; 
+#=GS L9KKE7/834-889        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Scandentia; Tupaiidae; Tupaia; Tupaia chinensis; 
+#=GS A0A1L8E318/767-809    AC A0A1L8E318
+#=GS A0A1L8E318/767-809    OS Nyssomyia neivai
+#=GS A0A1L8E318/767-809    DE Putative tyrosine kinase negative regulator cbl
+#=GS A0A1L8E318/767-809    DR GENE3D; f7190a9cedb4769f7e8041c7dc0b5dee/767-809; 
+#=GS A0A1L8E318/767-809    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Psychodomorpha; Psychodoidea; Psychodidae; Phlebotominae; Nyssomyia; Nyssomyia neivai; 
+#=GS A0A1I8NAS8/367-408    AC A0A1I8NAS8
+#=GS A0A1I8NAS8/367-408    OS Musca domestica
+#=GS A0A1I8NAS8/367-408    DE Uncharacterized protein
+#=GS A0A1I8NAS8/367-408    DR GENE3D; f7540a6948591f553b535ff3b62c675c/367-408; 
+#=GS A0A1I8NAS8/367-408    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Muscoidea; Muscidae; Muscinae; Muscini; Musca; Musca; Musca domestica; 
+#=GS H2U2R4/843-897        AC H2U2R4
+#=GS H2U2R4/843-897        OS Takifugu rubripes
+#=GS H2U2R4/843-897        DE Uncharacterized protein
+#=GS H2U2R4/843-897        DR GENE3D; f783be86cbd43dfa26ddff28a151c826/843-897; 
+#=GS H2U2R4/843-897        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GS S9XIM8/609-664        AC S9XIM8
+#=GS S9XIM8/609-664        OS Camelus ferus
+#=GS S9XIM8/609-664        DE E3 ubiquitin-protein ligase CBL-like isoform 1
+#=GS S9XIM8/609-664        DR GENE3D; f7b2269649d41e8f842f017a640f3a80/609-664; 
+#=GS S9XIM8/609-664        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Tylopoda; Camelidae; Camelus; Camelus ferus; 
+#=GS A0A0B8RW12/859-914    AC A0A0B8RW12
+#=GS A0A0B8RW12/859-914    OS Sus scrofa domesticus
+#=GS A0A0B8RW12/859-914    DE Cbl proto-oncogene, E3 ubiquitin protein ligase
+#=GS A0A0B8RW12/859-914    DR GENE3D; f863c7353bb010edc4aa5b067da57595/859-914; 
+#=GS A0A0B8RW12/859-914    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Suina; Suidae; Sus; Sus scrofa; Sus scrofa domesticus; 
+#=GS F1SAH0/859-914        AC F1SAH0
+#=GS F1SAH0/859-914        OS Sus scrofa
+#=GS F1SAH0/859-914        DE Uncharacterized protein
+#=GS F1SAH0/859-914        DR GENE3D; f863c7353bb010edc4aa5b067da57595/859-914; 
+#=GS F1SAH0/859-914        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Suina; Suidae; Sus; Sus scrofa; 
+#=GS A0A091DFX0/756-811    AC A0A091DFX0
+#=GS A0A091DFX0/756-811    OS Fukomys damarensis
+#=GS A0A091DFX0/756-811    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091DFX0/756-811    DR GENE3D; f95bda4b31eff86386d6ba0c086ecc6f/756-811; 
+#=GS A0A091DFX0/756-811    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Hystricomorpha; Bathyergidae; Fukomys; Fukomys damarensis; 
+#=GS H3CQS3/837-892        AC H3CQS3
+#=GS H3CQS3/837-892        OS Tetraodon nigroviridis
+#=GS H3CQS3/837-892        DE Uncharacterized protein
+#=GS H3CQS3/837-892        DR GENE3D; f9ef1c6a613440d85efa01b007fba951/837-892; 
+#=GS H3CQS3/837-892        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Tetraodon; Tetraodon nigroviridis; 
+#=GS Q2LYL3/845-886        AC Q2LYL3
+#=GS Q2LYL3/845-886        OS Drosophila pseudoobscura pseudoobscura
+#=GS Q2LYL3/845-886        DE Uncharacterized protein, isoform A
+#=GS Q2LYL3/845-886        DR GENE3D; fae49cf8543e080bd39dd29afe9a7df4/845-886; 
+#=GS Q2LYL3/845-886        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Sophophora; obscura group; pseudoobscura subgroup; Drosophila pseudoobscura; Drosophila pseudoobscura pseudoobscura; 
+#=GS A0A091K6V4/783-838    AC A0A091K6V4
+#=GS A0A091K6V4/783-838    OS Colius striatus
+#=GS A0A091K6V4/783-838    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A091K6V4/783-838    DR GENE3D; fb4f819e4e39e7758dc0e25647264a97/783-838; 
+#=GS A0A091K6V4/783-838    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Aves; Neognathae; Coliiformes; Coliidae; Colius; Colius striatus; 
+#=GS A0A0U1ZFN5/791-846    AC A0A0U1ZFN5
+#=GS A0A0U1ZFN5/791-846    OS Rattus norvegicus
+#=GS A0A0U1ZFN5/791-846    DE E3 ubiquitin-protein ligase CBL
+#=GS A0A0U1ZFN5/791-846    DR GENE3D; fcf00741e4e0b4d6e147ff3c84bfecc4/791-846; 
+#=GS A0A0U1ZFN5/791-846    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Muridae; Murinae; Rattus; Rattus norvegicus; 
+#=GS A0A182QF92/858-900    AC A0A182QF92
+#=GS A0A182QF92/858-900    OS Anopheles farauti
+#=GS A0A182QF92/858-900    DE Uncharacterized protein
+#=GS A0A182QF92/858-900    DR GENE3D; fd0945e01c2c8e8351bf20f2cff2283a/858-900; 
+#=GS A0A182QF92/858-900    DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Nematocera; Culicomorpha; Culicoidea; Culicidae; Anophelinae; Anopheles; Cellia; Anopheles farauti; 
+#=GS F6RJK1/797-852        AC F6RJK1
+#=GS F6RJK1/797-852        OS Equus caballus
+#=GS F6RJK1/797-852        DE Uncharacterized protein
+#=GS F6RJK1/797-852        DR GENE3D; fdba190adf99fa55e50203e767f19cf9/797-852; 
+#=GS F6RJK1/797-852        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Laurasiatheria; Perissodactyla; Equidae; Equus; Equus; Equus caballus; 
+#=GS B4LDS5/849-890        AC B4LDS5
+#=GS B4LDS5/849-890        OS Drosophila virilis
+#=GS B4LDS5/849-890        DE Uncharacterized protein
+#=GS B4LDS5/849-890        DR GENE3D; fe15b79f9df113123214ec60ce2a59c1/849-890; 
+#=GS B4LDS5/849-890        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Drosophila; virilis group; Drosophila virilis; 
+#=GS B4PG25/842-883        AC B4PG25
+#=GS B4PG25/842-883        OS Drosophila yakuba
+#=GS B4PG25/842-883        DE Uncharacterized protein
+#=GS B4PG25/842-883        DR GENE3D; fe55dc055871b62c47df2179f5103852/842-883; 
+#=GS B4PG25/842-883        DR ORG; Eukaryota; Metazoa; Arthropoda; Hexapoda; Insecta; Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha; Ephydroidea; Drosophilidae; Drosophilinae; Drosophilini; Drosophila; Sophophora; melanogaster group; melanogaster subgroup; Drosophila yakuba; 
+#=GS H2RM68/838-889        AC H2RM68
+#=GS H2RM68/838-889        OS Takifugu rubripes
+#=GS H2RM68/838-889        DE Uncharacterized protein
+#=GS H2RM68/838-889        DR GENE3D; 1a64eaec92262a0f73cef28ddd10bd3f/838-889; 
+#=GS H2RM68/838-889        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GS H2RM65/913-964        AC H2RM65
+#=GS H2RM65/913-964        OS Takifugu rubripes
+#=GS H2RM65/913-964        DE Uncharacterized protein
+#=GS H2RM65/913-964        DR GENE3D; 9d1db6f447cd2ffb37e87e25bff893e1/913-964; 
+#=GS H2RM65/913-964        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GS H2RM66/913-964        AC H2RM66
+#=GS H2RM66/913-964        OS Takifugu rubripes
+#=GS H2RM66/913-964        DE Uncharacterized protein
+#=GS H2RM66/913-964        DR GENE3D; 505ef700ded5c30a92a810c9cc9719c3/913-964; 
+#=GS H2RM66/913-964        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GS H3CT48/910-961        AC H3CT48
+#=GS H3CT48/910-961        OS Tetraodon nigroviridis
+#=GS H3CT48/910-961        DE Uncharacterized protein
+#=GS H3CT48/910-961        DR GENE3D; 548ff4cf571db7951eaf64b22d1e24f7/910-961; 
+#=GS H3CT48/910-961        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Tetraodon; Tetraodon nigroviridis; 
+#=GS H3C7U8/853-904        AC H3C7U8
+#=GS H3C7U8/853-904        OS Tetraodon nigroviridis
+#=GS H3C7U8/853-904        DE Uncharacterized protein
+#=GS H3C7U8/853-904        DR GENE3D; 23a4c4de4b06266755928040c4c1f0b2/853-904; 
+#=GS H3C7U8/853-904        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Tetraodon; Tetraodon nigroviridis; 
+#=GS H3BW35/897-948        AC H3BW35
+#=GS H3BW35/897-948        OS Tetraodon nigroviridis
+#=GS H3BW35/897-948        DE Uncharacterized protein
+#=GS H3BW35/897-948        DR GENE3D; a8dc4bcd2def880a6cc0072376300e96/897-948; 
+#=GS H3BW35/897-948        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Tetraodon; Tetraodon nigroviridis; 
+#=GS H2RM67/869-920        AC H2RM67
+#=GS H2RM67/869-920        OS Takifugu rubripes
+#=GS H2RM67/869-920        DE Uncharacterized protein
+#=GS H2RM67/869-920        DR GENE3D; 6a842ccd0a708cde9ddde5a3f376e669/869-920; 
+#=GS H2RM67/869-920        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes; 
+#=GF TC 51.2 8.0E-16
+#=GF SQ 203
+2jujA00/1-56                  ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+2oo9A00/1-46                  -------GS--QLS-SEIENLXSQGYSYQDIQKALVIAQNNIEXAKNILREFAAAS-------
+2oo9B00/1-46                  -------GS--QLS-SEIENLXSQGYSYQDIQKALVIAQNNIEXAKNILREFAAAS-------
+2ooaA00/1-52                  GSGPEAALE--NVD-AKIAKLXGEGYAFEEVKRALEIAQNNVEVARSILREFAFP--------
+2ooaB00/1-52                  GSGPEAALE--NVD-AKIAKLXGEGYAFEEVKRALEIAQNNVEVARSILREFAFP--------
+P22681/851-906                ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+P22682/858-913                ----TAPSP--QLS-SEIERLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+Q9VSK2/834-875                -----------NLE--YIARLMNAGYSKENAITALGISRNNIEMAGDILREFVSK--------
+Q19RV3/387-428                -----------NLE--YIARLMNAGYSKENAITALGISRNNIEMAGDILREFVSK--------
+A0A0U1RQ85/841-896            ----TAPSP--QLS-SEIERLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A0U1RR39/807-862            ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+Q9VRF3/479-518                ----------VTVDTTKLAQLLQLGFNENDSRVALQNASNNMEEAIESLM-------------
+A0A0X1KG61/814-869            ----TAPSP--QLS-SEIERLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+T1L459/240-281                -----------QMD--YIAILTGEGYSNQSVIRALGIAKNNLEMAREILHEFASK--------
+A0A139WLD4/200-239            ------------MD--YIKKLVSEGYSKDAVIKALGITRNNVDMACDILHEFGT---------
+Q5TRN9/833-875                -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKS-------
+A0A067QZW8/693-733            ------------MD--YIAKLTSEGYAQDAVIRALGITRNDIEMAWDILHEFATK--------
+T1IWL0/661-701                ------------MD--YIAQLVTEGFSREAVIRALWITKNNIDMARDILNEFGSR--------
+H2Q4Y2/851-906                ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+D3ZV15/859-914                ----AAPSP--QLS-SEIERLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A061I5T4/879-934            ----TAPSP--QLS-SEIERLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A093EPI4/799-854            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+K7G1C0/487-542                ----PSASP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSVSSPAHVAT
+G1SMK5/791-846                ----AAASP--QLS-SEIESLLSQGYSYQDIQKALLIAHNNIDMAKNILREFVSISSPAHVAT
+A0A182P3E0/944-986            -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKS-------
+G3I962/2423-2478              ----TAPSP--QLS-SEIERLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A0L0BWK2/857-898            -----------NLE--YIARLMNEGYSKENAITALGISRNNIEMACDILREFVAK--------
+I3JG35/856-911                ----GEANP--QIS-SEIEHLMSQGYTQHDIQKALMIAQNNIEMAKNILREFVSIPSTAHILT
+A0A0M4EI18/752-793            -----------NLE--YIARLMNAGYSKENAITALGISRNNIEMAGDILREFVSK--------
+F7ECX4/796-851                ----PSTSP--QLS-SEIESLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+G7PPA7/787-842                ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+G7NCK3/787-842                ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+A0A182FHS5/1037-1090          ------PYENINLE--YIARLMQEGYSKEHVITALGISRNNIEMACDILHEFVSKSGGANGA-
+A0A0S7LXT1/132-187            ----GEANP--LIS-SEIEHLMSQGYSYQDIQKALMIAQNNIEMAKNILREFVSVPSTAHIFT
+A0A182WK71/718-760            -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKS-------
+A0A147A682/806-861            ----AAGNQ--ALN-GEIECLISQGYSIQDIQKALMIAQNNLETAKNILREFVSVPSTAHIAT
+A0A0M4EF83/801-842            -----------NLE--YIARLMNAGYSKENAITALGISRNNIEMAGDILREFVSK--------
+W5LE61/903-954                RRPPESSQE--NVD-AKIAKLMGEGYSFDDVKRALMIAQNKVDVARNILREFALV--------
+H0YQ30/854-909                ----ASSSL--HLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+M3Y236/858-913                ----AASSP--QLS-SEIESLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A087YFS5/801-856            ----AAGNQ--ALN-GEIECLISQGYSMQDIQKALMIAQNNLETAKNILREFVSVPSTAHIAT
+H2NFK5/850-905                ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+A0A182IV24/1070-1112          -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKS-------
+A0A182H2U2/573-615            -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKS-------
+A0A091P063/799-854            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A091PK30/799-854            ----TSVSL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A091UHI0/717-772            ----TSVSL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A1J1INM2/772-823            -------YENINLE--YINRLMKEGYSKENVVAALGISRNNFEMACDILHEFVSTNPQVQT--
+W5UG35/856-911                ----ASSNP--QIS-SEIELLMSQGYSHQDIQKALMIAQNNIEMAKNILREFVSVPSTAHILT
+G1R745/851-906                ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+N6T6T7/675-714                ------------IN--YIKKLVSEGYSRDSVIRALGITGNNVDMACDILHEFGT---------
+Q566M6/869-923                -----APPA--PLS-SEIESLLSQGYSQQDVNKALLIAHNNIEMARNILREFVSIPSPAHVAT
+A0A091QRR8/802-857            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+G3RNI2/851-906                ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+V8P3J8/731-786                ----PVASP--QLS-SEIENLMSQGYAYQDIQKALLIAHNNIDMAKNILREFVSVSSPTHVAT
+A0A087UE61/334-374            ------------MD--HIAALIAEGYAQNEVIRALGIARNDLQMARDILHEFVTK--------
+W5Q088/774-829                ----AAASP--QLS-SEIESLLSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+F7CSE3/846-901                ----ATASP--QLS-SEIENLLSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+A0A1A8B4M0/892-946            ----GEANP--QIS-SEIEHLMSQGYSYQDIQKALVIAQNDIEMAKNILREFVSVPS-AHILT
+A0A0K8VYH1/879-921            -----------NLE--YIARLVKEGYTKENAITALGISRNNIEMACDILREFVSKS-------
+I3JSN9/809-863                -----PGSL--ALN-GEIECLISQGYSIQDIQKALMIAQNNLETAKNILREFVSIPSTAHIAT
+A0A1B0G3D0/878-919            -----------NLE--YIARLMSEGYSKENAITALGISRNNIEMACDILREFVSK--------
+A0A1B0AYF1/522-563            -----------NLE--YIARLMSEGYSKENAITALGISRNNIEMACDILREFVSK--------
+H3BE20/848-903                ----AGASP--QLS-TEIECLLSQGYSHQDIQKALLIAHNNIEMAKSILREFVSIPSPAHITT
+H9G617/801-856                ----AAASL--QLS-SEIESLMSQGYSYQDIQKALVIAHNNIDMAKNILREFVSISSPAHVAT
+M3WT44/858-913                ----APAPP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+Q9I9L2/511-565                -----APPA--PLS-SEIESLLSQGYSQQDVNKALLIARNNIEMARNILREFVAIPSPAHVAT
+H2UNS4/863-918                ----GEANP--QIS-SEIEHLMSQGYSYQDIQKALMIAQNNIEMAKNILREFVSIPSTAHVLT
+A0A091WP85/796-851            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+F7CSA7/854-909                ----ATASP--QLS-SEIENLLSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+A0A099ZFP5/848-903            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALLIAHNNIEMAKNILREFVSISSPAHVAT
+Q7ZZ86/405-455                -RPHESSRE--NVD-AKIAKLMGEGYSFEDVKRALMIAQNKVDVARNILREFALV--------
+W5K1D9/673-728                ----PPSNP--QIS-GEIELLMSQGYSYLDIQKALMIAQNNIEMAKNILREFVSVPSTAHIFT
+A0A091FJY9/803-858            ----ASSSL--HLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+Q4SEN1/863-917                -----PGNV--ALN-GEIECLMSQGYSIQDIQKALMIAQNNLETAKNILREFVSVPSAAHIAT
+B4IZE2/864-905                -----------NLE--YIARLMNAGYSKENAITALGISRNNIEMAGDILREFVSK--------
+G3UM47/843-898                ----AAASP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A0P7TZT7/797-852            ----SPAPP--AIS-SEVEQLRSLGYSHQDIQKALMIAQNDVEMAKNILREFVSVPSTAHILT
+A0A182MIA0/1012-1054          -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKS-------
+A0A060VWA3/888-936            -------------G-GEIEHLMSQGYTYQDIQKALMIAQNNMEMAKNILREFVSIPSTAHILT
+A0A1B6HX74/224-265            -----------NMD--HIAKLTSQGYSQEAVIRALGITRNDLDMAWDILNEFATK--------
+A0A093EM53/717-772            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A091T4X0/717-772            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+W5Q089/796-851                ----AAASP--QLS-SEIESLLSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A1D5RFE7/852-907            ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+A0A093FWE0/839-894            ----TSASL--QLS-SEIENLLSQGYSYQDIQKALLIAHNNIEMAKNILREFVSISSPAHVAT
+A0A087VIL4/799-854            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A0U1ZF16/747-802            ----AAPSP--QLS-SEIERLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A0Q3ML33/816-871            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A091RDJ6/795-850            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A1B6LVB9/726-767            -----------NMD--HIAKLTSQGYSQEAVIRALGITRNDLDMAWDILNEFATK--------
+A0A091LB51/715-770            ----TSTSL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A182HM65/763-805            -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKS-------
+A0A091JVL8/798-853            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+H2U2R2/855-909                -----PGNL--ALN-GEIECLISQGYSIQDIQKALMIAQNNLETAKNILREFVSVPSATHIAT
+E1BJS3/845-900                ----AAASP--QLS-SEIESLLSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+L5KNA4/854-909                ----ATPSP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSVSSPAHVAT
+H2UNS5/882-937                ----GEANP--QIS-SEIEHLMSQGYSYQDIQKALMIAQNNIEMAKNILREFVSIPSTAHVLT
+F6SMS3/808-863                ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+A0A1A6FX84/663-715            ----IAPSP--QLS-SEIERLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAH---
+H2U2R3/841-895                -----PGNL--ALN-GEIECLISQGYSIQDIQKALMIAQNNLETAKNILREFVSVPSATHIAT
+A0A182Y0T4/876-918            -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKS-------
+L5M8M1/612-667                ----AAPSP--RLS-SEIESLLSQGYSHQDIQKALLIAHNNIDMAKNILREFVSISSPTHVAT
+W5MCY6/934-983                -HSHETAAE--H-D-AKIAKLMGEGYSFEDVKRALMIAQNKVDVARNILREFALV--------
+V9K8L8/918-968                -LHNSQAGE--NVD-AKIAKLMGEGYSFEDVKRALVIARNNVEMARSILREFAFY--------
+F1P861/853-908                ----AAASP--QLS-SEIENLLSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+M3W2R2/847-902                ----APAPP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A096MW73/852-907            ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+A0A091KLL9/797-852            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+G3SZI9/851-906                ----AAASP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+K7J5W6/616-666                ----TAAYENINVE--HISRLMALGFAQDAVIRALGITRNDLEMACDILHEFAQKSS------
+F1Q5B6/883-933                -RPHESSRE--NVD-AKIAKLMGEGYSFEDVKRALMIAQNKVDVARNILREFALV--------
+H2UNS6/870-925                ----GEANP--QIS-SEIEHLMSQGYSYQDIQKALMIAQNNIEMAKNILREFVSIPSTAHVLT
+A0A146WFJ5/590-645            ----GEANP--LIS-SEIEHLMSQGYSYQDIQKALMIAQNNIEMAKNILREFVSVPSSAHILT
+H0WW30/850-905                ----AATSP--QLS-SEIENLLSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+I3JSP0/836-890                -----PGSL--ALN-GEIECLISQGYSIQDIQKALMIAQNNLETAKNILREFVSIPSTAHIAT
+A0A094N8F9/798-853            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+H2UNS7/860-915                ----GEANP--QIS-SEIEHLMSQGYSYQDIQKALMIAQNNIEMAKNILREFVSIPSTAHVLT
+W5U8P9/897-948                RRPPEYSHE--NVD-AKIAKLMGEGYSFDDVKRALMIAQNKVDVARNILREFALV--------
+G1KFF7/919-969                -HHSDSSIE--SVD-AKIAKLMGEGYSFEEVKRALEIAQNNLDVARSILREFACF--------
+A0A091GNK4/847-902            ----PSTSL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+M4A2V2/830-883                EL------P--ALN-GEIECLISQGYSMQDIQKALMIAQNNLETAKNILREFVSVPSTTHIAT
+H2MHT7/847-900                -----PAGP--ALN-GEIECLMSQGYSIQDIQKALMIAHNNLETAKNILREFVSVPT-AQFAT
+A0A0P7V5Q7/905-960            ----GGTSP--QIS-GEIEHLMNQGYSYQDIQKALMIAQNNIEMAKNILREFVSIPSTAHILT
+A0A087XQ15/892-947            ----GEANP--LIS-SEIEHLMSQGYSYQDIQKALMIAQNNIEMAKNILREFVSVPSTAHIFT
+G3P2Y7/866-921                ----GETNP--QIS-WEIEHLLSEGYSYQDIQKALLIAQNNIEMAKNILREFVSIPTAAHVLT
+H0UVD2/797-852                ----ATPTP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVTISSPAHVAT
+A0A0K8W0X6/416-458            -----------NLE--YIARLVKEGYTKENAITALGISRNNIEMACDILREFVSKS-------
+A0A182NMA9/351-403            ------PYENINLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKSGGALL--
+G3QMJ7/845-900                ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+A0A093HB71/804-859            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A182XCT8/488-529            -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFMAE--------
+G1P6X5/787-842                ----AATSP--QLS-SEIESLLSQGYSHQDIQKALLIAHNNIDMAKNILREFVSISSPTHVAT
+A0A182K093/380-422            -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKS-------
+A0A087RIR8/799-854            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A147A3A2/897-952            ----GEANP--LIS-SEIEHLMSQGYSYQDIQKALMIAQNNIEMAKNILREFVSVPSSAHILT
+U3JUA7/722-777                ----ASSSL--HLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+B3NFS0/829-870                -----------NLE--YIARLMNAGYSKENAITALGISRNNIEMAGDILREFVSK--------
+B4H639/816-857                -----------NLE--YIARLMNAGYSKENAITALGISRNNVEMAGDILREFVSK--------
+G1MU46/844-899                ----TGASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A1A8VBG9/804-858            -----PGSL--ALN-GEIECLMSQGYSIQDIQKALMIAQNNLETAKNILREFVSIPSAAHIAT
+F1NXW5/848-903                ----TGASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+B4N6E0/886-927                -----------NLE--YIARLMNAGYSKENAITALGISRNNIEMAGDILREFVTK--------
+A0A093CFS6/796-851            ----TSVSL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A151NFY2/134-189            ----PSTPP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A0A0ACH0/799-854            ----TSVSL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+F7GCI0/171-226                ----AATSP--QLS-GEIESLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A0P7US99/758-808            -QSQEPGGE--NVD-AKIAKLMGEGYSFEDVKRALMIAQNKVDVARNILREFALV--------
+B4KYE3/867-908                -----------NLE--YIARLMNAGYSKENAITALGISRNNIEMAGDILREFVSK--------
+A0A0D9S3U9/852-907            ----ATASP--QLS-SEIENLMSQGYSYQDIQKALVIAQNNIEMAKNILREFVSISSPAHVAT
+F1R6A7/878-928                -RPHESSRE--NVD-AKIAKLMGEGYSFEDVKRALMIAQNKVDVARNILREFALV--------
+H3AN31/768-818                -YNHETSSE--NVD-AKIAKLMGEGFSFEDVKRALIIAQNNVDVARSILREFACF--------
+Q801W6/625-675                -RPHESSRE--NVD-AKIAKLMGEGYSFEDVKRALMIAQNKVDVARNILREFALV--------
+B3M5I4/812-853                -----------NLE--YIARLMNAGYSKENAITALGISRNNIEMAGDILREFVSK--------
+F1QI90/859-913                -----GPSQ--QIS-SEIEHLLSQGYSHQDIQKALMIAQNNIEMAKNILREFVSIPSTAHILT
+A0A084VDL6/1237-1279          -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVTKS-------
+D2GYA7/792-847                ----AASSP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A182VGU8/667-711            ---------NINLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKS-------
+H2UNS8/864-919                ----GEANP--QIS-SEIEHLMSQGYSYQDIQKALMIAQNNIEMAKNILREFVSIPSTAHVLT
+H3CY46/781-835                -----PGNV--ALN-GEIECLMSQGYSIQDIQKALMIAQNNLETAKNILREFVSVPSAAHIAT
+M4A2Y3/865-918                ------PGP--LIS-SEIEHLMSQGYSYQDIQKALMIAQNNIEMAKNILREFVSVPSTAHIFT
+A0A1A7XRW0/813-857            --------L--ALN-GEIECLMSQGYSIQDIQKALMIAQNNLETAKNILREFVSIA-------
+A0A0T6B9H2/248-287            ------------MD--YIKKLVSEGYSRDAVIKALGITRNNVDMACDILHEFGT---------
+H9JUV1/135-175                ------------LD--YIARLVGEGYPKEIVVRALGITRNDLEMACDILHEFGSK--------
+W8BRP4/866-908                -----------NLE--YIARLVKEGYTKENAITALGISRNNIEMACDILREFVSKS-------
+W5M6I7/855-909                -----GPNP--QIN-SEIEHLMSQGYSYQDIQKALLIAQNNIEMAKNILREFVSIPSTAHILT
+B3DLI0/834-888                -----APPA--PLS-SEIESLLSQGYSQQDVNKALLIAHNNIEMARNILREFVSIPSPAHVAT
+G5BHP2/797-852                ----VTPSP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+H2LTW9/876-931                ----GDASP--QIS-SEIEHLMSQGYSYQDIQKALMIAQNNVEMAKNILREFVSVPSTTHILT
+S7MEZ0/325-380                ----AATSP--QLS-SEIESLLSQGYSHQDIQKALLIAHNNIDMAKNILREFVSISSPTHVAT
+F6PNG9/790-845                ----AAASP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A0F8AXS4/813-867            -----PGNL--ALN-GEIECLMSQGYSIQDIQKALMIAQNNLETAKNILREFVSIPSTAHIAT
+H2Y2P8/120-161                -------HV--DLD-CEIARLMELGYSFDDVNRALSIANNNSAVAAQILRSF-----------
+A0A182LJR6/321-366            ------P--NINLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKS-------
+A0A060WN12/853-906            ------VAL--PIN-GEIEHLMSQGYSFQDIQKALMIAQNNLETAKNILREFVSIPSTAHILT
+B0WYB8/632-674                -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVTKS-------
+A0A091S535/456-511            ----TSASL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+R0L6V1/800-855                ----SSASL--QLS-SEIENLMNQGYSYQDIQKALLIAHNNIEMAKNILREFVSISSPAHVAT
+M7BA18/781-836                ----TSTSP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A1I8Q872/884-925            -----------NLE--YIARLMNEGYSKENAITALGISRNNIEMACDILREFVAK--------
+L9KKE7/834-889                ----AAASP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A1L8E318/767-809            -----------NLE--YIARLVNEGYSKENAITALGISRNNIEMACDILHEFVAKS-------
+A0A1I8NAS8/367-408            -----------NLE--YIARLMNEGYSKENAITALGISRNNIEMACDILREFVAK--------
+H2U2R4/843-897                -----PGNL--ALN-GEIECLISQGYSIQDIQKALMIAQNNLETAKNILREFVSVPSATHIAT
+S9XIM8/609-664                ----AAASP--QLS-SEIESLLSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A0B8RW12/859-914            ----AAASP--QLS-SEIESLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+F1SAH0/859-914                ----AAASP--QLS-SEIESLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A091DFX0/756-811            ----VTPSP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+H3CQS3/837-892                ----GEANP--QIS-SEIEHLMSQGYSYQDIQKALMIAQNNMEMAKNILREFVSIPSTAHVLT
+Q2LYL3/845-886                -----------NLE--YIARLMNAGYSKENAITALGISRNNVEMAGDILREFVSK--------
+A0A091K6V4/783-838            ----PSTSL--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A0U1ZFN5/791-846            ----AAPSP--QLS-SEIERLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+A0A182QF92/858-900            -----------NLE--YIARLMQEGYSKENVITALGISRNNIEMACDILHEFVSKS-------
+F6RJK1/797-852                ----AAASP--QLS-SEIENLMSQGYSYQDIQKALVIAHNNIEMAKNILREFVSISSPAHVAT
+B4LDS5/849-890                -----------NLE--YIARLMNAGYSKENAITALGISRNNIEMAGDILREFVSK--------
+B4PG25/842-883                -----------NLE--YIARLMNAGYSKENAITALGISRNNIEMAGDILREFVSK--------
+H2RM68/838-889                GKSHNTESE--NTD-AKIAKLMGEGYSFEDVKRALMIAQYKVDVARNILREFALV--------
+H2RM65/913-964                GKSHNTESE--NTD-AKIAKLMGEGYSFEDVKRALMIAQYKVDVARNILREFALV--------
+H2RM66/913-964                GKSHNTESE--NTD-AKIAKLMGEGYSFEDVKRALMIAQYKVDVARNILREFALV--------
+H3CT48/910-961                GKSHSPESE--NVD-AKIAKLMGEGYSFEDVKRALMIAQYKVDVARNILREFVLV--------
+H3C7U8/853-904                GKSHSPESE--NVD-AKIAKLMGEGYSFEDVKRALMIAQYKVDVARNILREFVLV--------
+H3BW35/897-948                GKSHSPESE--NVD-AKIAKLMGEGYSFEDVKRALMIAQYKVDVARNILREFVLV--------
+H2RM67/869-920                GKSHNTESE--NTD-AKIAKLMGEGYSFEDVKRALMIAQYKVDVARNILREFALV--------
+#=GC scorecons                000011221004650248549655988466645994865876769468978865422122112
+#=GC scorecons_70             ____________*____*__**__***__*___**_**_******_*******__________
+#=GC scorecons_80             _________________*__*___***______**_*__**_*_*__*****___________
+#=GC scorecons_90             _________________*__*___***______**_*__*____*__**_**___________
+//
