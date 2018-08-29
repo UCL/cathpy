@@ -237,6 +237,17 @@ class Sequence(object):
 
     @classmethod
     def split_hdr(cls, hdr: str) -> dict:
+        """
+        Splits a sequence header into meta information.
+        
+        Args:
+            hdr (str): header string (eg `domain|1cukA01|4_2_0/3-23_56-123`)
+
+        Returns:
+            {'id': '1cukA01', 'id_type': 'domain', 'id_ver': '4_2_0', 
+            'segs': [Segment(3, 23), Segment(56,123)], 'features': []}
+        """
+
         id = None
         id_type = None
         id_ver = None
@@ -287,6 +298,7 @@ class Sequence(object):
 
     def to_fasta(self, wrap_width=80):
         """Return a string for this Sequence in FASTA format."""
+
         str = ""
         str += '>' + self.hdr + '\n'
         if wrap_width:
@@ -468,28 +480,32 @@ class Correspondence(object):
 
     @property
     def first_residue(self):
-        """Return the first residue in the correspondence."""
+        """Returns the first residue in the correspondence."""
         return self.get_res_at_offset(0)
 
     @property
     def last_residue(self):
-        """Return the last residue in the correspondence."""
+        """Returns the last residue in the correspondence."""
         return self.get_res_at_offset(-1)
 
     @property
     def atom_sequence(self):
+        """Returns a Sequence corresponding to the ATOM records."""
+
         id = "atom|{}".format(self.id)
         res = [res.aa if res.pdb_label else Correspondence.FASTA_GAP_CHAR for res in self.residues]
         return Sequence(id, "".join(res))
 
     @property
     def seqres_sequence(self):
+        """Returns a Sequence corresponding to the SEQRES records."""
+
         id = "seqres|{}".format(self.id)
         res = [res.aa for res in self.residues]
         return Sequence(id, "".join(res))
 
     def apply_seqres_segments(self, segs):
-        """Creates a new correspondence from the residues within the segments."""
+        """Returns a new correspondence from just the residues within the segments."""
 
         current_seg_offset = 0
         def next_seg():
