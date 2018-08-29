@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+
+# core
+import argparse
+import logging
+
+# local
+from cathpy import util
+
+parser = argparse.ArgumentParser(
+    description="Merge FunFams using a structure-based alignment of reps")
+
+parser.add_argument('--cath_version', type=str, dest='cath_version', required=True,
+    help='CATH version')
+parser.add_argument('--in', '-i', type=str, dest='sc_file', required=True,
+    help='structure-based alignment file used as input')
+parser.add_argument('--out', '-o', type=str, dest='out_file', required=True,
+    help='output merged alignment file')
+parser.add_argument('--funfam_dir', type=str, dest='ff_dir', required=True,
+    help='directory in which funfam alignments can be found')
+parser.add_argument('--funfam_file_tmpl', type=str, dest='ff_tmpl', 
+    required=False, default='__SFAM__-ff-__FF_NUM__.sto',
+    help='template used to help locate funfam file (default: %(default)s)')
+
+parser.add_argument('--verbose', '-v', type=bool, required=False, action='count',
+    default=0,
+    help='more verbose logging')
+
+args = parser.parse_args()
+
+merge_args = vars(args)
+
+verbosity = merge_args.get('verbose')
+del merge_args['verbose']
+log_level = logging.DEBUG if verbosity > 0 else logging.INFO
+logging.basicConfig(level=log_level)
+
+merger = util.StructuralClusterMerger(**merge_args)
+
+merged_aln = merger.run()

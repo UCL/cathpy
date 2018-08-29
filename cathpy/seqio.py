@@ -1,34 +1,13 @@
-import re
-import logging
+# core
 import io
+import logging
+import re
+import functools
 
-class SeqIOError(Exception):
-    """General Exception class within the SeqIO module"""
-    def __init__(self, str):
-        super().__init__(str)
+# local
+import cathpy.error as err
 
-class SeqIOGapError(SeqIOError):
-    """Exception raised when trying to find residue information about a gap position."""
-    def __init__(self, str):
-        super().__init__(str)
-
-class SeqIOMergeCorrespondenceError(SeqIOError):
-    """Exception raised when failing to match correspondence sequences during alignment merge."""
-
-    def __init__(self, seq_id, aln_type, seq_type, ref_no_gaps, corr_no_gaps):
-        message = ("Reference sequence '{}' in the {} alignment does not "
-            "match the {} sequence provided in the Correspondence.\n"
-            "{:>25}: {}\n"
-            "{:>25}: {}\n").format(
-                seq_id,
-                aln_type,
-                seq_type,
-                'REF [{}]'.format(len(ref_no_gaps)), 
-                ref_no_gaps,
-                'CORRESPONDENCE [{}]'.format(len(corr_no_gaps)), 
-                corr_no_gaps,
-            )
-        super().__init__(message)
+logger = logging.getLogger(__name__)
 
 class AminoAcid(object):
     """Class representing an Amino Acid."""
@@ -85,9 +64,11 @@ class AminoAcids(object):
 class Residue(object):
     """Class to represent a protein residue."""
 
-    def __init__(self, aa, seq_num, pdb_label=None):
+    def __init__(self, aa, seq_num=None, pdb_label=None):
         assert type(aa) is str
-        assert type(seq_num) is int
+        if seq_num:
+            seq_num = int(seq_num)
+        
         self.aa = aa
         self.seq_num = seq_num
         self.pdb_label = pdb_label
@@ -96,18 +77,21 @@ class Residue(object):
         return self.aa
 
     def __repr__(self):
-        return "res: aa={}, seq_num={}, pdb_label={}".format(
+        return "res({},seq:{},pdb:{})".format(
             self.aa, self.seq_num, self.pdb_label)
 
 class Segment(object):
     """Class to represent a protein segment."""
 
     def __init__(self, start: int, stop: int):
-        self.start = start
-        self.stop  = stop
+        self.start = int(start)
+        self.stop = int(stop)
     
     def __str__(self):
-        return("seg: {}-{}".format(self.start, self.stop))
+        return("{}-{}".format(self.start, self.stop))
+
+    def __repr__(self):
+        return("Segment:{}-{}".format(self.start, self.stop))
 
 class Sequence(object):
     """Class to represent a protein sequence."""
@@ -125,10 +109,64 @@ class Sequence(object):
         self.features = hdr_info['features']
     
     def get_residues(self):
-        """Return an array of Residue objects for this sequence"""
+        """
+        Returns an array of Residue objects based on this sequence.
+        
+        Note: if segment information has been specified then this
+        will be used to calculate the `seq_num` attribute.
+        """
         residues = []
-        for seq_num, aa in enumerate(self.seq, 1):
-            res = Residue(aa, seq_num)
+        
+        segs = self.segs
+        if not segs:
+            segs = [ Segment(1, len(self.seq_no_gaps)) ]
+        
+        current_seg_offset=0
+        def next_seg():
+            nonlocal current_seg_offset
+            if current_seg_offset < len(segs):
+                seg = segs[current_seg_offset]
+                current_seg_offset += 1
+                return seg
+            else:
+                return None
+        
+        # theoretical length according to segment info vs length according to sequence
+        seg_length = 0
+        for seg in segs:
+            seg_length += seg.stop - seg.start + 1
+        actual_length = len(self.seq_no_gaps)
+
+        if seg_length != actual_length:
+            # should this be a warning? (with 1-n numbering as fallback?)
+            raise err.OutOfBoundsError(('segment information {} suggests that the sequence '
+                'length should be {}, but the sequence has {} (non-gap) characters: {}').format(
+                    repr(segs), seg_length, actual_length, self.seq) )
+
+        current_seg = next_seg()
+
+        seq_num = current_seg.start
+        for offset, aa in enumerate(self.seq, 0):
+            if current_seg and seq_num > current_seg.stop:
+                current_seg = next_seg()
+                if not current_seg:
+                    if not Sequence.is_gap(aa):
+                        raise err.OutOfBoundsError(('unable to map segment ({}) to sequence: '
+                            'the final segment ends at {}, but the sequence has {} residues '
+                            '(offset: {}, aa: {})').format(
+                                repr(current_seg), seq_num-1, len(self.seq_no_gaps), offset, aa
+                            ))
+                    else:
+                        seq_num = None
+                else:
+                    seq_num = current_seg.start
+            
+            if Sequence.is_gap(aa):
+                res = Residue(aa)
+            else:
+                res = Residue(aa, seq_num)
+                seq_num += 1
+            
             residues.append(res)
         return residues
 
@@ -137,7 +175,7 @@ class Sequence(object):
         try:
             res = self.seq[offset]
         except:
-            raise SeqIOError("Error: failed to get residue at offset {} from sequence with length {}: '{}'".format(
+            raise err.SeqIOError("Error: failed to get residue at offset {} from sequence with length {}: '{}'".format(
                 offset, self.length(), self.seq))
 
         return res
@@ -148,7 +186,7 @@ class Sequence(object):
         try:
             res = seq_nogap[seq_pos-1]
         except:
-            raise SeqIOError("Error: failed to get residue at position {} from sequence with {} non-gap sequence positions: '{}'".format(
+            raise err.SeqIOError("Error: failed to get residue at position {} from sequence with {} non-gap sequence positions: '{}'".format(
                 seq_pos, len(seq_nogap), self.seq))
 
         return res
@@ -157,7 +195,7 @@ class Sequence(object):
         """Return the sequence position (ignores gaps) of the given residue offset (may include gaps)."""
         seq_to_offset = self.seq[:offset+1]
         if re.match(seq_to_offset[-1], Sequence.re_gap_chars):
-            raise SeqIOGapError("Cannot get sequence position at offset {} since this corresponds to a gap".format(offset))
+            raise err.SeqIOGapError("Cannot get sequence position at offset {} since this corresponds to a gap".format(offset))
 
         seq_nogap = re.sub(Sequence.re_gap_chars, '', seq_to_offset)
         return len(seq_nogap)
@@ -186,8 +224,6 @@ class Sequence(object):
     def seq_no_gaps(self):
         """Return the amino acid sequence as a string (after removing all gaps)."""
         seq = re.sub(self.re_gap_chars, '', self._seq)
-        logging.debug("seq_no_gaps: BEFORE: " + self._seq)
-        logging.debug("seq_no_gaps: AFTER:  " + seq)
         return seq
 
     def _set_sequence(self, seq):
@@ -238,7 +274,7 @@ class Sequence(object):
                 if len(f) == 2:
                     features[f[0]] = f[1]
                 else:
-                    logging.warning("failed to parse feature from string {}".format(features_str))
+                    logger.warning("failed to parse feature from string {}".format(features_str))
 
         return({'id': id, 'id_type': id_type, 'id_ver': id_ver, 
             'segs': segs, 'features': features})
@@ -350,7 +386,7 @@ class Correspondence(object):
 
         except AttributeError:
             # make a potentially confusing error slightly less so
-            raise SeqIOError("encountered an error trying to readline() on GCF io ({})".format(gcf_io))
+            raise err.SeqIOError("encountered an error trying to readline() on GCF io ({})".format(gcf_io))
 
         line_no = 1
         for line in gcf_io:
@@ -359,9 +395,9 @@ class Correspondence(object):
             try:
                 seqres_aa, seqres_num, pdb_label, pdb_aa = line.split()
                 if pdb_aa is not seqres_aa and pdb_aa is not Correspondence.GCF_GAP_CHAR:
-                    logging.warning("pdb_aa '{}' does not match seqres_aa '{}' (line: {})".format(pdb_aa, seqres_aa, line_no))
+                    logger.warning("pdb_aa '{}' does not match seqres_aa '{}' (line: {})".format(pdb_aa, seqres_aa, line_no))
             except:
-                raise SeqIOError("Error: failed to parse GCF '{}' ({}:{})".format(
+                raise err.SeqIOError("Error: failed to parse GCF '{}' ({}:{})".format(
                     line, str(gcf_io), line_no
                 ))
 
@@ -393,8 +429,7 @@ class Correspondence(object):
 
     def get_res_by_seq_num(self, seq_num: int):
         """Return the ``Residue`` with the given sequence number"""
-        res = self.residues[seq_num - 1]
-        assert res.seq_num is seq_num
+        res = next((res for res in self.residues if res.seq_num == seq_num), None)
         return res
 
     def get_res_by_pdb_label(self, pdb_label):
@@ -403,9 +438,37 @@ class Correspondence(object):
 
     def get_res_by_atom_pos(self, pos):
         """Return the Residue corresponding to the given position in the ATOM sequence (ignores gaps)."""
+        assert pos >= 1
         atom_residues = [res for res in self.residues if res.pdb_label is not None]
         res = atom_residues[pos-1]
         return res
+
+    def get_res_offset_by_atom_pos(self, pos):
+        """Return the offset of the Residue at the given position in the ATOM sequence (ignores gaps)."""
+        assert pos >= 1
+        atom_pos=1
+        for offset, res in enumerate(self.residues):
+            # logger.debug("pos({}) -> res: offset: {}, res: {}, atom_pos: {}".format(
+            #     pos, offset, repr(res), atom_pos))
+            if atom_pos == pos:
+                return offset
+            if res.pdb_label is not None:
+                atom_pos += 1
+
+        atom_residues = [res for res in self.residues if res.pdb_label is not None]
+        raise err.OutOfBoundsError('failed to find residue in atom pos {}, last atom residue is {} (position {})'.format(
+            pos, repr(atom_residues[-1]), atom_pos,
+        ))
+
+    @property
+    def first_residue(self):
+        """Return the first residue in the correspondence."""
+        return self.get_res_at_offset(0)
+
+    @property
+    def last_residue(self):
+        """Return the last residue in the correspondence."""
+        return self.get_res_at_offset(-1)
 
     @property
     def atom_sequence(self):
@@ -418,6 +481,71 @@ class Correspondence(object):
         id = "seqres|{}".format(self.id)
         res = [res.aa for res in self.residues]
         return Sequence(id, "".join(res))
+
+    def apply_seqres_segments(self, segs):
+        """Creates a new correspondence from the residues within the segments."""
+
+        current_seg_offset = 0
+        def next_seg():
+            nonlocal current_seg_offset
+            # logger.debug("apply_seqres_segments.next_seg: current={} segs={}".format(
+            #     current_seg_offset, repr(segs) ))
+            if current_seg_offset < len(segs):
+                seg = segs[current_seg_offset]
+                current_seg_offset += 1
+                return seg
+
+        current_seg = next_seg()
+        selected_residues = []
+
+        for res in self.residues:
+            # logger.debug('apply_seqres.res: [{}] {}-{} seq_num={}'.format(
+            #     current_seg_offset, current_seg.start, current_seg.stop,
+            #     res.seq_num))
+            
+            if res.seq_num >= current_seg.start and res.seq_num <= current_seg.stop:
+                selected_residues.append(res)
+            elif res.seq_num < current_seg.start:
+                pass
+            elif res.seq_num > current_seg.stop:
+                current_seg = next_seg()
+                if not current_seg:
+                    break
+            else:
+                raise err.SeqIOError("unexpected error - shouldn't be able to reach this code")
+
+        corr = __class__(id=self.id, residues=selected_residues)
+
+        return corr
+
+    def to_gcf(self):
+        """Renders the current object as a GCF string."""
+
+        """
+        >gi|void|ref1
+        A   1   5   A
+        K   2   6   K
+        G   3   7   G
+        H   4   8   H
+        P   5   9   P
+        G   6  10   G
+        P   7  10A  P
+        K   8  10B  K
+        A   9  11   A
+        P  10   *   *
+        G  11   *   * 
+        """
+
+        gcf_str = '>' + self.id + '\n'
+        for res in self.residues:
+            if res.pdb_label:
+                vals = [res.aa, res.seq_num, res.pdb_label, res.aa]
+            else:
+                vals = [res.aa, res.seq_num, '*', '*']
+            gcf_str += '{} {:>4} {:>4}  {}\n'.format(*vals)
+
+        return gcf_str
+
 
     def to_sequences(self):
         seqs = (self.seqres_sequence, self.atom_sequence)
@@ -465,7 +593,7 @@ class Alignment(object):
         """Return the Sequence corresponding to the provided id."""
         seqs_with_id = [seq for seq in self.seqs if seq.id == id]
         if len(seqs_with_id) > 1:
-            raise SeqIOError("Found more than one sequence matching id '{}'".format(id))
+            raise err.SeqIOError("Found more than one sequence matching id '{}'".format(id))
         if len(seqs_with_id) == 0:
             return None
         return seqs_with_id[0]
@@ -480,25 +608,90 @@ class Alignment(object):
         aln = Alignment()
         aln.read_sequences_from_fasta(fasta_io)
         return aln
-    
+
+    @staticmethod
+    def _get_io_from_file_or_string(file_or_string):
+
+        if isinstance(file_or_string, str):
+            if file_or_string[0] == '>':
+                _io = io.StringIO(file_or_string)
+            else:
+                _io = open(file_or_string)
+        elif isinstance(file_or_string, io.IOBase):
+            _io = file_or_string
+        else:
+            _io = file_or_string
+            logger.warning("unexpected io type: " + repr(file_or_string))
+        
+        return _io
+
+    @classmethod
+    def new_from_stockholm(cls, sto_io):
+        """Initialise an alignment object from a STOCKHOLM file / string / io""" 
+
+        sto_io = __class__._get_io_from_file_or_string(sto_io)
+
+        aln = cls()
+        sto_header = sto_io.readline()
+        assert sto_header.startswith('# STOCKHOLM 1.0')
+
+        seq_meta_by_id = {}
+        seq_aa_by_id = {}
+
+        for line in sto_io:
+
+            line = line.strip()
+
+            if line.startswith('#=GF'):
+                _, feature, per_file_ann = line.split(None, 2)
+                # aln.set_meta(feature, per_file_ann)
+
+            elif line.startswith('#=GC'):
+                _, feature, per_col_ann = line.split(None, 2)
+                # aln.set_col_data(feature, per_file_ann)
+
+            elif line.startswith('#=GS'):
+                _, seq_id, feature, per_seq_ann = line.split(None, 3)
+                if seq_id not in seq_meta_by_id:
+                    seq_meta_by_id[seq_id] = {}
+                seq_meta_by_id[seq_id][feature] = per_file_ann
+
+            elif line.startswith('#=GR'):
+                _, seq_id, feature, per_res_ann = line.split(None, 3)
+                seq_meta_by_id[seq_id][feature] = per_res_ann
+
+            elif line.startswith('//'):
+                pass
+            
+            else:
+                seq_id, seq_aa = line.split()
+                if seq_id not in seq_aa_by_id:
+                    seq_aa_by_id[seq_id] = ''
+                seq_aa_by_id[seq_id] += seq_aa
+
+        for seq_id, seq_aa in seq_aa_by_id.items():
+            seq = Sequence(seq_id, seq_aa)
+            aln.add_sequence(seq)
+
+        sto_io.close()
+
+        return aln
+
     def read_sequences_from_fasta(self, fasta_io):
         """Parse aligned sequences from FASTA (str, file, io) and adds them to the current
         Alignment object. Returns the number of sequences that are added."""
 
-        if (type(fasta_io) == str):
-            if (fasta_io[0] == '>'):
-                fasta_io = io.StringIO(fasta_io)
-            else:
-                fasta_io = open(fasta_io)
- 
+        fasta_io = __class__._get_io_from_file_or_string(fasta_io)
+
         seq_added=0
         current_hdr = None
         current_seq = ''
-        while True:
-            try:
-                line = fasta_io.readline()
-            except AttributeError:
-                raise SeqIOError("encountered an error trying to readline() on fasta io ({})".format(fasta_io))
+        for line in fasta_io:
+            # while True:
+            #     try:
+            #         line = fasta_io.readline()
+            #     except AttributeError:
+            #         raise SeqIOError("encountered an error trying to readline() on fasta io ({})".format(fasta_io))
 
             if line == "":
                 break
@@ -528,7 +721,7 @@ class Alignment(object):
 
         if self.aln_positions:
             if self.aln_positions != seq.length():
-                raise SeqIOError( ("Error: cannot add a sequence (id:{}) "
+                raise err.SeqIOError( ("Error: cannot add a sequence (id:{}) "
                     "with {} positions to an alignment with {} positions.")
                     .format(seq.id, seq.length(), self.aln_positions) )
         else:
@@ -543,18 +736,18 @@ class Alignment(object):
         seqs = self.seqs
         seq_length = seqs[0].length()
         new_seq_strings = ["" for s in range(len(seqs))]
-        for aln_pos in range(seq_length):
+        for aln_offset in range(seq_length):
             total_gaps = 0
             for seq in seqs:
-                if seq.seq[aln_pos] == '-' or seq.seq[aln_pos] == '.':
+                if seq.seq[aln_offset] == '-' or seq.seq[aln_offset] == '.':
                     total_gaps += 1
             if total_gaps < len(seqs):
                 for seq_pos in range(len(seqs)):
-                    res = seqs[seq_pos].seq[aln_pos]
-                    # print( "seq[{}:{}] pos:{} res:{}".format(aln_pos, seqs[seq_pos].id, seq_pos, res) )
-                    new_seq_strings[ seq_pos ] += res
+                    res = seqs[seq_pos].seq[aln_offset]
+                    # print( "seq[{}:{}] pos:{} res:{}".format(aln_offset, seqs[seq_pos].id, seq_pos, res) )
+                    new_seq_strings[seq_pos] += res
             else:
-                logging.info("Removing complete gap from alignment position: {}".format(aln_pos))
+                logger.info("Removing complete gap from alignment offset: {}".format(aln_offset))
 
         new_aln = Alignment()
         for seq_pos in range(len(new_seq_strings)):
@@ -628,26 +821,25 @@ class Alignment(object):
 
         if ref_correspondence is None:
             # fake a 1:1 correspondence for internal use
-            residues = ref_seq_in_ref.get_residues()
+            # ignore any residue that does not have a seq_num (ie gap)
+            residues = [res for res in ref_seq_in_ref.get_residues() if res.seq_num]
             for r in residues:
                 r.pdb_label = str(r.seq_num)
-                logging.info("fake correspondence: residue={}".format(repr(r)))
+                # logger.debug("fake correspondence: residue={}".format(repr(r)))
             ref_correspondence = Correspondence(id=ref_seq_id, residues=residues)
-
-        logging.debug("merge_alignment: Correspondence: {}".format(repr(ref_correspondence)))
 
         # check: ref sequence (in self) must match the ATOM sequence in Correspondence
         ref_no_gaps = ref_seq_in_ref.seq_no_gaps
         corr_no_gaps = ref_correspondence.atom_sequence.seq_no_gaps
         if ref_no_gaps != corr_no_gaps:
-            raise SeqIOMergeCorrespondenceError(ref_seq_id, 'current', 'ATOM', 
+            raise err.SeqIOMergeCorrespondenceError(ref_seq_id, 'current', 'ATOM', 
                 ref_no_gaps, corr_no_gaps) 
 
         # check: ref sequence (in merge) must match the SEQRES sequence in Correspondence
         ref_no_gaps = ref_seq_in_merge.seq_no_gaps
         corr_no_gaps = ref_correspondence.seqres_sequence.seq_no_gaps
         if ref_no_gaps != corr_no_gaps:
-            raise SeqIOMergeCorrespondenceError(ref_seq_id, 'merge', 'SEQRES', 
+            raise err.SeqIOMergeCorrespondenceError(ref_seq_id, 'merge', 'SEQRES', 
                 ref_no_gaps, corr_no_gaps) 
 
         # clean up
@@ -659,10 +851,10 @@ class Alignment(object):
         merge_aln_pos=0
         correspondence_length = ref_correspondence.seqres_length
 
-        logging.debug("ref_alignment.positions: {}".format(self.aln_positions))
-        logging.debug("merge_alignment.positions: {}".format(merge_aln.aln_positions))
-        logging.debug("ref_seq_in_ref:   {}".format(str(ref_seq_in_ref)))
-        logging.debug("ref_seq_in_merge: {}".format(str(ref_seq_in_merge)))
+        logger.debug("ref_alignment.positions: {}".format(self.aln_positions))
+        logger.debug("merge_alignment.positions: {}".format(merge_aln.aln_positions))
+        logger.debug("ref_seq_in_ref:   {}".format(str(ref_seq_in_ref)))
+        logger.debug("ref_seq_in_merge: {}".format(str(ref_seq_in_merge)))
 
         while True:
 
@@ -671,7 +863,7 @@ class Alignment(object):
                 and ref_corr_pos >= correspondence_length:
                 break
 
-            logging.debug("REF {}/{}; CORRESPONDENCE {}/{}; MERGE {}/{}".format(
+            logger.debug("REF {}/{}; CORRESPONDENCE {}/{}; MERGE {}/{}".format(
                 ref_aln_pos, self.aln_positions, ref_corr_pos, 
                 correspondence_length, merge_aln_pos, merge_aln.aln_positions))
 
@@ -679,17 +871,17 @@ class Alignment(object):
             if ref_aln_pos < self.aln_positions:
 
                 for seq in self.slice_seqs(0, ref_aln_pos):
-                    logging.debug( "{:<10} {}".format("REF", str(seq)) )
+                    logger.debug( "{:<10} {}".format("REF", str(seq)) )
 
                 ref_res_in_ref = ref_seq_in_ref.get_res_at_offset(ref_aln_pos)
 
-                logging.debug("REF_POSITION   {:>3} of {:>3} => '{}'".format(
+                logger.debug("REF_POSITION   {:>3} of {:>3} => '{}'".format(
                     ref_aln_pos, self.aln_positions, ref_res_in_ref))
 
                 # insert all the gaps in the reference alignment into the merge sequences
                 # keep doing this until we don't have any more gaps
                 if Sequence.is_gap(ref_res_in_ref):
-                    logging.debug(("GAP '{}' in ref sequence in REF alignment [{}], "
+                    logger.debug(("GAP '{}' in ref sequence in REF alignment [{}], "
                         "inserting gap '{}' at position [{}] in all merge sequences").format(
                             ref_res_in_ref, ref_aln_pos, ref_res_in_ref, merge_aln_pos))
                     merge_aln.insert_gap_at_offset(merge_aln_pos, gap_char=ref_res_in_ref)
@@ -702,18 +894,18 @@ class Alignment(object):
             # sort the gaps in the merge alignment
             if merge_aln_pos < merge_aln.aln_positions:
 
-                for seq in merge_aln.slice_seqs(0, merge_aln_pos):
-                    logging.debug( "{:<10} {}".format("MERGE", str(seq)) )
+                # for seq in merge_aln.slice_seqs(0, merge_aln_pos):
+                #     logger.debug( "{:<10} {}".format("MERGE", str(seq)) )
 
                 ref_res_in_merge = ref_seq_in_merge.get_res_at_offset(merge_aln_pos)
 
-                logging.debug("MERGE_POSITION {:>3} of {:>3} => '{}'".format(
+                logger.debug("MERGE_POSITION {:>3} of {:>3} => '{}'".format(
                     ref_aln_pos, self.aln_positions, ref_res_in_ref))
 
                 # insert all the gaps in the merge alignment into the ref sequences
                 # keep doing this until we don't have any more gaps
                 if Sequence.is_gap(ref_res_in_merge):
-                    logging.debug(("GAP '{}' in ref sequence in MERGE alignment [{}], "
+                    logger.debug(("GAP '{}' in ref sequence in MERGE alignment [{}], "
                         "inserting gap '{}' at position [{}] in all ref sequences").format(
                             ref_res_in_merge, merge_aln_pos, Alignment.MERGE_GAP_CHAR, merge_aln_pos))
                     self.insert_gap_at_offset(ref_aln_pos, gap_char=Alignment.MERGE_GAP_CHAR)
@@ -730,12 +922,12 @@ class Alignment(object):
 
                 for seq in ref_correspondence.to_sequences():
                     seq = seq.slice_seq(0, ref_corr_pos)
-                    logging.debug( "{:<10} {}".format("CORR", str(seq)) )
+                    logger.debug( "{:<10} {}".format("CORR", str(seq)) )
 
                 ref_res_in_corr = ref_correspondence.get_res_at_offset(ref_corr_pos)
                 if ref_res_in_corr.pdb_label is None:
 
-                    logging.debug(("GAP '{}' in ATOM records of correspondence [{}], "
+                    logger.debug(("GAP '{}' in ATOM records of correspondence [{}], "
                         "inserting gap '{}' at position [{}] in ref sequences").format(
                             '*', ref_corr_pos, Alignment.MERGE_GAP_CHAR, ref_aln_pos))
 
@@ -754,14 +946,14 @@ class Alignment(object):
             ref_aln_pos   += 1
             merge_aln_pos += 1
 
-        logging.info("FINISHED MERGE")
+        logger.info("FINISHED MERGE")
         # for seq in ref_correspondence.to_sequences():
         #     seq = seq.slice_seq(0, ref_corr_pos)
-        #     logging.debug( "{:<10} {}".format("CORR", str(seq)) )
+        #     logger.debug( "{:<10} {}".format("CORR", str(seq)) )
         # for seq in self.seqs:
-        #     logging.debug( "{:<10} {}".format("REF", str(seq)) )
+        #     logger.debug( "{:<10} {}".format("REF", str(seq)) )
         # for seq in merge_aln.seqs:
-        #     logging.debug( "{:<10} {}".format("MERGE", str(seq)) )
+        #     logger.debug( "{:<10} {}".format("MERGE", str(seq)) )
 
         # add the merged sequences into this alignment
         for seq in merge_aln.seqs:
@@ -769,18 +961,28 @@ class Alignment(object):
                 continue
             self.add_sequence(seq)
 
-        for seq in self.seqs:
-            logging.debug( "{:<10} {}".format("MERGED", str(seq)) )
+        # for seq in self.seqs:
+        #     logger.debug( "{:<10} {}".format("MERGED", str(seq)) )
 
         # test the final, merged alignment
         # 1. get sequences that correspond to the input aln
         # 2. remove alignment positions where there's a gap in the reference sequence
 
+        logger.debug("Checking merge results for {} ({}) ...".format(ref_seq_id, repr(ref_seq_in_merge.hdr)))
         for original_seq in merge_aln.seqs:
             seq = self.find_seq_by_id(original_seq.id)
 
+            # logger.debug('Working on sequence: {}'.format(str(original_seq)))
+
+            # this provides the residues in the merge alignment with seqres numbering
+            ref_merge_residues = ref_seq_in_merge.get_residues()
+            # the lookup lets us go from the seq numbering to the sequence offset
+            ref_merge_seqnum_to_seqpos = {}
+            for seq_pos, res in enumerate([res for res in ref_merge_residues if res.seq_num], 1):
+                ref_merge_seqnum_to_seqpos[res.seq_num] = seq_pos
+
             if not seq:
-                raise SeqIOError("failed to find sequence with id '{}' in merge aln".format(seq.id))
+                raise err.SeqIOError("failed to find sequence with id '{}' in merge aln".format(seq.id))
 
             for aln_offset in range(self.aln_positions):
 
@@ -800,12 +1002,26 @@ class Alignment(object):
 
                     # use the correspondence to find the equivalent reference residue in the merge alignment
                     ref_corr_res = ref_correspondence.get_res_by_atom_pos(ref_seq_pos_in_ref)
-                    ref_seq_pos_in_merge = ref_corr_res.seq_num
+                    ref_seq_num_in_merge = ref_corr_res.seq_num
+
+                    if ref_seq_num_in_merge is None:
+                        raise err.GeneralError(('weird... found a residue without a seq_num in the correspondence record '
+                            ' ref_seq_pos_in_ref: {}, res: {}, corr: {}').format(
+                                ref_seq_pos_in_ref, repr(ref_corr_res), repr(ref_correspondence)))
+
+                    if ref_seq_num_in_merge not in ref_merge_seqnum_to_seqpos:
+                        raise err.OutOfBoundsError(('failed to find seq_num {} ({}) in seqnum/seqpos '
+                            'lookup: {}\ncorrespondence (length: {})').format(
+                                ref_seq_num_in_merge, repr(ref_corr_res), ref_merge_seqnum_to_seqpos, 
+                                ref_correspondence.seqres_length, ))
+
+                    # find out where this seq_num occurs in the merge sequence (account for segment numbering)
+                    ref_seq_pos_in_merge = ref_merge_seqnum_to_seqpos[ref_seq_num_in_merge]
 
                     # find the aln offset for the equivalent position in the original merge alignment
                     ref_merge_offset = ref_seq_in_merge.get_offset_at_seq_position(ref_seq_pos_in_merge)
 
-                    # logging.debug("ref_seq_pos (ref): {}, ref_seq_pos (merge): {}, correspondence_res: {}, ref_merge_offset: {}".format(
+                    # logger.debug("ref_seq_pos (ref): {}, ref_seq_pos (merge): {}, correspondence_res: {}, ref_merge_offset: {}".format(
                     #     ref_seq_pos_in_ref, ref_seq_pos_in_merge, repr(ref_corr_res), ref_merge_offset
                     # ))
 
@@ -813,25 +1029,32 @@ class Alignment(object):
                     original_res = original_seq.get_res_at_offset(ref_merge_offset)
 
                     if merged_res_at_aln_offset != original_res:
-                        raise SeqIOError(("Expected the merged residue '{}' to "
+                        raise err.MergeCheckError(("Expected the merged residue '{}' to "
                             "match the original residue '{}' at alignment "
                             "offset {} (sequence: '{}')\n\n"
+                            "CORR_ATOM:        {}\n"
+                            "CORR_SEQRES:      {}\n"
+                            "\n\n"
                             "REF_SEQ_IN_REF:   {}\n"
                             "REF_SEQ_IN_MERGE: {}\n"
                             "ORIGINAL_SEQ:     {}\n"
                             "                  {aln_pointer:>{merge_pos}}\n"
                             "MERGED_SEQ:       {}\n"
                             "                  {aln_pointer:>{aln_pos}}\n"
-                            "(aln_offset={}, ref_seq_pos(ref)={}, ref_seq_pos(merge)={}, ref_merge_pos={})"
+                            "(aln_offset={}, seq_pos(ref)={}, seq_num(merge)={}, seq_pos(merge)={}, ref_merge_offset={})"
                             ).format(
                                 merged_res_at_aln_offset, original_res, aln_offset, seq.id,
+                                ref_correspondence.atom_sequence,
+                                ref_correspondence.seqres_sequence,
                                 ref_seq_in_ref.seq,
                                 ref_seq_in_merge.seq,
                                 original_seq.seq,
                                 seq.seq,
-                                aln_offset, ref_seq_pos_in_ref, ref_seq_pos_in_merge, ref_merge_offset,
+                                aln_offset, ref_seq_pos_in_ref, ref_seq_num_in_merge, ref_seq_pos_in_merge, ref_merge_offset,
                                 aln_pointer='^', aln_pos=(aln_offset+1), merge_pos=(ref_merge_offset+1)
                             ))
+
+        logger.info("Finshed checking merge for {} ({})".format(ref_seq_id, repr(ref_seq_in_merge.hdr)))
 
         return merge_aln.seqs
 

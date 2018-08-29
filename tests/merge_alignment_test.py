@@ -6,9 +6,11 @@ import unittest
 
 from cathpy import seqio
 
-logging.basicConfig(level=logging.DEBUG)
+from . import testutils
 
-class TestMergeAlignment(unittest.TestCase):
+logger = logging.getLogger(__name__)
+
+class TestMergeAlignment(testutils.TestBase):
 
     def setUp(self):
 
@@ -98,8 +100,8 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
     def tearDown(self):
         pass
 
+    @testutils.log_title
     def test_parse_gcf(self):
-        self.log_title("test_parse_gcf")
         gcf = seqio.Correspondence.new_from_gcf(self.gcf_ref1)
         self.assertEqual(gcf.seqres_length, 14)
         self.assertEqual(gcf.atom_length, 11)
@@ -107,8 +109,72 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         gcf_as_fasta = gcf.to_fasta()
         self.assertEqual(gcf_as_fasta, self.gcf_ref1_as_fasta)
 
+    @testutils.log_title
+#     @testutils.log_level('cathpy.seqio', 'DEBUG')
+    def test_correspondence_apply_segments(self):
+
+        corr_full = seqio.Correspondence.new_from_gcf(self.gcf_ref1)
+
+        def _res(r):
+            return (r.seq_num, r.pdb_label, r.aa)
+
+        segs = [seqio.Segment(start=3, stop=11)]
+
+        # [3-11]
+        # 
+        # G   3   7   G
+        # H   4   8   H
+        # P   5   9   P
+        # G   6  10   G
+        # P   7  10A  P
+        # K   8  10B  K
+        # A   9  11   A
+        # P  10   *   *
+        # G  11   *   * 
+
+        corr = corr_full.apply_seqres_segments(segs)
+        self.assertIsInstance(corr, seqio.Correspondence)
+        self.assertEqual(corr.seqres_length, 9)
+        self.assertEqual(corr.atom_length, 7)
+        self.assertEqual(corr.seqres_sequence.seq, 'GHPGPKAPG')
+        self.assertEqual(corr.atom_sequence.seq,   'GHPGPKA--')
+        res = corr.get_res_at_offset(0)
+        self.assertEqual(_res(res), (3, '7', 'G'))
+        res = corr.get_res_at_offset(-1)
+        self.assertEqual(_res(res), (11, None, 'G'))
+        del segs, corr, res
+
+        segs = [seqio.Segment(start=3, stop=7), seqio.Segment(start=9, stop=13)]
+
+        # [3-7, 9-13]
+        # 
+        # G   3   7   G
+        # H   4   8   H
+        # P   5   9   P
+        # G   6  10   G
+        # P   7  10A  P
+        # 
+        # A   9  11   A
+        # P  10   *   *
+        # G  11   *   * 
+        # P  12   *   *
+        # A  13  12   A
+
+        corr = corr_full.apply_seqres_segments(segs)
+        self.assertIsInstance(corr, seqio.Correspondence)
+        self.assertEqual(corr.seqres_length, 10)
+        self.assertEqual(corr.atom_length, 7)
+        self.assertEqual(corr.seqres_sequence.seq, 'GHPGPAPGPA')
+        self.assertEqual(corr.atom_sequence.seq,    'GHPGPA---A')
+        res = corr.get_res_at_offset(0)
+        self.assertEqual(_res(res), (3, '7', 'G'))
+        res = corr.get_res_at_offset(-1)
+        self.assertEqual(_res(res), (13, '12', 'A'))
+        del segs, corr, res
+
+    @testutils.log_title
+#     @testutils.log_level('cathpy.seqio', 'DEBUG')
     def test_merge_aln_with_correspondence(self):
-        self.log_title("test_merge_aln")
         aln_ref = seqio.Alignment.new_from_fasta(self.aln_structure)
         self.assertEqual(aln_ref.count_sequences, 2)
         aln_merge1 = seqio.Alignment.new_from_fasta(self.aln_merge1)
@@ -127,14 +193,6 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         aln_after_merge2 = seqio.Alignment.new_from_fasta(self.aln_after_merge2)
         self.assertEqual(aln_after_merge2.count_sequences, 6)
         self.assertEqual(aln_ref.count_sequences, 6)
-
-    def log_title(self, title):
-        hr = "=" * 80
-        logging.info("")
-        logging.info(hr)
-        logging.info(" {} ".format(title))
-        logging.info(hr)
-        logging.info("")
 
 if __name__ == '__main__':
     unittest.main()

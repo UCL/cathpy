@@ -6,11 +6,15 @@ import unittest
 
 from cathpy import seqio
 
-logging.basicConfig(level=logging.DEBUG)
+from . import testutils
 
-class TestSequence(unittest.TestCase):
+logger = logging.getLogger(__name__)
+
+class TestSequence(testutils.TestBase):
 
     def setUp(self):
+        self.stockholm_file = os.path.join(os.path.dirname(__file__), 'data', 'test.sto')
+
         self.fasta_file = tempfile.NamedTemporaryFile(mode='w+', delete=False)
 
         # removing gaps from alignments
@@ -122,7 +126,7 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         seg = seqio.Segment(1, 10)
         self.assertEqual(seg.start, 1)
         self.assertEqual(seg.stop, 10)
-        self.assertEqual(str(seg), 'seg: 1-10')
+        self.assertEqual(str(seg), '1-10')
 
     def test_split_hdr(self):
         hdr = seqio.Sequence.split_hdr('domain|1cukA01/12-134_178-234')
@@ -132,7 +136,7 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         self.assertEqual(hdr['segs'][0].start, 12)
         self.assertEqual(hdr['segs'][0].stop, 134)
         self.assertIsInstance(hdr['segs'][1], seqio.Segment)
-        self.assertEqual(str(hdr['segs'][1]), 'seg: 178-234')
+        self.assertEqual(str(hdr['segs'][1]), '178-234')
         self.assertEqual(hdr['id_ver'], None)
 
     def test_read_fasta_filename(self):
@@ -147,12 +151,16 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         aln = seqio.Alignment.new_from_fasta(self.fasta_file)
         self.assertEqual(aln.count_sequences, 2)
 
+    def test_read_stockholm_file(self):
+        aln = seqio.Alignment.new_from_stockholm(self.stockholm_file)
+        self.assertEqual(aln.count_sequences, 51)
+
     def test_read_fasta_str(self):
         aln = seqio.Alignment.new_from_fasta(self.fasta_contents)
         self.assertEqual(aln.count_sequences, 2)
 
     def test_remove_gaps(self):
-        self.log_title("test_remove_gaps")
+        self.log_title('remove_gaps')
         self.fasta_file.seek(0)
         aln = seqio.Alignment.new_from_fasta(self.fasta_contents)
         self.assertEqual(aln.count_sequences, 2)
@@ -162,14 +170,14 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         self.assertEqual(seqs_no_gap, self.fasta_contents_without_gaps)
 
     def test_copy_aln(self):
-        self.log_title("test_copy_aln")
+        self.log_title('copy_aln')
         aln_ref = seqio.Alignment.new_from_fasta(self.fasta_aln_ref)
         aln_copy = aln_ref.copy()
         self.assertNotEqual(aln_copy, aln_ref)
         self.assertEqual(str(aln_copy), str(aln_ref))
 
     def test_aln_add_gap(self):
-        self.log_title("test_aln_add_gap")
+        self.log_title('aln_add_gap')        
         aln = seqio.Alignment.new_from_fasta(self.fasta_aln_ref)
         self.assertEqual(aln.seqs[0].seq, '---AKGHP--GPKAPGPAK--')
         self.assertEqual(aln.seqs[1].seq, 'CGCAKGH-PKA--APGP--GT')
@@ -181,7 +189,6 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         self.assertEqual(aln.seqs[1].seq, 'CGCA-KGH-PKA--APGP-.-GT')
 
     def test_merge_aln(self):
-        self.log_title("test_merge_aln")
         aln_ref = seqio.Alignment.new_from_fasta(self.fasta_aln_ref)
         self.assertEqual(aln_ref.count_sequences, 2)
         aln_merge1 = seqio.Alignment.new_from_fasta(self.fasta_aln_merge1)
@@ -198,14 +205,6 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         aln_after_merge2 = seqio.Alignment.new_from_fasta(self.fasta_aln_after_merge2)
         self.assertEqual(aln_after_merge2.count_sequences, 6)
         self.assertEqual(aln_ref.count_sequences, 6)        
-
-    def log_title(self, title):
-        hr = "=" * 80
-        logging.info("")
-        logging.info(hr)
-        logging.info(" {} ".format(title))
-        logging.info(hr)
-        logging.info("")
 
 if __name__ == '__main__':
     unittest.main()

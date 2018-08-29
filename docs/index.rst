@@ -4,13 +4,16 @@
 Welcome to CathPy's documentation!
 ==================================
 
-Some text here
-
 
 .. code:: python
 
     print 'hello'
     >> hello
+
+.. warning::
+
+Blah blah
+
 
 Guide
 -----
