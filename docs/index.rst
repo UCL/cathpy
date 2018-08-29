@@ -4,16 +4,11 @@
 Welcome to CathPy's documentation!
 ==================================
 
-
-.. code:: python
-
-    print 'hello'
-    >> hello
-
 .. warning::
 
-Blah blah
-
+    This code is early release and will undoubtably change. If you are 
+    looking for a stable, well-tested Python Bioinformatics framework
+    then you should probably head over to BioPython.
 
 Guide
 -----

@@ -9,7 +9,10 @@ from cathpy import seqio, datafiles, error as err
 
 logger = logging.getLogger(__name__)
 
-def is_valid_domain_id(id_str: str):
+def is_valid_domain_id(id_str: str) -> bool:
+    """
+    Returns whether the given input is a valid CATH domain identifier.    
+    """
     return re.match('([0-9][a-zA-Z0-9]{3})([a-zA-Z])([0-9]{2})$', id_str)
 
 class CathVersion(object):
@@ -77,7 +80,7 @@ class FunfamFileFinder(object):
         self.ff_tmpl = ff_tmpl
 
     def search_by_domain_id(self, domain_id):
-
+        """Return the filename of the FunFam alignment containing the domain id."""
         if not is_valid_domain_id(domain_id):
             raise err.InvalidInputError('{} is not a valid domain id'.format(repr(domain_id)))
 
@@ -109,9 +112,19 @@ class FunfamFileFinder(object):
         return ff_files[0]
 
 class StructuralClusterMerger(object):
-    """Merges FunFams based on a structure-based alignment of representatives."""    
+    """
+    Merges FunFams based on a structure-based alignment of representative sequences.
+    
+    Args:
+        cath_version: version of CATH
+        sc_file: structure-based alignment (`*.fa`) of funfam reps
+        ff_dir: path of the funfam alignments (`*.sto`) to merge
+        out_file: file to write merged alignment
+        ff_tmpl: template used to find the funfam alignment files
 
-    def __init__(self, *, cath_version=None, sc_file=None, out_file=None, ff_dir=None,
+    """
+
+    def __init__(self, *, cath_version, sc_file, ff_dir, out_file=None,
         ff_tmpl="__SFAM__-ff-__FF_NUM__.reduced.sto"):
 
         if type(cath_version) is str:

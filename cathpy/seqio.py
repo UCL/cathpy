@@ -114,6 +114,9 @@ class Sequence(object):
         
         Note: if segment information has been specified then this
         will be used to calculate the `seq_num` attribute.
+
+        Raises:
+            OutOfBoundsError: problem mapping segment info to sequence
         """
         residues = []
         
@@ -182,6 +185,7 @@ class Sequence(object):
 
     def get_res_at_seq_position(self, seq_pos):
         """Return the residue character at the given sequence position (ignores gaps)."""
+
         seq_nogap = re.sub(Sequence.re_gap_chars, '', self.seq)
         try:
             res = seq_nogap[seq_pos-1]
@@ -193,15 +197,17 @@ class Sequence(object):
 
     def get_seq_position_at_offset(self, offset):
         """Return the sequence position (ignores gaps) of the given residue offset (may include gaps)."""
+
         seq_to_offset = self.seq[:offset+1]
         if re.match(seq_to_offset[-1], Sequence.re_gap_chars):
-            raise err.SeqIOGapError("Cannot get sequence position at offset {} since this corresponds to a gap".format(offset))
+            raise err.GapError("Cannot get sequence position at offset {} since this corresponds to a gap".format(offset))
 
         seq_nogap = re.sub(Sequence.re_gap_chars, '', seq_to_offset)
         return len(seq_nogap)
 
     def get_offset_at_seq_position(self, seq_pos):
         """Return the offset (with gaps) of the given sequence position (ignores gaps)."""
+
         current_seq_pos=0
         for offset in range(len(self.seq)):
             if not re.match(Sequence.re_gap_chars, self.seq[offset]):
@@ -229,8 +235,8 @@ class Sequence(object):
     def _set_sequence(self, seq):
         self._seq = seq
 
-    @staticmethod
-    def split_hdr(hdr: str) -> dict:
+    @classmethod
+    def split_hdr(cls, hdr: str) -> dict:
         id = None
         id_type = None
         id_ver = None
@@ -780,7 +786,7 @@ class Alignment(object):
 
     def merge_alignment(self, merge_aln, ref_seq_id: str, ref_correspondence = None):
         """
-        Merges sequences from an alignment into the current object.
+        Merges aligned sequences into the current object via a reference sequence.
 
         Sequences in ``merge_aln`` are brought into the current alignment using
         the equivalences identified in reference sequence ``ref_seq_id`` (which
@@ -809,7 +815,7 @@ class Alignment(object):
             [Sequence]: Array of Sequences added to the current alignment.
 
         Raises: 
-            SeqIOMergeCorrespondenceError: problem mapping reference
+            MergeCorrespondenceError: problem mapping reference
                 sequence between alignment and correspondence 
 
         """
@@ -832,14 +838,14 @@ class Alignment(object):
         ref_no_gaps = ref_seq_in_ref.seq_no_gaps
         corr_no_gaps = ref_correspondence.atom_sequence.seq_no_gaps
         if ref_no_gaps != corr_no_gaps:
-            raise err.SeqIOMergeCorrespondenceError(ref_seq_id, 'current', 'ATOM', 
+            raise err.MergeCorrespondenceError(ref_seq_id, 'current', 'ATOM', 
                 ref_no_gaps, corr_no_gaps) 
 
         # check: ref sequence (in merge) must match the SEQRES sequence in Correspondence
         ref_no_gaps = ref_seq_in_merge.seq_no_gaps
         corr_no_gaps = ref_correspondence.seqres_sequence.seq_no_gaps
         if ref_no_gaps != corr_no_gaps:
-            raise err.SeqIOMergeCorrespondenceError(ref_seq_id, 'merge', 'SEQRES', 
+            raise err.MergeCorrespondenceError(ref_seq_id, 'merge', 'SEQRES', 
                 ref_no_gaps, corr_no_gaps) 
 
         # clean up

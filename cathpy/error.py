@@ -36,12 +36,12 @@ class SeqIOError(GeneralError):
     """General Exception class within the SeqIO module"""
     pass
 
-class SeqIOGapError(SeqIOError):
+class GapError(SeqIOError):
     """Exception raised when trying to find residue information about a gap position."""
     pass
 
 
-class SeqIOMergeCorrespondenceError(SeqIOError):
+class MergeCorrespondenceError(SeqIOError):
     """Exception raised when failing to match correspondence sequences during alignment merge."""
 
     def __init__(self, seq_id, aln_type, seq_type, ref_no_gaps, corr_no_gaps):
