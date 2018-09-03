@@ -22,19 +22,16 @@ parser.add_argument('--funfam_file_tmpl', type=str, dest='ff_tmpl',
     required=False, default='__SFAM__-ff-__FF_NUM__.sto',
     help='template used to help locate funfam file (default: %(default)s)')
 
-parser.add_argument('--verbose', '-v', type=bool, required=False, action='count',
-    default=0,
+parser.add_argument('--verbose', '-v', required=False, action='count', default=0,
     help='more verbose logging')
 
 args = parser.parse_args()
 
-merge_args = vars(args)
-
-verbosity = merge_args.get('verbose')
-del merge_args['verbose']
-log_level = logging.DEBUG if verbosity > 0 else logging.INFO
+log_level = logging.DEBUG if args.verbose > 0 else logging.INFO
 logging.basicConfig(level=log_level)
 
-merger = util.StructuralClusterMerger(**merge_args)
+merge_args = dict([(key, args[key]) for key in (
+    'cath_version', 'sc_file', 'out_file', 'ff_dir', 'ff_tmpl')])
 
+merger = util.StructuralClusterMerger(**merge_args)
 merged_aln = merger.run()
