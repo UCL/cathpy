@@ -3,23 +3,30 @@
 # core
 import argparse
 import logging
+import sys
 
 # local
 from cathpy import util
 
-parser = argparse.ArgumentParser(
-    description="Merge FunFams using a structure-based alignment of reps")
+# cath-sc-merge-alignment \
+#    --cv=4.2 \
+#    --in=tests/data/sc.cora.fa \
+#    --out_sto=tmp.sto \
+#    --ff_dir=tests/data/funfams \
 
-parser.add_argument('--cath_version', type=str, dest='cath_version', required=True,
-    help='CATH version')
-parser.add_argument('--in', '-i', type=str, dest='sc_file', required=True,
-    help='structure-based alignment file used as input')
-parser.add_argument('--out', '-o', type=str, dest='out_file', required=True,
-    help='output merged alignment file')
-parser.add_argument('--funfam_dir', type=str, dest='ff_dir', required=True,
+parser = argparse.ArgumentParser(
+    description="Merge FunFams using a structure-based alignment")
+
+parser.add_argument('--cv', type=str, dest='cath_version', required=True,
+    help='cath version')
+parser.add_argument('--in', type=str, dest='sc_file', required=True,
+    help='input reference structure-based alignment (*.fa)')
+parser.add_argument('--out_sto', type=str, required=True,
+    help='output merged alignment file (STOCKHOLM)')
+parser.add_argument('--ff_dir', type=str, required=True,
     help='directory in which funfam alignments can be found')
-parser.add_argument('--funfam_file_tmpl', type=str, dest='ff_tmpl', 
-    required=False, default='__SFAM__-ff-__FF_NUM__.sto',
+parser.add_argument('--ff_tmpl', type=str, 
+    required=False, default='__SFAM__-ff-__FF_NUM__.reduced.sto',
     help='template used to help locate funfam file (default: %(default)s)')
 
 parser.add_argument('--verbose', '-v', required=False, action='count', default=0,
@@ -30,8 +37,8 @@ args = parser.parse_args()
 log_level = logging.DEBUG if args.verbose > 0 else logging.INFO
 logging.basicConfig(level=log_level)
 
-merge_args = dict([(key, args[key]) for key in (
-    'cath_version', 'sc_file', 'out_file', 'ff_dir', 'ff_tmpl')])
+merge_args = dict([(key, vars(args)[key]) for key in (
+    'cath_version', 'sc_file', 'out_sto', 'ff_dir', 'ff_tmpl')])
 
 merger = util.StructuralClusterMerger(**merge_args)
 merged_aln = merger.run()
