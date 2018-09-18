@@ -7,7 +7,7 @@ import tempfile
 
 from . import testutils
 
-from cathpy import util, error as err
+from cathpy import util, seqio, error as err
 
 logger = logging.getLogger(__name__)
 
@@ -21,18 +21,29 @@ class TestUtil(testutils.TestBase):
             '1.10.8.10__FF_SSG9__6.aln_reps.cora.fa')
         self.ff_dir = os.path.join(self.data_dir, 'funfams')
         self.ff_tmpl = '__SFAM__-ff-__FF_NUM__.reduced.sto'
+        self.merge_sto_file = os.path.join(self.data_dir, 'merge.sto')
+        self.example_fasta_file = self.sc_file
 
     @testutils.log_title
-#    @testutils.log_level('cathpy.seqio', 'DEBUG')
     def test_merge(self):
-        tmp_file = tempfile.NamedTemporaryFile(mode='w+', delete=False)
+        tmp_fasta_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.fa', delete=True)
+        tmp_sto_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.sto', delete=False)
         logger.info("Creating SC merger...")
         merger = util.StructuralClusterMerger(cath_version=self.cath_version, 
-            sc_file=self.sc_file, out_file=tmp_file.name,
+            sc_file=self.sc_file, 
+            out_sto=tmp_sto_file.name, out_fasta=tmp_fasta_file.name,
             ff_dir=self.ff_dir, ff_tmpl=self.ff_tmpl)
-        logger.info("Merging SC alignment {} to {}".format(self.sc_file, tmp_file.name))
+        logger.info("Merging SC alignment {}".format(self.sc_file))
         merge_aln = merger.run()
         self.assertEqual(merge_aln.count_sequences, 697)
+
+        with open(tmp_sto_file.name) as f:
+            sto_got = f.read()
+        with open(self.merge_sto_file) as f:
+            sto_expected = f.read()
+
+        logger.info("Checking {} versus {}".format(tmp_sto_file.name, self.merge_sto_file))
+        self.assertMultiLineEqual(sto_got, sto_expected)
 
     @testutils.log_title
     def test_cath_version(self):
@@ -47,14 +58,51 @@ class TestUtil(testutils.TestBase):
         self.assertEqual(str(util.CathVersion(4.2)), '4.2.0')
 
     def test_funfam_file_finder(self):
-        finder = util.FunfamFileFinder(base_dir=self.ff_dir, ff_tmpl='*.sto')
+        finder = util.FunfamFileFinder(base_dir=self.ff_dir, ff_tmpl='__SFAM__-ff-__FF_NUM__.reduced.sto')
         self.assertIsInstance(finder, util.FunfamFileFinder)
         ff_file = finder.search_by_domain_id('2damA00')
         self.assertEqual(os.path.basename(ff_file), '1.10.8.10-ff-14534.reduced.sto')
 
-        with self.assertRaises( err.FileNotFoundError ):
+        with self.assertRaises( err.NoMatchesError ):
             finder.search_by_domain_id('1zzzA01')
         with self.assertRaises( err.InvalidInputError ):
             finder.search_by_domain_id('bingo')
         with self.assertRaises( err.InvalidInputError ):
             finder.search_by_domain_id(' file with &*! characters and spaces ')
+
+    def test_ff_id_from_file(self):
+        finder = util.FunfamFileFinder(base_dir=self.ff_dir, ff_tmpl='__SFAM__-ff-__FF_NUM__.reduced.sto')
+        ff_file = finder.search_by_domain_id('2damA00')
+        ff_id = finder.funfam_id_from_file(ff_file)
+        self.assertEqual(ff_id.sfam_id, '1.10.8.10')
+        self.assertEqual(ff_id.cluster_number, 14534)
+
+    @testutils.log_level('cathpy.util', 'DEBUG')
+    def test_scorecons(self):
+        sc = util.ScoreconsRunner()
+        aln = seqio.Alignment.new_from_fasta(self.example_fasta_file)
+        
+        sc_res = sc.run_fasta(self.example_fasta_file)
+        self.assertEqual(sc_res.dops, 92.889)
+        self.assertEqual(len(sc_res.scores), aln.aln_positions)
+
+    def test_groupsim(self):
+        gs = util.GroupsimRunner()
+        aln = seqio.Alignment.new_from_fasta(self.example_fasta_file)
+
+        seqs = aln.seqs
+
+        for s in seqs[:2]:
+            s.set_cluster_id('0001')
+        for s in seqs[2:]:
+            s.set_cluster_id('0002')
+
+        gs_res = gs.run_alignment(aln)
+        self.assertEqual(gs_res.count_positions, aln.aln_positions)
+        print("GS: {}".format(repr(gs_res.__dict__)))
+
+        # aln.write_sto('tmp.sto')
+        # aln.add_scorecons()
+        # aln.write_sto('tmp.plus_scorecons.sto')
+        # aln.add_groupsim()
+        # aln.write_sto('tmp.plus_groupsim.sto')

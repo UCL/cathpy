@@ -12,6 +12,14 @@ class ParamError(GeneralError):
     """Incorrect parameters."""
     pass
 
+class NoMatchesError(GeneralError):
+    """No matches."""
+    pass
+
+class TooManyMatchesError(GeneralError):
+    """Found more matches than expected."""
+    pass
+
 class InvalidInputError(GeneralError):
     """Exception raised when an error is encountered due to incorrect input."""
     pass
@@ -39,7 +47,6 @@ class SeqIOError(GeneralError):
 class GapError(SeqIOError):
     """Exception raised when trying to find residue information about a gap position."""
     pass
-
 
 class MergeCorrespondenceError(SeqIOError):
     """Exception raised when failing to match correspondence sequences during alignment merge."""

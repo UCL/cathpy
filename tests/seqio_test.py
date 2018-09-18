@@ -98,7 +98,8 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
 
     def test_create_sequence(self):
         seq = seqio.Sequence('id1/23-123', '---AKGHP--GPKAPGPAK--')
-        self.assertEqual(seq.id, 'id1')
+        self.assertEqual(seq.id, 'id1/23-123')
+        self.assertEqual(seq.accession, 'id1')
         self.assertEqual(len(seq.segs), 1)
         self.assertEqual(seq.segs[0].start, 23)
         self.assertEqual(seq.segs[0].stop, 123)
@@ -130,7 +131,8 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
 
     def test_split_hdr(self):
         hdr = seqio.Sequence.split_hdr('domain|1cukA01/12-134_178-234')
-        self.assertEqual(hdr['id'], '1cukA01')
+        self.assertEqual(hdr['id'], 'domain|1cukA01/12-134_178-234')
+        self.assertEqual(hdr['accession'], '1cukA01')
         self.assertEqual(hdr['id_type'], 'domain')
         self.assertIsInstance(hdr['segs'][0], seqio.Segment)
         self.assertEqual(hdr['segs'][0].start, 12)
@@ -204,7 +206,45 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         aln_ref.merge_alignment(aln_merge2, 'ref2')
         aln_after_merge2 = seqio.Alignment.new_from_fasta(self.fasta_aln_after_merge2)
         self.assertEqual(aln_after_merge2.count_sequences, 6)
-        self.assertEqual(aln_ref.count_sequences, 6)        
+        self.assertEqual(aln_ref.count_sequences, 6)
+
+        sto_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix='.sto')
+        sto_out = sto_tmp.name
+
+        aln_ref.add_groupsim()
+        aln_ref.add_scorecons()
+        aln_ref.write_sto(sto_out)
+
+    def test_write_sto(self):
+        
+        sto_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True)
+        sto_out = sto_tmp.name
+
+        aln = seqio.Alignment.new_from_stockholm(self.stockholm_file)
+
+        # make sure we have parsed the meta data okay
+        first_seq = aln.get_seq_at_offset(0)
+        seq_meta = first_seq.meta
+        self.assertEqual(seq_meta['AC'], 'Q96CS3')
+        self.assertEqual(seq_meta['OS'], 'Homo sapiens')
+        self.assertEqual(seq_meta['DE'], 'FAS-associated factor 2')
+        logger.info('first seq: ' + repr(vars(first_seq)) )
+
+        logger.info('Writing out tmp STOCKHOLM file to '+sto_out)
+        aln.write_sto(sto_out)
+
+        sto_expected = ''
+        with open(self.stockholm_file, 'r') as io:
+            # some lines seem to have trailing spaces
+            for line in io:
+                sto_expected += line.strip() + '\n'
+
+        with open(sto_out, 'r') as io:
+            sto_got = io.read()
+
+        self.maxDiff = None
+        self.assertMultiLineEqual(sto_got, sto_expected)
+
 
 if __name__ == '__main__':
     unittest.main()
