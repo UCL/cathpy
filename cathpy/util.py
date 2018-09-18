@@ -373,7 +373,7 @@ class StructuralClusterMerger(object):
     """
 
     def __init__(self, *, cath_version, sc_file, ff_dir, out_fasta=None, 
-        out_sto=None, ff_tmpl="__SFAM__-ff-__FF_NUM__.reduced.sto", 
+        out_sto=None, ff_tmpl="__SFAM__-ff-__FF_NUM__.sto", 
         add_groupsim=True, add_scorecons=True):
 
         if type(cath_version) is str:
@@ -486,8 +486,8 @@ class StructuralClusterMerger(object):
                 cluster_label = funfam_id.cluster_number)
 
             merge_stage_file = next_merge_stage_file()
-            logger.info("Writing tmp merge file to '{}'".format(merge_stage_file))
-            sc_aln.write_fasta(merge_stage_file, wrap_width=None)
+            #logger.info("Writing tmp merge file to '{}'".format(merge_stage_file))
+            #sc_aln.write_fasta(merge_stage_file, wrap_width=None)
 
         # add scorecons
         if self.add_scorecons:
