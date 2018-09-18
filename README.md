@@ -4,7 +4,7 @@
 
 YABT - Yet Another Bioinformatics Toolkit
 
-## Why aren't I using BioPython?
+## Shouldn't I be using BioPython instead?
 
-Mainly because I'm using this as an exercise in learning Python
+Almost definitely.
 
