@@ -609,7 +609,7 @@ class Correspondence(object):
         
     def to_aln(self):
         seqs = self.to_sequences()
-        return Alignment(seqs = seqs)
+        return Align(seqs = seqs)
         
     def __str__(self):
         return self.to_fasta()
@@ -617,7 +617,7 @@ class Correspondence(object):
     def __repr__(self):
         return self.to_fasta()
 
-class Alignment(object):
+class Align(object):
     """Object storing a protein sequence alignment"""
 
     REF_GAP_CHAR='-'
@@ -701,7 +701,7 @@ class Alignment(object):
     @classmethod
     def new_from_fasta(cls, fasta_io):
         """Initialise an alignment object from a fasta file / string / io"""
-        aln = Alignment()
+        aln = Align()
         aln.read_sequences_from_fasta(fasta_io)
         return aln
 
@@ -804,7 +804,7 @@ class Alignment(object):
 
     def read_sequences_from_fasta(self, fasta_io):
         """Parse aligned sequences from FASTA (str, file, io) and adds them to the current
-        Alignment object. Returns the number of sequences that are added."""
+        Align object. Returns the number of sequences that are added."""
 
         fasta_io = __class__._get_io_from_file_or_string(fasta_io)
 
@@ -894,7 +894,7 @@ class Alignment(object):
             else:
                 logger.info("Removing complete gap from alignment offset: {}".format(aln_offset))
 
-        new_aln = Alignment()
+        new_aln = Align()
         for seq_pos in range(len(new_seq_strings)):
             hdr = seqs[seq_pos]._hdr
             seq_str = new_seq_strings[seq_pos]
@@ -942,7 +942,7 @@ class Alignment(object):
         taken into account.
 
         Args: 
-            merge_aln (Alignment): An Alignment containing the reference
+            merge_aln (Align): An Align containing the reference
                 sequence and any additional sequences to merge. 
             ref_seq_acc (str): The accession that will be used to find the 
                 reference sequence in the current alignment and merge_aln 
@@ -1060,8 +1060,8 @@ class Alignment(object):
                 if Sequence.is_gap(ref_res_in_merge):
                     logger.debug(("GAP '{}' in ref sequence in MERGE alignment [{}], "
                         "inserting gap '{}' at position [{}] in all ref sequences").format(
-                            ref_res_in_merge, merge_aln_pos, Alignment.MERGE_GAP_CHAR, merge_aln_pos))
-                    self.insert_gap_at_offset(ref_aln_pos, gap_char=Alignment.MERGE_GAP_CHAR)
+                            ref_res_in_merge, merge_aln_pos, Align.MERGE_GAP_CHAR, merge_aln_pos))
+                    self.insert_gap_at_offset(ref_aln_pos, gap_char=Align.MERGE_GAP_CHAR)
                     merge_aln.lower_case_at_offset(merge_aln_pos)
                     merge_aln.set_gap_char_at_offset(merge_aln_pos, '.')
 
@@ -1082,10 +1082,10 @@ class Alignment(object):
 
                     logger.debug(("GAP '{}' in ATOM records of correspondence [{}], "
                         "inserting gap '{}' at position [{}] in ref sequences").format(
-                            '*', ref_corr_pos, Alignment.MERGE_GAP_CHAR, ref_aln_pos))
+                            '*', ref_corr_pos, Align.MERGE_GAP_CHAR, ref_aln_pos))
 
-                    #merge_aln.insert_gap_at_offset(merge_aln_pos, gap_char=Alignment.MERGE_GAP_CHAR)
-                    self.insert_gap_at_offset(ref_aln_pos, gap_char=Alignment.MERGE_GAP_CHAR)
+                    #merge_aln.insert_gap_at_offset(merge_aln_pos, gap_char=Align.MERGE_GAP_CHAR)
+                    self.insert_gap_at_offset(ref_aln_pos, gap_char=Align.MERGE_GAP_CHAR)
                     merge_aln.lower_case_at_offset(merge_aln_pos)
                     merge_aln.set_gap_char_at_offset(merge_aln_pos, '.')
 
@@ -1214,7 +1214,7 @@ class Alignment(object):
 
     def copy(self):
         """Return a deepcopy of this object."""
-        new_aln = Alignment()
+        new_aln = Align()
         new_seqs = [s.copy() for s in self.seqs]
         new_aln.seqs = new_seqs
         new_aln.aln_positions = new_aln.seqs[0].length()

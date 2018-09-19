@@ -1,4 +1,3 @@
-
 import glob
 import logging
 import os
@@ -20,6 +19,7 @@ class TestUtil(testutils.TestBase):
         self.sc_file = os.path.join(self.data_dir, 
             '1.10.8.10__FF_SSG9__6.aln_reps.cora.fa')
         self.ff_dir = os.path.join(self.data_dir, 'funfams')
+        self.ff_file = os.path.join(self.ff_dir, '1.10.8.10-ff-14534.reduced.sto')
         self.ff_tmpl = '__SFAM__-ff-__FF_NUM__.reduced.sto'
         self.merge_sto_file = os.path.join(self.data_dir, 'merge.sto')
         self.example_fasta_file = self.sc_file
@@ -75,12 +75,12 @@ class TestUtil(testutils.TestBase):
         ff_file = finder.search_by_domain_id('2damA00')
         ff_id = finder.funfam_id_from_file(ff_file)
         self.assertEqual(ff_id.sfam_id, '1.10.8.10')
-        self.assertEqual(ff_id.cluster_number, 14534)
+        self.assertEqual(ff_id.cluster_num, 14534)
 
     @testutils.log_level('cathpy.util', 'DEBUG')
     def test_scorecons(self):
         sc = util.ScoreconsRunner()
-        aln = seqio.Alignment.new_from_fasta(self.example_fasta_file)
+        aln = seqio.Align.new_from_fasta(self.example_fasta_file)
         
         sc_res = sc.run_fasta(self.example_fasta_file)
         self.assertEqual(sc_res.dops, 92.889)
@@ -88,7 +88,7 @@ class TestUtil(testutils.TestBase):
 
     def test_groupsim(self):
         gs = util.GroupsimRunner()
-        aln = seqio.Alignment.new_from_fasta(self.example_fasta_file)
+        aln = seqio.Align.new_from_fasta(self.example_fasta_file)
 
         seqs = aln.seqs
 
@@ -106,3 +106,34 @@ class TestUtil(testutils.TestBase):
         # aln.write_sto('tmp.plus_scorecons.sto')
         # aln.add_groupsim()
         # aln.write_sto('tmp.plus_groupsim.sto')
+
+    def test_cluster_file(self):
+        sc_path = os.path.abspath(self.sc_file)
+        sc_dir = os.path.dirname(sc_path)
+        sc_file = util.ClusterFile(sc_path)
+        # 1.10.8.10__FF_SSG9__6.aln_reps.cora.fa
+        self.assertDictEqual(sc_file.__dict__, { 
+            'dir': sc_dir,
+            'sfam_id': '1.10.8.10',
+            'cluster_type': 'FF_SSG9',
+            'cluster_num': '6',
+            'desc': '.aln_reps.cora',
+            'suffix': '.fa',
+            'join_char': '__',
+        })
+        self.assertEqual(sc_file.to_string(), sc_path)
+
+        ff_path = os.path.abspath(self.ff_file)
+        ff_dir = os.path.dirname(ff_path)
+        ff_file = util.ClusterFile(ff_path)
+        # 1.10.8.10-ff-14534.reduced.sto
+        self.assertDictEqual(ff_file.__dict__, { 
+            'dir': ff_dir,
+            'sfam_id': '1.10.8.10',
+            'cluster_type': 'ff',
+            'cluster_num': '14534',
+            'desc': '.reduced',
+            'suffix': '.sto',
+            'join_char': '-',
+        })
+        self.assertEqual(ff_file.to_string(), ff_path)

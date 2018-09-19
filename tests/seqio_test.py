@@ -142,7 +142,7 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         self.assertEqual(hdr['id_ver'], None)
 
     def test_read_fasta_filename(self):
-        aln = seqio.Alignment.new_from_fasta(self.fasta_file.name)
+        aln = seqio.Align.new_from_fasta(self.fasta_file.name)
         self.assertEqual(aln.count_sequences, 2)
         seqs = aln.seqs
         self.assertEqual(seqs[0].id, 'id1')
@@ -150,21 +150,21 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
 
     def test_read_fasta_fileio(self):
         self.fasta_file.seek(0)
-        aln = seqio.Alignment.new_from_fasta(self.fasta_file)
+        aln = seqio.Align.new_from_fasta(self.fasta_file)
         self.assertEqual(aln.count_sequences, 2)
 
     def test_read_stockholm_file(self):
-        aln = seqio.Alignment.new_from_stockholm(self.stockholm_file)
+        aln = seqio.Align.new_from_stockholm(self.stockholm_file)
         self.assertEqual(aln.count_sequences, 51)
 
     def test_read_fasta_str(self):
-        aln = seqio.Alignment.new_from_fasta(self.fasta_contents)
+        aln = seqio.Align.new_from_fasta(self.fasta_contents)
         self.assertEqual(aln.count_sequences, 2)
 
     def test_remove_gaps(self):
         self.log_title('remove_gaps')
         self.fasta_file.seek(0)
-        aln = seqio.Alignment.new_from_fasta(self.fasta_contents)
+        aln = seqio.Align.new_from_fasta(self.fasta_contents)
         self.assertEqual(aln.count_sequences, 2)
         new_aln = aln.remove_alignment_gaps()
         new_seqs = new_aln.seqs
@@ -173,14 +173,14 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
 
     def test_copy_aln(self):
         self.log_title('copy_aln')
-        aln_ref = seqio.Alignment.new_from_fasta(self.fasta_aln_ref)
+        aln_ref = seqio.Align.new_from_fasta(self.fasta_aln_ref)
         aln_copy = aln_ref.copy()
         self.assertNotEqual(aln_copy, aln_ref)
         self.assertEqual(str(aln_copy), str(aln_ref))
 
     def test_aln_add_gap(self):
         self.log_title('aln_add_gap')        
-        aln = seqio.Alignment.new_from_fasta(self.fasta_aln_ref)
+        aln = seqio.Align.new_from_fasta(self.fasta_aln_ref)
         self.assertEqual(aln.seqs[0].seq, '---AKGHP--GPKAPGPAK--')
         self.assertEqual(aln.seqs[1].seq, 'CGCAKGH-PKA--APGP--GT')
         aln.insert_gap_at_offset(4)
@@ -191,20 +191,20 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         self.assertEqual(aln.seqs[1].seq, 'CGCA-KGH-PKA--APGP-.-GT')
 
     def test_merge_aln(self):
-        aln_ref = seqio.Alignment.new_from_fasta(self.fasta_aln_ref)
+        aln_ref = seqio.Align.new_from_fasta(self.fasta_aln_ref)
         self.assertEqual(aln_ref.count_sequences, 2)
-        aln_merge1 = seqio.Alignment.new_from_fasta(self.fasta_aln_merge1)
+        aln_merge1 = seqio.Align.new_from_fasta(self.fasta_aln_merge1)
         self.assertEqual(aln_merge1.count_sequences, 3)
-        aln_merge2 = seqio.Alignment.new_from_fasta(self.fasta_aln_merge2)
+        aln_merge2 = seqio.Align.new_from_fasta(self.fasta_aln_merge2)
         self.assertEqual(aln_merge2.count_sequences, 3)
 
         aln_ref.merge_alignment(aln_merge1, 'ref1')
-        aln_after_merge1 = seqio.Alignment.new_from_fasta(self.fasta_aln_after_merge1)
+        aln_after_merge1 = seqio.Align.new_from_fasta(self.fasta_aln_after_merge1)
         self.assertEqual(aln_after_merge1.count_sequences, 4)
         self.assertEqual(aln_ref.count_sequences, 4)
 
         aln_ref.merge_alignment(aln_merge2, 'ref2')
-        aln_after_merge2 = seqio.Alignment.new_from_fasta(self.fasta_aln_after_merge2)
+        aln_after_merge2 = seqio.Align.new_from_fasta(self.fasta_aln_after_merge2)
         self.assertEqual(aln_after_merge2.count_sequences, 6)
         self.assertEqual(aln_ref.count_sequences, 6)
 
@@ -220,7 +220,7 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         sto_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True)
         sto_out = sto_tmp.name
 
-        aln = seqio.Alignment.new_from_stockholm(self.stockholm_file)
+        aln = seqio.Align.new_from_stockholm(self.stockholm_file)
 
         # make sure we have parsed the meta data okay
         first_seq = aln.get_seq_at_offset(0)
