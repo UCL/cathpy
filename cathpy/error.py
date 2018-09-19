@@ -16,6 +16,10 @@ class NoMatchesError(GeneralError):
     """No matches."""
     pass
 
+class ParseError(GeneralError):
+    """Failed to parse information."""
+    pass
+
 class TooManyMatchesError(GeneralError):
     """Found more matches than expected."""
     pass
