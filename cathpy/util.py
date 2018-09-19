@@ -4,6 +4,7 @@ import io
 import os
 import re
 import subprocess
+from subprocess import Popen, PIPE
 import tempfile
 
 # local
@@ -17,20 +18,93 @@ def is_valid_domain_id(id_str: str) -> bool:
     """
     return re.match('([0-9][a-zA-Z0-9]{3})([a-zA-Z])([0-9]{2})$', id_str)
 
-
-class SfamSubClusterId(object):
-    def __init__(self, sfam_id, cluster_type, cluster_number):
+class ClusterID(object):
+    def __init__(self, sfam_id, cluster_type, cluster_num):
         self.sfam_id = sfam_id
         self.cluster_type = cluster_type
-        self.cluster_number = cluster_number
+        self.cluster_num = cluster_num
+
+    @classmethod
+    def new_from_file(cls, file):
+        cf = ClusterFile(file)
+        cls(cf.sfam_id, cf.cluster_type, cf.cluster_num)
 
     def __str__(self):
-        return "{}-{}-{}".format(self.sfam_id, self.cluster_type, self.cluster_number)
+        return "{}-{}-{}".format(self.sfam_id, self.cluster_type, self.cluster_num)
 
-class FunfamId(SfamSubClusterId):
+class FunfamID(ClusterID):
     """Object that represents a Funfam ID."""
-    def __init__(self, sfam_id, cluster_number):
-        super().__init__(sfam_id, 'FF', cluster_number)
+    def __init__(self, sfam_id, cluster_num):
+        super().__init__(sfam_id, 'FF', cluster_num)
+
+class ClusterFile(object):
+    """
+    Object that represents a cluster file.
+    
+    ClusterFile("1.10.8.10-ff-1234.sto")
+    ClusterFile(None, cluster_type=)
+
+    """
+
+    def __init__(self, path, *, dir=None, sfam_id=None, cluster_type=None, cluster_num=None, 
+        join_char=None, desc=None, suffix=None):
+
+        # initialise from path (if given)
+        attrs = ('dir', 'sfam_id', 'cluster_type', 'cluster_num', 'join_char', 'desc', 'suffix')
+        if path:
+            path_info = __class__.split_path(path)
+            for attr in attrs:
+                setattr(self, attr, path_info[attr])
+
+        # allow other parts to be specified (or overridden) by extra args
+        local_args = locals()
+        for attr in attrs:
+            if local_args[attr]:
+                setattr(self, attr, local_args[attr])
+
+    @property
+    def cluster_id(self):
+        ClusterID(self.sfam_id, self.cluster_type, self.cluster_num)
+
+    @classmethod
+    def split_path(cls, path):
+        """
+        Returns information about a cluster based on the path (filename).
+        """
+
+        re_file = re.compile(r'(?P<sfam_id>[0-9.]+)'         # 1.10.8.10
+            r'(?P<join_char>-|__)'                           # - or __
+            r'(?P<cluster_type>\w+)'                         # ff
+            r'(?:-|__)'                                      # - or __
+            r'(?P<cluster_num>[0-9]+)'                       # 1234
+            r'(?P<desc>.*?)'                                 # .reduced
+            r'(?P<suffix>\.\w+)$')                           # .sto
+
+        m = re_file.match(os.path.basename(path))
+        if m:
+            info = m.groupdict()
+            info['dir'] = os.path.dirname(path)
+            return info
+        
+        raise err.NoMatchesError('failed to parse cluster details from filename {}'.format(path))
+
+    def to_string(self, join_char=None):
+        if not join_char:
+            join_char = self.join_char
+        
+        file_parts = [
+            join_char.join([self.sfam_id, self.cluster_type, self.cluster_num]),
+            self.desc,
+            self.suffix ]
+
+        # remove elements that are not defined (eg. desc, suffix)
+        file_parts = [p for p in file_parts if p != None]
+
+        filename = ''.join(file_parts)
+
+        path = os.path.join(self.dir, filename) if self.dir else filename
+
+        return path
 
 
 class CathVersion(object):
@@ -183,21 +257,19 @@ class GroupsimRunner(object):
         groupsim_args.append(fasta_tmp_filename)
         groupsim_args.extend(source_ids)
 
-        logger.info("ARGS: {}".format(repr(groupsim_args)))
-
         groupsim_args = [str(a) for a in groupsim_args]
 
         logger.debug("running groupsim: sys: " + " ".join(groupsim_args))
 
         try:
-            # note: this returns bytes (not strings)
-            groupsim_out = subprocess.check_output(groupsim_args).decode('ascii')
+            p = Popen(groupsim_args, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            groupsim_out, groupsim_err = p.communicate()
         except subprocess.CalledProcessError as e:
             logger.error('CMD: {}\nCODE: {}\nOUTPUT: {}\nSTDERR: "{}"\nSTDOUT: "{}"\n'.format(
                 e.cmd, e.returncode, e.output, e.stderr, e.stdout))
-            raise
+            raise e
         except:
-            raise err.FileNotFoundError("Encountered error running groupsim: `{}`".format(
+            raise err.FileNotFoundError("Encountered unexpected error running GroupSim: `{}`".format(
                 " ".join(groupsim_args)
             ))
 
@@ -241,7 +313,7 @@ class ScoreconsRunner(object):
 
         fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix=".fa")
         fasta_tmp_filename = fasta_tmp.name
-        aln = seqio.Alignment.new_from_stockholm(sto_file)
+        aln = seqio.Align.new_from_stockholm(sto_file)
         aln.write_fasta(fasta_tmp_filename)
         return self.run_fasta(fasta_tmp_filename)
 
@@ -259,18 +331,23 @@ class ScoreconsRunner(object):
         logger.debug("running scorecons: sys: " + " ".join(scorecons_args))
 
         try:
-            # note: this returns bytes (not strings)
-            scorecons_out = subprocess.check_output(scorecons_args).decode('ascii')
+            p = Popen(scorecons_args, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            scorecons_out, scorecons_err = p.communicate()
+
         except subprocess.CalledProcessError as e:
             logger.error('CMD: {}\nCODE: {}\nOUTPUT: {}\nSTDERR: "{}"\nSTDOUT: "{}"\n'.format(
                 e.cmd, e.returncode, e.output, e.stderr, e.stdout))
-            raise
+            raise e
         except:
             raise err.FileNotFoundError("Encountered error running scorecons: `{}`".format(
                 " ".join(scorecons_args)
             ))
 
-        match = re.search(r'^DOPS score: ([0-9.]+)', scorecons_out)
+        match = re.search(r'^DOPS score: ([0-9.]+)', scorecons_out, flags=re.MULTILINE)
+        if not match:
+            raise err.ParseError('Failed to find DOPS score in scorecons output: {} (STDERR: {})'.format(
+                scorecons_out, scorecons_err))
+        
         dops_score = float(match.group(1))
 
         sc_numbers = __class__.split_scorecons_file(tmp_scorecons_file.name)
@@ -303,7 +380,7 @@ class FunfamFileFinder(object):
         self.ff_tmpl = ff_tmpl
 
     def funfam_id_from_file(self, ff_file):
-        """Extracts a FunfamId from the file name (based on the ff_tmpl)"""
+        """Extracts a FunfamID from the file name (based on the ff_tmpl)"""
         ff_re = self.ff_tmpl
         ff_re = ff_re.replace('__SFAM__', r'(?P<sfam_id>[0-9\.]+)')
         ff_re = ff_re.replace('__FF_NUM__', r'(?P<ff_num>[0-9]+)')
@@ -313,7 +390,7 @@ class FunfamFileFinder(object):
             raise err.NoMatchesError("failed to match template '{}' against filename '{}'".format(
                 ff_re, filename
             ))
-        ff_id = FunfamId(m.group('sfam_id'), int(m.group('ff_num')))
+        ff_id = FunfamID(m.group('sfam_id'), int(m.group('ff_num')))
 
         return ff_id
 
@@ -410,7 +487,7 @@ class StructuralClusterMerger(object):
         logger.info('Cluster number: ' + sc_num)
 
         logger.info("Parsing structure-based alignment: ")
-        sc_aln = seqio.Alignment.new_from_fasta(self.sc_file)
+        sc_aln = seqio.Align.new_from_fasta(self.sc_file)
         logger.info(" ... found {} representatives".format(sc_aln.count_sequences))
 
         cluster_id = '-'.join([sfam_id, cluster_type, sc_num])
@@ -446,7 +523,7 @@ class StructuralClusterMerger(object):
             ff_aln_file = ff_finder.search_by_domain_id(sc_rep_acc)
 
             # parse it into an alignment
-            ff_aln = seqio.Alignment.new_from_stockholm(ff_aln_file)
+            ff_aln = seqio.Align.new_from_stockholm(ff_aln_file)
 
             # we need the funfam_number for groupsim
             funfam_id = ff_finder.funfam_id_from_file(ff_aln_file)
@@ -483,7 +560,7 @@ class StructuralClusterMerger(object):
 
             # merge the funfam into the sc alignment
             sc_aln.merge_alignment(ff_aln, sc_rep_acc, sc_rep_corr, 
-                cluster_label = funfam_id.cluster_number)
+                cluster_label = funfam_id.cluster_num)
 
             merge_stage_file = next_merge_stage_file()
             #logger.info("Writing tmp merge file to '{}'".format(merge_stage_file))
