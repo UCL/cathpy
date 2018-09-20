@@ -51,7 +51,7 @@ OPTIONS:
 
 ### Example alignment
 
-Alignment: [example.aln]()
+Alignment: [example.aln](https://github.com/sayonidas03/cathpy/blob/master/tools/GroupSim/examples/example.aln)
 
 The example alignment contains sequences from two subgroups - 1 and 2.
 
