@@ -81,7 +81,7 @@ scored by GroupSim with identity matrix
 ```
 
 ```
-python2 group_sim_sdp.py -m mclachlan1972.aa.dat -c 0.3 -g 0.5 example.aln 1 2 > example_mc_with_gap_cutoff.groupsim.txt
+python2 group_sim_sdp.py -c 0.3 -g 0.5 -m mclachlan1972.aa.dat example.aln 1 2 > example_mc_with_gap_cutoff.groupsim.txt
 ```
 ```
 scored by GroupSim with mclachlan1972.aa.dat matrix
@@ -98,7 +98,7 @@ scored by GroupSim with mclachlan1972.aa.dat matrix
 2. For identifying and ranking SDPs between more than 2 subgroups, it is best to use the McLachlan matrix so that the physicochemical characteristics of the AA changes are taken into consideration.
 
 ```
-python2 group_sim_sdp_no_gap_cutoff.py -m mclachlan1972.aa.dat example.aln 1 2 > example_mc_without_gap_cutoff.groupsim.txt
+python2 group_sim_sdp.py -c 1 -g 1 -m mclachlan1972.aa.dat example.aln 1 2 > example_mc_without_gap_cutoff.groupsim.txt
 ```
 ```
 scored by GroupSim with mclachlan1972.aa.dat matrix
