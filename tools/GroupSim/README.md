@@ -6,7 +6,7 @@ GroupSim can be used to predict specificity-determining residues between subgrou
 
 The paper describing th method can be found [here](http://bioinformatics.oxfordjournals.org/cgi/content/abstract/24/13/1473) and the original code is available [here](http://compbio.cs.princeton.edu/specificity/).
 
-# Script: `group_sim_sdp.py`
+### Script: `group_sim_sdp.py`
 
 ```
 USAGE:
@@ -47,7 +47,7 @@ OPTIONS:
      the window. Default=3
 
 ```
-# Other variants of the script: `group_sim_sdp_no_gap_cutoff.py`
+### Other variants of the script: group_sim_sdp_no_gap_cutoff.py
 
 ### Example alignment
 
