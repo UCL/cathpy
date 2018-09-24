@@ -64,7 +64,7 @@ class AminoAcids(object):
 class Residue(object):
     """Class to represent a protein residue."""
 
-    def __init__(self, aa, seq_num=None, pdb_label=None):
+    def __init__(self, aa, seq_num=None, pdb_label=None, *, pdb_aa=None):
         assert type(aa) is str
         if seq_num:
             seq_num = int(seq_num)
@@ -72,13 +72,14 @@ class Residue(object):
         self.aa = aa
         self.seq_num = seq_num
         self.pdb_label = pdb_label
+        self.pdb_aa = pdb_aa if pdb_aa else aa
 
     def __str__(self):
         return self.aa
 
     def __repr__(self):
-        return "res({},seq:{},pdb:{})".format(
-            self.aa, self.seq_num, self.pdb_label)
+        return "res({},seq:{},pdb:{},pdb_aa:{})".format(
+            self.aa, self.seq_num, self.pdb_label, self.pdb_aa)
 
 class Segment(object):
     """Class to represent a protein segment."""
@@ -115,6 +116,10 @@ class Sequence(object):
             for key, val in meta.items():
                 self.meta[key] = val
     
+    @property
+    def is_cath_domain(self):
+        return self.id_type == 'domain'
+
     def get_residues(self):
         """
         Returns an array of Residue objects based on this sequence.
@@ -443,7 +448,8 @@ class Correspondence(object):
             try:
                 seqres_aa, seqres_num, pdb_label, pdb_aa = line.split()
                 if pdb_aa is not seqres_aa and pdb_aa is not Correspondence.GCF_GAP_CHAR:
-                    logger.warning("pdb_aa '{}' does not match seqres_aa '{}' (line: {})".format(pdb_aa, seqres_aa, line_no))
+                    logger.warning("pdb_aa '{}' does not match seqres_aa '{}' (line: {})".format(
+                        pdb_aa, seqres_aa, line_no))
             except:
                 raise err.SeqIOError("Error: failed to parse GCF '{}' ({}:{})".format(
                     line, str(gcf_io), line_no
@@ -453,7 +459,7 @@ class Correspondence(object):
                 pdb_label = None
                 pdb_aa = None
 
-            res = Residue(seqres_aa, int(seqres_num), pdb_label)
+            res = Residue(seqres_aa, int(seqres_num), pdb_label, pdb_aa=pdb_aa)
             corr.residues.append(res)
         
         gcf_io.close()
@@ -523,7 +529,7 @@ class Correspondence(object):
         """Returns a Sequence corresponding to the ATOM records."""
 
         id = "atom|{}".format(self.id)
-        res = [res.aa if res.pdb_label else Correspondence.FASTA_GAP_CHAR for res in self.residues]
+        res = [res.pdb_aa if res.pdb_label else Correspondence.FASTA_GAP_CHAR for res in self.residues]
         return Sequence(id, "".join(res))
 
     @property
@@ -591,7 +597,7 @@ class Correspondence(object):
         gcf_str = '>' + self.id + '\n'
         for res in self.residues:
             if res.pdb_label:
-                vals = [res.aa, res.seq_num, res.pdb_label, res.aa]
+                vals = [res.aa, res.seq_num, res.pdb_label, res.pdb_aa]
             else:
                 vals = [res.aa, res.seq_num, '*', '*']
             gcf_str += '{} {:>4} {:>4}  {}\n'.format(*vals)
@@ -738,7 +744,9 @@ class Align(object):
 
         gc_meta_to_attr = { meta: attr for (meta, attr) in cls.STO_META_TO_ATTR }
 
+        line_count=0
         for line in sto_io:
+            line_count += 1
 
             line = line.strip()
 
@@ -746,8 +754,8 @@ class Align(object):
                 _, feature, per_file_ann = line.split(None, 2)
 
                 if feature not in gc_meta_to_attr:
-                    raise Exception('encountered unexpected GF tag {} in line "{}" (known tags: {})'.format(
-                        feature, line, repr(gc_meta_to_attr)))
+                    raise err.ParseError('encountered unexpected GF tag {} in line {} "{}" (known tags: {})'.format(
+                        feature, line_count, line, repr(gc_meta_to_attr)))
 
                 attr = gc_meta_to_attr[feature]
                 if type(attr) is dict:
@@ -755,8 +763,8 @@ class Align(object):
                     key = key.strip()
                     value = value.strip()
                     if key not in attr:
-                        raise Exception('encountered unexpected GF tag {}->{} in line "{}" (known tags: {})'.format(
-                            feature, key, line, repr(attr)))
+                        raise err.ParseError('encountered unexpected GF tag {}->{} in line {} "{}" (known tags: {})'.format(
+                            feature, key, line_count, line, repr(attr)))
                     attr = attr[key]
                     per_file_ann = value
                 
@@ -769,13 +777,20 @@ class Align(object):
                 aln_meta[feature] = per_col_ann
 
             elif line.startswith('#=GS'):
-                _, seq_id, feature, per_seq_ann = line.split(None, 3)
-                if feature == 'DR':
-                    dr_type, per_seq_ann = per_seq_ann.split(None, 1)
-                    feature = feature + '_' + dr_type                
-                if seq_id not in seq_meta_by_id:
-                    seq_meta_by_id[seq_id] = {}
-                seq_meta_by_id[seq_id][feature] = per_seq_ann
+                try:
+                    _, seq_id, feature, per_seq_ann = line.split(None, 3)                
+                    if feature == 'DR':
+                        dr_type, per_seq_ann = per_seq_ann.split(None, 1)
+                        feature = feature + '_' + dr_type                
+                    if seq_id not in seq_meta_by_id:
+                        seq_meta_by_id[seq_id] = {}
+                    seq_meta_by_id[seq_id][feature] = per_seq_ann
+                except ValueError:
+                    logger.warning('ignoring GS record with incorrect columns (line:{} "{}")'.format(
+                        line_count, line))
+                except:
+                    raise err.ParseError('failed to parse line {} "{}"'.format(
+                        line_count, line))
 
             elif line.startswith('#=GR'):
                 _, seq_id, feature, per_res_ann = line.split(None, 3)
@@ -1124,7 +1139,15 @@ class Align(object):
 
         logger.debug("Checking merge results for {} ({}) ...".format(ref_seq_acc, repr(ref_seq_in_merge._hdr)))
         for original_seq in merge_aln.seqs:
-            seq = self.find_seq_by_accession(original_seq.accession)
+
+            # searching by accession is necessary for CATH domains (since the headers
+            # in the structure-based alignment do not have segment information),
+            # however uniprot accessions can appear multiple times so we need to use
+            # the full id
+            if original_seq.is_cath_domain:
+                seq = self.find_seq_by_accession(original_seq.accession)
+            else:
+                seq = self.find_seq_by_id(original_seq.id)
 
             # logger.debug('Working on sequence: {}'.format(str(original_seq)))
 
