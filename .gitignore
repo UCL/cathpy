@@ -6,3 +6,5 @@ cathpy.egg-info/
 docs/_build/
 docs/._*
 .eggs/
+merge.*/
+sc-alignments/
