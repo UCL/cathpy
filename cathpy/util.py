@@ -16,7 +16,7 @@ def is_valid_domain_id(id_str: str) -> bool:
     """
     Returns whether the given input is a valid CATH domain identifier.    
     """
-    return re.match('([0-9][a-zA-Z0-9]{3})([a-zA-Z])([0-9]{2})$', id_str)
+    return re.match('([0-9][a-zA-Z0-9]{3})([a-zA-Z0-9])([0-9]{2})$', id_str)
 
 class ClusterID(object):
     def __init__(self, sfam_id, cluster_type, cluster_num):
@@ -48,6 +48,15 @@ class ClusterFile(object):
 
     def __init__(self, path, *, dir=None, sfam_id=None, cluster_type=None, cluster_num=None, 
         join_char=None, desc=None, suffix=None):
+
+        # explicitly declare attributes (to keep pylint happy at the very least)
+        self.dir = None
+        self.sfam_id = None
+        self.cluster_type = None
+        self.cluster_num = None
+        self.join_char = None
+        self.desc = None
+        self.suffix = None
 
         # initialise from path (if given)
         attrs = ('dir', 'sfam_id', 'cluster_type', 'cluster_num', 'join_char', 'desc', 'suffix')
@@ -106,6 +115,8 @@ class ClusterFile(object):
 
         return path
 
+    def __str__(self):
+        return self.to_string()
 
 class CathVersion(object):
     """Object that represents a CATH version."""
@@ -177,7 +188,8 @@ class GroupsimResult(object):
             line = line.strip()
             if line.startswith('#'):
                 continue
-            aln_idx, gs_score, col_data = line.split(None, maxsplit=2)
+            # aln_id, gs_score, col_data
+            _, gs_score, _ = line.split(None, maxsplit=2)
             if gs_score == 'None':
                 gs_score = None
             else:
@@ -521,6 +533,8 @@ class StructuralClusterMerger(object):
             
             # find the corresponding funfam alignment
             ff_aln_file = ff_finder.search_by_domain_id(sc_rep_acc)
+
+            logger.info('Reading FunFam alignment: {}'.format(ff_aln_file))
 
             # parse it into an alignment
             ff_aln = seqio.Align.new_from_stockholm(ff_aln_file)
