@@ -6,3 +6,4 @@ cathpy.egg-info/
 docs/_build/
 docs/._*
 .eggs/
+build/
