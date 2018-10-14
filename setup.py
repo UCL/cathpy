@@ -10,7 +10,7 @@ setup(
     version="0.0.1",
     author="Ian Sillitoe",
     author_email="i.sillitoe@ucl.ac.uk",
-    description="CathPy - Yet Another Python Bioinformatics Toolkit",
+    description="CathPy - Python Bioinformatics Toolkit for CATH resource (protein structure database).",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/UCL/cathpy",
