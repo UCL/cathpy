@@ -298,6 +298,8 @@ class Sequence(object):
         # 1cukA01/23-123
         if (len(id_parts) == 1):
             accession = id_parts[0]
+            if util.is_valid_domain_id(accession):
+                id_type = 'domain'            
         # domain|1cukA01/23-123
         if (len(id_parts) == 2):
             (id_type, accession) = id_parts
