@@ -649,6 +649,7 @@ class Align(object):
         cath_version=None, dops_score=None):
         self.meta = {}
         self.id = id
+        self.__seq_ids = set()
         self.accession = accession
         self.description = description
         self.aln_type = aln_type
@@ -676,6 +677,19 @@ class Align(object):
     def count_sequences(self):
         """Return the number of sequences in the alignment."""
         return len(self.seqs)
+
+    @property
+    def total_gap_positions(self):
+        total_gaps = 0
+        for s in self.seqs:
+            total_gaps += s.seq.count(self.REF_GAP_CHAR)
+            total_gaps += s.seq.count(self.MERGE_GAP_CHAR)
+
+        return total_gaps
+
+    @property
+    def total_positions(self):
+        return self.count_sequences * self.aln_positions
 
     def find_first_seq_by_accession(self, acc):
         """Return the first Sequence with the given accession."""
@@ -716,6 +730,7 @@ class Align(object):
     @staticmethod
     def _get_io_from_file_or_string(file_or_string):
 
+        filename = str( file_or_string )
         if isinstance(file_or_string, str):
             if file_or_string[0] == '>':
                 _io = io.StringIO(file_or_string)
@@ -727,13 +742,13 @@ class Align(object):
             _io = file_or_string
             logger.warning("unexpected io type: " + repr(file_or_string))
         
-        return _io
+        return _io, filename
 
     @classmethod
     def new_from_stockholm(cls, sto_io):
         """Initialise an alignment object from a STOCKHOLM file / string / io""" 
 
-        sto_io = __class__._get_io_from_file_or_string(sto_io)
+        sto_io, sto_filename = __class__._get_io_from_file_or_string(sto_io)
 
         aln = cls()
         sto_header = sto_io.readline()
@@ -753,7 +768,14 @@ class Align(object):
             line = line.strip()
 
             if line.startswith('#=GF'):
+                try:
                 _, feature, per_file_ann = line.split(None, 2)
+                except ValueError:
+                    logger.warning('ignoring GF record with incorrect columns ({}:{} "{}")'.format(
+                        sto_filename, line_count, line))
+                except:
+                    raise err.ParseError('failed to parse line {} "{}"'.format(
+                        line_count, line))
 
                 if feature not in gc_meta_to_attr:
                     raise err.ParseError('encountered unexpected GF tag {} in line {} "{}" (known tags: {})'.format(
@@ -775,8 +797,15 @@ class Align(object):
                     setattr(aln, attr, per_file_ann)
 
             elif line.startswith('#=GC'):
+                try:
                 _, feature, per_col_ann = line.split(None, 2)
                 aln_meta[feature] = per_col_ann
+                except ValueError:
+                    logger.warning('ignoring GC record with incorrect columns ({}:{} "{}")'.format(
+                        sto_filename, line_count, line))
+                except:
+                    raise err.ParseError('failed to parse line {} "{}"'.format(
+                        line_count, line))
 
             elif line.startswith('#=GS'):
                 try:
@@ -788,8 +817,8 @@ class Align(object):
                         seq_meta_by_id[seq_id] = {}
                     seq_meta_by_id[seq_id][feature] = per_seq_ann
                 except ValueError:
-                    logger.warning('ignoring GS record with incorrect columns (line:{} "{}")'.format(
-                        line_count, line))
+                    logger.warning('ignoring GS record with incorrect columns ({}:{} "{}")'.format(
+                        sto_filename, line_count, line))
                 except:
                     raise err.ParseError('failed to parse line {} "{}"'.format(
                         line_count, line))
@@ -823,7 +852,7 @@ class Align(object):
         """Parse aligned sequences from FASTA (str, file, io) and adds them to the current
         Align object. Returns the number of sequences that are added."""
 
-        fasta_io = __class__._get_io_from_file_or_string(fasta_io)
+        fasta_io, fasta_filename = __class__._get_io_from_file_or_string(fasta_io)
 
         re_seqstr = re.compile( r'^[a-zA-Z.\-]+$' )
 
@@ -847,13 +876,13 @@ class Align(object):
             else:
                 if not re_seqstr.match(line):
                     raise err.SeqIOError(('encountered an error parsing FASTA: '
-                        'string "{}" does not look like a sequence ({}, line {})').format(
-                            line, str(fasta_io), line_count))
+                        'string "{}" does not look like a sequence ({}:{})').format(
+                            line, fasta_filename, line_count))
 
                 if not current_hdr:
                     raise err.SeqIOError(('encountered an error parsing FASTA: '
-                        'found sequence "{}" without a header ({}, line {})').format(
-                            line, str(fasta_io), line_count))
+                        'found sequence "{}" without a header ({}:{})').format(
+                            line, fasta_filename, line_count))
                 
                 current_seq += str(line)
 
@@ -869,6 +898,11 @@ class Align(object):
     def add_sequence(self, seq: Sequence):
         """Add a sequence to this alignment."""
 
+        if seq.id in self.__seq_ids:
+            raise err.SeqIOError( ("Error: cannot add a sequence with id {}, "
+                "since this alignment already has a sequence with that id. [self: {}, merge: {}]")
+                .format(seq.id, ",".join(self.__seq_ids)) )
+
         if self.aln_positions:
             if self.aln_positions != seq.length():
                 raise err.SeqIOError( ("Error: cannot add a sequence (id:{}) "
@@ -878,6 +912,7 @@ class Align(object):
             self.__aln_positions = seq.length()
 
         self.seqs.append(seq)
+        self.__seq_ids.add(seq.id)
         return seq        
 
     def remove_sequence_by_id(self, seq_id: str):
