@@ -40,6 +40,10 @@ class MissingSegmentsError(GeneralError):
     """Exception raised when segment information is missing."""
     pass
 
+class FileEmptyError(GeneralError):
+    """File is empty."""
+    pass
+
 class FileNotFoundError(GeneralError):
     """File not found."""
     pass

@@ -582,11 +582,11 @@ class StructuralClusterMerger(object):
 
         # add scorecons
         if self.add_scorecons:
-            sc_aln.add_scorecons()
+            sc_aln.run_scorecons()
 
         # add groupsim
         if self.add_groupsim:
-            sc_aln.add_groupsim()
+            sc_aln.run_groupsim()
 
         # write final merged alignment
         if self.out_fasta:
@@ -598,3 +598,72 @@ class StructuralClusterMerger(object):
             sc_aln.write_sto(self.out_sto)
 
         return sc_aln
+
+class AlignmentSummary(object):
+    """Stores summary information about an alignment."""
+
+    def __init__(self, *, path, dops, aln_length, seq_count, gap_count, total_positions):
+        self.path = path
+        self.dops = float(dops) if dops is not None else None
+        self.aln_length = int(aln_length)
+        self.seq_count = int(seq_count)
+        self.gap_count = int(gap_count)
+        self.total_positions = int(total_positions)
+
+    def __str__(self):
+        return "{:<70s} {:>6d} {:>6d} {:>6s} {:>6.2f}".format(self.path,
+            self.aln_length, self.seq_count, 
+            "{:.2f}".format(self.dops) if self.dops is not None else 'NULL', 
+            100 * self.gap_count / self.total_positions)
+
+    @classmethod
+    def headers(cls):
+        return ['file', 'aln_len', 'seq_count', 'dops', 'gap_per']
+
+    def to_string(self):
+        return self.__str__()
+
+class AlignmentSummaryRunner(object):
+    """Provides a summary report for a set of sequence alignments."""
+
+    def __init__(self, dir_in, *, suffix='.sto', skipempty=False):
+        self.dir_in = dir_in
+        self.suffix = suffix
+        self.skipempty = skipempty
+    
+    def run(self):
+        dir_in = self.dir_in
+        all_aln_files = []
+        for dirpath, dirnames, filenames in os.walk(dir_in):
+            aln_files = [os.path.join(dirpath, f) for f in filenames 
+                if os.path.basename(f).endswith(self.suffix)]
+
+            nonempty_files = []
+            for f in aln_files:
+                if os.stat(f).st_size == 0:
+                    if self.skipempty:
+                        logger.warning('skipping empty file: {}'.format(f))
+                    else:
+                        raise err.FileEmptyError('file {} is empty (use skipempty to skip)'.format(f))
+                else:
+                    nonempty_files.append(f)
+            aln_files = nonempty_files
+
+            all_aln_files.extend(aln_files)
+
+        print( '{}'.format(" ".join(AlignmentSummary.headers())) )
+
+        for aln_file in all_aln_files:
+            try:
+                aln = seqio.Align.new_from_stockholm(aln_file)
+            except:
+                raise Exception("Failed to parse STOCKHOLM alignment from file {}".format(aln_file))
+
+            try:
+                aln_sum = AlignmentSummary(path=aln_file, dops=aln.dops_score, aln_length=aln.aln_positions, 
+                    seq_count=aln.count_sequences, gap_count=aln.total_gap_positions, 
+                    total_positions=aln.total_positions)
+            except:
+                raise Exception("Failed to generate alignment summary from file: {}".format(aln_file))
+
+            print( aln_sum.to_string() )
