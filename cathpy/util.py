@@ -355,7 +355,7 @@ class ScoreconsRunner(object):
                 " ".join(scorecons_args)
             ))
 
-        match = re.search(r'^DOPS score: ([0-9.]+)', scorecons_out, flags=re.MULTILINE)
+        match = re.search(r'^DOPS score:\s+([0-9.]+)', scorecons_out, flags=re.MULTILINE)
         if not match:
             raise err.ParseError('Failed to find DOPS score in scorecons output: {} (STDERR: {})'.format(
                 scorecons_out, scorecons_err))
