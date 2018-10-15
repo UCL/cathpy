@@ -313,7 +313,17 @@ class ScoreconsRunner(object):
     def run_alignment(self, alignment):
         fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix=".fa")
         fasta_tmp_filename = fasta_tmp.name
-        alignment.write_fasta(fasta_tmp_filename)
+
+        aln_copy = alignment.copy()
+
+        # lower-case aa -> gaps
+        # '.' -> '-'
+        for s in aln_copy.seqs:
+            s.set_all_gap_chars(gap_char='-')
+            s.set_lower_case_to_gap(gap_char='-') 
+
+        aln_copy.write_fasta(fasta_tmp_filename)
+
         return self.run_fasta(fasta_tmp_filename)
 
     def run_stockholm(self, sto_file):
