@@ -8,3 +8,5 @@ docs/._*
 .eggs/
 merge.*/
 sc-alignments/
+.pytest_cache/
+.R*
