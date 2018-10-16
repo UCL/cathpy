@@ -7,10 +7,14 @@ import subprocess
 from subprocess import Popen, PIPE
 import tempfile
 
+import pkg_resources
+
 # local
 from cathpy import seqio, datafiles, error as err
 
 logger = logging.getLogger(__name__)
+
+scorecons_exe = pkg_resources.resource_filename(__name__, "../tools/linux-x86_64/bin/scorecons")
 
 def is_valid_domain_id(id_str: str) -> bool:
     """
@@ -307,8 +311,10 @@ class ScoreconsResult(object):
 class ScoreconsRunner(object):
     """Runs scorecons for a given alignment."""
 
-    def __init__(self, *, scorecons_path='scorecons'):
+    def __init__(self, *, scorecons_path=scorecons_exe):
         self.scorecons_path = scorecons_path
+        logger.info( "scorecons_exe: {}".format(scorecons_exe) )
+
 
     def run_alignment(self, alignment):
         fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix=".fa")
