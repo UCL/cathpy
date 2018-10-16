@@ -1308,12 +1308,8 @@ class Align(object):
             for seq in self.seqs:
                 f.write( seq.to_fasta(wrap_width=wrap_width) )
 
-<<<<<<< HEAD
-    def run_scorecons(self):
-=======
     def add_scorecons(self):
         """Add scorecons annotation to this alignment."""
->>>>>>> 164c94286f2b3a3a59a5b686fa9b45e3cbcb355b
         scons = util.ScoreconsRunner()
         logger.info("Calculating scorecons / DOPS ...")
         # output alignment to tmp fasta file
@@ -1321,12 +1317,8 @@ class Align(object):
         self.dops_score = scons_result.dops
         self.meta['scorecons'] = scons_result.to_string
 
-<<<<<<< HEAD
-    def run_groupsim(self):
-=======
     def add_groupsim(self):
         """Add groupsim annotation to this alignment."""
->>>>>>> 164c94286f2b3a3a59a5b686fa9b45e3cbcb355b
         gs = util.GroupsimRunner()
         logger.info("Calculating GroupSim ...")
         # output alignment to tmp fasta file
