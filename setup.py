@@ -10,12 +10,21 @@ setup(
     version="0.0.1",
     author="Ian Sillitoe",
     author_email="i.sillitoe@ucl.ac.uk",
-    description="CathPy - Yet Another Python Bioinformatics Toolkit",
+    description="CathPy - Python Bioinformatics Toolkit (CATH Protein Classification)",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/UCL/cathpy",
     packages=find_packages(include='cathpy.*'),
     test_suite="tests",
+    scripts=[
+        'scripts/cath-funfhmmer-api',
+        'scripts/cath-align-scorecons',
+        'scripts/cath-align-summary',
+        'scripts/cath-sc-merge-alignment',
+    ],
+    install_requires=[
+        'requests',
+    ],
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
