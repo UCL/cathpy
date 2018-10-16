@@ -22,6 +22,7 @@ class AminoAcid(object):
         return self.one
 
 class AminoAcids(object):
+    """Provides access to recognised Amino Acids."""
 
     aa_by_id = { aa[2]: AminoAcid(aa[2], aa[1], aa[0]) for aa in (
         ('alanine', 'ala', 'A'),
@@ -259,9 +260,11 @@ class Sequence(object):
         Splits a sequence header into meta information.
         
         Args:
-            hdr (str): header string (eg `domain|1cukA01|4_2_0/3-23_56-123`)
+            hdr (str): header string (eg `'domain|1cukA01|4_2_0/3-23_56-123'`)
 
         Returns:
+            info (dict): header info
+
             {
                 'id': 'domain|1cukA01|4_2_0/3-23_56-123', 
                 'accession': '1cukA01', 
@@ -270,6 +273,7 @@ class Sequence(object):
                 'segs': [Segment(3, 23), Segment(56,123)], 
                 'meta': {}
             }
+
         """
 
         id = None
@@ -365,6 +369,7 @@ class Sequence(object):
         self._set_sequence(new_seq)
 
     def set_all_gap_chars(self, gap_char='-'):
+        """Sets all gap characters."""
         seqstr = re.sub(self.re_gap_chars, gap_char, self.seq)
         self._set_sequence(seqstr)
 
@@ -382,9 +387,11 @@ class Sequence(object):
 
     @staticmethod
     def is_gap(res_char):
+        """Test whether a character is considered a gap."""
         return res_char in ['-', '.']
 
     def __str__(self):
+        """Represents this Sequence as a string."""
         return('{:<30} {}'.format(self.id, self.seq))
 
 
@@ -409,7 +416,7 @@ class Correspondence(object):
 
     @classmethod
     def new_from_gcf(cls, gcf_io):
-        """Create a new Correspondence object from a GCF io / filename / string"""
+        """Create a new Correspondence object from a GCF io / filename / string."""
 
         """
         >gi|void|ref1
@@ -612,10 +619,12 @@ class Correspondence(object):
         return seqs
 
     def to_fasta(self, **kwargs):
+        """Returns the Correspondence as a string (FASTA format)."""
         seqs = self.to_sequences()
         return seqs[0].to_fasta(**kwargs) + seqs[1].to_fasta(**kwargs)
         
     def to_aln(self):
+        """Returns the Correspondence as an Align object."""
         seqs = self.to_sequences()
         return Align(seqs = seqs)
         
@@ -626,7 +635,7 @@ class Correspondence(object):
         return self.to_fasta()
 
 class Align(object):
-    """Object storing a protein sequence alignment"""
+    """Object representing a protein sequence alignment."""
 
     REF_GAP_CHAR='-'
     MERGE_GAP_CHAR='.'
@@ -1299,7 +1308,12 @@ class Align(object):
             for seq in self.seqs:
                 f.write( seq.to_fasta(wrap_width=wrap_width) )
 
+<<<<<<< HEAD
     def run_scorecons(self):
+=======
+    def add_scorecons(self):
+        """Add scorecons annotation to this alignment."""
+>>>>>>> 164c94286f2b3a3a59a5b686fa9b45e3cbcb355b
         scons = util.ScoreconsRunner()
         logger.info("Calculating scorecons / DOPS ...")
         # output alignment to tmp fasta file
@@ -1307,7 +1321,12 @@ class Align(object):
         self.dops_score = scons_result.dops
         self.meta['scorecons'] = scons_result.to_string
 
+<<<<<<< HEAD
     def run_groupsim(self):
+=======
+    def add_groupsim(self):
+        """Add groupsim annotation to this alignment."""
+>>>>>>> 164c94286f2b3a3a59a5b686fa9b45e3cbcb355b
         gs = util.GroupsimRunner()
         logger.info("Calculating GroupSim ...")
         # output alignment to tmp fasta file

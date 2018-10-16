@@ -8,7 +8,8 @@
  06/13/08 - changed format for group_id specificication to
             fix group_id prefix bug
  05/13/08 - created
-
+ 09/20/18 - updated group cutoff options -c, -g to take value of 1 which
+            indicates do not use any gap cutoff for scoring columns.
 
  This program supports the paper: 
  Capra JA and Singh M. (2008) Characterization and Prediction of
@@ -77,13 +78,13 @@ group_sim_sdp.py [options] alignfile group_id1 group_id2 ... group_idN
      group_id should be indicated by a '|', e.g., seq1|group_id.
 
 OPTIONS:
-    -c [real in [0, 1)]
+    -c [real in [0, 1]]
      column gap cutoff. Do not score columns that contain more than this 
-     fraction gaps. Default=.1 
+     fraction gaps. A value of 1 means no column gap cutoff is used. Default=.1 
 
-    -g [real in [0, 1)]
+    -g [real in [0, 1]]
      group gap cutoff. Do not score columns that contain a group with more 
-     than this fraction gaps. Default=.3
+     than this fraction gaps. A value of 1 means no group gap cutoff is used. Default=.3
 
     -h
      help. Print this message.
@@ -532,7 +533,7 @@ for opt, arg in opts:
 
     elif opt == "-c":
 	try:
-	    if not (0. <= float(arg) < 1.): 
+	    if not (0. <= float(arg) <= 1.): 
 		raise ValueError
 	    else:
 		column_gap_cutoff = float(arg)
@@ -544,7 +545,7 @@ for opt, arg in opts:
 
     elif opt == "-g":
 	try:
-	    if not (0. <= float(arg) < 1.): 
+	    if not (0. <= float(arg) <= 1.): 
 		raise ValueError
 	    else:
 		group_gap_cutoff = float(arg)

@@ -23,6 +23,7 @@ def is_valid_domain_id(id_str: str) -> bool:
     return re.match('([0-9][a-zA-Z0-9]{3})([a-zA-Z0-9])([0-9]{2})$', id_str)
 
 class ClusterID(object):
+    """Represents a Cluster Identifier (FunFam, SC, etc)"""
     def __init__(self, sfam_id, cluster_type, cluster_num):
         self.sfam_id = sfam_id
         self.cluster_type = cluster_type
@@ -30,6 +31,7 @@ class ClusterID(object):
 
     @classmethod
     def new_from_file(cls, file):
+        """Parse a new ClusterID from a filename."""
         cf = ClusterFile(file)
         cls(cf.sfam_id, cf.cluster_type, cf.cluster_num)
 
@@ -43,10 +45,11 @@ class FunfamID(ClusterID):
 
 class ClusterFile(object):
     """
-    Object that represents a cluster file.
+    Object that represents a file relating to a CATH Cluster.
     
-    ClusterFile("1.10.8.10-ff-1234.sto")
-    ClusterFile(None, cluster_type=)
+    eg.
+
+        /path/to/1.10.8.10-ff-1234.sto
 
     """
 
@@ -102,6 +105,7 @@ class ClusterFile(object):
         raise err.NoMatchesError('failed to parse cluster details from filename {}'.format(path))
 
     def to_string(self, join_char=None):
+        """Represents the ClusterFile as a string (file path)."""
         if not join_char:
             join_char = self.join_char
         
@@ -150,6 +154,7 @@ class CathVersion(object):
         self.trace = ver_parts[2]
 
     def join(self, join_char="."):
+        """Returns the version string (with an optional join_char)."""
         return join_char.join([str(self.major), str(self.minor), str(self.trace)])
 
     @property
@@ -159,6 +164,7 @@ class CathVersion(object):
 
     @classmethod
     def new_from_string(cls, version_str):
+        """Create a new CathVersion object from a string."""
         version_parts = cls._split_string(version_str)
         return cls(*version_parts)
     
@@ -175,18 +181,21 @@ class CathVersion(object):
         return self.join(".")
 
 class GroupsimResult(object):
+    """Represents the result from running the groupsim algorithm."""
 
     def __init__(self, *, scores = None):
         self.scores = scores
 
     @classmethod
     def new_from_file(cls, gs_file):
+        """Create a new groupsim result from an output file."""
         with open(gs_file) as f:
             obj = cls.new_from_io(f)
             return obj
 
     @classmethod
     def new_from_io(cls, gs_io, *, maxscore=1):
+        """Create a new groupsim result from an io source."""
         gs_scores = []
         for line in gs_io:
             line = line.strip()
@@ -203,6 +212,7 @@ class GroupsimResult(object):
 
     @property
     def count_positions(self):
+        """Returns the number of positions in the groupsim result."""
         return len(self.scores)
 
     @property
@@ -212,6 +222,7 @@ class GroupsimResult(object):
 
 
 class GroupsimRunner(object):
+    """Object that provides a wrapper around groupsim."""
 
     def __init__(self, *, groupsim_dir=None, python2path='python2', 
         column_gap=0.3, group_gap=0.5):
@@ -224,6 +235,7 @@ class GroupsimRunner(object):
         self.python2path = python2path
 
     def run_alignment(self, alignment, *, column_gap=None, group_gap=None, mclachlan=False):
+        """Runs groupsim against a given alignment."""
 
         # mclachan max score is 5: normalise to 0-1 before storing  
         maxscore = 5 if mclachlan else 1
@@ -296,7 +308,7 @@ class GroupsimRunner(object):
         return res
 
 class ScoreconsResult(object):
-    """Stores Scorecons data."""
+    """Represents the results from running scorecons."""
 
     def __init__(self, *, dops, scores):
         self.dops = dops
@@ -304,6 +316,7 @@ class ScoreconsResult(object):
     
     @property
     def to_string(self):
+        """Returns the scorecons results as a string (one char per position)."""
         # normalise 0-1 to 0-9
         return "".join([str(int(s*9)) if s else '-' for s in self.scores])
 
@@ -317,6 +330,8 @@ class ScoreconsRunner(object):
 
 
     def run_alignment(self, alignment):
+        """Runs scorecons on a given alignment."""
+
         fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix=".fa")
         fasta_tmp_filename = fasta_tmp.name
 
@@ -333,10 +348,12 @@ class ScoreconsRunner(object):
         return self.run_fasta(fasta_tmp_filename)
 
     def run_stockholm(self, sto_file):
-        """Returns scorecons data for the provided STOCKHOLM file.
+        """
+        Returns scorecons data for the provided STOCKHOLM file.
         
         Returns:
-            * ScoreconsResult
+            result (ScoreconsResult): scorecons result
+
         """
 
         fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix=".fa")
@@ -349,7 +366,7 @@ class ScoreconsRunner(object):
         """Returns scorecons data (ScoreconsResult) for the provided FASTA file.
         
         Returns:
-            * ScoreconsResult
+            result (ScoreconsResult): scorecons result
         
         """
 
@@ -598,11 +615,11 @@ class StructuralClusterMerger(object):
 
         # add scorecons
         if self.add_scorecons:
-            sc_aln.run_scorecons()
+            sc_aln.add_scorecons()
 
         # add groupsim
         if self.add_groupsim:
-            sc_aln.run_groupsim()
+            sc_aln.add_groupsim()
 
         # write final merged alignment
         if self.out_fasta:

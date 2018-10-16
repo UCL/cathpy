@@ -10,3 +10,4 @@ merge.*/
 sc-alignments/
 .pytest_cache/
 .R*
+build/

@@ -20,15 +20,16 @@ Sort of.
 
 **Should I be using it?**
 
-Probably not. You should probably be using BioPython.
+If you are looking for a general Bioinformatics toolkit, you should look at BioPython.
 
-This project does contain generic tools, however the code is new and the API 
-will move around lots. It should be considered internal use (within CATH) until 
-further notice.
+This project does contain generic libraries and tools, however the code is new and the 
+API will move around lots. It has been published mainly for internal use (within CATH) 
+until further notice.
 
 **So, why doesn't this use BioPython?**
 
-It may well merge in some BioPython modules in the future. There are few features that BioPython does not 
-currently handle (eg regarding fairly low-level manipulation of alignments). At some point, I may look into 
-turning some of this code into suggestions / pull-requests for BioPython.
+We may well merge in some BioPython modules in the future. There are few features that 
+BioPython does not currently handle (eg regarding fairly low-level manipulation of 
+alignments). At some point, we may look into turning some of this code into suggestions 
+/ pull-requests for BioPython.
 

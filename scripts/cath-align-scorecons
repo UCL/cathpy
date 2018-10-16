@@ -44,7 +44,7 @@ if __name__ == '__main__':
     old_dops_score = aln.dops_score
     old_scorecons = aln.meta['scorecons'] if 'scorecons' in aln.meta else '-'
 
-    aln.run_scorecons()
+    aln.add_scorecons()
 
     logging.info('DOPS:          {}'.format('SAME' if old_dops_score == aln.dops_score else 'CHANGED' ))
     logging.info('OLD_DOPS:      {}'.format(old_dops_score))
