@@ -769,7 +769,7 @@ class Align(object):
 
             if line.startswith('#=GF'):
                 try:
-                _, feature, per_file_ann = line.split(None, 2)
+                    _, feature, per_file_ann = line.split(None, 2)
                 except ValueError:
                     logger.warning('ignoring GF record with incorrect columns ({}:{} "{}")'.format(
                         sto_filename, line_count, line))
@@ -798,15 +798,15 @@ class Align(object):
 
             elif line.startswith('#=GC'):
                 try:
-                _, feature, per_col_ann = line.split(None, 2)
-                aln_meta[feature] = per_col_ann
+                    _, feature, per_col_ann = line.split(None, 2)
+                    aln_meta[feature] = per_col_ann
                 except ValueError:
                     logger.warning('ignoring GC record with incorrect columns ({}:{} "{}")'.format(
                         sto_filename, line_count, line))
                 except:
                     raise err.ParseError('failed to parse line {} "{}"'.format(
                         line_count, line))
-
+                
             elif line.startswith('#=GS'):
                 try:
                     _, seq_id, feature, per_seq_ann = line.split(None, 3)                
@@ -975,8 +975,10 @@ class Align(object):
         """Return an array of Sequence objects from start to end."""
         return [Sequence(s._hdr, s.slice_seq(start, end)) for s in self.seqs]
 
-    def merge_alignment(self, merge_aln, ref_seq_acc: str, ref_correspondence = None, *, 
-            cluster_label=None):
+    def merge_alignment(self, merge_aln, ref_seq_acc: str, 
+            ref_correspondence:Correspondence=None, *, 
+            cluster_label=None, merged_ref_id=False):
+
         """
         Merges aligned sequences into the current object via a reference sequence.
 
@@ -1002,6 +1004,12 @@ class Align(object):
                 object that provides a mapping between the reference 
                 sequence found in ``self`` (ATOM records) and reference 
                 sequence as it appears in ``merge_aln`` (SEQRES records).
+            cluster_label (str): Provide a label to differentiate the sequences 
+                being merged (eg for groupsim calculations). A default label 
+                is provided if this is `None`.
+            merged_ref_id (str): The ref sequence in the merge alignment will
+                only be added if an alternative `id` is given (since the alignment
+                cannot have sequences with identical ids).
 
         Returns: 
             [Sequence]: Array of Sequences added to the current alignment.
@@ -1014,6 +1022,9 @@ class Align(object):
 
         merge_aln = merge_aln.copy()
 
+        if not merged_ref_id:
+            merged_ref_id = ref_seq_acc + '_merge'
+
         if not cluster_label:
             cluster_label = self._next_merge_id()
 
@@ -1023,6 +1034,7 @@ class Align(object):
         ref_seq_in_ref = self.find_seq_by_accession(ref_seq_acc)
 
         ref_seq_in_merge = merge_aln.find_seq_by_accession(ref_seq_acc)
+        ref_seq_in_merge.id = merged_ref_id
 
         if ref_correspondence is None:
             # fake a 1:1 correspondence for internal use
@@ -1152,6 +1164,7 @@ class Align(object):
             merge_aln_pos += 1
 
         logger.info("FINISHED MERGE")
+
         # for seq in ref_correspondence.to_sequences():
         #     seq = seq.slice_seq(0, ref_corr_pos)
         #     logger.debug( "{:<10} {}".format("CORR", str(seq)) )
@@ -1163,7 +1176,7 @@ class Align(object):
         # add the merged sequences into this alignment
         for seq in merge_aln.seqs:
             self.add_sequence(seq)
-        
+
         # remove the original reference sequence (from the structural sequence)
         self.remove_sequence_by_id(ref_seq_in_ref.id)
 
@@ -1286,7 +1299,7 @@ class Align(object):
             for seq in self.seqs:
                 f.write( seq.to_fasta(wrap_width=wrap_width) )
 
-    def add_scorecons(self):
+    def run_scorecons(self):
         scons = util.ScoreconsRunner()
         logger.info("Calculating scorecons / DOPS ...")
         # output alignment to tmp fasta file
@@ -1294,7 +1307,7 @@ class Align(object):
         self.dops_score = scons_result.dops
         self.meta['scorecons'] = scons_result.to_string
 
-    def add_groupsim(self):
+    def run_groupsim(self):
         gs = util.GroupsimRunner()
         logger.info("Calculating GroupSim ...")
         # output alignment to tmp fasta file
