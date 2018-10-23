@@ -100,7 +100,7 @@ class Sequence(object):
 
     re_gap_chars = r'[.\-]'
 
-    def __init__(self, hdr: str, seq: str, *, meta=None):
+    def __init__(self, hdr: str, seq: str, *, meta=None, description=None):
         self._hdr = hdr
         self._seq = seq
         try:
@@ -109,6 +109,7 @@ class Sequence(object):
             raise err.GeneralError('caught error while parsing sequence header: '+hdr)
         self.id = hdr_info['id']
         self.accession = hdr_info['accession']
+        self.description = description
         self.id_type = hdr_info['id_type']
         self.id_ver = hdr_info['id_ver']
         self.segs = hdr_info['segs']
@@ -340,6 +341,21 @@ class Sequence(object):
                 str += line + '\n'
         else:
             str += self.seq + '\n'
+        return(str)
+
+    def to_pir(self, wrap_width=60):
+        """Return a string for this Sequence in PIR format."""
+
+        str = ""
+        str += '>P1;' + self.id + '\n'
+        str += self.description + '\n'
+        
+        seq = self.seq + '*'
+        if wrap_width:
+            for line in Sequence._chunker(seq, wrap_width):
+                str += line + '\n'
+        else:
+            str += seq + '\n'
         return(str)
 
     def copy(self):
@@ -731,9 +747,16 @@ class Align(object):
 
     @classmethod
     def new_from_fasta(cls, fasta_io):
-        """Initialise an alignment object from a fasta file / string / io"""
+        """Initialise an alignment object from a FASTA file / string / io"""
         aln = Align()
         aln.read_sequences_from_fasta(fasta_io)
+        return aln
+
+    @classmethod
+    def new_from_pir(cls, pir_io):
+        """Initialise an alignment object from a PIR file / string / io"""
+        aln = Align()
+        aln.read_sequences_from_pir(pir_io)
         return aln
 
     @staticmethod
@@ -899,6 +922,58 @@ class Align(object):
 
         if current_seq:
             seq = Sequence(current_hdr, current_seq)
+            self.add_sequence(seq)
+            seq_added += 1
+
+        return seq_added
+
+    def read_sequences_from_pir(self, pir_io):
+        """Parse aligned sequences from PIR (str, file, io) and adds them to the current
+        Align object. Returns the number of sequences that are added."""
+
+        pir_io, pir_filename = __class__._get_io_from_file_or_string(pir_io)
+
+        re_seqstr = re.compile( r'^[a-zA-Z.\-\*]+$' )
+
+        seq_added=0            
+        current_hdr = None
+        current_desc = None
+        current_seq = ''
+        line_count=0
+        for line in pir_io:
+            line_count += 1
+            if line == "":
+                break
+            
+            line = line.rstrip()
+            if line[0] == '>':
+                # following line is description as free text 
+                if current_seq:
+                    current_seq = current_seq.replace("*", "")
+                    seq = Sequence(current_hdr, current_seq, description=current_desc)
+                    self.add_sequence(seq)
+                    current_seq = ''
+                    seq_added += 1
+                current_desc = next(pir_io).rstrip()
+                seq_type, current_hdr = line[1:].split(';')
+            else:
+                if not re_seqstr.match(line):
+                    raise err.SeqIOError(('encountered an error parsing PIR: '
+                        'string "{}" does not look like a sequence ({}:{})').format(
+                            line, pir_filename, line_count))
+
+                if not current_hdr:
+                    raise err.SeqIOError(('encountered an error parsing PIR: '
+                        'found sequence "{}" without a header ({}:{})').format(
+                            line, pir_filename, line_count))
+                
+                current_seq += str(line)
+
+        pir_io.close()
+
+        if current_seq:
+            current_seq = current_seq.replace("*", "")
+            seq = Sequence(current_hdr, current_seq, description=current_desc)
             self.add_sequence(seq)
             seq_added += 1
 
@@ -1307,6 +1382,12 @@ class Align(object):
         with open(fasta_file, 'w') as f:
             for seq in self.seqs:
                 f.write( seq.to_fasta(wrap_width=wrap_width) )
+
+    def write_pir(self, pir_file, wrap_width=80):
+        """Write the alignment to a file in PIR format."""
+        with open(pir_file, 'w') as f:
+            for seq in self.seqs:
+                f.write( seq.to_pir(wrap_width=wrap_width) )
 
     def add_scorecons(self):
         """Add scorecons annotation to this alignment."""

@@ -31,6 +31,15 @@ class TestSequence(testutils.TestBase):
 AGPAK-HPPGPKAPPPAKG
 '''[1:]
 
+        self.pir_aln_ref = '''
+>P1;ref1
+ref1 description
+---AKGHP--GPKAPGPAK--*
+>P1;ref2
+ref2 description
+CGCAKGH-PKA--APGP--GT*
+'''[1:]
+
         # merging funfam alignments into structural alignments
         self.fasta_aln_ref = '''
 >ref1
@@ -214,6 +223,18 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         aln_ref.add_groupsim()
         aln_ref.add_scorecons()
         aln_ref.write_sto(sto_out)
+
+    def test_pir(self):
+        aln_ref = seqio.Align.new_from_pir(self.pir_aln_ref)
+        self.assertEqual(aln_ref.count_sequences, 2)
+        pir_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix='.pir')
+        aln_ref.write_pir(pir_tmp.name)
+
+        with open(pir_tmp.name, 'r') as f:
+            pir_expected = f.read()
+
+        #self.assertMultiLineEqual(self.pir_aln_ref, pir_expected)
+        self.assertEqual(self.pir_aln_ref, pir_expected)
 
     def test_write_sto(self):
         
