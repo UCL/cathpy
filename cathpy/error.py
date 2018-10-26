@@ -1,11 +1,19 @@
-import io
-import logging
-import re
+"""CATH Exception Classes"""
 
-logger = logging.getLogger(__name__)
+import logging
+
+LOG = logging.getLogger(__name__)
 
 class GeneralError(Exception):
     """General Exception class within the cathpy package."""
+    pass
+
+class JsonError(GeneralError):
+    """Problem parsing JSON"""
+    pass
+
+class HttpError(GeneralError):
+    """Problem getting/sending data over HTTP"""
     pass
 
 class ParamError(GeneralError):
@@ -59,17 +67,17 @@ class GapError(SeqIOError):
 class MergeCorrespondenceError(SeqIOError):
     """Exception raised when failing to match correspondence sequences during alignment merge."""
 
-    def __init__(self, seq_id, aln_type, seq_type, ref_no_gaps, corr_no_gaps):
+    def __init__(self, *, seq_id, aln_type, seq_type, ref_no_gaps, corr_no_gaps):
         message = ("Reference sequence '{}' in the {} alignment does not "
-            "match the {} sequence provided in the Correspondence.\n"
-            "{:>25}: {}\n"
-            "{:>25}: {}\n").format(
-                seq_id,
-                aln_type,
-                seq_type,
-                'REF [{}]'.format(len(ref_no_gaps)), 
-                ref_no_gaps,
-                'CORRESPONDENCE [{}]'.format(len(corr_no_gaps)), 
-                corr_no_gaps,
-            )
+                   "match the {} sequence provided in the Correspondence.\n"
+                   "{:>25}: {}\n"
+                   "{:>25}: {}\n").format(
+                       seq_id,
+                       aln_type,
+                       seq_type,
+                       'REF [{}]'.format(len(ref_no_gaps)),
+                       ref_no_gaps,
+                       'CORRESPONDENCE [{}]'.format(len(corr_no_gaps)),
+                       corr_no_gaps,
+                   )
         super().__init__(message)
