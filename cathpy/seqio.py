@@ -1420,11 +1420,11 @@ class Align(object):
             for seq in self.seqs:
                 f.write( seq.to_fasta(wrap_width=wrap_width) )
 
-    def write_pir(self, pir_file, wrap_width=80):
+    def write_pir(self, pir_file, wrap_width=80, *, use_accession=False):
         """Write the alignment to a file in PIR format."""
         with open(pir_file, 'w') as f:
             for seq in self.seqs:
-                f.write( seq.to_pir(wrap_width=wrap_width) )
+                f.write(seq.to_pir(wrap_width=wrap_width, use_accession=use_accession))
 
     def add_scorecons(self):
         """Add scorecons annotation to this alignment."""
