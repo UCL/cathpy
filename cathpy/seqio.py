@@ -310,10 +310,18 @@ class Sequence(object):
                 id_type = 'domain'
         # domain|1cukA01/23-123
         if len(id_parts) == 2:
-            (id_type, accession) = id_parts
-        # domain|1cukA01|v4.2.0/23-123
+            id_type, accession = id_parts
+        # cath|4_2_0|5lhzA00/886-963
+        # cath|current|5lhzA00/886-963
         if len(id_parts) == 3:
-            (id_type, accession, id_ver) = id_parts
+            id_type, id_ver, accession = id_parts
+
+            if util.is_valid_domain_id(id_ver):
+                LOG.warning(
+                    ("Warning: found an old sequence header with TYPE|ID|VERSION '%s'. "
+                     "Parsing this as TYPE|VERSION|ID for now, but this hack may be "
+                     "deprecated in future versions (fix structural cluster reps?)"), id_parts)
+                id_type, accession, id_ver = id_parts
 
         # segments
         if segs_str:
