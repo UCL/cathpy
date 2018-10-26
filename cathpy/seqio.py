@@ -24,7 +24,7 @@ class AminoAcid(object):
 class AminoAcids(object):
     """Provides access to recognised Amino Acids."""
 
-    aa_by_id = { aa[2]: AminoAcid(aa[2], aa[1], aa[0]) for aa in (
+    aa_by_id = {aa[2]: AminoAcid(aa[2], aa[1], aa[0]) for aa in (
         ('alanine', 'ala', 'A'),
         ('arginine', 'arg', 'R'),
         ('asparagine', 'asn', 'N'),
@@ -47,7 +47,7 @@ class AminoAcids(object):
         ('tryptophan', 'trp', 'W'),
         ('tyrosine', 'tyr', 'Y'),
         ('valine', 'val', 'V'),
-    ) }
+    )}
 
     def __init__(self):
         pass
@@ -69,7 +69,7 @@ class Residue(object):
         assert type(aa) is str
         if seq_num:
             seq_num = int(seq_num)
-        
+
         self.aa = aa
         self.seq_num = seq_num
         self.pdb_label = pdb_label
@@ -88,12 +88,12 @@ class Segment(object):
     def __init__(self, start: int, stop: int):
         self.start = int(start)
         self.stop = int(stop)
-    
+
     def __str__(self):
-        return("{}-{}".format(self.start, self.stop))
+        return "{}-{}".format(self.start, self.stop)
 
     def __repr__(self):
-        return("Segment:{}-{}".format(self.start, self.stop))
+        return "Segment:{}-{}".format(self.start, self.stop)
 
 class Sequence(object):
     """Class to represent a protein sequence."""
@@ -117,7 +117,7 @@ class Sequence(object):
         if meta:
             for key, val in meta.items():
                 self.meta[key] = val
-    
+
     @property
     def is_cath_domain(self):
         return self.id_type == 'domain'
@@ -125,7 +125,7 @@ class Sequence(object):
     def get_residues(self):
         """
         Returns an array of Residue objects based on this sequence.
-        
+
         Note: if segment information has been specified then this
         will be used to calculate the `seq_num` attribute.
 
@@ -133,12 +133,12 @@ class Sequence(object):
             OutOfBoundsError: problem mapping segment info to sequence
         """
         residues = []
-        
+
         segs = self.segs
         if not segs:
-            segs = [ Segment(1, len(self.seq_no_gaps)) ]
-        
-        current_seg_offset=0
+            segs = [Segment(1, len(self.seq_no_gaps))]
+
+        current_seg_offset = 0
         def next_seg():
             nonlocal current_seg_offset
             if current_seg_offset < len(segs):
@@ -147,7 +147,7 @@ class Sequence(object):
                 return seg
             else:
                 return None
-        
+
         # theoretical length according to segment info vs length according to sequence
         seg_length = 0
         for seg in segs:
@@ -156,9 +156,10 @@ class Sequence(object):
 
         if seg_length != actual_length:
             # should this be a warning? (with 1-n numbering as fallback?)
-            raise err.OutOfBoundsError(('segment information {} suggests that the sequence '
-                'length should be {}, but the sequence has {} (non-gap) characters: {}').format(
-                    repr(segs), seg_length, actual_length, self.seq) )
+            raise err.OutOfBoundsError(
+                ('segment information {} suggests that the sequence '
+                 'length should be {}, but the sequence has {} (non-gap) characters: {}').format(
+                     repr(segs), seg_length, actual_length, self.seq))
 
         current_seg = next_seg()
 
@@ -168,22 +169,23 @@ class Sequence(object):
                 current_seg = next_seg()
                 if not current_seg:
                     if not Sequence.is_gap(aa):
-                        raise err.OutOfBoundsError(('unable to map segment ({}) to sequence: '
-                            'the final segment ends at {}, but the sequence has {} residues '
-                            '(offset: {}, aa: {})').format(
-                                repr(current_seg), seq_num-1, len(self.seq_no_gaps), offset, aa
-                            ))
+                        raise err.OutOfBoundsError(
+                            ('unable to map segment ({}) to sequence: '
+                             'the final segment ends at {}, but the sequence has {} residues '
+                             '(offset: {}, aa: {})').format(
+                                 repr(current_seg), seq_num-1, len(self.seq_no_gaps), offset, aa
+                             ))
                     else:
                         seq_num = None
                 else:
                     seq_num = current_seg.start
-            
+
             if Sequence.is_gap(aa):
                 res = Residue(aa)
             else:
                 res = Residue(aa, seq_num)
                 seq_num += 1
-            
+
             residues.append(res)
         return residues
 
@@ -192,8 +194,9 @@ class Sequence(object):
         try:
             res = self.seq[offset]
         except:
-            raise err.SeqIOError("Error: failed to get residue at offset {} from sequence with length {}: '{}'".format(
-                offset, self.length(), self.seq))
+            raise err.SeqIOError(
+                "Error: failed to get residue at offset {} from sequence with length {}: '{}'".format(
+                    offset, self.length(), self.seq))
 
         return res
 
@@ -222,7 +225,7 @@ class Sequence(object):
     def get_offset_at_seq_position(self, seq_pos):
         """Return the offset (with gaps) of the given sequence position (ignores gaps)."""
 
-        current_seq_pos=0
+        current_seq_pos = 0
         for offset in range(len(self.seq)):
             if not re.match(Sequence.re_gap_chars, self.seq[offset]):
                 current_seq_pos += 1
@@ -234,7 +237,7 @@ class Sequence(object):
     def length(self):
         """Return the length of the sequence."""
         return len(self.seq)
-    
+
     @property
     def seq(self):
         """Return the amino acid sequence as a string."""
@@ -259,7 +262,7 @@ class Sequence(object):
     def split_hdr(cls, hdr: str) -> dict:
         """
         Splits a sequence header into meta information.
-        
+
         Args:
             hdr (str): header string (eg `'domain|1cukA01|4_2_0/3-23_56-123'`)
 
@@ -267,11 +270,11 @@ class Sequence(object):
             info (dict): header info
 
             {
-                'id': 'domain|1cukA01|4_2_0/3-23_56-123', 
-                'accession': '1cukA01', 
-                'id_type': 'domain', 
-                'id_ver': '4_2_0', 
-                'segs': [Segment(3, 23), Segment(56,123)], 
+                'id': 'domain|1cukA01|4_2_0/3-23_56-123',
+                'accession': '1cukA01',
+                'id_type': 'domain',
+                'id_ver': '4_2_0',
+                'segs': [Segment(3, 23), Segment(56,123)],
                 'meta': {}
             }
 
@@ -301,15 +304,15 @@ class Sequence(object):
         id_parts = id_str.split('|')
 
         # 1cukA01/23-123
-        if (len(id_parts) == 1):
+        if len(id_parts) == 1:
             accession = id_parts[0]
             if util.is_valid_domain_id(accession):
-                id_type = 'domain'            
+                id_type = 'domain'
         # domain|1cukA01/23-123
-        if (len(id_parts) == 2):
+        if len(id_parts) == 2:
             (id_type, accession) = id_parts
         # domain|1cukA01|v4.2.0/23-123
-        if (len(id_parts) == 3):
+        if len(id_parts) == 3:
             (id_type, accession, id_ver) = id_parts
 
         # segments
@@ -328,8 +331,8 @@ class Sequence(object):
                 else:
                     logger.warning("failed to parse meta feature from string {}".format(meta_str))
 
-        return({'accession': accession, 'id': id_with_segs_str, 'id_type': id_type, 'id_ver': id_ver, 
-            'segs': segs, 'meta': meta})
+        return({'accession': accession, 'id': id_with_segs_str, 'id_type': id_type, 'id_ver': id_ver,
+                'segs': segs, 'meta': meta})
 
     def to_fasta(self, wrap_width=80):
         """Return a string for this Sequence in FASTA format."""
@@ -341,22 +344,23 @@ class Sequence(object):
                 str += line + '\n'
         else:
             str += self.seq + '\n'
-        return(str)
+        return str
 
     def to_pir(self, wrap_width=60):
         """Return a string for this Sequence in PIR format."""
 
         str = ""
         str += '>P1;' + self.id + '\n'
-        str += self.description + '\n'
-        
+        desc = self.description or self.accession
+        str += desc + '\n'
+
         seq = self.seq + '*'
         if wrap_width:
             for line in Sequence._chunker(seq, wrap_width):
                 str += line + '\n'
         else:
             str += seq + '\n'
-        return(str)
+        return str
 
     def copy(self):
         """Provide a deep copy of this sequence."""
@@ -366,10 +370,15 @@ class Sequence(object):
     def insert_gap_at_offset(self, offset, gap_char="-"):
         """Insert a gap into the current sequence at a given offset."""
         new_seq = self.seq[:offset] + gap_char + self.seq[offset:]
-        self._set_sequence( new_seq )
+        self._set_sequence(new_seq)
 
     def set_gap_char_at_offset(self, offset, gap_char):
-        """If the residue at a given position is a gap, then override the gap char with the given character."""
+        """
+        Set the gap character at the given offset.
+
+        If the residue at a given position is a gap, then override
+        the gap char with the given character.
+        """
         residues = list(self.seq)
         if Sequence.is_gap(residues[offset]) and residues[offset] != gap_char:
             residues[offset] = gap_char
@@ -379,7 +388,7 @@ class Sequence(object):
         """Lower case the residues in the given sequence window."""
         if end == None:
             end = start + 1
-        
+
         old_seq = self.seq
         new_seq = old_seq[:start] + old_seq[start:end].lower() + old_seq[end:]
         self._set_sequence(new_seq)
@@ -408,7 +417,7 @@ class Sequence(object):
 
     def __str__(self):
         """Represents this Sequence as a string."""
-        return('{:<30} {}'.format(self.id, self.seq))
+        return '{:<30} {}'.format(self.id, self.seq)
 
 
 class Correspondence(object):
@@ -416,7 +425,7 @@ class Correspondence(object):
     Provides a mapping between ATOM and SEQRES residues.
 
     A correspondence is a type of alignment that provides the equivalences
-    between the residues in the protein sequence (eg ``SEQRES`` records) and 
+    between the residues in the protein sequence (eg ``SEQRES`` records) and
     the residues actually observed in the structure (eg ``ATOM`` records).
     """
 
@@ -446,13 +455,13 @@ class Correspondence(object):
         K   8  10B  K
         A   9  11   A
         P  10   *   *
-        G  11   *   * 
+        G  11   *   *
         """
 
         corr = Correspondence()
 
-        if (type(gcf_io) == str):
-            if (gcf_io[0] == '>'):
+        if type(gcf_io) == str:
+            if gcf_io[0] == '>':
                 gcf_io = io.StringIO(gcf_io)
             else:
                 gcf_io = open(gcf_io)
@@ -486,7 +495,7 @@ class Correspondence(object):
 
             res = Residue(seqres_aa, int(seqres_num), pdb_label, pdb_aa=pdb_aa)
             corr.residues.append(res)
-        
+
         gcf_io.close()
 
         return corr
@@ -525,7 +534,7 @@ class Correspondence(object):
     def get_res_offset_by_atom_pos(self, pos):
         """Return the offset of the Residue at the given position in the ATOM sequence (ignores gaps)."""
         assert pos >= 1
-        atom_pos=1
+        atom_pos = 1
         for offset, res in enumerate(self.residues):
             # logger.debug("pos({}) -> res: offset: {}, res: {}, atom_pos: {}".format(
             #     pos, offset, repr(res), atom_pos))
@@ -585,7 +594,7 @@ class Correspondence(object):
             # logger.debug('apply_seqres.res: [{}] {}-{} seq_num={}'.format(
             #     current_seg_offset, current_seg.start, current_seg.stop,
             #     res.seq_num))
-            
+
             if res.seq_num >= current_seg.start and res.seq_num <= current_seg.stop:
                 selected_residues.append(res)
             elif res.seq_num < current_seg.start:
@@ -616,7 +625,7 @@ class Correspondence(object):
         K   8  10B  K
         A   9  11   A
         P  10   *   *
-        G  11   *   * 
+        G  11   *   *
         """
 
         gcf_str = '>' + self.id + '\n'
@@ -638,12 +647,12 @@ class Correspondence(object):
         """Returns the Correspondence as a string (FASTA format)."""
         seqs = self.to_sequences()
         return seqs[0].to_fasta(**kwargs) + seqs[1].to_fasta(**kwargs)
-        
+
     def to_aln(self):
         """Returns the Correspondence as an Align object."""
         seqs = self.to_sequences()
-        return Align(seqs = seqs)
-        
+        return Align(seqs=seqs)
+
     def __str__(self):
         return self.to_fasta()
 
@@ -653,10 +662,10 @@ class Correspondence(object):
 class Align(object):
     """Object representing a protein sequence alignment."""
 
-    REF_GAP_CHAR='-'
-    MERGE_GAP_CHAR='.'
+    REF_GAP_CHAR = '-'
+    MERGE_GAP_CHAR = '.'
 
-    STO_META_TO_ATTR=[
+    STO_META_TO_ATTR = [
         ('ID', 'id'),
         ('DE', 'description'),
         ('AC', 'accession'),
@@ -669,9 +678,9 @@ class Align(object):
         ('SQ', None),
     ]
 
-    def __init__(self, seqs=None, *, id=None, accession=None, 
-        description=None, aln_type=None, min_bitscore=None, 
-        cath_version=None, dops_score=None):
+    def __init__(self, seqs=None, *, id=None, accession=None,
+                 description=None, aln_type=None, min_bitscore=None,
+                cath_version=None, dops_score=None):
         self.meta = {}
         self.id = id
         self.__seq_ids = set()
@@ -762,7 +771,7 @@ class Align(object):
     @staticmethod
     def _get_io_from_file_or_string(file_or_string):
 
-        filename = str( file_or_string )
+        filename = str(file_or_string)
         if isinstance(file_or_string, str):
             if file_or_string[0] == '>':
                 _io = io.StringIO(file_or_string)
@@ -773,7 +782,7 @@ class Align(object):
         else:
             _io = file_or_string
             logger.warning("unexpected io type: " + repr(file_or_string))
-        
+
         return _io, filename
 
     @classmethod
@@ -784,16 +793,16 @@ class Align(object):
 
         aln = cls()
         sto_header = sto_io.readline()
-        
+
         assert sto_header.startswith('# STOCKHOLM 1.0')
 
         aln_meta = {}
         seq_meta_by_id = {}
         seq_aa_by_id = {}
 
-        gc_meta_to_attr = { meta: attr for (meta, attr) in cls.STO_META_TO_ATTR }
+        gc_meta_to_attr = {meta: attr for (meta, attr) in cls.STO_META_TO_ATTR}
 
-        line_count=0
+        line_count = 0
         for line in sto_io:
             line_count += 1
 
@@ -823,7 +832,7 @@ class Align(object):
                             feature, key, line_count, line, repr(attr)))
                     attr = attr[key]
                     per_file_ann = value
-                
+
                 if attr:
                     logger.debug('setting aln attr "{}" to "{}"'.format(attr, per_file_ann))
                     setattr(aln, attr, per_file_ann)
@@ -838,7 +847,7 @@ class Align(object):
                 except:
                     raise err.ParseError('failed to parse line {} "{}"'.format(
                         line_count, line))
-                
+
             elif line.startswith('#=GS'):
                 try:
                     _, seq_id, feature, per_seq_ann = line.split(None, 3)                
@@ -861,7 +870,7 @@ class Align(object):
 
             elif line.startswith('//'):
                 pass
-            
+
             else:
                 seq_id, seq_aa = line.split()
                 if seq_id not in seq_aa_by_id:
@@ -888,16 +897,16 @@ class Align(object):
 
         re_seqstr = re.compile( r'^[a-zA-Z.\-]+$' )
 
-        seq_added=0            
+        seq_added = 0        
         current_hdr = None
         current_seq = ''
-        line_count=0
+        line_count = 0
         for line in fasta_io:
             line_count += 1
+            line = line.rstrip()
             if line == "":
                 break
-            
-            line = line.rstrip()
+
             if line[0] == '>':
                 if current_seq:
                     seq = Sequence(current_hdr, current_seq)
@@ -907,15 +916,17 @@ class Align(object):
                 current_hdr = line[1:]                
             else:
                 if not re_seqstr.match(line):
-                    raise err.SeqIOError(('encountered an error parsing FASTA: '
-                        'string "{}" does not look like a sequence ({}:{})').format(
-                            line, fasta_filename, line_count))
+                    raise err.SeqIOError(
+                        ('encountered an error parsing FASTA: '
+                         'string "{}" does not look like a sequence ({}:{})').format(
+                             line, fasta_filename, line_count))
 
                 if not current_hdr:
-                    raise err.SeqIOError(('encountered an error parsing FASTA: '
-                        'found sequence "{}" without a header ({}:{})').format(
-                            line, fasta_filename, line_count))
-                
+                    raise err.SeqIOError(
+                        ('encountered an error parsing FASTA: '
+                         'found sequence "{}" without a header ({}:{})').format(
+                             line, fasta_filename, line_count))
+
                 current_seq += str(line)
 
         fasta_io.close()
@@ -933,19 +944,19 @@ class Align(object):
 
         pir_io, pir_filename = __class__._get_io_from_file_or_string(pir_io)
 
-        re_seqstr = re.compile( r'^[a-zA-Z.\-\*]+$' )
+        re_seqstr = re.compile(r'^[a-zA-Z.\-]+\*?$')
 
-        seq_added=0            
+        seq_added = 0
         current_hdr = None
         current_desc = None
         current_seq = ''
-        line_count=0
+        line_count = 0
         for line in pir_io:
             line_count += 1
-            if line == "":
-                break
-            
             line = line.rstrip()
+            if line == "":
+                continue
+
             if line[0] == '>':
                 # following line is description as free text 
                 if current_seq:
@@ -954,19 +965,22 @@ class Align(object):
                     self.add_sequence(seq)
                     current_seq = ''
                     seq_added += 1
-                current_desc = next(pir_io).rstrip()
                 seq_type, current_hdr = line[1:].split(';')
+                line = next(pir_io).rstrip()
+                current_desc = line
             else:
                 if not re_seqstr.match(line):
-                    raise err.SeqIOError(('encountered an error parsing PIR: '
-                        'string "{}" does not look like a sequence ({}:{})').format(
-                            line, pir_filename, line_count))
+                    raise err.SeqIOError(
+                        ('encountered an error parsing PIR: '
+                         'string "{}" does not look like a sequence ({}:{})').format(
+                             line, pir_filename, line_count))
 
                 if not current_hdr:
-                    raise err.SeqIOError(('encountered an error parsing PIR: '
-                        'found sequence "{}" without a header ({}:{})').format(
-                            line, pir_filename, line_count))
-                
+                    raise err.SeqIOError(
+                        ('encountered an error parsing PIR: '
+                         'found sequence "{}" without a header ({}:{})').format(
+                             line, pir_filename, line_count))
+
                 current_seq += str(line)
 
         pir_io.close()
@@ -983,21 +997,23 @@ class Align(object):
         """Add a sequence to this alignment."""
 
         if seq.id in self.__seq_ids:
-            raise err.SeqIOError( ("Error: cannot add a sequence with id {}, "
-                "since this alignment already has a sequence with that id. [self: {}, merge: {}]")
-                .format(seq.id, ",".join(self.__seq_ids)) )
+            raise err.SeqIOError( 
+                ("Error: cannot add a sequence with id {}, "
+                 "since this alignment already has a sequence with that id. [{}]")
+                 .format(seq.id, ",".join(self.__seq_ids)))
 
         if self.aln_positions:
             if self.aln_positions != seq.length():
-                raise err.SeqIOError( ("Error: cannot add a sequence (id:{}) "
-                    "with {} positions to an alignment with {} positions.")
-                    .format(seq.id, seq.length(), self.aln_positions) )
+                raise err.SeqIOError( 
+                    ("Error: cannot add a sequence (id:{}) "
+                     "with {} positions to an alignment with {} positions.")
+                     .format(seq.id, seq.length(), self.aln_positions))
         else:
             self.__aln_positions = seq.length()
 
         self.seqs.append(seq)
         self.__seq_ids.add(seq.id)
-        return seq        
+        return seq
 
     def remove_sequence_by_id(self, seq_id: str):
         """Removes a sequence from the alignment."""
@@ -1007,9 +1023,8 @@ class Align(object):
                 logger.info("Removing sequence with '{}' from alignment".format(seq_id))
                 del self.seqs[idx]
                 return seq
-        
-        raise err.NoMatchesError('failed to find sequence with id {}'.format(seq_id))
 
+        raise err.NoMatchesError('failed to find sequence with id {}'.format(seq_id))
 
     def remove_alignment_gaps(self):
         """Return a new alignment after removing alignment positions 
@@ -1059,8 +1074,8 @@ class Align(object):
         """Return an array of Sequence objects from start to end."""
         return [Sequence(s._hdr, s.slice_seq(start, end)) for s in self.seqs]
 
-    def merge_alignment(self, merge_aln, ref_seq_acc: str, 
-            ref_correspondence:Correspondence=None, *, 
+    def merge_alignment(self, merge_aln, ref_seq_acc: str,
+            ref_correspondence: Correspondence=None, *,
             cluster_label=None, merged_ref_id=False):
 
         """
@@ -1133,15 +1148,17 @@ class Align(object):
         ref_no_gaps = ref_seq_in_ref.seq_no_gaps
         corr_no_gaps = ref_correspondence.atom_sequence.seq_no_gaps
         if ref_no_gaps != corr_no_gaps:
-            raise err.MergeCorrespondenceError(ref_seq_acc, 'current', 'ATOM', 
-                ref_no_gaps, corr_no_gaps) 
+            raise err.MergeCorrespondenceError(
+                seq_id=ref_seq_acc, aln_type='current', seq_type='ATOM',
+                ref_no_gaps=ref_no_gaps, corr_no_gaps=corr_no_gaps)
 
         # check: ref sequence (in merge) must match the SEQRES sequence in Correspondence
         ref_no_gaps = ref_seq_in_merge.seq_no_gaps
         corr_no_gaps = ref_correspondence.seqres_sequence.seq_no_gaps
         if ref_no_gaps != corr_no_gaps:
-            raise err.MergeCorrespondenceError(ref_seq_acc, 'merge', 'SEQRES', 
-                ref_no_gaps, corr_no_gaps) 
+            raise err.MergeCorrespondenceError(
+                seq_id=ref_seq_acc, aln_type='merge', seq_type='SEQRES',
+                ref_no_gaps=ref_no_gaps, corr_no_gaps=corr_no_gaps)
 
         # clean up
         del ref_no_gaps
@@ -1376,6 +1393,18 @@ class Align(object):
         new_aln.seqs = new_seqs
         new_aln.aln_positions = new_aln.seqs[0].length()
         return new_aln
+
+    def to_fasta(self, wrap_width=80):
+        fasta_str = ''
+        for seq in self.seqs:
+            fasta_str += seq.to_fasta(wrap_width=wrap_width)
+        return fasta_str
+
+    def to_pir(self, wrap_width=80):
+        pir_str = ''
+        for seq in self.seqs:
+            pir_str += seq.to_pir(wrap_width=wrap_width)
+        return pir_str
 
     def write_fasta(self, fasta_file, wrap_width=80):
         """Write the alignment to a file in FASTA format."""
