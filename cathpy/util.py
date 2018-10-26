@@ -12,9 +12,9 @@ import pkg_resources
 # local
 from cathpy import seqio, datafiles, error as err
 
-logger = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
-scorecons_exe = pkg_resources.resource_filename(__name__, "../tools/linux-x86_64/bin/scorecons")
+SCORECONS_EXE = pkg_resources.resource_filename(__name__, "../tools/linux-x86_64/bin/scorecons")
 
 def is_valid_domain_id(id_str: str) -> bool:
     """
@@ -287,13 +287,13 @@ class GroupsimRunner(object):
 
         groupsim_args = [str(a) for a in groupsim_args]
 
-        logger.debug("running groupsim: sys: " + " ".join(groupsim_args))
+        LOG.debug("running groupsim: sys: " + " ".join(groupsim_args))
 
         try:
             p = Popen(groupsim_args, stdout=PIPE, stderr=PIPE, universal_newlines=True)
             groupsim_out, groupsim_err = p.communicate()
         except subprocess.CalledProcessError as e:
-            logger.error('CMD: {}\nCODE: {}\nOUTPUT: {}\nSTDERR: "{}"\nSTDOUT: "{}"\n'.format(
+            LOG.error('CMD: {}\nCODE: {}\nOUTPUT: {}\nSTDERR: "{}"\nSTDOUT: "{}"\n'.format(
                 e.cmd, e.returncode, e.output, e.stderr, e.stdout))
             raise e
         except:
@@ -324,10 +324,9 @@ class ScoreconsResult(object):
 class ScoreconsRunner(object):
     """Runs scorecons for a given alignment."""
 
-    def __init__(self, *, scorecons_path=scorecons_exe):
+    def __init__(self, *, scorecons_path=SCORECONS_EXE):
         self.scorecons_path = scorecons_path
-        logger.info( "scorecons_exe: {}".format(scorecons_exe) )
-
+        LOG.info( "scorecons_path: {}".format(self.scorecons_path) )
 
     def run_alignment(self, alignment):
         """Runs scorecons on a given alignment."""
@@ -373,14 +372,14 @@ class ScoreconsRunner(object):
         tmp_scorecons_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.scorecons', delete=True)
 
         scorecons_args = (self.scorecons_path, '-a', fasta_file, '-o', tmp_scorecons_file.name)
-        logger.debug("running scorecons: sys: " + " ".join(scorecons_args))
+        LOG.debug("running scorecons: sys: " + " ".join(scorecons_args))
 
         try:
             p = Popen(scorecons_args, stdout=PIPE, stderr=PIPE, universal_newlines=True)
             scorecons_out, scorecons_err = p.communicate()
 
         except subprocess.CalledProcessError as e:
-            logger.error('CMD: {}\nCODE: {}\nOUTPUT: {}\nSTDERR: "{}"\nSTDOUT: "{}"\n'.format(
+            LOG.error('CMD: {}\nCODE: {}\nOUTPUT: {}\nSTDERR: "{}"\nSTDOUT: "{}"\n'.format(
                 e.cmd, e.returncode, e.output, e.stderr, e.stdout))
             raise e
         except:
@@ -448,7 +447,7 @@ class FunfamFileFinder(object):
         glob_path = re.sub(r'__([A-Z_]+)__', '*', self.ff_tmpl)
         grep_args = (self.grep_path, '--include', glob_path, '-l', '-P', 
             '^' + domain_id, '-R', self.base_dir)
-        logger.debug("search_by_domain_id: sys: " + " ".join(grep_args))
+        LOG.debug("search_by_domain_id: sys: " + " ".join(grep_args))
 
         try:
             # note: this returns bytes (not strings)
@@ -458,7 +457,7 @@ class FunfamFileFinder(object):
                 # grep telling us it didn't find any matches
                 raise err.NoMatchesError('failed to find domain id {} with cmd {}'.format(domain_id, str(e.cmd)) )
             else:
-                logger.error('CMD: {}\nCODE: {}\nOUTPUT: {}\nSTDERR: "{}"\nSTDOUT: "{}"\n'.format(
+                LOG.error('CMD: {}\nCODE: {}\nOUTPUT: {}\nSTDERR: "{}"\nSTDOUT: "{}"\n'.format(
                     e.cmd, e.returncode, e.output, e.stderr, e.stdout))
                 raise
         except:
@@ -476,7 +475,7 @@ class FunfamFileFinder(object):
                     len(ff_files), domain_id, " ".join(grep_args), "\n".join(ff_files),
                 ))
         
-        logger.debug("search_by_domain_id: found funfam alignment {}".format(repr(ff_files[0])))
+        LOG.debug("search_by_domain_id: found funfam alignment {}".format(repr(ff_files[0])))
 
         return ff_files[0]
 
@@ -513,7 +512,7 @@ class StructuralClusterMerger(object):
 
     def run(self):
 
-        logger.info("Running alignment merge")
+        LOG.info("Running alignment merge")
 
         cath_release = datafiles.ReleaseDir(self.cath_version)
 
@@ -527,13 +526,13 @@ class StructuralClusterMerger(object):
 
         sfam_id, cluster_type, sc_num = sc_parts.group(1, 2, 3)
 
-        logger.info('Superfamily: ' + sfam_id)
-        logger.info('Cluster type: ' + cluster_type)
-        logger.info('Cluster number: ' + sc_num)
+        LOG.info('Superfamily: ' + sfam_id)
+        LOG.info('Cluster type: ' + cluster_type)
+        LOG.info('Cluster number: ' + sc_num)
 
-        logger.info("Parsing structure-based alignment: ")
+        LOG.info("Parsing structure-based alignment: ")
         sc_aln = seqio.Align.new_from_fasta(self.sc_file)
-        logger.info(" ... found {} representatives".format(sc_aln.count_sequences))
+        LOG.info(" ... found {} representatives".format(sc_aln.count_sequences))
 
         cluster_id = '-'.join([sfam_id, cluster_type, sc_num])
         sc_aln.id = cluster_id
@@ -546,7 +545,7 @@ class StructuralClusterMerger(object):
             nonlocal merge_count
             out_fasta = str(self.out_fasta)
             stage_file = re.sub(r'(\..*?)$', '.' + str(merge_count) + '\1', out_fasta)
-            logger.debug( "stage_file: merge_count={} out_fasta={} stage_file={}".format(
+            LOG.debug( "stage_file: merge_count={} out_fasta={} stage_file={}".format(
                 merge_count, out_fasta, stage_file) )
             merge_count += 1
             return stage_file
@@ -554,20 +553,20 @@ class StructuralClusterMerger(object):
         # create our funfam finder
         ff_finder = FunfamFileFinder(self.ff_dir, ff_tmpl=self.ff_tmpl)
 
-        logger.info("Searching for funfam files in dir: " + self.ff_dir)
+        LOG.info("Searching for funfam files in dir: " + self.ff_dir)
 
         # for each representative in the structure-based alignment..
         sc_aln_orig = sc_aln.copy()
         for sc_rep_in_sc in sc_aln_orig.seqs:
 
-            logger.info('Working on SC rep: {}'.format(sc_rep_in_sc.accession) )
+            LOG.info('Working on SC rep: {}'.format(sc_rep_in_sc.accession) )
 
             sc_rep_acc = sc_rep_in_sc.accession
             
             # find the corresponding funfam alignment
             ff_aln_file = ff_finder.search_by_domain_id(sc_rep_acc)
 
-            logger.info('Reading FunFam alignment: {}'.format(ff_aln_file))
+            LOG.info('Reading FunFam alignment: {}'.format(ff_aln_file))
 
             # parse it into an alignment
             ff_aln = seqio.Align.new_from_stockholm(ff_aln_file)
@@ -581,8 +580,8 @@ class StructuralClusterMerger(object):
                 raise err.GeneralError('failed to find structural cluster representative {} in funfam {}'.format(
                     sc_rep_acc, ff_aln_file, ))
 
-            logger.debug('SC REP (SC): {}'.format(sc_rep_in_sc))
-            logger.debug('SC REP (FF): {}'.format(sc_rep_in_ff))
+            LOG.debug('SC REP (SC): {}'.format(sc_rep_in_sc))
+            LOG.debug('SC REP (FF): {}'.format(sc_rep_in_ff))
 
             # get the chain correspondence file 
             rep_chain_id = sc_rep_acc[:5]
@@ -591,7 +590,7 @@ class StructuralClusterMerger(object):
             
             # TODO: get a subset that only corresponds to the domain (not chain)
             seqres_segments = sc_rep_in_ff.segs
-            logger.warning("TODO: this code currently assumes that the start-stop information " 
+            LOG.warning("TODO: this code currently assumes that the start-stop information " 
                 "in the FunFam STOCKHOLM alignment matches the sequence and is based on SEQRES "
                 "records (which needs to be double-checked)")
 
@@ -599,9 +598,9 @@ class StructuralClusterMerger(object):
                 raise err.MissingSegmentsError(('need to have seqres segments defined in '
                     'structural cluster rep sequence (of funfam): {}').format(sc_rep_in_ff))
 
-            logger.info('applying segments to correspondence: {}'.format(repr(seqres_segments)))
+            LOG.info('applying segments to correspondence: {}'.format(repr(seqres_segments)))
             sc_rep_corr = chain_corr.apply_seqres_segments(seqres_segments)
-            logger.info('  ...correspondence changed from {} (first:{}, last:{}) to {} (first:{}, last:{})'.format(
+            LOG.info('  ...correspondence changed from {} (first:{}, last:{}) to {} (first:{}, last:{})'.format(
                 chain_corr.seqres_length, str(chain_corr.first_residue), str(chain_corr.last_residue),
                 sc_rep_corr.seqres_length, str(sc_rep_corr.first_residue), str(sc_rep_corr.last_residue), ))
 
@@ -610,7 +609,7 @@ class StructuralClusterMerger(object):
                 cluster_label = funfam_id.cluster_num)
 
             merge_stage_file = next_merge_stage_file()
-            #logger.info("Writing tmp merge file to '{}'".format(merge_stage_file))
+            #LOG.info("Writing tmp merge file to '{}'".format(merge_stage_file))
             #sc_aln.write_fasta(merge_stage_file, wrap_width=None)
 
         # add scorecons
@@ -623,11 +622,11 @@ class StructuralClusterMerger(object):
 
         # write final merged alignment
         if self.out_fasta:
-            logger.info('Writing merged FASTA alignment: {}'.format(self.out_fasta))
+            LOG.info('Writing merged FASTA alignment: {}'.format(self.out_fasta))
             sc_aln.write_fasta(self.out_fasta, self.wrap_width)
 
         if self.out_sto:
-            logger.info('Writing merged STOCKHOLM alignment: {}'.format(self.out_sto))
+            LOG.info('Writing merged STOCKHOLM alignment: {}'.format(self.out_sto))
             sc_aln.write_sto(self.out_sto)
 
         return sc_aln
@@ -675,7 +674,7 @@ class AlignmentSummaryRunner(object):
             for f in aln_files:
                 if os.stat(f).st_size == 0:
                     if self.skipempty:
-                        logger.warning('skipping empty file: {}'.format(f))
+                        LOG.warning('skipping empty file: {}'.format(f))
                     else:
                         raise err.FileEmptyError('file {} is empty (use skipempty to skip)'.format(f))
                 else:
