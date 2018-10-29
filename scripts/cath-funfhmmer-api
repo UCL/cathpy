@@ -1,36 +1,36 @@
 #!/usr/bin/env python
+"""
+cath-funfhmmer-api - search sequence against CATH FunFams
+"""
 
 # core
 import argparse
 import logging
-import pprint
 
 # local
 from cathpy.funfhmmer import Client
-
-pp = pprint.PrettyPrinter()
 
 parser = argparse.ArgumentParser(
     description="Search a protein sequence against CATH FunFams.",
     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
 parser.add_argument('--in', '-i', type=str, dest='in_file', required=True,
-    help='query protein sequence (FASTA format)')
+                    help='query protein sequence (FASTA format)')
 
 parser.add_argument('--sleep', '-s', type=int, default=2,
-    help='seconds to wait between result checks')
+                    help='seconds to wait between result checks')
 
 parser.add_argument('--maxretries', type=int, default=50,
-    help='maximum number of times to retry before giving up')
+                    help='maximum number of times to retry before giving up')
 
 parser.add_argument('--format', '-f', type=str, default='csv',
-    help='output format')
+                    help='output format')
 
 parser.add_argument('--out', '-o', type=str, dest='out_file', required=False,
-    help='output file')
+                    help='output file')
 
 parser.add_argument('--verbose', '-v', required=False, action='count', default=0,
-    help='more verbose logging')
+                    help='more verbose logging')
 
 if __name__ == '__main__':
     args = parser.parse_args()
