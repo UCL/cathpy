@@ -264,7 +264,7 @@ class GroupsimRunner(object):
                 raise err.InvalidInputError("need to set_cluster_id() on alignment sequences before running groupsim: {}".format(
                     seq.__dict__
                 ))
-            seq.id = '|'.join([seq.id, str(cluster_id)])
+            seq._id = '|'.join([seq._id, str(cluster_id)])
 
         source_ids = {s.get_cluster_id() for s in aln_copy.seqs}
 
@@ -535,7 +535,7 @@ class StructuralClusterMerger(object):
         LOG.info(" ... found {} representatives".format(sc_aln.count_sequences))
 
         cluster_id = '-'.join([sfam_id, cluster_type, sc_num])
-        sc_aln.id = cluster_id
+        sc_aln.set_id(cluster_id)
         sc_aln.accession = cluster_id
         sc_aln.aln_type = cluster_type
         sc_aln.description = '{}, Structural Cluster ({}) {}'.format(sfam_id, cluster_type, sc_num)
@@ -590,7 +590,7 @@ class StructuralClusterMerger(object):
             
             # TODO: get a subset that only corresponds to the domain (not chain)
             seqres_segments = sc_rep_in_ff.segs
-            LOG.warning("TODO: this code currently assumes that the start-stop information " 
+            LOG.warning("TODO: this code currently assumes that the start-stop information "
                 "in the FunFam STOCKHOLM alignment matches the sequence and is based on SEQRES "
                 "records (which needs to be double-checked)")
 

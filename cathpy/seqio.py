@@ -744,6 +744,10 @@ class Align(object):
         """Returns the id of this Align object."""
         return self._id
 
+    def set_id(self, _id):
+        """Sets the id of this Align object."""
+        self._id = _id
+
     def _next_merge_id(self):
         self._merge_counter += 1
         return self._merge_counter
