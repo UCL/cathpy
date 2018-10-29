@@ -13,7 +13,7 @@ import requests
 from tqdm import trange
 
 import cathpy.error as err
-from cathpy.model import Scan, ScanResult, ScanHit, ScanHsp
+from cathpy.models import Scan
 
 LOG = logging.getLogger(__name__)
 
@@ -25,9 +25,9 @@ def log_progress(_func=None, *, msg=None):
             LOG.info(title)
             try:
                 value = func(*args, **kwargs)
-                LOG.info("{} {}".format(title, '[OK]'))
+                LOG.info("%s %s", title, '[OK]')
             except:
-                LOG.info("{} {}".format(title, '[FAIL]'))
+                LOG.info("%s %s", title, '[FAIL]')
                 raise
             return value    
         return wrapper_decorator
