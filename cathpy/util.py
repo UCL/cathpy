@@ -259,14 +259,13 @@ class GroupsimRunner(object):
         # >1ebgB02/127-436|7431
         aln_copy = alignment.copy()
         for seq in aln_copy.seqs:
-            cluster_id = seq.get_cluster_id()
-            if not cluster_id:
+            if not seq.cluster_id:
                 raise err.InvalidInputError("need to set_cluster_id() on alignment sequences before running groupsim: {}".format(
                     seq.__dict__
                 ))
-            seq._id = '|'.join([seq._id, str(cluster_id)])
+            seq._id = '|'.join([seq._id, str(seq.cluster_id)])
 
-        source_ids = {s.get_cluster_id() for s in aln_copy.seqs}
+        source_ids = {s.cluster_id for s in aln_copy.seqs}
 
         # lower-case aa -> gaps
         # '.' -> '-'
