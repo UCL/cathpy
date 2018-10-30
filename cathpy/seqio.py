@@ -271,9 +271,12 @@ class Sequence(object):
         self._seq = seq
 
     def set_cluster_id(self, id_str):
+        """Sets the cluster id for this Sequence."""
         self.meta['CLUSTER_ID'] = id_str
 
-    def get_cluster_id(self):
+    @property
+    def cluster_id(self):
+        """Returns the cluster id for this Sequence."""
         return self.meta['CLUSTER_ID'] if 'CLUSTER_ID' in self.meta else None
 
     @classmethod
@@ -443,6 +446,15 @@ class Sequence(object):
     def is_gap(res_char):
         """Test whether a character is considered a gap."""
         return res_char in ['-', '.']
+
+    @property
+    def accession_and_seginfo(self):
+        """Returns accession and segment info for this Sequence."""
+        segs_str = '_'.join(['-'.join([str(s.start), str(s.stop)]) for s in self.segs])
+        if segs_str:
+            return self.accession + '/' + segs_str
+        else:
+            return self.accession
 
     def __str__(self):
         """Represents this Sequence as a string."""
@@ -1181,19 +1193,23 @@ class Align(object):
 
         merge_aln = merge_aln.copy()
 
-        if not merged_ref_id:
-            merged_ref_id = ref_seq_acc + '_merge'
-
         if not cluster_label:
             cluster_label = self._next_merge_id()
 
         for seq in merge_aln.seqs:
-            seq.set_cluster_id(cluster_label) 
+            seq.set_cluster_id(cluster_label)
 
         ref_seq_in_ref = self.find_seq_by_accession(ref_seq_acc)
+        ref_seq_in_ref.set_cluster_id(cluster_label)
 
         ref_seq_in_merge = merge_aln.find_seq_by_accession(ref_seq_acc)
-        ref_seq_in_merge.set_id(merged_ref_id)
+
+        # if the merge_ref_id has not been specified then the merged ref sequence
+        # will get removed from the final alignment
+        if not merged_ref_id:
+            ref_seq_in_merge.accession += '_merge'
+            _merged_ref_id = ref_seq_in_merge.accession_and_seginfo
+            ref_seq_in_merge.set_id(_merged_ref_id)
 
         if ref_correspondence is None:
             # fake a 1:1 correspondence for internal use
@@ -1338,9 +1354,6 @@ class Align(object):
         for seq in merge_aln.seqs:
             self.add_sequence(seq)
 
-        # remove the original reference sequence (from the structural sequence)
-        self.remove_sequence_by_id(ref_seq_in_ref.id)
-
         # for seq in self.seqs:
         #     LOG.debug( "{:<10} {}".format("MERGED", str(seq)) )
 
@@ -1348,7 +1361,8 @@ class Align(object):
         # 1. get sequences that correspond to the input aln
         # 2. remove alignment positions where there's a gap in the reference sequence
 
-        LOG.debug("Checking merge results for {} ({}) ...".format(ref_seq_acc, repr(ref_seq_in_merge._hdr)))
+        LOG.debug("Checking merge results for %s (%s) ...",
+                  ref_seq_acc, repr(ref_seq_in_merge._hdr))
         for original_seq in merge_aln.seqs:
 
             # searching by accession is necessary for CATH domains (since the headers
@@ -1443,6 +1457,24 @@ class Align(object):
                             ))
 
         LOG.info("Finshed checking merge for {} ({})".format(ref_seq_acc, repr(ref_seq_in_merge._hdr)))
+
+        # if we have not been given a correspondence then there's no point
+        # adding the reference sequence from the merge alignment (since
+        # there is a 1:1 mapping)
+        if not merged_ref_id:
+            LOG.info("Removing merged sequence '%s' from alignment (merged_ref_id not set)", 
+                ref_seq_in_merge.id)
+            self.remove_sequence_by_id(ref_seq_in_merge.id)
+
+        seqs_by_cluster_id = {}
+        for seq in self.seqs:
+            if seq.cluster_id not in seqs_by_cluster_id:
+                seqs_by_cluster_id[seq.cluster_id] = []
+            seqs_by_cluster_id[seq.cluster_id].extend([seq])
+
+        for cluster_id in seqs_by_cluster_id:
+            seq_ids = ', '.join([s.id for s in seqs_by_cluster_id[cluster_id]])
+            LOG.debug("Cluster %s: %s", cluster_id, seq_ids)
 
         return merge_aln.seqs
 
