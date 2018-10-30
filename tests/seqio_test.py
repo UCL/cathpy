@@ -1,6 +1,5 @@
 import logging
 import os
-import re
 import tempfile
 import unittest
 
@@ -208,14 +207,16 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         self.assertEqual(aln_merge2.count_sequences, 3)
 
         aln_ref.merge_alignment(aln_merge1, 'ref1')
-        aln_after_merge1 = seqio.Align.new_from_fasta(self.fasta_aln_after_merge1)
-        self.assertEqual(aln_after_merge1.count_sequences, 4)
-        self.assertEqual(aln_ref.count_sequences, 4)
+        expected_aln_after_merge1 = seqio.Align.new_from_fasta(self.fasta_aln_after_merge1)
+        self.assertEqual(expected_aln_after_merge1.count_sequences, 4)
+        self.assertEqual([s.id for s in aln_ref.seqs], [
+            'ref1', 'ref2', 'src1.1', 'src1.2',])
 
         aln_ref.merge_alignment(aln_merge2, 'ref2')
-        aln_after_merge2 = seqio.Align.new_from_fasta(self.fasta_aln_after_merge2)
-        self.assertEqual(aln_after_merge2.count_sequences, 6)
-        self.assertEqual(aln_ref.count_sequences, 6)
+        expected_aln_after_merge2 = seqio.Align.new_from_fasta(self.fasta_aln_after_merge2)
+        self.assertEqual(expected_aln_after_merge2.count_sequences, 6)
+        self.assertEqual([s.id for s in aln_ref.seqs], [
+            'ref1', 'ref2', 'src1.1', 'src1.2', 'src2.1', 'src2.2',])
 
         sto_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix='.sto')
         sto_out = sto_tmp.name
@@ -249,9 +250,9 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         self.assertEqual(seq_meta['AC'], 'Q96CS3')
         self.assertEqual(seq_meta['OS'], 'Homo sapiens')
         self.assertEqual(seq_meta['DE'], 'FAS-associated factor 2')
-        logger.info('first seq: ' + repr(vars(first_seq)) )
+        logger.info('first seq: %s',repr(vars(first_seq)))
 
-        logger.info('Writing out tmp STOCKHOLM file to '+sto_out)
+        logger.info('Writing out tmp STOCKHOLM file to %s', sto_out)
         aln.write_sto(sto_out)
 
         sto_expected = ''
