@@ -3,7 +3,7 @@
 #=GF DE 1.10.8.10, Structural Cluster (FF_SSG9) 6
 #=GF AC 1.10.8.10-FF_SSG9-6
 #=GF TP FF_SSG9
-#=GF DR DOPS: 97.416
+#=GF DR DOPS: 88.422
 #=GS 2damA00/1-67          AC Q96CS3
 #=GS 2damA00/1-67          OS Homo sapiens
 #=GS 2damA00/1-67          DE FAS-associated factor 2
@@ -4917,5 +4917,5 @@ H3C7U8/853-904                ------------..--gkshS..P....ESE..N.VD..AKIAKLMGEG-
 H3BW35/897-948                ------------..--gkshS..P....ESE..N.VD..AKIAKLMGEG--YSFEDVKRALMIAQYKVDVARNILREFVL---V--------
 H2RM67/869-920                ------------..--gkshN..T....ESE..N.TD..AKIAKLMGEG--YSFEDVKRALMIAQYKVDVARNILREFAL---V--------
 #=GC groupsim                 -----------------------2----454--5-56--4666556664---56565656557746464725676667--------------
-#=GC scorecons                112222122322--21-0002--2-000343--4-44--45645744352115354323673344354437343646211000000000000
+#=GC scorecons                112222122322--21----2--2----343--4-44--45645744352115354323673344354437343646211000000000000
 //
