@@ -8,6 +8,10 @@ class GeneralError(Exception):
     """General Exception class within the cathpy package."""
     pass
 
+class DuplicateSequenceError(GeneralError):
+    """More than one sequence in an alignment has the same id"""
+    pass
+
 class JsonError(GeneralError):
     """Problem parsing JSON"""
     pass
