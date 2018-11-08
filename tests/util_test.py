@@ -35,7 +35,7 @@ class TestUtil(testutils.TestBase):
             ff_dir=self.ff_dir, ff_tmpl=self.ff_tmpl)
         logger.info("Merging SC alignment {}".format(self.sc_file))
         merge_aln = merger.run()
-        self.assertEqual(merge_aln.count_sequences, 697)
+        self.assertEqual(merge_aln.count_sequences, 701)
 
         with open(tmp_sto_file.name) as f:
             sto_got = f.read()
