@@ -4,13 +4,17 @@
 #=GF AC 1.10.8.10-FF_SSG9-6
 #=GF TP FF_SSG9
 #=GF DR DOPS: 88.422
-#=GS 2damA00/1-67          AC Q96CS3
-#=GS 2damA00/1-67          OS Homo sapiens
-#=GS 2damA00/1-67          DE FAS-associated factor 2
-#=GS 2damA00/1-67          DR CATH; 2dam; A:1-67;
-#=GS 2damA00/1-67          DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens;
-#=GS 2damA00/1-67          DR GO; GO:0005515; GO:0005576; GO:0005783; GO:0005811; GO:0030433; GO:0030970; GO:0031625; GO:0034098; GO:0034389; GO:0035473; GO:0035578; GO:0043130; GO:0043312; GO:0055102;
-#=GS 2damA00/1-67          CLUSTER_ID 14534
+#=GS domain|2damA00|4_2_0  CLUSTER_ID 14534
+#=GS domain|1wj7A01|4_2_0  CLUSTER_ID 15516
+#=GS domain|2jp7A00|4_2_0  CLUSTER_ID 5069
+#=GS domain|2jujA00|4_2_0  CLUSTER_ID 15593
+#=GS 2damA00_merge/1-67    AC Q96CS3
+#=GS 2damA00_merge/1-67    OS Homo sapiens
+#=GS 2damA00_merge/1-67    DE FAS-associated factor 2
+#=GS 2damA00_merge/1-67    DR CATH; 2dam; A:1-67;
+#=GS 2damA00_merge/1-67    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens;
+#=GS 2damA00_merge/1-67    DR GO; GO:0005515; GO:0005576; GO:0005783; GO:0005811; GO:0030433; GO:0030970; GO:0031625; GO:0034098; GO:0034389; GO:0035473; GO:0035578; GO:0043130; GO:0043312; GO:0055102;
+#=GS 2damA00_merge/1-67    CLUSTER_ID 14534
 #=GS Q96CS3/1-60           AC Q96CS3
 #=GS Q96CS3/1-60           OS Homo sapiens
 #=GS Q96CS3/1-60           DE FAS-associated factor 2
@@ -314,13 +318,13 @@
 #=GS A0A151MZJ7/1-60       DR GENE3D; ff60dc25c40778049d2aff16727ac790/1-60;
 #=GS A0A151MZJ7/1-60       DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Crocodylia; Alligatoridae; Alligatorinae; Alligator; Alligator mississippiensis;
 #=GS A0A151MZJ7/1-60       CLUSTER_ID 14534
-#=GS 1wj7A01/19-78         AC Q80X50
-#=GS 1wj7A01/19-78         OS Mus musculus
-#=GS 1wj7A01/19-78         DE Ubiquitin-associated protein 2-like
-#=GS 1wj7A01/19-78         DR CATH; 1wj7; A:19-78;
-#=GS 1wj7A01/19-78         DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Muridae; Murinae; Mus; Mus; Mus musculus;
-#=GS 1wj7A01/19-78         DR GO; GO:0031519; GO:0061484;
-#=GS 1wj7A01/19-78         CLUSTER_ID 15516
+#=GS 1wj7A01_merge/19-78   AC Q80X50
+#=GS 1wj7A01_merge/19-78   OS Mus musculus
+#=GS 1wj7A01_merge/19-78   DE Ubiquitin-associated protein 2-like
+#=GS 1wj7A01_merge/19-78   DR CATH; 1wj7; A:19-78;
+#=GS 1wj7A01_merge/19-78   DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Rodentia; Myomorpha; Muridae; Murinae; Mus; Mus; Mus musculus;
+#=GS 1wj7A01_merge/19-78   DR GO; GO:0031519; GO:0061484;
+#=GS 1wj7A01_merge/19-78   CLUSTER_ID 15516
 #=GS Q14157/30-89          AC Q14157
 #=GS Q14157/30-89          OS Homo sapiens
 #=GS Q14157/30-89          DE Ubiquitin-associated protein 2-like
@@ -2895,13 +2899,13 @@
 #=GS H3DEF7/34-93          DR GENE3D; ff7682f118e13c7f2c51a27ee28e15f1/34-93;
 #=GS H3DEF7/34-93          DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Tetraodon; Tetraodon nigroviridis;
 #=GS H3DEF7/34-93          CLUSTER_ID 15516
-#=GS 2jp7A00/1-57          AC Q99257
-#=GS 2jp7A00/1-57          OS Saccharomyces cerevisiae S288C
-#=GS 2jp7A00/1-57          DE mRNA export factor MEX67
-#=GS 2jp7A00/1-57          DR CATH; 2jp7; A:543-599;
-#=GS 2jp7A00/1-57          DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae;
-#=GS 2jp7A00/1-57          DR GO; GO:0000055; GO:0000056; GO:0003723; GO:0005515; GO:0005737; GO:0006406; GO:0016973; GO:0042272;
-#=GS 2jp7A00/1-57          CLUSTER_ID 5069
+#=GS 2jp7A00_merge/1-57    AC Q99257
+#=GS 2jp7A00_merge/1-57    OS Saccharomyces cerevisiae S288C
+#=GS 2jp7A00_merge/1-57    DE mRNA export factor MEX67
+#=GS 2jp7A00_merge/1-57    DR CATH; 2jp7; A:543-599;
+#=GS 2jp7A00_merge/1-57    DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae;
+#=GS 2jp7A00_merge/1-57    DR GO; GO:0000055; GO:0000056; GO:0003723; GO:0005515; GO:0005737; GO:0006406; GO:0016973; GO:0042272;
+#=GS 2jp7A00_merge/1-57    CLUSTER_ID 5069
 #=GS 2khhA00/1-59          AC Q99257
 #=GS 2khhA00/1-59          OS Saccharomyces cerevisiae S288C
 #=GS 2khhA00/1-59          DE mRNA export factor MEX67
@@ -2982,14 +2986,14 @@
 #=GS A6ZW84/543-599        DR GENE3D; f41e81134e31572948d658e571cde402/543-599;
 #=GS A6ZW84/543-599        DR ORG; Eukaryota; Fungi; Dikarya; Ascomycota; Saccharomycotina; Saccharomycetes; Saccharomycetales; Saccharomycetaceae; Saccharomyces; Saccharomyces cerevisiae;
 #=GS A6ZW84/543-599        CLUSTER_ID 5069
-#=GS 2jujA00/1-56          AC P22681
-#=GS 2jujA00/1-56          OS Homo sapiens
-#=GS 2jujA00/1-56          DE E3 ubiquitin-protein ligase CBL
-#=GS 2jujA00/1-56          DR CATH; 2juj; A:1-56;
-#=GS 2jujA00/1-56          DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens;
-#=GS 2jujA00/1-56          DR GO; GO:0003700; GO:0004842; GO:0005515; GO:0005829; GO:0005886; GO:0007166; GO:0007173; GO:0007179; GO:0008543; GO:0014068; GO:0016567; GO:0017124; GO:0035635; GO:0042059; GO:0042787; GO:0043066; GO:0045296; GO:0045742; GO:0046875; GO:0048260; GO:0061024; GO:0061630;
-#=GS 2jujA00/1-56          DR EC; 2.3.2.27;
-#=GS 2jujA00/1-56          CLUSTER_ID 15593
+#=GS 2jujA00_merge/1-56    AC P22681
+#=GS 2jujA00_merge/1-56    OS Homo sapiens
+#=GS 2jujA00_merge/1-56    DE E3 ubiquitin-protein ligase CBL
+#=GS 2jujA00_merge/1-56    DR CATH; 2juj; A:1-56;
+#=GS 2jujA00_merge/1-56    DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Mammalia; Euarchontoglires; Primates; Haplorrhini; Simiiformes; Catarrhini; Hominoidea; Hominidae; Homininae; Homo; Homo sapiens;
+#=GS 2jujA00_merge/1-56    DR GO; GO:0003700; GO:0004842; GO:0005515; GO:0005829; GO:0005886; GO:0007166; GO:0007173; GO:0007179; GO:0008543; GO:0014068; GO:0016567; GO:0017124; GO:0035635; GO:0042059; GO:0042787; GO:0043066; GO:0045296; GO:0045742; GO:0046875; GO:0048260; GO:0061024; GO:0061630;
+#=GS 2jujA00_merge/1-56    DR EC; 2.3.2.27;
+#=GS 2jujA00_merge/1-56    CLUSTER_ID 15593
 #=GS 2oo9A00/1-46          AC P22681
 #=GS 2oo9A00/1-46          OS Homo sapiens
 #=GS 2oo9A00/1-46          DE E3 ubiquitin-protein ligase CBL
@@ -4218,8 +4222,12 @@
 #=GS H2RM67/869-920        DR GENE3D; 6a842ccd0a708cde9ddde5a3f376e669/869-920;
 #=GS H2RM67/869-920        DR ORG; Eukaryota; Metazoa; Chordata; Craniata; Actinopterygii; Actinopteri; Neopterygii; Teleostei; Tetraodontiformes; Tetraodontoidei; Tetradontoidea; Tetraodontidae; Takifugu; Takifugu rubripes;
 #=GS H2RM67/869-920        CLUSTER_ID 15593
-#=GF SQ 697
-2damA00/1-67                  ---GSSGSSGAP..EE....R..D....LTQ..E.QT..EKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGSGPSSG-----
+#=GF SQ 701
+domain|2damA00|4_2_0          ---GSSGSSGAP..EE....R..D....LTQ..E.QT..EKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGSGPSSG-----
+domain|1wj7A01|4_2_0          QATAEQIRLAQM..IS....D..H....NDA..D.FE..EKVKQLIDITGK-NQDECVIALHDCNGDVNRAINVLLEG--------------
+domain|2jp7A00|4_2_0          ------------..--....-..R....LNP..V.QL..ELLNKLHLETKL-NAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF--
+domain|2jujA00|4_2_0          ------------..--....A..T....ASP..Q.LS..SEIENLMSQG--YSYQDIQKALVIAQNNIEMAKNILREFVS---ISSPAHVAT
+2damA00_merge/1-67            ---GSSGSSGAP..EE....R..D....LTQ..E.QT..EKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGSGPSSG-----
 Q96CS3/1-60                   --------MAAP..EE....R..D....LTQ..E.QT..EKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV------
 Q3TDN2/1-60                   --------MAAP..EE....Q..D....LTQ..E.QT..EKLLQFQDLTGIESMEQCRLALEQHNWNMEAAVQDRLNEQEGV-PSV------
 B4E2M8/1-60                   --------MAAP..EE....R..D....LTQ..E.QT..EKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV------
@@ -4270,7 +4278,7 @@ G1T866/1-60                   --------MAAP..EE....R..D....LTQ..E.QT..EKLLQFQDLTG
 M3YM87/1-60                   --------MAAP..EE....R..D....LTQ..E.QT..EKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV------
 A0A087X539/1-60               --------MAAP..EE....P..E....LSQ..A.QT..EKLLQFQDLTGLESMDQCRRTLEQHNWNIEAAVQDRLNEQEGV-PSV------
 A0A151MZJ7/1-60               --------MAAP..AE....R..E....LTA..E.QT..EKLLQFQDLTGIESMDQCRHTLEQHNWNIEAAVQDRLNEQEGV-PSV------
-1wj7A01/19-78                 QATAEQIRLAQM..IS....D..H....NDA..D.FE..EKVKQLIDITGK-NQDECVIALHDCNGDVNRAINVLLEG--------------
+1wj7A01_merge/19-78           QATAEQIRLAQM..IS....D..H....NDA..D.FE..EKVKQLIDITGK-NQDECVIALHDCNGDVNRAINVLLEG--------------
 Q14157/30-89                  QATAEQIRLAQM..IS....D..H....NDA..D.FE..EKVKQLIDITGK-NQDECVIALHDCNGDVNRAINVLLEG--------------
 Q80X50/30-89                  QATAEQIRLAQM..IS....D..H....NDA..D.FE..EKVKQLIDITGK-NQDECVIALHDCNGDVNRAINVLLEG--------------
 Q91VX2/33-92                  QATAEQMRLAQV..IF....D..K....NDS..D.FE..AKVKQLMEVTGK-NQDECIVALHDCNGDVNKAINILLEG--------------
@@ -4699,7 +4707,7 @@ A0A090X7H6/49-111             QPTPEQIRLAQI..IN....D..P.tksDDP..D.IQ..KKVQQVMEVTG
 F6SDD6/1-63                   QATADQIRLAQM..IS....N..N.greDDV..E.MH..NSVEKIIEITGT-SEDIARTALYDTNNDTNRAIELILEG--------------
 I3MN86/30-89                  QATAEQIRLAQM..IS....D..H....NDA..D.FE..EKVKQLIDITGK-NQDECVIALHDCNGDVNRAINVLLEG--------------
 H3DEF7/34-93                  QATAEQIRLAQM..IY....D..K....NDA..D.FE..DKVKQLIEVSGK-TQDECMVALHDCNEDVNRAINFLLES--------------
-2jp7A00/1-57                  ------------..--....-..R....LNP..V.QL..ELLNKLHLETKL-NAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF--
+2jp7A00_merge/1-57            ------------..--....-..R....LNP..V.QL..ELLNKLHLETKL-NAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF--
 2khhA00/1-59                  ------------..--....-gsR....LNP..V.QL..ELLNKLHLETKL-NAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF--
 Q99257/543-599                ------------..--....-..R....LNP..V.QL..ELLNKLHLETKL-NAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF--
 E7QA81/532-588                ------------..--....-..R....LNP..V.QL..ELLNKLHLETKL-NAEYTFILAEQSNWNYEVAIKGFQSSMNGIPREAFVQF--
@@ -4713,7 +4721,7 @@ B3LKQ9/543-599                ------------..--....-..R....LNP..V.QL..ELLNKLHLETK
 C7GJC0/543-599                ------------..--....-..R....LNP..V.QL..ELLNKLHLETKL-NAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF--
 C8ZIK9/543-599                ------------..--....-..R....LNP..V.QL..ELLNKLHLETKL-NAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF--
 A6ZW84/543-599                ------------..--....-..R....LNP..V.QL..ELLNKLHLETKL-NAEYTFMLAEQSNWNYEVAIKGFQSSMNGIPREAFVQF--
-2jujA00/1-56                  ------------..--....A..T....ASP..Q.LS..SEIENLMSQG--YSYQDIQKALVIAQNNIEMAKNILREFVS---ISSPAHVAT
+2jujA00_merge/1-56            ------------..--....A..T....ASP..Q.LS..SEIENLMSQG--YSYQDIQKALVIAQNNIEMAKNILREFVS---ISSPAHVAT
 2oo9A00/1-46                  ------------..--....-..-....-GS..Q.LS..SEIENLXSQG--YSYQDIQKALVIAQNNIEXAKNILREFAA---AS-------
 2oo9B00/1-46                  ------------..--....-..-....-GS..Q.LS..SEIENLXSQG--YSYQDIQKALVIAQNNIEXAKNILREFAA---AS-------
 2ooaA00/1-52                  ------------..--gsgpE..A....ALE..N.VD..AKIAKLXGEG--YAFEEVKRALEIAQNNVEVARSILREFAF---P--------
@@ -4917,5 +4925,5 @@ H3C7U8/853-904                ------------..--gkshS..P....ESE..N.VD..AKIAKLMGEG-
 H3BW35/897-948                ------------..--gkshS..P....ESE..N.VD..AKIAKLMGEG--YSFEDVKRALMIAQYKVDVARNILREFVL---V--------
 H2RM67/869-920                ------------..--gkshN..T....ESE..N.TD..AKIAKLMGEG--YSFEDVKRALMIAQYKVDVARNILREFAL---V--------
 #=GC groupsim                 -----------------------2----454--5-56--4666556664---56565656557746464725676667--------------
-#=GC scorecons                112222122322--21----2--2----343--4-44--45645744352115354323673344354437343646211000000000000
+#=GC scorecons                112222122321--21----2--2----343--4-44--45645744352115354323673344354437343646211000000000000
 //
