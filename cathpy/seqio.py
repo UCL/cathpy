@@ -1064,6 +1064,11 @@ class Align(object):
 
         return seq_added
 
+    def _reindex_seq_ids(self):
+        self.__seq_ids = set()
+        for seq in self.seqs:
+            self.__seq_ids.add(seq.id)
+
     def add_sequence(self, seq: Sequence):
         """Add a sequence to this alignment."""
 
@@ -1148,13 +1153,13 @@ class Align(object):
 
     def merge_alignment(self, merge_aln, ref_seq_acc: str, 
                         ref_correspondence: Correspondence = None,
-                        *, cluster_label=None, merged_ref_id=False):
+                        *, cluster_label=None, merge_ref_id=False, self_ref_id=False):
 
         """
         Merges aligned sequences into the current object via a reference sequence.
 
         Sequences in ``merge_aln`` are brought into the current alignment using
-        the equivalences identified in reference sequence `ref_seq_acc` (which
+        the equivalences identified in reference sequence ``ref_seq_acc`` (which
         must exist in both the ``self`` and ``merge_aln``).
 
         This function was originally written to merge FunFam alignments
@@ -1177,10 +1182,13 @@ class Align(object):
                 sequence as it appears in ``merge_aln`` (SEQRES records).
             cluster_label (str): Provide a label to differentiate the sequences
                 being merged (eg for groupsim calculations). A default label
-                is provided if this is `None`.
-            merged_ref_id (str): The ref sequence in the merge alignment will
-                only be added if an alternative `id` is given (since the alignment
-                cannot have sequences with identical ids).
+                is provided if this is ``None``.
+            self_ref_id (str): Specify the id to use when adding the ref sequence 
+                from the current alignment.
+            merge_ref_id (str): Specify the id to use when adding the ref sequence 
+                from the merge alignment. By default this sequence is only inluded 
+                in the final alignment (as ``<id>_merge``) if a custom 
+                correspondence is provided.
 
         Returns: 
             [Sequence]: Array of Sequences added to the current alignment.
@@ -1204,13 +1212,33 @@ class Align(object):
 
         ref_seq_in_merge = merge_aln.find_seq_by_accession(ref_seq_acc)
 
-        # if the merge_ref_id has not been specified then the merged ref sequence
-        # will get removed from the final alignment
-        if not merged_ref_id:
-            ref_seq_in_merge.accession += '_merge'
-            _merged_ref_id = ref_seq_in_merge.accession_and_seginfo
-            ref_seq_in_merge.set_id(_merged_ref_id)
+        if self_ref_id:
+            ref_seq_in_ref.set_id(self_ref_id)
 
+        # if the merge_ref_id has been specified, or there is not a 1:1 correspondence
+        # between reference sequence in the alignments, then the merged ref sequence
+        # will be included in the final alignment. Otherwise it will be removed.
+        if merge_ref_id:
+            ref_seq_in_merge.set_id(merge_ref_id)
+        else:
+            ref_seq_in_merge.accession += '_merge'
+            ref_id = ref_seq_in_merge.accession_and_seginfo
+            ref_seq_in_merge.set_id(ref_id)
+            del ref_id
+
+        if ref_seq_in_ref.id is ref_seq_in_merge.id:
+            raise err.DuplicateSequenceError((
+                'sequence in ref alignment [{}] cannot have the same id as '
+                'sequence in merge alignment [{}] (consider specifying self_ref_id'
+                'or merge_ref_id)').format(ref_seq_in_ref.id, ref_seq_in_merge.id))
+
+        self._reindex_seq_ids()
+        
+        if ref_correspondence or merge_ref_id:
+            merge_id_to_remove = None
+        else:
+            merge_id_to_remove = ref_seq_in_merge.id
+        
         if ref_correspondence is None:
             # fake a 1:1 correspondence for internal use
             # ignore any residue that does not have a seq_num (ie gap)
@@ -1459,12 +1487,12 @@ class Align(object):
         LOG.info("Finshed checking merge for {} ({})".format(ref_seq_acc, repr(ref_seq_in_merge._hdr)))
 
         # if we have not been given a correspondence then there's no point
-        # adding the reference sequence from the merge alignment (since
+        # adding the reference sequence from the reference alignment (since
         # there is a 1:1 mapping)
-        if not merged_ref_id:
-            LOG.info("Removing merged sequence '%s' from alignment (merged_ref_id not set)", 
-                ref_seq_in_merge.id)
-            self.remove_sequence_by_id(ref_seq_in_merge.id)
+        if merge_id_to_remove:
+            LOG.info("Removing reference sequence '%s' from alignment (because 'merge_ref_id' or 'ref_correspondence' is not set)", 
+                merge_id_to_remove)
+            self.remove_sequence_by_id(merge_id_to_remove)
 
         seqs_by_cluster_id = {}
         for seq in self.seqs:
