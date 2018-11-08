@@ -57,28 +57,49 @@ class ApiClientBase(object):
         req = requests.post(url, headers=headers)
         return req
 
-class SubmitResponse(object):
-    def __init__(self, *, task_id):
-        """Class storing the response from FunFHMMER submit."""
-        self.task_id = task_id
+class ResponseBase(object):
 
-class CheckResponse(object):
-    def __init__(self, *, data, message, success):
-        """Class storing the response from FunFHMMER status."""
+    def __init__(self, **kwargs):
+        pass
+
+class SubmitResponse(ResponseBase):
+    """Class storing the response from FunFHMMER submit."""
+
+    def __init__(self, **kwargs):
+        try:
+            self.task_id = kwargs.pop('task_id')
+        except KeyError:
+            raise TypeError('Missing task_id parameter')
+
+        super().__init__(**kwargs)
+
+class CheckResponse(ResponseBase):
+    """Class storing the response from FunFHMMER status."""
+
+    def __init__(self, *, data, message, success, **kwargs):
         self.data = data
         self.message = message
         self.success = success
 
-class ResultResponse(object):
-    def __init__(self, *, query_fasta, funfam_scan, cath_version):
-        """Class storing the response from FunFHMMER results."""
+        super().__init__(**kwargs)
+
+class ResultResponse(ResponseBase):
+    """Class storing the response from FunFHMMER results."""
+
+    def __init__(self, *, query_fasta, funfam_scan, cath_version, **kwargs):
         self.query_fasta = query_fasta
         self.funfam_scan = Scan(**funfam_scan)
         self.cath_version = cath_version
 
-    def as_json(self):
+        super().__init__(**kwargs)
+
+    def as_json(self, *, pp=False):
         data = jsonpickle.encode(self)
-        return json.dumps(json.load(data), indent=4, sort_keys=True)
+        if pp:
+            data = json.dumps(json.loads(data), indent=2, sort_keys=True)
+        
+        LOG.info("Serialized ResultResponse as JSON string (length:%s)", len(data))
+        return data
 
     def as_csv(self):
         """Returns the result as CSV"""
@@ -121,7 +142,7 @@ class Client(ApiClientBase):
         self.headers     = { 'accept': 'application/json' }
         self.retries     = retries
         if not log:
-            log = logging.getLogger(__name__)
+            log = LOG
         self.log = log
 
     def search_fasta(self, fasta=None, fasta_file=None):
@@ -158,15 +179,16 @@ class Client(ApiClientBase):
 
         wait_for_task(task_id, self.retries, self.sleep)
 
-        r = self.results(task_id)
+        response = self.results(task_id)
         
-        return r
-    
+        return response
+
     @log_progress(msg="Submitting sequence search")
     def submit(self, fasta):
         """Submits a protein sequence to be searched and returns a task_id."""
 
         try:
+            self.log.info("submit.POST: %s", self.submit_url)
             r = requests.post(self.submit_url, data={'fasta': fasta}, headers=self.headers)
         except:
             raise err.HttpError('http request failed: POST {}'.format(self.submit_url))
@@ -176,14 +198,22 @@ class Client(ApiClientBase):
         except:
             raise err.JsonError('failed to parse json from http response: {}'.format(r.text))
 
+        self.log.info("submit.POST.results: %s", str(data))
+
         return SubmitResponse(**data)
 
     def check(self, task_id):
         """Checks the status of an existing search."""
 
         url = self.check_url.replace(':task_id', task_id)
+
+        self.log.info("check.GET: %s", url)
         req = requests.get(url, headers=self.headers)
-        data = req.json()
+        try:
+            data = req.json()
+        except Exception as e:
+            LOG.error("encountered error when trying to convert check request to JSON: (%s) %s", type(e), e)
+            raise 
         return CheckResponse(**data)
 
     @log_progress(msg="Retrieving results")
@@ -191,6 +221,12 @@ class Client(ApiClientBase):
         """Retrieves the results of a search."""
 
         url = self.results_url.replace(':task_id', task_id)
+
+        self.log.info("results.GET: %s", url)
         r = requests.get(url, headers=self.headers)
-        data = r.json()
-        return ResultResponse(**data)
+        if not r.content:
+            LOG.warn("funfhmmer results returned empty content, assuming this means no results found")
+            raise err.NoMatchesError
+        else:
+            data = r.json()
+            return ResultResponse(**data)
