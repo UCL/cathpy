@@ -8,7 +8,7 @@ from cathpy import seqio
 
 from . import testutils
 
-logger = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 class TestMergeAlignment(testutils.TestBase):
 
@@ -73,28 +73,32 @@ GHCHCFSAKHPPK-AAHGPGPA
 
         self.aln_after_merge1 = '''
 >ref1
----.AK.GHP--GP..KAPG..PAK--
+---.AK.GHP--GP..KA---.....AK--
 >ref2
-AKG.AK.GH-PKA-..-APG..P--GP
+CGC.AK.GH-PKA-..-APGP.....--GT
+>ref1_merge
+---.AK.GHP--GP..KA---pg..pAK--
 >src1.1
----gAGgG.P--GPgkKAPGg..AK--
+---gAGgG-P--GPgkKA---pgg..AK--
 >src1.2
----pAGgCcP--GP..KAPGGsAA.--
+---pAGgCCP--GP..KA---pggsaA---
 '''[1:]
 
         self.aln_after_merge2 = '''
->ref1  
-..---...AK.GHP--.GP..KAPG..PAK--.
->ref2  
-..CGC...AK.GH-PK.A-..-APG..P--GT.
+>ref1
+..---...AK.GHP--.GP..KA---.....AK--.
+>ref2
+..CGC...AK.GH-PK.A-..-APGP.....--GT.
+>ref1_merge
+..---...AK.GHP--.GP..KA---pg..pAK--.
 >src1.1
-..---g..AGgG-P--.GPgkKAPGg--AK--.
+..---g..AGgG-P--.GPgkKA---pgg..AK--.
 >src1.2
-..---p..AGgCCP--.GP--KAPGgsAA---.
+..---p..AGgCCP--.GP..KA---pggsaA---.
 >src2.1
---CGC--pAK-HP-PKgA----A-G--P--GPa
+..CGC..pAK.HP-PKgA-..-A-GP.....--GPa
 >src2.2
-ghCHC-fsAK-HP-PK-A----AHG--P--GPa
+ghCHC.fsAK.HP-PK.A-..-AHGP.....--GPa
 '''[1:]
     
     def tearDown(self):
@@ -186,13 +190,14 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
 
         aln_ref.merge_alignment(aln_merge1, 'ref1', gcf)
         aln_after_merge1 = seqio.Align.new_from_fasta(self.aln_after_merge1)
-        self.assertEqual(aln_after_merge1.count_sequences, 4)
-        self.assertEqual(aln_ref.count_sequences, 4)
+        self.assertIn('ref1_merge', [s.id for s in aln_ref.seqs])
+        #LOG.info("aln_after_merge1:\n%s", aln_ref.to_fasta())
+        self.assertEqual(aln_ref.to_fasta(), aln_after_merge1.to_fasta())
 
         aln_ref.merge_alignment(aln_merge2, 'ref2')
         aln_after_merge2 = seqio.Align.new_from_fasta(self.aln_after_merge2)
-        self.assertEqual(aln_after_merge2.count_sequences, 6)
-        self.assertEqual(aln_ref.count_sequences, 6)
+        #LOG.info("aln_after_merge2:\n%s", aln_ref.to_fasta())
+        self.assertEqual(aln_ref.to_fasta(), aln_after_merge2.to_fasta())
 
 if __name__ == '__main__':
     unittest.main()
