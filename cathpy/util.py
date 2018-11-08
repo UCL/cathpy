@@ -330,7 +330,7 @@ class ScoreconsRunner(object):
     def run_alignment(self, alignment):
         """Runs scorecons on a given alignment."""
 
-        fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix=".fa")
+        fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=False, suffix=".fa")
         fasta_tmp_filename = fasta_tmp.name
 
         aln_copy = alignment.copy()
@@ -341,6 +341,7 @@ class ScoreconsRunner(object):
             s.set_all_gap_chars(gap_char='-')
             s.set_lower_case_to_gap(gap_char='-') 
 
+        LOG.info('Writing normalised alignment to %s', fasta_tmp_filename)
         aln_copy.write_fasta(fasta_tmp_filename)
 
         return self.run_fasta(fasta_tmp_filename)
@@ -364,8 +365,7 @@ class ScoreconsRunner(object):
         """Returns scorecons data (ScoreconsResult) for the provided FASTA file.
         
         Returns:
-            result (ScoreconsResult): scorecons result
-        
+            result (ScoreconsResult): scorecons result        
         """
 
         tmp_scorecons_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.scorecons', delete=True)
