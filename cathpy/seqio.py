@@ -134,6 +134,7 @@ class Sequence(object):
 
     @property
     def is_cath_domain(self):
+        """Returns whether this Sequence is a CATH domain."""
         return self.id_type == 'domain'
 
     def get_residues(self):
@@ -765,6 +766,11 @@ class Align(object):
         return self._merge_counter
 
     @property
+    def sequences(self):
+        """Provide access to the Sequence objects in the alignment."""
+        return self.seqs
+
+    @property
     def aln_positions(self):
         """Return the number of alignment positions."""
         return self.__aln_positions
@@ -881,8 +887,8 @@ class Align(object):
                     _, feature, per_file_ann = line.split(None, 2)
                 except ValueError:
                     if not nowarnings:
-                    LOG.warning('ignoring GF record with incorrect columns (%s:%s "%s")',
-                        sto_filename, line_count, line)
+                        LOG.warning('ignoring GF record with incorrect columns (%s:%s "%s")',
+                            sto_filename, line_count, line)
                 except:
                     raise err.ParseError('failed to parse line {} "{}"'.format(
                         line_count, line))
@@ -915,8 +921,8 @@ class Align(object):
                     aln_meta[feature] = per_col_ann
                 except ValueError:
                     if not nowarnings:
-                    LOG.warning('ignoring GC record with incorrect columns (%s:%s "%s")',
-                        sto_filename, line_count, line)
+                        LOG.warning('ignoring GC record with incorrect columns (%s:%s "%s")',
+                            sto_filename, line_count, line)
                 except:
                     raise err.ParseError('failed to parse line {} "{}"'.format(
                         line_count, line))
@@ -933,8 +939,8 @@ class Align(object):
                     seq_meta_by_id[seq_id][feature] = per_seq_ann
                 except ValueError:
                     if not nowarnings:
-                    LOG.warning('ignoring GS record with incorrect columns (%s:%s "%s")',
-                        sto_filename, line_count, line)
+                        LOG.warning('ignoring GS record with incorrect columns (%s:%s "%s")',
+                            sto_filename, line_count, line)
                 except:
                     raise err.ParseError('failed to parse line {} "{}"'.format(
                         line_count, line))
