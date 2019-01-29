@@ -854,7 +854,7 @@ class Align(object):
         return _io, filename
 
     @classmethod
-    def new_from_stockholm(cls, sto_io):
+    def new_from_stockholm(cls, sto_io, *, nowarnings=False):
         """Initialise an alignment object from a STOCKHOLM file / string / io"""
 
         sto_io, sto_filename = __class__._get_io_from_file_or_string(sto_io) # pylint: disable=W0212
@@ -880,6 +880,7 @@ class Align(object):
                 try:
                     _, feature, per_file_ann = line.split(None, 2)
                 except ValueError:
+                    if not nowarnings:
                     LOG.warning('ignoring GF record with incorrect columns (%s:%s "%s")',
                         sto_filename, line_count, line)
                 except:
@@ -913,6 +914,7 @@ class Align(object):
                     _, feature, per_col_ann = line.split(None, 2)
                     aln_meta[feature] = per_col_ann
                 except ValueError:
+                    if not nowarnings:
                     LOG.warning('ignoring GC record with incorrect columns (%s:%s "%s")',
                         sto_filename, line_count, line)
                 except:
@@ -930,6 +932,7 @@ class Align(object):
                         seq_meta_by_id[seq_id] = {}
                     seq_meta_by_id[seq_id][feature] = per_seq_ann
                 except ValueError:
+                    if not nowarnings:
                     LOG.warning('ignoring GS record with incorrect columns (%s:%s "%s")',
                         sto_filename, line_count, line)
                 except:
