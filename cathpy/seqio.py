@@ -924,6 +924,7 @@ class Align(object):
                     _, seq_id, feature, per_seq_ann = line.split(None, 3)                
                     if feature == 'DR':
                         dr_type, per_seq_ann = per_seq_ann.split(None, 1)
+                        dr_type = dr_type.rstrip(';')
                         feature = feature + '_' + dr_type                
                     if seq_id not in seq_meta_by_id:
                         seq_meta_by_id[seq_id] = {}
@@ -1582,7 +1583,7 @@ class Align(object):
         # single data point about each sequence
         def _GS(f, seq_id, key, val):
             if key.startswith('DR_'):
-                val = key[3:] + ' ' + val
+                val = "{}; {}".format(key[3:], val)
                 key = 'DR'
             f.write('#=GS {:<{comment_pad}} {} {}\n'.format(seq_id, key, val, comment_pad=comment_pad))
 
