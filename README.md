@@ -20,18 +20,18 @@ Well it is... sort of.
 
 **Should I be using it?**
 
-If you are looking for a general Bioinformatics toolkit, you should look at BioPython first.
+If you are looking for a general Bioinformatics toolkit, you probably want to look at [BioPython](https://biopython.org/) first.
 
 This project does contain generic libraries and tools, however the code is new and the
-API may move around. It has been published mainly for internal use (within CATH) however
-it has been release as open source in case others find the tools helpful.
+API may move around. It has been published mainly for internal use (within CATH), however
+it has been released as open source in case others find the tools helpful.
 
 **So, why doesn't this use BioPython?**
 
 We may well merge in some BioPython modules in the future. There are few features that
 BioPython does not currently handle (eg regarding fairly low-level manipulation of
 alignments). At some point, we may look into turning some of this code into suggestions
-/ pull-requests for BioPython.
+/ pull-requests.
 
 ## References
 
