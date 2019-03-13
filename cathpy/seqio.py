@@ -767,12 +767,12 @@ class Align(object):
 
     @property
     def sequences(self):
-        """Provide access to the Sequence objects in the alignment."""
+        """Provides access to the Sequence objects in the alignment."""
         return self.seqs
 
     @property
     def aln_positions(self):
-        """Return the number of alignment positions."""
+        """Returns the number of alignment positions."""
         return self.__aln_positions
     
     @aln_positions.setter
@@ -781,11 +781,12 @@ class Align(object):
 
     @property
     def count_sequences(self):
-        """Return the number of sequences in the alignment."""
+        """Returns the number of sequences in the alignment."""
         return len(self.seqs)
 
     @property
     def total_gap_positions(self):
+        """Returns the total number of gaps in the alignment."""
         total_gaps = 0
         for s in self.seqs:
             total_gaps += s.seq.count(self.REF_GAP_CHAR)
@@ -795,15 +796,16 @@ class Align(object):
 
     @property
     def total_positions(self):
+        """Returns the total number of positions in the alignment."""
         return self.count_sequences * self.aln_positions
 
     def find_first_seq_by_accession(self, acc):
-        """Return the first Sequence with the given accession."""
+        """Returns the first Sequence with the given accession."""
         seqs_with_acc = [seq for seq in self.seqs if seq.accession == acc]
         return seqs_with_acc[0]
 
     def find_seq_by_id(self, _id):
-        """Return the Sequence corresponding to the provided id."""
+        """Returns the Sequence corresponding to the provided id."""
         seqs_with_id = [seq for seq in self.seqs if seq.id == _id]
         if len(seqs_with_id) > 1:
             raise err.SeqIOError("Found more than one ({}) sequence matching id '{}'".format(
@@ -813,7 +815,7 @@ class Align(object):
         return seqs_with_id[0]
 
     def find_seq_by_accession(self, acc):
-        """Return the Sequence corresponding to the provided id."""
+        """Returns the Sequence corresponding to the provided id."""
         seqs_with_acc = [seq for seq in self.seqs if seq.accession == acc]
         if len(seqs_with_acc) > 1:
             raise err.TooManyMatchesError(
@@ -825,19 +827,19 @@ class Align(object):
         return seqs_with_acc[0]
 
     def get_seq_at_offset(self, offset):
-        """Return the Sequence at the given offset (zero-based)."""
+        """Returns the Sequence at the given offset (zero-based)."""
         return self.seqs[offset]
 
     @classmethod
     def new_from_fasta(cls, fasta_io):
-        """Initialise an alignment object from a FASTA file / string / io"""
+        """Initialises an alignment object from a FASTA file / string / io"""
         aln = Align()
         aln.read_sequences_from_fasta(fasta_io)
         return aln
 
     @classmethod
     def new_from_pir(cls, pir_io):
-        """Initialise an alignment object from a PIR file / string / io"""
+        """Initialises an alignment object from a PIR file / string / io"""
         aln = Align()
         aln.read_sequences_from_pir(pir_io)
         return aln
@@ -861,7 +863,7 @@ class Align(object):
 
     @classmethod
     def new_from_stockholm(cls, sto_io, *, nowarnings=False):
-        """Initialise an alignment object from a STOCKHOLM file / string / io"""
+        """Initialises an alignment object from a STOCKHOLM file / string / io"""
 
         sto_io, sto_filename = __class__._get_io_from_file_or_string(sto_io) # pylint: disable=W0212
 
@@ -971,7 +973,7 @@ class Align(object):
         return aln
 
     def read_sequences_from_fasta(self, fasta_io):
-        """Parse aligned sequences from FASTA (str, file, io) and adds them to the current
+        """Parses aligned sequences from FASTA (str, file, io) and adds them to the current
         Align object. Returns the number of sequences that are added."""
 
         fasta_io, fasta_filename = __class__._get_io_from_file_or_string(fasta_io)
