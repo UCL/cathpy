@@ -12,8 +12,11 @@ from cathpy import util
 parser = argparse.ArgumentParser(
     description="Provide summary stats for alignments")
 
-parser.add_argument('--in', type=str, dest='dir_in', required=True,
-    help='alignment directory')
+input_group = parser.add_mutually_exclusive_group(required=True)
+input_group.add_argument('-d', '--aln_dir', type=str, dest='aln_dir',
+    help='input alignment directory')
+input_group.add_argument('-i', '--aln_file', type=str, dest='aln_file',
+    help='input alignment file')
 
 parser.add_argument('--suffix', type=str, dest='suffix', default='.sto', 
     help='suffix to use when matching alignment files')
@@ -27,11 +30,19 @@ parser.add_argument('--verbose', '-v', required=False, action='count', default=0
 if __name__ == '__main__':
     args = parser.parse_args()
 
-    log_level = logging.DEBUG if args.verbose > 0 else logging.INFO
-    logging.basicConfig(level=log_level)
+    if args.verbose >= 2:
+        log_level = logging.DEBUG
+    elif args.verbose >= 1:
+        log_level = logging.INFO
+    else:
+        log_level = logging.WARN
 
-    aln_sum = util.AlignmentSummaryRunner(dir_in=args.dir_in, suffix=args.suffix, 
-        skipempty=args.skipempty)
+    logging.basicConfig(level=log_level, format='%(asctime)s %(levelname)-8s | %(message)s')
+
+    merged_args = dict([(key, vars(args)[key]) for key in (
+        'aln_dir', 'aln_file', 'suffix', 'skipempty')])
+
+    aln_sum = util.AlignmentSummaryRunner(**merged_args)
 
     aln_sum.run()
 

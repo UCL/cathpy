@@ -655,17 +655,31 @@ class AlignmentSummary(object):
         return self.__str__()
 
 class AlignmentSummaryRunner(object):
-    """Provides a summary report for a set of sequence alignments."""
+    """
+    Provides a summary report for sequence alignment files.
+    
+    Args:
+        aln_dir: input alignment directory
+        aln_file: input alignment file 
+        suffix: filter alignments by suffix
+        skipempty: skip empty files    
+    """
 
-    def __init__(self, dir_in, *, suffix='.sto', skipempty=False):
-        self.dir_in = dir_in
+    def __init__(self, *, aln_dir=None, aln_file=None, suffix='.sto', skipempty=False):
         self.suffix = suffix
         self.skipempty = skipempty
-    
-    def run(self):
-        dir_in = self.dir_in
+        if aln_file:
+            self._files = [aln_file]
+        elif aln_dir:
+            self._files = self._get_files(aln_dir, suffix=suffix)
+        else:
+            raise Exception("error: expected 'aln_file' or 'aln_dir'")
+        
+    def _get_files(self, input_dir, *, suffix):
+
         all_aln_files = []
-        for dirpath, dirnames, filenames in os.walk(dir_in):
+
+        for dirpath, dirnames, filenames in os.walk(input_dir):
             aln_files = [os.path.join(dirpath, f) for f in filenames 
                 if os.path.basename(f).endswith(self.suffix)]
 
@@ -681,10 +695,14 @@ class AlignmentSummaryRunner(object):
             aln_files = nonempty_files
 
             all_aln_files.extend(aln_files)
+        
+        return all_aln_files
 
-        print( '{}'.format(" ".join(AlignmentSummary.headers())) )
+    def run(self):
 
-        for aln_file in all_aln_files:
+        print('{}'.format(" ".join(AlignmentSummary.headers())))
+
+        for aln_file in self._files:
             try:
                 aln = seqio.Align.new_from_stockholm(aln_file)
             except:
@@ -697,4 +715,4 @@ class AlignmentSummaryRunner(object):
             except:
                 raise Exception("Failed to generate alignment summary from file: {}".format(aln_file))
 
-            print( aln_sum.to_string() )
+            print(aln_sum.to_string())
