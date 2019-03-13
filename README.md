@@ -2,9 +2,30 @@
 
 ## Getting Started
 
+Get code
+
 ```sh
-git clone git@github.com:UCL/cathpy.git
-cd cathpy
+$ git clone git@github.com:UCL/cathpy.git
+$ cd cathpy
+```
+
+Install code into virtual environment
+
+```sh
+$ python3 -m venv venv
+$ source venv/bin/activate
+$ pip install -e .
+```
+
+If everything is installed and working properly then the following should work:
+
+```sh
+$ cath-align-summary -d tests/data/funfams/
+file aln_len seq_count dops gap_per
+tests/data/funfams/1.10.8.10-ff-14534.reduced.sto                          69     51  61.53  12.53
+tests/data/funfams/1.10.8.10-ff-15516.reduced.sto                          66    429 100.00  13.04
+tests/data/funfams/1.10.8.10-ff-5069.reduced.sto                           59     14   7.81   3.15
+tests/data/funfams/1.10.8.10-ff-15593.reduced.sto                          63    203  95.88  17.70
 ```
 
 ## FAQ
