@@ -1,3 +1,17 @@
+External tools:
+
+GroupSim (tools/GroupSim)
+
+Capra JA and Singh M. Characterization and Prediction of Residues Determining 
+Protein Functional Specificity. Bioinformatics, 24(13): 1473-1480, 2008.
+
+Scorecons (tools/<arch>/bin/scorecons)
+
+Valdar WSJ (2002). Scoring residue conservation. Proteins: Structure, Function, 
+and Genetics. 43(2): 227-241. 
+
+All other code:
+
 Copyright (c) 2018 Ian Sillitoe
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
