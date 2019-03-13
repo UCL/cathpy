@@ -1,5 +1,8 @@
 # cathpy
 
+[![Documentation Status](https://readthedocs.org/projects/cathpy/badge/?version=latest)](https://cathpy.readthedocs.io/en/latest/?badge=latest)
+
+
 ## Getting Started
 
 Get code
