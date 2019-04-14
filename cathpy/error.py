@@ -12,6 +12,18 @@ class DuplicateSequenceError(GeneralError):
     """More than one sequence in an alignment has the same id"""
     pass
 
+class MissingExecutableError(GeneralError):
+    """Missing an external executable."""
+    pass
+
+class MissingScoreconsError(MissingExecutableError):
+    """Failed to find scorecons executable"""
+    pass
+
+class MissingGroupsimError(MissingExecutableError):
+    """Failed to find groupsim executable"""
+    pass
+
 class JsonError(GeneralError):
     """Problem parsing JSON"""
     pass
