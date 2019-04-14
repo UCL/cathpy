@@ -7,6 +7,7 @@ import tempfile
 from . import testutils
 
 from cathpy import util, seqio, error as err
+from cathpy.datafiles import ReleaseDir
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +24,7 @@ class TestUtil(testutils.TestBase):
         self.ff_tmpl = '__SFAM__-ff-__FF_NUM__.reduced.sto'
         self.merge_sto_file = os.path.join(self.data_dir, 'merge.sto')
         self.example_fasta_file = self.sc_file
+        self.cath_release = ReleaseDir(self.cath_version, base_dir=self.data_dir)
 
     @testutils.log_title
     def test_merge(self):
@@ -31,8 +33,12 @@ class TestUtil(testutils.TestBase):
         logger.info("Creating SC merger...")
         merger = util.StructuralClusterMerger(cath_version=self.cath_version, 
             sc_file=self.sc_file, 
-            out_sto=tmp_sto_file.name, out_fasta=tmp_fasta_file.name,
-            ff_dir=self.ff_dir, ff_tmpl=self.ff_tmpl)
+            out_sto=tmp_sto_file.name, 
+            out_fasta=tmp_fasta_file.name,
+            ff_dir=self.ff_dir, 
+            ff_tmpl=self.ff_tmpl,
+            cath_release=self.cath_release)
+
         logger.info("Merging SC alignment {}".format(self.sc_file))
         merge_aln = merger.run()
         self.assertEqual(merge_aln.count_sequences, 701)
