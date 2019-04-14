@@ -12,6 +12,8 @@ import pkg_resources
 
 # local
 from cathpy import seqio, datafiles, error as err
+from cathpy.version import CathVersion
+from cathpy.error import ParseError, OutOfBoundsError
 
 LOG = logging.getLogger(__name__)
 
@@ -28,6 +30,43 @@ def is_valid_domain_id(id_str: str) -> bool:
     Returns whether the given input is a valid CATH domain identifier.    
     """
     return re.match('([0-9][a-zA-Z0-9]{3})([a-zA-Z0-9])([0-9]{2})$', id_str)
+
+class CathID(object):
+    """Represents a CATH ID."""
+
+    RE_CATH_ID = re.compile(r'^[1-9]+(\.[0-9]+){0,8}$')
+
+    def __init__(self, cath_id):
+        assert self.RE_CATH_ID.match(cath_id)
+        self._cath_id_parts = cath_id.split('.')
+
+    @property
+    def depth(self):
+        """Returns the depth of the CATH ID."""
+        return len(self._cath_id_parts)
+
+    @property
+    def sfam_id(self):
+        """Returns the superfamily id of the CATH ID."""
+
+        if self.depth < 4:
+            raise OutOfBoundsError("cannot get sfam_id for CATH ID '{}' (require depth >= 4, not {})".format(
+                ".".join(self._cath_id_parts), len(self._cath_id_parts)
+            ))
+        else:
+            return self.cath_id_to_depth(4)
+
+    @property
+    def cath_id(self):
+        """Returns the CATH ID as a string."""
+        return str(self.cath_id)
+
+    def cath_id_to_depth(self, depth):
+        """Returns the CATH ID as a string."""
+        return ".".join(self._cath_id_parts[:depth])
+
+    def __str__(self):
+        return ".".join(self._cath_id_parts)
 
 class ClusterID(object):
     """Represents a Cluster Identifier (FunFam, SC, etc)"""
@@ -133,59 +172,6 @@ class ClusterFile(object):
     def __str__(self):
         return self.to_string()
 
-class CathVersion(object):
-    """Object that represents a CATH version."""
-
-    def __init__(self, *args, **kwargs):
-        """Creates a new instance of a CathVersion object.
-        
-        The following are all equivalent:
-
-            cv = CathVersion('4.2')
-            cv = CathVersion('v4_2_0')
-            cv = CathVersion(4.2)
-            cv = CathVersion(4, 2, 0)
-
-        """
-        if len(args) == 1:
-            ver_parts = __class__._split_string(args[0])
-        elif len(args) == 2:
-            ver_parts = (args[0], args[1], 0)
-        elif len(args) == 3:
-            ver_parts = args
-        else:
-            raise Exception("expected either one")
-        
-        self.major = ver_parts[0]
-        self.minor = ver_parts[1]
-        self.trace = ver_parts[2]
-
-    def join(self, join_char="."):
-        """Returns the version string (with an optional join_char)."""
-        return join_char.join([str(self.major), str(self.minor), str(self.trace)])
-
-    @property
-    def dirname(self):
-        """Return the version represented as a directory name (eg 'v4_2_0')."""
-        return "v" + self.join("_")
-
-    @classmethod
-    def new_from_string(cls, version_str):
-        """Create a new CathVersion object from a string."""
-        version_parts = cls._split_string(version_str)
-        return cls(*version_parts)
-    
-    @classmethod
-    def _split_string(cls, version_str):
-        version_str = re.sub(r'^v', '', str(version_str))
-        parts = re.split(r'[._]', version_str)
-        if len(parts) == 2:
-            return (parts[0], parts[1], 0)
-        elif len(parts) == 3:
-            return (parts[0], parts[1], parts[2])
-
-    def __str__(self):
-        return self.join(".")
 
 class GroupsimResult(object):
     """Represents the result from running the groupsim algorithm."""

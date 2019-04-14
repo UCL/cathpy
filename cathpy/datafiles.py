@@ -3,6 +3,8 @@ import logging
 import os
 import re
 
+from cathpy.version import CathVersion
+
 logger = logging.getLogger(__name__)
 
 class GenericFileType(object):
@@ -18,6 +20,20 @@ class GcfFileType(GenericFileType):
     type_id = 'chaingcf'
     path_parts = ['chaingcf']
     suffix = '.gcf'
+
+class AtomFastaFileType(GenericFileType):
+    """Represents a FASTA file type (registered as 'atomfasta')."""
+    
+    type_id = 'atomfasta'
+    path_parts = ['fasta']
+    suffix = '.ATOM.fa'
+
+class CombsFastaFileType(GenericFileType):
+    """Represents a FASTA file type (registered as 'combsfasta')."""
+    
+    type_id = 'combsfasta'
+    path_parts = ['fasta']
+    suffix = '.COMBS.fa'
 
 class FileTypes(object):
 
@@ -39,8 +55,7 @@ class ReleaseDir(object):
     """
 
     def __init__(self, cath_version, *, base_dir="/cath/data"):
-        """TODO"""
-        self.cath_version = cath_version
+        self.cath_version = CathVersion(cath_version)
         self.base_dir = base_dir
 
     def get_file(self, file_type, id):
