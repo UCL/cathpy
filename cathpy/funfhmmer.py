@@ -1,5 +1,5 @@
 """
-CATH FunFHMMER - sequence search tool
+CATH FunFHMMER - tool for remote sequence search against CATH FunFams
 """
 
 import functools
