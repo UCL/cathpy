@@ -1,5 +1,5 @@
 """
-cathpy.seqio - manipulating protein sequences and alignments
+cathpy.align - manipulating protein sequences and alignments
 """
 
 # core
@@ -9,9 +9,9 @@ import re
 import functools
 
 # local
-from cathpy import error as err, util
+from cathpy import error as err
+from cathpy.tests import is_valid_domain_id
 from cathpy.models import AminoAcid, AminoAcids, Residue, Segment
-
 
 LOG = logging.getLogger(__name__)
 
@@ -243,7 +243,7 @@ class Sequence(object):
         # 1cukA01/23-123
         if len(id_parts) == 1:
             accession = id_parts[0]
-            if util.is_valid_domain_id(accession):
+            if is_valid_domain_id(accession):
                 id_type = 'domain'
         # domain|1cukA01/23-123
         if len(id_parts) == 2:
@@ -253,7 +253,7 @@ class Sequence(object):
         if len(id_parts) == 3:
             id_type, id_ver, accession = id_parts
 
-            if util.is_valid_domain_id(id_ver):
+            if is_valid_domain_id(id_ver):
                 if not __class__.has_warned_about_deprecated_sequence_headers:
                     LOG.warning(
                         ("Warning: found an old sequence header with TYPE|ID|VERSION '%s'. "
@@ -1477,7 +1477,8 @@ class Align(object):
 
     def add_scorecons(self):
         """Add scorecons annotation to this alignment."""
-        scons = util.ScoreconsRunner()
+        from cathpy.util import ScoreconsRunner
+        scons = ScoreconsRunner()
         LOG.info("Calculating scorecons / DOPS ...")
         # output alignment to tmp fasta file
         scons_result = scons.run_alignment(self)
@@ -1486,7 +1487,8 @@ class Align(object):
 
     def add_groupsim(self):
         """Add groupsim annotation to this alignment."""
-        gs = util.GroupsimRunner()
+        from cathpy.util import GroupsimRunner
+        gs = GroupsimRunner()
         LOG.info("Calculating GroupSim ...")
         # output alignment to tmp fasta file
         gs_result = gs.run_alignment(self)
