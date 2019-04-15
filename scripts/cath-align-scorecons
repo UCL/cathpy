@@ -7,25 +7,25 @@ import os
 import sys
 
 # local
-from cathpy import seqio
+from cathpy.align import Align
 
 parser = argparse.ArgumentParser(
     description="Update the scorecons data for a STOCKHOLM alignment")
 
 parser.add_argument('--in', type=str, required=True, dest='in_file',
-    help='input alignment file')
+                    help='input alignment file')
 
 parser.add_argument('--out', type=str, dest='out_file', required=False,
-    help='output STOCKHOLM alignment file')
+                    help='output STOCKHOLM alignment file')
 
 parser.add_argument('--format', type=str, required=True, default='sto', choices=['sto', 'fasta'],
-    help='alignment format of input file (default: %(default))')
+                    help='alignment format of input file (default: %(default))')
 
 parser.add_argument('--replace', action='store_true', default=False,
-    help='overwrite the input alignment file with updated scorecons')
+                    help='overwrite the input alignment file with updated scorecons')
 
 parser.add_argument('--verbose', '-v', required=False, action='count', default=0,
-    help='more verbose logging')
+                    help='more verbose logging')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -34,9 +34,9 @@ if __name__ == '__main__':
     logging.basicConfig(level=log_level)
 
     if args.format == 'sto':
-        aln = seqio.Align.new_from_stockholm(args.in_file)
+        aln = Align.new_from_stockholm(args.in_file)
     elif args.format == 'fasta':
-        aln = seqio.Align.new_from_fasta(args.in_file)
+        aln = Align.new_from_fasta(args.in_file)
 
     if args.replace and args.format == 'fasta':
         raise Exception('cannot use --replace when input format is fasta')
@@ -46,20 +46,22 @@ if __name__ == '__main__':
 
     aln.add_scorecons()
 
-    logging.info('DOPS:          {}'.format('SAME' if old_dops_score == aln.dops_score else 'CHANGED' ))
+    logging.info('DOPS:          {}'.format(
+        'SAME' if old_dops_score == aln.dops_score else 'CHANGED'))
     logging.info('OLD_DOPS:      {}'.format(old_dops_score))
     logging.info('NEW_DOPS:      {}'.format(aln.dops_score))
 
-    logging.info('SCORECONS:     {}'.format('SAME' if old_scorecons == aln.meta['scorecons'] else 'CHANGED' ))
+    logging.info('SCORECONS:     {}'.format(
+        'SAME' if old_scorecons == aln.meta['scorecons'] else 'CHANGED'))
     logging.info('OLD_SCORECONS: {}'.format(old_scorecons))
     logging.info('NEW_SCORECONS: {}'.format(aln.meta['scorecons']))
 
     if args.out_file:
-        logging.info( "Writing new alignment file: {}".format(args.out_file))
+        logging.info("Writing new alignment file: {}".format(args.out_file))
         aln.write_sto(args.out_file)
 
     if args.replace:
-        logging.info( "Replacing alignment file: {}".format(args.in_file))
+        logging.info("Replacing alignment file: {}".format(args.in_file))
         aln.write_sto(args.in_file)
 
     logging.info('DONE')
