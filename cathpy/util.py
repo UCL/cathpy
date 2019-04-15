@@ -6,6 +6,7 @@ General utility classes and functions
 import logging
 import io
 import os
+import platform
 import re
 import subprocess
 from subprocess import Popen, PIPE, CalledProcessError
@@ -24,7 +25,10 @@ from cathpy.error import ParseError, OutOfBoundsError
 
 LOG = logging.getLogger(__name__)
 
-SCORECONS_EXE = pkg_resources.resource_filename(__name__, "../tools/linux-x86_64/bin/scorecons")
+TOOL_DIR = pkg_resources.resource_filename(__name__, "tools")
+PLATFORM_DIRNAME = "{}-{}".format(platform.system().lower(), platform.machine())
+GROUPSIM_DIR = os.path.join(TOOL_DIR, 'GroupSim')
+SCORECONS_EXE = os.path.join(TOOL_DIR, PLATFORM_DIRNAME, 'scorecons')
 
 class GroupsimResult(object):
     """Represents the result from running the groupsim algorithm."""
@@ -70,10 +74,10 @@ class GroupsimResult(object):
 class GroupsimRunner(object):
     """Object that provides a wrapper around groupsim."""
 
-    def __init__(self, *, groupsim_dir=None, python2path='python2', 
+    def __init__(self, *, groupsim_dir=GROUPSIM_DIR, python2path='python2', 
         column_gap=0.3, group_gap=0.5):
 
-        self.groupsim_dir = groupsim_dir if groupsim_dir else os.path.abspath( os.path.join(__file__, '..', '..', 'tools', 'GroupSim') )
+        self.groupsim_dir = groupsim_dir
         self.groupsim_path = os.path.join(self.groupsim_dir, 'group_sim_sdp.py')
         self.mclachlan_path = os.path.join(self.groupsim_dir, 'mclachlan1972.aa.dat')
         self.column_gap = column_gap

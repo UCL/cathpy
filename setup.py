@@ -18,6 +18,12 @@ setup(
     url="https://github.com/UCL/cathpy",
     packages=['cathpy'],
     test_suite="tests",
+    package_dir={
+        'cathpy': 'cathpy',
+    },
+    package_data={
+        'cathpy': ['tools/GroupSim/*', 'tools/*/scorecons'],
+    },
     scripts=[
         'scripts/cath-funfhmmer-api',
         'scripts/cath-align-scorecons',
