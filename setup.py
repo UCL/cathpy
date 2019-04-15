@@ -33,6 +33,7 @@ setup(
     install_requires=[
         'requests',
         'jsonpickle',
+        'tqdm',
     ],
     classifiers=(
         "Programming Language :: Python :: 3",
