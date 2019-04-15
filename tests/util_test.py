@@ -4,7 +4,7 @@ import os
 import re
 import tempfile
 
-from . import testutils
+from .testutils import TestBase, log_title, log_level
 
 from cathpy import util, seqio, error as err
 from cathpy.util import CathID
@@ -13,7 +13,7 @@ from cathpy.error import OutOfBoundsError
 
 logger = logging.getLogger(__name__)
 
-class TestUtil(testutils.TestBase):
+class TestUtil(TestBase):
 
     def setUp(self):
         self.cath_version = 'v4.2'
@@ -38,7 +38,7 @@ class TestUtil(testutils.TestBase):
             cath_id = CathID("1.10.8").sfam_id
             self.assertRegex(err.exception, r'require depth', 'sfam_id fails when depth < 4')
 
-    @testutils.log_title
+    @log_title
     def test_merge(self):
         tmp_fasta_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.fa', delete=True)
         tmp_sto_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.sto', delete=False)
@@ -59,7 +59,7 @@ class TestUtil(testutils.TestBase):
         logger.info("Checking {} versus {}".format(tmp_sto_file.name, self.merge_sto_file))
         self.assertMultiLineEqual(sto_got, sto_expected)
 
-    @testutils.log_title
+    @log_title
     def test_cath_version(self):
         cv = CathVersion('4.2.0')
         self.assertIsInstance(cv, util.CathVersion)
@@ -94,7 +94,7 @@ class TestUtil(testutils.TestBase):
         self.assertEqual(ff_id.sfam_id, '1.10.8.10')
         self.assertEqual(ff_id.cluster_num, 14534)
 
-    @testutils.log_level('cathpy.util', 'DEBUG')
+    @log_level('cathpy.util', 'DEBUG')
     def test_scorecons(self):
         sc = util.ScoreconsRunner()
         aln = seqio.Align.new_from_fasta(self.example_fasta_file)

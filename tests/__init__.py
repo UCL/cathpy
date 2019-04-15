@@ -12,7 +12,7 @@ debug.setFormatter(debug_format)
 
 info = logging.StreamHandler()
 info.setLevel(logging.INFO)
-info_format = logging.Formatter('%(asctime)s %(levelname)-8s | %(message)s', 
+info_format = logging.Formatter('%(asctime)s %(levelname)-8s | %(message)s',
     datefmt='%Y-%m-%d %H:%M')
 info.setFormatter(info_format)
 
