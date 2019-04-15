@@ -1,0 +1,26 @@
+# Changelog
+
+## v0.1.1
+
+*Release date: 15/04/2019*
+
+* Improved how version numbers are stored
+
+## v0.1.0
+
+*Release date: 15/04/2019*
+
+### General
+
+* Improved handling of STOCKHOLM parser (f52b9a1, 4fc0069)
+* Added Sphinx docs
+* Refactor `cathpy.utils`:
+  * `CathVersion` to `cathpy.version`
+  * simple classes to `cathpy.models`
+  * util functions to `cathpy.tests`
+
+## v0.0.1
+
+### General
+
+* first release

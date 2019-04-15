@@ -6,13 +6,15 @@ import tempfile
 
 from .testutils import TestBase, log_title, log_level
 
-from cathpy import util, seqio, error as err
+from cathpy import util, error as err
 from cathpy.datafiles import ReleaseDir
-from cathpy.util import CathID
+from cathpy.models import CathID
+from cathpy.align import Align
 from cathpy.version import CathVersion
-from cathpy.error import OutOfBoundsError
+from cathpy import util
 
 logger = logging.getLogger(__name__)
+
 
 class TestUtil(TestBase):
 
@@ -20,10 +22,11 @@ class TestUtil(TestBase):
         self.cath_version = 'v4.2'
         self.data_dir = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), 'data')
-        self.sc_file = os.path.join(self.data_dir, 
-            '1.10.8.10__FF_SSG9__6.aln_reps.cora.fa')
+        self.sc_file = os.path.join(self.data_dir,
+                                    '1.10.8.10__FF_SSG9__6.aln_reps.cora.fa')
         self.ff_dir = os.path.join(self.data_dir, 'funfams')
-        self.ff_file = os.path.join(self.ff_dir, '1.10.8.10-ff-14534.reduced.sto')
+        self.ff_file = os.path.join(
+            self.ff_dir, '1.10.8.10-ff-14534.reduced.sto')
         self.ff_tmpl = '__SFAM__-ff-__FF_NUM__.reduced.sto'
         self.merge_sto_file = os.path.join(self.data_dir, 'merge.sto')
         self.example_fasta_file = self.sc_file
@@ -32,19 +35,24 @@ class TestUtil(TestBase):
     def test_cath_id(self):
         self.assertEqual(str(CathID("1")), "1")
         self.assertEqual(str(CathID("1.10.8")), "1.10.8")
-        self.assertEqual(str(CathID("1.10.8.10.1.1.1.2.3")), "1.10.8.10.1.1.1.2.3")
+        self.assertEqual(str(CathID("1.10.8.10.1.1.1.2.3")),
+                         "1.10.8.10.1.1.1.2.3")
 
         self.assertEqual(CathID("1.10.8.10").sfam_id, "1.10.8.10")
         self.assertEqual(CathID("1.10.8.10.1").sfam_id, "1.10.8.10")
         with self.assertRaises(OutOfBoundsError) as err:
             cath_id = CathID("1.10.8").sfam_id
-            self.assertRegex(err.exception, r'require depth', 'sfam_id fails when depth < 4')
+            self.assertRegex(err.exception, r'require depth',
+                             'sfam_id fails when depth < 4')
 
     @log_title
     def test_merge(self):
-        tmp_fasta_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.fa', delete=True)
-        tmp_sto_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.sto', delete=False)
+        tmp_fasta_file = tempfile.NamedTemporaryFile(
+            mode='w+', suffix='.fa', delete=True)
+        tmp_sto_file = tempfile.NamedTemporaryFile(
+            mode='w+', suffix='.sto', delete=False)
         logger.info("Creating SC merger...")
+
         merger = util.StructuralClusterMerger(cath_version=self.cath_version, 
             sc_file=self.sc_file, 
             out_sto=tmp_sto_file.name, 
@@ -62,39 +70,28 @@ class TestUtil(TestBase):
         with open(self.merge_sto_file) as f:
             sto_expected = f.read()
 
-        logger.info("Checking {} versus {}".format(tmp_sto_file.name, self.merge_sto_file))
+        logger.info("Checking {} versus {}".format(
+            tmp_sto_file.name, self.merge_sto_file))
         self.assertMultiLineEqual(sto_got, sto_expected)
 
-    @log_title
-    def test_cath_version(self):
-        cv = CathVersion('4.2.0')
-        self.assertIsInstance(cv, util.CathVersion)
-        self.assertEqual(cv.major, '4')
-        self.assertEqual(cv.minor, '2')
-        self.assertEqual(cv.trace, '0')
-        self.assertEqual(cv.dirname, 'v4_2_0')
-        self.assertEqual(cv.join('-'), '4-2-0')
-        self.assertIsInstance(util.CathVersion('v4.2'), util.CathVersion)
-        self.assertEqual(str(util.CathVersion(4.2)), '4.2.0')
-
-        cv_current = util.CathVersion.new_from_string('current')
-        self.assertEqual(cv_current.pg_dbname, 'cathdb_current')
-
     def test_funfam_file_finder(self):
-        finder = util.FunfamFileFinder(base_dir=self.ff_dir, ff_tmpl='__SFAM__-ff-__FF_NUM__.reduced.sto')
+        finder = util.FunfamFileFinder(
+            base_dir=self.ff_dir, ff_tmpl='__SFAM__-ff-__FF_NUM__.reduced.sto')
         self.assertIsInstance(finder, util.FunfamFileFinder)
         ff_file = finder.search_by_domain_id('2damA00')
-        self.assertEqual(os.path.basename(ff_file), '1.10.8.10-ff-14534.reduced.sto')
+        self.assertEqual(os.path.basename(ff_file),
+                         '1.10.8.10-ff-14534.reduced.sto')
 
-        with self.assertRaises( err.NoMatchesError ):
+        with self.assertRaises(err.NoMatchesError):
             finder.search_by_domain_id('1zzzA01')
-        with self.assertRaises( err.InvalidInputError ):
+        with self.assertRaises(err.InvalidInputError):
             finder.search_by_domain_id('bingo')
-        with self.assertRaises( err.InvalidInputError ):
+        with self.assertRaises(err.InvalidInputError):
             finder.search_by_domain_id(' file with &*! characters and spaces ')
 
     def test_ff_id_from_file(self):
-        finder = util.FunfamFileFinder(base_dir=self.ff_dir, ff_tmpl='__SFAM__-ff-__FF_NUM__.reduced.sto')
+        finder = util.FunfamFileFinder(
+            base_dir=self.ff_dir, ff_tmpl='__SFAM__-ff-__FF_NUM__.reduced.sto')
         ff_file = finder.search_by_domain_id('2damA00')
         ff_id = finder.funfam_id_from_file(ff_file)
         self.assertEqual(ff_id.sfam_id, '1.10.8.10')
@@ -103,15 +100,15 @@ class TestUtil(TestBase):
     @log_level('cathpy.util', 'DEBUG')
     def test_scorecons(self):
         sc = util.ScoreconsRunner()
-        aln = seqio.Align.new_from_fasta(self.example_fasta_file)
-        
+        aln = Align.new_from_fasta(self.example_fasta_file)
+
         sc_res = sc.run_fasta(self.example_fasta_file)
         self.assertEqual(sc_res.dops, 92.889)
         self.assertEqual(len(sc_res.scores), aln.aln_positions)
 
     def test_groupsim(self):
         gs = util.GroupsimRunner()
-        aln = seqio.Align.new_from_fasta(self.example_fasta_file)
+        aln = Align.new_from_fasta(self.example_fasta_file)
 
         seqs = aln.seqs
 
@@ -135,7 +132,7 @@ class TestUtil(TestBase):
         sc_dir = os.path.dirname(sc_path)
         sc_file = util.ClusterFile(sc_path)
         # 1.10.8.10__FF_SSG9__6.aln_reps.cora.fa
-        self.assertDictEqual(sc_file.__dict__, { 
+        self.assertDictEqual(sc_file.__dict__, {
             'dir': sc_dir,
             'sfam_id': '1.10.8.10',
             'cluster_type': 'FF_SSG9',
@@ -150,7 +147,7 @@ class TestUtil(TestBase):
         ff_dir = os.path.dirname(ff_path)
         ff_file = util.ClusterFile(ff_path)
         # 1.10.8.10-ff-14534.reduced.sto
-        self.assertDictEqual(ff_file.__dict__, { 
+        self.assertDictEqual(ff_file.__dict__, {
             'dir': ff_dir,
             'sfam_id': '1.10.8.10',
             'cluster_type': 'ff',

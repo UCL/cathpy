@@ -12,3 +12,4 @@ sc-alignments/
 .R*
 build/
 dist/
+.vscode/

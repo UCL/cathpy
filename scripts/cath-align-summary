@@ -14,18 +14,18 @@ parser = argparse.ArgumentParser(
 
 input_group = parser.add_mutually_exclusive_group(required=True)
 input_group.add_argument('-d', '--aln_dir', type=str, dest='aln_dir',
-    help='input alignment directory')
+                         help='input alignment directory')
 input_group.add_argument('-i', '--aln_file', type=str, dest='aln_file',
-    help='input alignment file')
+                         help='input alignment file')
 
-parser.add_argument('--suffix', type=str, dest='suffix', default='.sto', 
-    help='suffix to use when matching alignment files')
+parser.add_argument('--suffix', type=str, dest='suffix', default='.sto',
+                    help='suffix to use when matching alignment files')
 
 parser.add_argument('--skipempty', default=False, action="store_true",
-    help='skip empty files')
+                    help='skip empty files')
 
 parser.add_argument('--verbose', '-v', required=False, action='count', default=0,
-    help='more verbose logging')
+                    help='more verbose logging')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -37,7 +37,8 @@ if __name__ == '__main__':
     else:
         log_level = logging.WARN
 
-    logging.basicConfig(level=log_level, format='%(asctime)s %(levelname)-8s | %(message)s')
+    logging.basicConfig(
+        level=log_level, format='%(asctime)s %(levelname)-8s | %(message)s')
 
     merged_args = dict([(key, vars(args)[key]) for key in (
         'aln_dir', 'aln_file', 'suffix', 'skipempty')])

@@ -1,5 +1,7 @@
-Jinja2==2.10
+Jinja2>=2.10.1
 requests==2.21.0
 Sphinx==1.8.5
 sphinx-rtd-theme==0.4.3
 sphinxcontrib-napoleon==0.7
+tqdm==4.28.1
+jsonpickle==0.9.6

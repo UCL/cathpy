@@ -6,9 +6,7 @@ Welcome to CathPy's documentation!
 
 .. warning::
 
-    This code is early release and will undoubtably change. If you are 
-    looking for a stable, well-tested Python Bioinformatics framework
-    then you should probably head over to BioPython.
+    This code is still in early release and may change.
 
 Guide
 -----

@@ -1,3 +1,7 @@
+"""
+General utility classes and functions
+"""
+
 # core
 import logging
 import io
@@ -5,173 +9,28 @@ import os
 import platform
 import re
 import subprocess
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, CalledProcessError
 import tempfile
 
 import pkg_resources
 
 # local
-from cathpy import seqio, datafiles, error as err
+from cathpy import error as err
+from cathpy.tests import is_valid_domain_id
+from cathpy.models import CathID, ClusterID, ClusterFile, FunfamID
+from cathpy.align import Align, Correspondence
+from cathpy.datafiles import ReleaseDir
 from cathpy.version import CathVersion
 from cathpy.error import ParseError, OutOfBoundsError
 
 LOG = logging.getLogger(__name__)
 
-PLATFORM_NAME = "{}-{}".format(platform.system().lower(), platform.machine())
-
-BIN_DIR = "../tools/{}/bin/".format(PLATFORM_NAME)
-DATA_DIR = "../tools/data/"
-
-SCORECONS_EXE = pkg_resources.resource_filename(__name__, BIN_DIR + "scorecons")
-SCORECONS_MATRIX_FILE = pkg_resources.resource_filename(__name__, DATA_DIR + "PET91mod.mat2")
-
-def is_valid_domain_id(id_str: str) -> bool:
-    """
-    Returns whether the given input is a valid CATH domain identifier.    
-    """
-    return re.match('([0-9][a-zA-Z0-9]{3})([a-zA-Z0-9])([0-9]{2})$', id_str)
-
-class CathID(object):
-    """Represents a CATH ID."""
-
-    RE_CATH_ID = re.compile(r'^[1-9]+(\.[0-9]+){0,8}$')
-
-    def __init__(self, cath_id):
-        assert self.RE_CATH_ID.match(cath_id)
-        self._cath_id_parts = cath_id.split('.')
-
-    @property
-    def depth(self):
-        """Returns the depth of the CATH ID."""
-        return len(self._cath_id_parts)
-
-    @property
-    def sfam_id(self):
-        """Returns the superfamily id of the CATH ID."""
-
-        if self.depth < 4:
-            raise OutOfBoundsError("cannot get sfam_id for CATH ID '{}' (require depth >= 4, not {})".format(
-                ".".join(self._cath_id_parts), len(self._cath_id_parts)
-            ))
-        else:
-            return self.cath_id_to_depth(4)
-
-    @property
-    def cath_id(self):
-        """Returns the CATH ID as a string."""
-        return str(self.cath_id)
-
-    def cath_id_to_depth(self, depth):
-        """Returns the CATH ID as a string."""
-        return ".".join(self._cath_id_parts[:depth])
-
-    def __str__(self):
-        return ".".join(self._cath_id_parts)
-
-class ClusterID(object):
-    """Represents a Cluster Identifier (FunFam, SC, etc)"""
-    def __init__(self, sfam_id, cluster_type, cluster_num):
-        self.sfam_id = sfam_id
-        self.cluster_type = cluster_type
-        self.cluster_num = cluster_num
-
-    @classmethod
-    def new_from_file(cls, file):
-        """Parse a new ClusterID from a filename."""
-        cf = ClusterFile(file)
-        cls(cf.sfam_id, cf.cluster_type, cf.cluster_num)
-
-    def __str__(self):
-        return "{}-{}-{}".format(self.sfam_id, self.cluster_type, self.cluster_num)
-
-class FunfamID(ClusterID):
-    """Object that represents a Funfam ID."""
-    def __init__(self, sfam_id, cluster_num):
-        super().__init__(sfam_id, 'FF', cluster_num)
-
-class ClusterFile(object):
-    """
-    Object that represents a file relating to a CATH Cluster.
-    
-    eg.
-
-        /path/to/1.10.8.10-ff-1234.sto
-
-    """
-
-    def __init__(self, path, *, dir=None, sfam_id=None, cluster_type=None, cluster_num=None, 
-        join_char=None, desc=None, suffix=None):
-
-        # explicitly declare attributes (to keep pylint happy at the very least)
-        self.dir = None
-        self.sfam_id = None
-        self.cluster_type = None
-        self.cluster_num = None
-        self.join_char = None
-        self.desc = None
-        self.suffix = None
-
-        # initialise from path (if given)
-        attrs = ('dir', 'sfam_id', 'cluster_type', 'cluster_num', 'join_char', 'desc', 'suffix')
-        if path:
-            path_info = __class__.split_path(path)
-            for attr in attrs:
-                setattr(self, attr, path_info[attr])
-
-        # allow other parts to be specified (or overridden) by extra args
-        local_args = locals()
-        for attr in attrs:
-            if local_args[attr]:
-                setattr(self, attr, local_args[attr])
-
-    @property
-    def cluster_id(self):
-        ClusterID(self.sfam_id, self.cluster_type, self.cluster_num)
-
-    @classmethod
-    def split_path(cls, path):
-        """
-        Returns information about a cluster based on the path (filename).
-        """
-
-        re_file = re.compile(r'(?P<sfam_id>[0-9.]+)'         # 1.10.8.10
-            r'(?P<join_char>-|__)'                           # - or __
-            r'(?P<cluster_type>\w+)'                         # ff
-            r'(?:-|__)'                                      # - or __
-            r'(?P<cluster_num>[0-9]+)'                       # 1234
-            r'(?P<desc>.*?)'                                 # .reduced
-            r'(?P<suffix>\.\w+)$')                           # .sto
-
-        m = re_file.match(os.path.basename(path))
-        if m:
-            info = m.groupdict()
-            info['dir'] = os.path.dirname(path)
-            return info
-        
-        raise err.NoMatchesError('failed to parse cluster details from filename {}'.format(path))
-
-    def to_string(self, join_char=None):
-        """Represents the ClusterFile as a string (file path)."""
-        if not join_char:
-            join_char = self.join_char
-        
-        file_parts = [
-            join_char.join([self.sfam_id, self.cluster_type, self.cluster_num]),
-            self.desc,
-            self.suffix ]
-
-        # remove elements that are not defined (eg. desc, suffix)
-        file_parts = [p for p in file_parts if p != None]
-
-        filename = ''.join(file_parts)
-
-        path = os.path.join(self.dir, filename) if self.dir else filename
-
-        return path
-
-    def __str__(self):
-        return self.to_string()
-
+TOOL_DIR = pkg_resources.resource_filename(__name__, "tools")
+DATA_DIR = os.path.join(TOOL_DIR, "data")
+PLATFORM_DIRNAME = "{}-{}".format(platform.system().lower(), platform.machine())
+GROUPSIM_DIR = os.path.join(TOOL_DIR, 'GroupSim')
+SCORECONS_EXE = os.path.join(TOOL_DIR, PLATFORM_DIRNAME, 'scorecons')
+SCORECONS_MATRIX_FILE = os.path.join(DATA_DIR, 'PET91mod.mat2')
 
 class GroupsimResult(object):
     """Represents the result from running the groupsim algorithm."""
@@ -217,10 +76,10 @@ class GroupsimResult(object):
 class GroupsimRunner(object):
     """Object that provides a wrapper around groupsim."""
 
-    def __init__(self, *, groupsim_dir=None, python2path='python2', 
+    def __init__(self, *, groupsim_dir=GROUPSIM_DIR, python2path='python2', 
         column_gap=0.3, group_gap=0.5):
 
-        self.groupsim_dir = groupsim_dir if groupsim_dir else os.path.abspath( os.path.join(__file__, '..', '..', 'tools', 'GroupSim') )
+        self.groupsim_dir = groupsim_dir
         self.groupsim_path = os.path.join(self.groupsim_dir, 'group_sim_sdp.py')
         self.mclachlan_path = os.path.join(self.groupsim_dir, 'mclachlan1972.aa.dat')
         self.column_gap = column_gap
@@ -284,7 +143,7 @@ class GroupsimRunner(object):
         try:
             p = Popen(groupsim_args, stdout=PIPE, stderr=PIPE, universal_newlines=True)
             groupsim_out, groupsim_err = p.communicate()
-        except subprocess.CalledProcessError as e:
+        except CalledProcessError as e:
             LOG.error('CMD: {}\nCODE: {}\nOUTPUT: {}\nSTDERR: "{}"\nSTDOUT: "{}"\n'.format(
                 e.cmd, e.returncode, e.output, e.stderr, e.stdout))
             raise e
@@ -352,15 +211,16 @@ class ScoreconsRunner(object):
 
         fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix=".fa")
         fasta_tmp_filename = fasta_tmp.name
-        aln = seqio.Align.new_from_stockholm(sto_file)
+        aln = Align.new_from_stockholm(sto_file)
         aln.write_fasta(fasta_tmp_filename)
         return self.run_fasta(fasta_tmp_filename)
 
     def run_fasta(self, fasta_file):
-        """Returns scorecons data (ScoreconsResult) for the provided FASTA file.
+        """
+        Returns scorecons data (ScoreconsResult) for the provided FASTA file.
         
         Returns:
-            result (ScoreconsResult): scorecons result        
+            result (ScoreconsResult): scorecons result
         """
 
         tmp_scorecons_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.scorecons', delete=True)
@@ -369,6 +229,7 @@ class ScoreconsRunner(object):
             '-a', fasta_file, 
             '-m', self.matrix_path, 
             '-o', tmp_scorecons_file.name)
+
         LOG.debug("running scorecons: sys: " + " ".join(scorecons_args))
 
         try:
@@ -518,6 +379,7 @@ class StructuralClusterMerger(object):
         LOG.info("Running alignment merge")
 
         cath_release = self.cath_release
+        cath_release = ReleaseDir(self.cath_version)
 
         # parse the structure-based alignment of representatives
         # eg /cath/data/v4_2_0/funfam/families/1.10.8.10/1.10.8.10__FF_SSG9__6.reps.fa
@@ -534,7 +396,7 @@ class StructuralClusterMerger(object):
         LOG.info('Cluster number: ' + sc_num)
 
         LOG.info("Parsing structure-based alignment: ")
-        sc_aln = seqio.Align.new_from_fasta(self.sc_file)
+        sc_aln = Align.new_from_fasta(self.sc_file)
         LOG.info(" ... found {} representatives".format(sc_aln.count_sequences))
 
         cluster_id = '-'.join([sfam_id, cluster_type, sc_num])
@@ -572,7 +434,7 @@ class StructuralClusterMerger(object):
             LOG.info('Reading FunFam alignment: {}'.format(ff_aln_file))
 
             # parse it into an alignment
-            ff_aln = seqio.Align.new_from_stockholm(ff_aln_file)
+            ff_aln = Align.new_from_stockholm(ff_aln_file)
 
             # we need the funfam_number for groupsim
             funfam_id = ff_finder.funfam_id_from_file(ff_aln_file)
@@ -589,7 +451,7 @@ class StructuralClusterMerger(object):
             # get the chain correspondence file 
             rep_chain_id = sc_rep_acc[:5]
             gcf_file = cath_release.get_file('chaingcf', rep_chain_id)
-            chain_corr = seqio.Correspondence.new_from_gcf(gcf_file)
+            chain_corr = Correspondence.new_from_gcf(gcf_file)
             
             # TODO: get a subset that only corresponds to the domain (not chain)
             seqres_segments = sc_rep_in_ff.segs
@@ -708,7 +570,7 @@ class AlignmentSummaryRunner(object):
 
         for aln_file in self._files:
             try:
-                aln = seqio.Align.new_from_stockholm(aln_file)
+                aln = Align.new_from_stockholm(aln_file)
             except:
                 raise Exception("Failed to parse STOCKHOLM alignment from file {}".format(aln_file))
 

@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 
-from setuptools import setup, find_packages
+from setuptools import setup
+
+import cathpy
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
     name="cathpy",
-    version="0.0.1",
+    version=cathpy.__version__,
     author="Ian Sillitoe",
     author_email="i.sillitoe@ucl.ac.uk",
     description="CathPy - Python Bioinformatics Toolkit for CATH (Protein Classification).",
@@ -16,6 +18,12 @@ setup(
     url="https://github.com/UCL/cathpy",
     packages=['cathpy'],
     test_suite="tests",
+    package_dir={
+        'cathpy': 'cathpy',
+    },
+    package_data={
+        'cathpy': ['tools/GroupSim/*', 'tools/*/scorecons'],
+    },
     scripts=[
         'scripts/cath-funfhmmer-api',
         'scripts/cath-align-scorecons',
@@ -24,6 +32,8 @@ setup(
     ],
     install_requires=[
         'requests',
+        'jsonpickle',
+        'tqdm',
     ],
     classifiers=(
         "Programming Language :: Python :: 3",
