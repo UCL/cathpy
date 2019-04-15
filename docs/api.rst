@@ -7,6 +7,7 @@ API
     align
     datafiles
     error
+    funfhmmer
     models
     util
     version
