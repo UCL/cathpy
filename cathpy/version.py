@@ -10,6 +10,7 @@ from cathpy.error import ParseError
 
 LOG = logging.getLogger(__name__)
 
+
 class CathVersion(object):
     """Object that represents a CATH version."""
 
@@ -17,7 +18,7 @@ class CathVersion(object):
 
     def __init__(self, *args, **kwargs):
         """Creates a new instance of a CathVersion object.
-        
+
         The following are all equivalent:
 
             cv = CathVersion('4.2')
@@ -33,8 +34,9 @@ class CathVersion(object):
         elif len(args) == 3:
             ver_parts = args
         else:
-            raise Exception("expected 1, 2, or 3 args (not {}): {}".format(len(args), " ".join([*args])))
-        
+            raise Exception("expected 1, 2, or 3 args (not {}): {}".format(
+                len(args), " ".join([*args])))
+
         self.major = ver_parts[0]
         self.minor = ver_parts[1]
         self.trace = ver_parts[2]
@@ -81,7 +83,8 @@ class CathVersion(object):
             if parts[0].lower() == cls.CATH_VERSION_CURRENT.lower():
                 parts = (cls.CATH_VERSION_CURRENT, None, None)
             else:
-                raise ParseError("failed to parse version {}".format(version_str))
+                raise ParseError(
+                    "failed to parse version {}".format(version_str))
         if len(parts) == 2:
             parts = (parts[0], parts[1], 0)
         elif len(parts) == 3:

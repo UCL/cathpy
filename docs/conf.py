@@ -12,6 +12,7 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import sphinx_rtd_theme
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../cathpy'))
@@ -20,7 +21,7 @@ sys.path.insert(0, os.path.abspath('../cathpy'))
 # -- Project information -----------------------------------------------------
 
 project = 'CathPy'
-copyright = '2018, Ian Sillitoe'
+copyright = '2018-2019, Orengo Group, University College London'
 author = 'Ian Sillitoe'
 
 # The short X.Y version
@@ -44,7 +45,7 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.imgmath',
-#    'sphinx.ext.viewcode',
+    #    'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
     'sphinxcontrib.napoleon',
 ]
@@ -171,7 +172,6 @@ texinfo_documents = [
 todo_include_todos = True
 
 #import guzzle_sphinx_theme
-import sphinx_rtd_theme
 
 html_theme = 'sphinx_rtd_theme'
 

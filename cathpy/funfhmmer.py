@@ -17,6 +17,7 @@ from cathpy.models import Scan
 
 LOG = logging.getLogger(__name__)
 
+
 def log_progress(_func=None, *, msg=None):
     def decorator_log_success(func):
         @functools.wraps(func)
@@ -29,12 +30,13 @@ def log_progress(_func=None, *, msg=None):
             except:
                 LOG.info("%s %s", title, '[FAIL]')
                 raise
-            return value    
+            return value
         return wrapper_decorator
     if _func is None:
         return decorator_log_success
     else:
         return decorator_log_success(_func)
+
 
 class ApiClientBase(object):
     """Base class implementing default local behaviour of an API client."""
@@ -57,10 +59,12 @@ class ApiClientBase(object):
         req = requests.post(url, headers=headers)
         return req
 
+
 class ResponseBase(object):
 
     def __init__(self, **kwargs):
         pass
+
 
 class SubmitResponse(ResponseBase):
     """Class storing the response from FunFHMMER submit."""
@@ -73,6 +77,7 @@ class SubmitResponse(ResponseBase):
 
         super().__init__(**kwargs)
 
+
 class CheckResponse(ResponseBase):
     """Class storing the response from FunFHMMER status."""
 
@@ -82,6 +87,7 @@ class CheckResponse(ResponseBase):
         self.success = success
 
         super().__init__(**kwargs)
+
 
 class ResultResponse(ResponseBase):
     """Class storing the response from FunFHMMER results."""
@@ -97,16 +103,16 @@ class ResultResponse(ResponseBase):
         data = jsonpickle.encode(self)
         if pp:
             data = json.dumps(json.loads(data), indent=2, sort_keys=True)
-        
+
         LOG.info("Serialized ResultResponse as JSON string (length:%s)", len(data))
         return data
 
     def as_csv(self):
         """Returns the result as CSV"""
         result = self.funfam_scan.results[0]
-        out = ( '# cath_version: {}\n'
-                '# funfam members uniq_ec_terms query_region match_region evalue score description\n'
-                ).format(self.cath_version)
+        out = ('# cath_version: {}\n'
+               '# funfam members uniq_ec_terms query_region match_region evalue score description\n'
+               ).format(self.cath_version)
 
         for hit in result.hits:
             ec_term_count = hit.data['ec_term_count'] or 0
@@ -136,11 +142,11 @@ class Client(ApiClientBase):
     def __init__(self, *, base_url='http://www.cathdb.info', sleep=2, retries=50, log=None):
         super().__init__(base_url)
         self.sleep = sleep
-        self.submit_url  = base_url + '/search/by_funfhmmer'
-        self.check_url   = base_url + '/search/by_funfhmmer/check/:task_id'
+        self.submit_url = base_url + '/search/by_funfhmmer'
+        self.check_url = base_url + '/search/by_funfhmmer/check/:task_id'
         self.results_url = base_url + '/search/by_funfhmmer/results/:task_id'
-        self.headers     = { 'accept': 'application/json' }
-        self.retries     = retries
+        self.headers = {'accept': 'application/json'}
+        self.retries = retries
         if not log:
             log = LOG
         self.log = log
@@ -157,7 +163,7 @@ class Client(ApiClientBase):
             log.info('Reading sequence from file: %s ...', fasta_file)
             with open(fasta_file, 'r') as f:
                 fasta = f.read()
-        
+
         task_id = self.submit(fasta).task_id
 
         @log_progress(msg="Waiting for job to complete ...")
@@ -167,7 +173,8 @@ class Client(ApiClientBase):
                 progress.set_description("...")
                 while True:
                     if retry_count > retries:
-                        raise Exception('failed to get task within {} retries'.format(retries))
+                        raise Exception(
+                            'failed to get task within {} retries'.format(retries))
                     r = self.check(task_id)
                     if r.message == 'done':
                         progress.update(retries)
@@ -180,7 +187,7 @@ class Client(ApiClientBase):
         wait_for_task(task_id, self.retries, self.sleep)
 
         response = self.results(task_id)
-        
+
         return response
 
     @log_progress(msg="Submitting sequence search")
@@ -189,14 +196,17 @@ class Client(ApiClientBase):
 
         try:
             self.log.info("submit.POST: %s", self.submit_url)
-            r = requests.post(self.submit_url, data={'fasta': fasta}, headers=self.headers)
+            r = requests.post(self.submit_url, data={
+                              'fasta': fasta}, headers=self.headers)
         except:
-            raise err.HttpError('http request failed: POST {}'.format(self.submit_url))
+            raise err.HttpError(
+                'http request failed: POST {}'.format(self.submit_url))
 
         try:
             data = r.json()
         except:
-            raise err.JsonError('failed to parse json from http response: {}'.format(r.text))
+            raise err.JsonError(
+                'failed to parse json from http response: {}'.format(r.text))
 
         self.log.info("submit.POST.results: %s", str(data))
 
@@ -212,8 +222,9 @@ class Client(ApiClientBase):
         try:
             data = req.json()
         except Exception as e:
-            LOG.error("encountered error when trying to convert check request to JSON: (%s) %s", type(e), e)
-            raise 
+            LOG.error(
+                "encountered error when trying to convert check request to JSON: (%s) %s", type(e), e)
+            raise
         return CheckResponse(**data)
 
     @log_progress(msg="Retrieving results")
@@ -225,7 +236,8 @@ class Client(ApiClientBase):
         self.log.info("results.GET: %s", url)
         r = requests.get(url, headers=self.headers)
         if not r.content:
-            LOG.warn("funfhmmer results returned empty content, assuming this means no results found")
+            LOG.warn(
+                "funfhmmer results returned empty content, assuming this means no results found")
             raise err.NoMatchesError
         else:
             data = r.json()
