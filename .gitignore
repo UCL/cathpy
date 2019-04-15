@@ -11,3 +11,4 @@ sc-alignments/
 .pytest_cache/
 .R*
 build/
+.vscode/settings.json
