@@ -46,6 +46,8 @@ class ApiClientBase(object):
         self.default_accept = default_accept
 
     def get(self, url, *, accept=None):
+        """Performs a GET request"""
+
         if not accept:
             accept = self.default_accept
         headers = {'accept': accept}
@@ -53,6 +55,8 @@ class ApiClientBase(object):
         return req
 
     def post(self, url, *, accept=None):
+        """Performs a POST request"""
+
         if not accept:
             accept = self.default_accept
         headers = {'accept': accept}
@@ -61,13 +65,14 @@ class ApiClientBase(object):
 
 
 class ResponseBase(object):
+    """Base class that represents the HTTP response."""
 
     def __init__(self, **kwargs):
         pass
 
 
 class SubmitResponse(ResponseBase):
-    """Class storing the response from FunFHMMER submit."""
+    """Class that represents the response from FunFHMMER SUBMIT request."""
 
     def __init__(self, **kwargs):
         try:
@@ -79,7 +84,7 @@ class SubmitResponse(ResponseBase):
 
 
 class CheckResponse(ResponseBase):
-    """Class storing the response from FunFHMMER status."""
+    """Class that represents the response from FunFHMMER STATUS request."""
 
     def __init__(self, *, data, message, success, **kwargs):
         self.data = data
@@ -90,7 +95,7 @@ class CheckResponse(ResponseBase):
 
 
 class ResultResponse(ResponseBase):
-    """Class storing the response from FunFHMMER results."""
+    """Class that represents the response from FunFHMMER RESULTS request."""
 
     def __init__(self, *, query_fasta, funfam_scan, cath_version, **kwargs):
         self.query_fasta = query_fasta
@@ -100,6 +105,8 @@ class ResultResponse(ResponseBase):
         super().__init__(**kwargs)
 
     def as_json(self, *, pp=False):
+        """Returns the response as JSON formatter string."""
+
         data = jsonpickle.encode(self)
         if pp:
             data = json.dumps(json.loads(data), indent=2, sort_keys=True)
@@ -109,6 +116,7 @@ class ResultResponse(ResponseBase):
 
     def as_csv(self):
         """Returns the result as CSV"""
+
         result = self.funfam_scan.results[0]
         out = ('# cath_version: {}\n'
                '# funfam members uniq_ec_terms query_region match_region evalue score description\n'

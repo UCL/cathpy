@@ -84,7 +84,7 @@ class CathVersion(object):
                 parts = (cls.CATH_VERSION_CURRENT, None, None)
             else:
                 raise ParseError(
-                    "failed to parse version {}".format(version_str))
+                    "failed to parse version '{}': expected '<major>.<minor>' or 'current'".format(version_str))
         if len(parts) == 2:
             parts = (parts[0], parts[1], 0)
         elif len(parts) == 3:

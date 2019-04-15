@@ -500,6 +500,7 @@ class Correspondence(object):
         return res
 
     def get_res_by_pdb_label(self, pdb_label):
+        """Returns the Residue that matches `pdb_label`"""
         res = next((res for res in self.residues if res.pdb_label == pdb_label), None)
         return res
 
@@ -623,6 +624,7 @@ class Correspondence(object):
 
 
     def to_sequences(self):
+        """Returns the Correspondence as a list of `Sequence` objects"""
         seqs = (self.seqres_sequence, self.atom_sequence)
         return seqs
 
@@ -1452,12 +1454,14 @@ class Align(object):
         return new_aln
 
     def to_fasta(self, wrap_width=80):
+        """Returns the alignment as a string (FASTA format)"""
         fasta_str = ''
         for seq in self.seqs:
             fasta_str += seq.to_fasta(wrap_width=wrap_width)
         return fasta_str
 
     def to_pir(self, wrap_width=80):
+        """Returns the alignment as a string (PIR format)"""
         pir_str = ''
         for seq in self.seqs:
             pir_str += seq.to_pir(wrap_width=wrap_width)
