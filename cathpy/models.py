@@ -87,6 +87,69 @@ class Residue(object):
             self.aa, self.seq_num, self.pdb_label, self.pdb_aa)
 
 
+class CathID(object):
+    """Represents a CATH ID."""
+
+    RE_CATH_ID = re.compile(r'^[1-9]+(\.[0-9]+){0,8}$')
+
+    def __init__(self, cath_id):
+        assert self.RE_CATH_ID.match(cath_id)
+        self._cath_id_parts = cath_id.split('.')
+
+    @property
+    def depth(self):
+        """Returns the depth of the CATH ID."""
+        return len(self._cath_id_parts)
+
+    @property
+    def sfam_id(self):
+        """Returns the superfamily id of the CATH ID."""
+
+        if self.depth < 4:
+            raise err.OutOfBoundsError("cannot get sfam_id for CATH ID '{}' (require depth >= 4, not {})".format(
+                ".".join(self._cath_id_parts), len(self._cath_id_parts)
+            ))
+        else:
+            return self.cath_id_to_depth(4)
+
+    @property
+    def cath_id(self):
+        """Returns the CATH ID as a string."""
+        return str(self.cath_id)
+
+    def cath_id_to_depth(self, depth):
+        """Returns the CATH ID as a string."""
+        return ".".join(self._cath_id_parts[:depth])
+
+    def __str__(self):
+        return ".".join(self._cath_id_parts)
+
+
+class ClusterID(object):
+    """Represents a Cluster Identifier (FunFam, SC, etc)"""
+
+    def __init__(self, sfam_id, cluster_type, cluster_num):
+        self.sfam_id = sfam_id
+        self.cluster_type = cluster_type
+        self.cluster_num = cluster_num
+
+    @classmethod
+    def new_from_file(cls, file):
+        """Parse a new ClusterID from a filename."""
+        cf = ClusterFile(file)
+        cls(cf.sfam_id, cf.cluster_type, cf.cluster_num)
+
+    def __str__(self):
+        return "{}-{}-{}".format(self.sfam_id, self.cluster_type, self.cluster_num)
+
+
+class FunfamID(ClusterID):
+    """Object that represents a Funfam ID."""
+
+    def __init__(self, sfam_id, cluster_num):
+        super().__init__(sfam_id, 'FF', cluster_num)
+
+
 class ClusterFile(object):
     """
     Object that represents a file relating to a CATH Cluster.
@@ -177,69 +240,6 @@ class ClusterFile(object):
 
     def __str__(self):
         return self.to_string()
-
-
-class CathID(object):
-    """Represents a CATH ID."""
-
-    RE_CATH_ID = re.compile(r'^[1-9]+(\.[0-9]+){0,8}$')
-
-    def __init__(self, cath_id):
-        assert self.RE_CATH_ID.match(cath_id)
-        self._cath_id_parts = cath_id.split('.')
-
-    @property
-    def depth(self):
-        """Returns the depth of the CATH ID."""
-        return len(self._cath_id_parts)
-
-    @property
-    def sfam_id(self):
-        """Returns the superfamily id of the CATH ID."""
-
-        if self.depth < 4:
-            raise err.OutOfBoundsError("cannot get sfam_id for CATH ID '{}' (require depth >= 4, not {})".format(
-                ".".join(self._cath_id_parts), len(self._cath_id_parts)
-            ))
-        else:
-            return self.cath_id_to_depth(4)
-
-    @property
-    def cath_id(self):
-        """Returns the CATH ID as a string."""
-        return str(self.cath_id)
-
-    def cath_id_to_depth(self, depth):
-        """Returns the CATH ID as a string."""
-        return ".".join(self._cath_id_parts[:depth])
-
-    def __str__(self):
-        return ".".join(self._cath_id_parts)
-
-
-class ClusterID(object):
-    """Represents a Cluster Identifier (FunFam, SC, etc)"""
-
-    def __init__(self, sfam_id, cluster_type, cluster_num):
-        self.sfam_id = sfam_id
-        self.cluster_type = cluster_type
-        self.cluster_num = cluster_num
-
-    @classmethod
-    def new_from_file(cls, file):
-        """Parse a new ClusterID from a filename."""
-        cf = ClusterFile(file)
-        cls(cf.sfam_id, cf.cluster_type, cf.cluster_num)
-
-    def __str__(self):
-        return "{}-{}-{}".format(self.sfam_id, self.cluster_type, self.cluster_num)
-
-
-class FunfamID(ClusterID):
-    """Object that represents a Funfam ID."""
-
-    def __init__(self, sfam_id, cluster_num):
-        super().__init__(sfam_id, 'FF', cluster_num)
 
 
 class Segment(object):
