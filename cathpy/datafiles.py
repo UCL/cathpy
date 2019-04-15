@@ -5,7 +5,7 @@ import re
 
 from cathpy.version import CathVersion
 
-logger = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 class GenericFileType(object):
     """Represents a type of CATH Data file."""
@@ -71,5 +71,9 @@ class ReleaseDir(object):
         if not isinstance(file_type, GenericFileType):
             file_type = FileTypes.get(file_type)
         
-        return os.path.join(self.base_dir, self.cath_version.dirname, 
+        path = os.path.join(self.base_dir, self.cath_version.dirname, 
             *file_type.path_parts, id + file_type.suffix)
+
+        LOG.debug("get_file(%s, %s): %s", file_type, id, path)
+
+        return path
