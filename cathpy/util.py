@@ -26,9 +26,11 @@ from cathpy.error import ParseError, OutOfBoundsError
 LOG = logging.getLogger(__name__)
 
 TOOL_DIR = pkg_resources.resource_filename(__name__, "tools")
+DATA_DIR = os.path.join(TOOL_DIR, "data")
 PLATFORM_DIRNAME = "{}-{}".format(platform.system().lower(), platform.machine())
 GROUPSIM_DIR = os.path.join(TOOL_DIR, 'GroupSim')
 SCORECONS_EXE = os.path.join(TOOL_DIR, PLATFORM_DIRNAME, 'scorecons')
+SCORECONS_MATRIX_FILE = os.path.join(DATA_DIR, 'PET91mod.mat2')
 
 class GroupsimResult(object):
     """Represents the result from running the groupsim algorithm."""
@@ -211,16 +213,17 @@ class ScoreconsRunner(object):
         aln.write_fasta(fasta_tmp_filename)
         return self.run_fasta(fasta_tmp_filename)
 
-    def run_fasta(self, fasta_file):
-        """Returns scorecons data (ScoreconsResult) for the provided FASTA file.
+    def run_fasta(self, fasta_file, matrix_file=SCORECONS_MATRIX_FILE):
+        """
+        Returns scorecons data (ScoreconsResult) for the provided FASTA file.
         
         Returns:
-            result (ScoreconsResult): scorecons result        
+            result (ScoreconsResult): scorecons result
         """
 
         tmp_scorecons_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.scorecons', delete=True)
 
-        scorecons_args = (self.scorecons_path, '-a', fasta_file, '-o', tmp_scorecons_file.name)
+        scorecons_args = (self.scorecons_path, '-a', fasta_file, '-m', matrix_file, '-o', tmp_scorecons_file.name)
         LOG.debug("running scorecons: sys: " + " ".join(scorecons_args))
 
         try:
