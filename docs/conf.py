@@ -12,6 +12,7 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import cathpy
 import sphinx_rtd_theme
 import os
 import sys
@@ -25,9 +26,9 @@ copyright = '2018-2019, Orengo Group, University College London'
 author = 'Ian Sillitoe'
 
 # The short X.Y version
-version = ''
+version = ".".join(cathpy.__version__.split('.')[:2])
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = cathpy.__version__
 
 
 # -- General configuration ---------------------------------------------------
