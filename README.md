@@ -28,6 +28,8 @@ tests/data/funfams/1.10.8.10-ff-5069.reduced.sto                           59   
 tests/data/funfams/1.10.8.10-ff-15593.reduced.sto                          63    203  95.88  17.70
 ```
 
+Now go and [have a look at the documentation](https://cathpy.readthedocs.io/en/latest/).
+
 
 ## Development
 
