@@ -1,12 +1,10 @@
 # cathpy
 
 [![Documentation Status](https://readthedocs.org/projects/cathpy/badge/?version=latest)](https://cathpy.readthedocs.io/en/latest/?badge=latest)
-
 [![Build Status](https://travis-ci.com/UCL/cathpy.svg?branch=master)](https://travis-ci.com/UCL/cathpy)
 
 `cathpy` is a Bioinformatics toolkit written in Python. It is developed and maintained by the
-[http://orengogroup.info/](Orengo Group) at [https://www.ucl.ac.uk/orengo-group/](UCL) and is used for maintaining the [http://www.cathdb.info](CATH protein structure database) (and associated research).
-
+[Orengo Group](http://orengogroup.info/) at [UCL](https://www.ucl.ac.uk/orengo-group/) and is used for maintaining the [CATH protein structure database](http://www.cathdb.info) (and associated research).
 
 
 ## Getting Started
@@ -30,10 +28,25 @@ tests/data/funfams/1.10.8.10-ff-5069.reduced.sto                           59   
 tests/data/funfams/1.10.8.10-ff-15593.reduced.sto                          63    203  95.88  17.70
 ```
 
+Now go and [have a look at the documentation](https://cathpy.readthedocs.io/en/latest/).
+
+## Contributing
+
+There are many ways to contribute, all of which are most welcome.
+
+ * If something is not clear then you have identified a gap in the documentation, please let us know by [raising a new issue](https://github.com/UCL/cathpy/issues/new) 
+ * If it looks like you should be able to do something that you can't then you've either identified a new feature request or a documentation gap - please let us know by [raising a new issue](https://github.com/UCL/cathpy/issues/new)
+ * If you have noticed some unexpected behaviour, you may have found a bug - please let us know by [raising a new issue](https://github.com/UCL/cathpy/issues/new)
+
+When you do raise an issue, it is extremely helpful if you first check that a similar issue has not already been registered. It would also be great if you can be as clear, concise and specific as possible. If you are reporting a potential bug, please try to provide steps that will allow us to reproduce the unexpected behaviour.
+
+If you accompany your issue with a Pull Request that actually solves the documentation / feature request / bug fix then you may well be eligible for doughnuts.
 
 ## Development
 
-If you are developing the code, then get access to the latest code and create a new branch:
+If you are developing, then this is the general recommended flow:
+
+Get access to the latest version of the code and create a new branch (with a descriptive summary of your new feature/bugfix):
 
 ```sh
 $ git clone git@github.com:UCL/cathpy.git
@@ -49,13 +62,15 @@ $ source venv/bin/activate
 $ pip install -e .
 ```
 
-Write your tests, make your changes then make sure all the tests still pass:
+Write your tests, make your changes then make sure your tests (and all the other tests) still pass:
 
 ```sh
+$ vim tests/my_new_feature_test.py
+$ vim cathpy/my_new_feature.py
 $ pytest
 ```
 
-Then push your changes back to GitHub and raise a pull request.
+Then push your changes back to GitHub and raise a pull request through the web pages.
 
 ```sh
 $ git push
@@ -85,19 +100,23 @@ internal use (within CATH), however it has been released as open source in case 
 This code base contains external tools that are not written and maintained by the authors
 of this project. If you use the results of these tools, please reference the relevant papers.
 
-*GroupSim*
+#### GroupSim
 
-Capra JA and Singh M. Characterization and Prediction of Residues Determining 
-Protein Functional Specificity. Bioinformatics, 24(13): 1473-1480, 2008.
+Characterization and Prediction of Residues Determining Protein Functional Specificity.
+**Capra JA and Singh M (2008).**<br>
+*Bioinformatics, 24(13): 1473-1480, 2008.*
 
-*Scorecons*
+#### Scorecons
 
-Valdar WSJ (2002). Scoring residue conservation. Proteins: Structure, Function, 
-and Genetics. 43(2): 227-241.
+Scoring residue conservation.
+**Valdar WSJ (2002)**<br>
+*Proteins: Structure, Function, and Genetics. 43(2): 227-241, 2002.*
 
 ## References
 
 The most recent paper describing the CATH protein structure database:
 
-Ian Sillitoe, et al (2018) CATH: expanding the horizons of structure-based functional annotations for genome sequences.
-Nucleic Acids Research, Volume 47, Issue D1, 08 January 2019, Pages D280–D284, https://doi.org/10.1093/nar/gky1097
+CATH: expanding the horizons of structure-based functional annotations for genome sequences.
+**Sillitoe I, et al (2018)**<br>
+*Nucleic Acids Research, Volume 47, Issue D1, 08 January 2019, Pages D280–D284, https://doi.org/10.1093/nar/gky1097*
+
