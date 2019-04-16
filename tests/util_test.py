@@ -6,12 +6,13 @@ import tempfile
 
 from .testutils import TestBase, log_title, log_level
 
-from cathpy import util, error as err
+from cathpy import error as err
+from cathpy.util import StructuralClusterMerger
 from cathpy.datafiles import ReleaseDir
-from cathpy.models import CathID
 from cathpy.align import Align
 from cathpy.version import CathVersion
 from cathpy import util
+from cathpy.error import OutOfBoundsError
 
 logger = logging.getLogger(__name__)
 
@@ -32,19 +33,6 @@ class TestUtil(TestBase):
         self.example_fasta_file = self.sc_file
         self.cath_release = ReleaseDir(self.cath_version, base_dir=self.data_dir)
 
-    def test_cath_id(self):
-        self.assertEqual(str(CathID("1")), "1")
-        self.assertEqual(str(CathID("1.10.8")), "1.10.8")
-        self.assertEqual(str(CathID("1.10.8.10.1.1.1.2.3")),
-                         "1.10.8.10.1.1.1.2.3")
-
-        self.assertEqual(CathID("1.10.8.10").sfam_id, "1.10.8.10")
-        self.assertEqual(CathID("1.10.8.10.1").sfam_id, "1.10.8.10")
-        with self.assertRaises(OutOfBoundsError) as err:
-            cath_id = CathID("1.10.8").sfam_id
-            self.assertRegex(err.exception, r'require depth',
-                             'sfam_id fails when depth < 4')
-
     @log_title
     def test_merge(self):
         tmp_fasta_file = tempfile.NamedTemporaryFile(
@@ -53,7 +41,7 @@ class TestUtil(TestBase):
             mode='w+', suffix='.sto', delete=False)
         logger.info("Creating SC merger...")
 
-        merger = util.StructuralClusterMerger(cath_version=self.cath_version, 
+        merger = StructuralClusterMerger(cath_version=self.cath_version, 
             sc_file=self.sc_file, 
             out_sto=tmp_sto_file.name, 
             out_fasta=tmp_fasta_file.name,
