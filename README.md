@@ -5,8 +5,7 @@
 [![Build Status](https://travis-ci.com/UCL/cathpy.svg?branch=master)](https://travis-ci.com/UCL/cathpy)
 
 `cathpy` is a Bioinformatics toolkit written in Python. It is developed and maintained by the
-[http://orengogroup.info/](Orengo Group) at [https://www.ucl.ac.uk/orengo-group/](UCL) and is used for maintaining the [http://www.cathdb.info](CATH protein structure database) (and associated research).
-
+[Orengo Group](http://orengogroup.info/) at [UCL](https://www.ucl.ac.uk/orengo-group/) and is used for maintaining the [CATH protein structure database](http://www.cathdb.info) (and associated research).
 
 
 ## Getting Started
