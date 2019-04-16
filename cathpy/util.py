@@ -175,9 +175,11 @@ class ScoreconsResult(object):
 class ScoreconsRunner(object):
     """Runs scorecons for a given alignment."""
 
-    def __init__(self, *, scorecons_path=SCORECONS_EXE):
+    def __init__(self, *, scorecons_path=SCORECONS_EXE, matrix_path=SCORECONS_MATRIX_FILE):
         self.scorecons_path = scorecons_path
-        LOG.info( "scorecons_path: {}".format(self.scorecons_path) )
+        self.matrix_path = matrix_path
+        LOG.debug( "scorecons.init: bin:{} matrix:{}".format(
+            self.scorecons_path, self.matrix_path))
 
     def run_alignment(self, alignment):
         """Runs scorecons on a given alignment."""
@@ -213,7 +215,7 @@ class ScoreconsRunner(object):
         aln.write_fasta(fasta_tmp_filename)
         return self.run_fasta(fasta_tmp_filename)
 
-    def run_fasta(self, fasta_file, matrix_file=SCORECONS_MATRIX_FILE):
+    def run_fasta(self, fasta_file):
         """
         Returns scorecons data (ScoreconsResult) for the provided FASTA file.
         
@@ -223,7 +225,11 @@ class ScoreconsRunner(object):
 
         tmp_scorecons_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.scorecons', delete=True)
 
-        scorecons_args = (self.scorecons_path, '-a', fasta_file, '-m', matrix_file, '-o', tmp_scorecons_file.name)
+        scorecons_args = (self.scorecons_path, 
+            '-a', fasta_file, 
+            '-m', self.matrix_path, 
+            '-o', tmp_scorecons_file.name)
+
         LOG.debug("running scorecons: sys: " + " ".join(scorecons_args))
 
         try:
@@ -266,7 +272,7 @@ class ScoreconsRunner(object):
 class FunfamFileFinder(object):
     """Finds a Funfam alignment file within a directory."""
 
-    grep_path = '/bin/grep'
+    grep_path = 'grep'
 
     def __init__(self, base_dir, *, ff_tmpl='__SFAM__-ff-__FF_NUM__.sto'):
         self.base_dir = base_dir
@@ -297,7 +303,7 @@ class FunfamFileFinder(object):
 
         # replace template placeholders with '*'
         glob_path = re.sub(r'__([A-Z_]+)__', '*', self.ff_tmpl)
-        grep_args = (self.grep_path, '--include', glob_path, '-l', '-P', 
+        grep_args = (self.grep_path, '--include', glob_path, '-l', 
             '^' + domain_id, '-R', self.base_dir)
         LOG.debug("search_by_domain_id: sys: " + " ".join(grep_args))
 
@@ -342,12 +348,14 @@ class StructuralClusterMerger(object):
         out_fasta: file to write merged alignment (FASTA)
         out_sto: file to write merged alignment (STOCKHOLM)
         ff_tmpl: template used to find the funfam alignment files
-
+        add_groupsim: add groupsim data (default: True)
+        add_scorecons: add scorecons data (default: True)
+        cath_release: specify custom release data directory
     """
 
     def __init__(self, *, cath_version, sc_file, ff_dir, out_fasta=None, 
         out_sto=None, ff_tmpl="__SFAM__-ff-__FF_NUM__.sto", 
-        add_groupsim=True, add_scorecons=True):
+        add_groupsim=True, add_scorecons=True, cath_release=None):
 
         if type(cath_version) is str:
             cath_version = CathVersion.new_from_string(cath_version)
@@ -362,11 +370,16 @@ class StructuralClusterMerger(object):
         self.add_groupsim = add_groupsim
         self.add_scorecons = add_scorecons
 
+        if not cath_release:
+            cath_release = datafiles.ReleaseDir(self.cath_version)
+
+        self.cath_release = cath_release
+
     def run(self):
 
         LOG.info("Running alignment merge")
 
-        cath_release = ReleaseDir(self.cath_version)
+        cath_release = self.cath_release
 
         # parse the structure-based alignment of representatives
         # eg /cath/data/v4_2_0/funfam/families/1.10.8.10/1.10.8.10__FF_SSG9__6.reps.fa
@@ -438,6 +451,7 @@ class StructuralClusterMerger(object):
             # get the chain correspondence file 
             rep_chain_id = sc_rep_acc[:5]
             gcf_file = cath_release.get_file('chaingcf', rep_chain_id)
+
             chain_corr = Correspondence.new_from_gcf(gcf_file)
             
             # TODO: get a subset that only corresponds to the domain (not chain)

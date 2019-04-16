@@ -6,12 +6,13 @@ import tempfile
 
 from .testutils import TestBase, log_title, log_level
 
-import cathpy.error as err
-from cathpy.models import CathID
+from cathpy import error as err
+from cathpy.util import StructuralClusterMerger
+from cathpy.datafiles import ReleaseDir
 from cathpy.align import Align
 from cathpy.version import CathVersion
-from cathpy.error import OutOfBoundsError
 from cathpy import util
+from cathpy.error import OutOfBoundsError
 
 logger = logging.getLogger(__name__)
 
@@ -30,19 +31,7 @@ class TestUtil(TestBase):
         self.ff_tmpl = '__SFAM__-ff-__FF_NUM__.reduced.sto'
         self.merge_sto_file = os.path.join(self.data_dir, 'merge.sto')
         self.example_fasta_file = self.sc_file
-
-    def test_cath_id(self):
-        self.assertEqual(str(CathID("1")), "1")
-        self.assertEqual(str(CathID("1.10.8")), "1.10.8")
-        self.assertEqual(str(CathID("1.10.8.10.1.1.1.2.3")),
-                         "1.10.8.10.1.1.1.2.3")
-
-        self.assertEqual(CathID("1.10.8.10").sfam_id, "1.10.8.10")
-        self.assertEqual(CathID("1.10.8.10.1").sfam_id, "1.10.8.10")
-        with self.assertRaises(OutOfBoundsError) as err:
-            cath_id = CathID("1.10.8").sfam_id
-            self.assertRegex(err.exception, r'require depth',
-                             'sfam_id fails when depth < 4')
+        self.cath_release = ReleaseDir(self.cath_version, base_dir=self.data_dir)
 
     @log_title
     def test_merge(self):
@@ -51,10 +40,15 @@ class TestUtil(TestBase):
         tmp_sto_file = tempfile.NamedTemporaryFile(
             mode='w+', suffix='.sto', delete=False)
         logger.info("Creating SC merger...")
-        merger = util.StructuralClusterMerger(cath_version=self.cath_version,
-                                              sc_file=self.sc_file,
-                                              out_sto=tmp_sto_file.name, out_fasta=tmp_fasta_file.name,
-                                              ff_dir=self.ff_dir, ff_tmpl=self.ff_tmpl)
+
+        merger = StructuralClusterMerger(cath_version=self.cath_version, 
+            sc_file=self.sc_file, 
+            out_sto=tmp_sto_file.name, 
+            out_fasta=tmp_fasta_file.name,
+            ff_dir=self.ff_dir, 
+            ff_tmpl=self.ff_tmpl,
+            cath_release=self.cath_release)
+
         logger.info("Merging SC alignment {}".format(self.sc_file))
         merge_aln = merger.run()
         self.assertEqual(merge_aln.count_sequences, 701)

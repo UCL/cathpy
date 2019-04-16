@@ -11,6 +11,7 @@ sc-alignments/
 .pytest_cache/
 .R*
 build/
+dist/
 .vscode/
 .coverage
 dist/
