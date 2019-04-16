@@ -12,3 +12,5 @@ sc-alignments/
 .R*
 build/
 .vscode/
+.coverage
+dist/
