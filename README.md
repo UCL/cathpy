@@ -1,7 +1,6 @@
 # cathpy
 
 [![Documentation Status](https://readthedocs.org/projects/cathpy/badge/?version=latest)](https://cathpy.readthedocs.io/en/latest/?badge=latest)
-
 [![Build Status](https://travis-ci.com/UCL/cathpy.svg?branch=master)](https://travis-ci.com/UCL/cathpy)
 
 `cathpy` is a Bioinformatics toolkit written in Python. It is developed and maintained by the
