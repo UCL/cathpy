@@ -369,6 +369,7 @@ class StructuralClusterMerger(object):
         self.wrap_width = None
         self.add_groupsim = add_groupsim
         self.add_scorecons = add_scorecons
+
         if not cath_release:
             cath_release = datafiles.ReleaseDir(self.cath_version)
 
@@ -379,7 +380,6 @@ class StructuralClusterMerger(object):
         LOG.info("Running alignment merge")
 
         cath_release = self.cath_release
-        cath_release = ReleaseDir(self.cath_version)
 
         # parse the structure-based alignment of representatives
         # eg /cath/data/v4_2_0/funfam/families/1.10.8.10/1.10.8.10__FF_SSG9__6.reps.fa
@@ -451,6 +451,7 @@ class StructuralClusterMerger(object):
             # get the chain correspondence file 
             rep_chain_id = sc_rep_acc[:5]
             gcf_file = cath_release.get_file('chaingcf', rep_chain_id)
+
             chain_corr = Correspondence.new_from_gcf(gcf_file)
             
             # TODO: get a subset that only corresponds to the domain (not chain)
