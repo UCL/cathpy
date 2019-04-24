@@ -1,11 +1,16 @@
 # Changelog
 
+## v0.1.6
+
+*Release date: 24/04/2019*
+
+* Make sure matrix data is included in package
+
 ## v0.1.5
 
 *Release date: 24/04/2019*
 
 * Added required matrix data for `scorecons` binary
-
 
 ## v0.1.4
 
