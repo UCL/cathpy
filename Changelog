@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.1.5
+
+*Release date: 24/04/2019*
+
+* Added required matrix data for `scorecons` binary
+
+
+## v0.1.4
+
+*Release date: 16/04/2019*
+
+* Added binaries to allow scripts to work on Mac (darwin) and Linux
+
 ## v0.1.1
 
 *Release date: 15/04/2019*
