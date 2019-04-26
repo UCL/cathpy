@@ -135,7 +135,7 @@ class ClusterID(object):
 
     @classmethod
     def new_from_file(cls, file):
-        """Parse a new ClusterID from a filename."""
+        """Parse a new :class:`ClusterID` from a filename."""
         cf = ClusterFile(file)
         cls(cf.sfam_id, cf.cluster_type, cf.cluster_num)
 
@@ -144,7 +144,7 @@ class ClusterID(object):
 
 
 class FunfamID(ClusterID):
-    """Object that represents a Funfam ID."""
+    """Object that represents a FunFam ID."""
 
     def __init__(self, sfam_id, cluster_num):
         super().__init__(sfam_id, 'FF', cluster_num)
@@ -154,8 +154,7 @@ class ClusterFile(object):
     """
     Object that represents a file relating to a CATH Cluster.
 
-    eg.
-
+    Example:
         /path/to/1.10.8.10-ff-1234.sto
 
     """
@@ -188,6 +187,9 @@ class ClusterFile(object):
 
     @property
     def cluster_id(self):
+        """
+        Returns the cluster id as a :class:`ClusterID` object
+        """
         ClusterID(self.sfam_id, self.cluster_type, self.cluster_num)
 
     @classmethod
@@ -262,6 +264,26 @@ class ScanHsp(object):
     def __init__(self, *, evalue, hit_start, hit_end, hit_string=None,
                  homology_string=None, length, query_start, query_end,
                  query_string=None, rank, score, **kwargs):
+        """Create a new :class:`ScanHsp` object.
+
+        Stores information about the High Scoring Pair
+        within a given :class:`ScanHit`.
+
+        Args:
+            hit_start (int): position of the hsp start for the hit
+            hit_end (int): position of the hsp end for the hit
+            hit_string (str): hit residues in the matching hsp
+            query_start (int): position of the hsp start for query
+            query_end (int): position of the hsp end for query
+            query_string
+            evalue (float): evalue of the hsp
+            homology_string (str): query  
+            length (int): length of the hsp
+            rank (int): the rank of this hsp
+            score (float): the bit score 
+
+        """
+
         self.evalue = evalue
         self.hit_start = hit_start
         self.hit_end = hit_end
@@ -276,10 +298,26 @@ class ScanHsp(object):
 
 
 class ScanHit(object):
-    """Object to store a hit from a sequence scan."""
+    """Object to store a hit from a sequence scan.
+
+    Each :class:`ScanResult` object (ie **query**),
+    contains one or more :class:`ScanHit` objects (ie **match**)
+
+    """
 
     def __init__(self, *, match_name, match_cath_id, match_description,
                  match_length, hsps, significance, data, **kwargs):
+        """Create a new :class:`ScanHit` object.
+
+        Args:
+            match_name (str): name of the match
+            match_cath_id (str): CATH superfamily id of the match
+            match_description (str): description of the match
+            match_length (str): number of residues in the match protein
+            hsps (dict|ScanHsp): array of :class:`ScanHsp` objects 
+            significance (float): significance score
+
+        """
         self.match_name = match_name
         self.match_cath_id = match_cath_id
         self.match_description = match_description
@@ -290,7 +328,7 @@ class ScanHit(object):
 
 
 class ScanResult(object):
-    """Object to store a result from a sequence scan."""
+    """Object to store a result from a sequence :class:`Scan`."""
 
     def __init__(self, *, query_name, hits, **kwargs):
         self.query_name = query_name
@@ -298,7 +336,12 @@ class ScanResult(object):
 
 
 class Scan(object):
-    """Object to store a sequence scan."""
+    """Object to store a sequence scan.
+
+    A scan can contain one or more :class:`ScanResult` objects
+    (eg **query**).
+
+    """
 
     def __init__(self, *, results, **kwargs):
         self.results = [ScanResult(**res) for res in results]
