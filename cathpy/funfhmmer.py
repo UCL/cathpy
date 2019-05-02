@@ -97,15 +97,16 @@ class CheckResponse(ResponseBase):
 class ResultResponse(ResponseBase):
     """Class that represents the response from FunFHMMER RESULTS request."""
 
-    def __init__(self, *, query_fasta, funfam_scan, cath_version, **kwargs):
+    def __init__(self, *, query_fasta, funfam_scan, funfam_resolved_scan, cath_version, **kwargs):
         self.query_fasta = query_fasta
         self.funfam_scan = Scan(**funfam_scan)
+        self.funfam_resolved_scan = Scan(**funfam_resolved_scan)
         self.cath_version = cath_version
 
         super().__init__(**kwargs)
 
     def as_json(self, *, pp=False):
-        """Returns the response as JSON formatter string."""
+        """Returns the Scan as JSON formatted string."""
 
         data = jsonpickle.encode(self)
         if pp:
@@ -113,30 +114,6 @@ class ResultResponse(ResponseBase):
 
         LOG.info("Serialized ResultResponse as JSON string (length:%s)", len(data))
         return data
-
-    def as_csv(self):
-        """Returns the result as CSV"""
-
-        result = self.funfam_scan.results[0]
-        out = ('# cath_version: {}\n'
-               '# funfam members uniq_ec_terms query_region match_region evalue score description\n'
-               ).format(self.cath_version)
-
-        for hit in result.hits:
-            ec_term_count = hit.data['ec_term_count'] or 0
-
-            for hsp in hit.hsps:
-                out += ' '.join([
-                    '{:<20}'.format(hit.match_name),
-                    '{:<5}'.format(hit.data['funfam_members']),
-                    '{:<5}'.format(ec_term_count),
-                    '{:>4}-{:<4}'.format(hsp.query_start, hsp.query_end),
-                    '{:>4}-{:<4}'.format(hsp.hit_start, hsp.hit_end),
-                    '{:<7.1e}'.format(hsp.evalue),
-                    '{:<5d}'.format(int(hsp.score)),
-                    '"{}"'.format(hit.match_description),
-                ]) + '\n'
-        return out
 
 
 class Client(ApiClientBase):

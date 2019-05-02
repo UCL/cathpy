@@ -5,6 +5,8 @@ Collection of classes used to model CATH data
 import logging
 import os
 import re
+import json
+import jsonpickle
 
 import cathpy.error as err
 
@@ -302,3 +304,39 @@ class Scan(object):
 
     def __init__(self, *, results, **kwargs):
         self.results = [ScanResult(**res) for res in results]
+
+    def as_json(self, *, pp=False):
+        """Returns the Scan as JSON formatted string."""
+
+        data = jsonpickle.encode(self)
+        if pp:
+            data = json.dumps(json.loads(data), indent=2, sort_keys=True)
+
+        LOG.info("Serialized Scan as JSON string (length:%s)", len(data))
+        return data
+
+    def as_tsv(self, *, header=True):
+        """Returns the Scan as CSV"""
+
+        result = self.results[0]
+
+        lines = []
+        if header:
+            headers = 'funfam members uniq_ec_terms query_region match_region evalue score description'.split()
+            lines.append("\t".join(headers))
+
+        for hit in result.hits:
+            ec_term_count = hit.data['ec_term_count'] or 0
+            for hsp in hit.hsps:
+                line = '\t'.join([
+                    '{}'.format(hit.match_name),
+                    '{}'.format(hit.data['funfam_members']),
+                    '{}'.format(ec_term_count),
+                    '{}-{}'.format(hsp.query_start, hsp.query_end),
+                    '{}-{}'.format(hsp.hit_start, hsp.hit_end),
+                    '{:.1e}'.format(hsp.evalue),
+                    '{:d}'.format(int(hsp.score)),
+                    '"{}"'.format(hit.match_description),
+                ])
+                lines.append(line)
+        return "".join([l + "\n" for l in lines])

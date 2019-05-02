@@ -29,6 +29,9 @@ parser.add_argument('--format', '-f', type=str, default='csv',
 parser.add_argument('--out', '-o', type=str, dest='out_file', required=False,
                     help='output file')
 
+parser.add_argument('--allhits', '-a', type=bool, dest='all_hits', action='store_true', default=False,
+                    help='show all hits (default: resolved hits)')
+
 parser.add_argument('--verbose', '-v', required=False, action='count', default=0,
                     help='more verbose logging')
 
@@ -48,10 +51,11 @@ if __name__ == '__main__':
 
     logger.info('Printing results...')
     results_out = ''
+    scan = results.funfam_scan if args.all_hits else results.funfam_resolved_scan
     if args.format == 'json':
-        results_out = results.as_json()
-    elif args.format == 'csv':
-        results_out = results.as_csv()
+        results_out = scan.as_json()
+    elif args.format == 'tsv':
+        results_out = scan.as_tsv()
     else:
         raise Exception('unknown format {}'.format(format))
 
