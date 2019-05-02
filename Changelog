@@ -2,7 +2,11 @@
 
 ## v0.1.6
 
-*Release date: 24/04/2019*
+*Release date: 02/05/2019*
+
+* funfhmmer:
+  * allow custom queues
+  * incorporate resolved scans
 
 * Make sure matrix data is included in package
 
