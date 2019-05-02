@@ -1,11 +1,10 @@
 """
-Access data files
+Provides access to the location of CATH data files
 """
 
 # core
 import logging
 import os
-import re
 
 from cathpy.version import CathVersion
 
@@ -29,7 +28,7 @@ class GcfFileType(GenericFileType):
 
 
 class AtomFastaFileType(GenericFileType):
-    """Represents a FASTA file type (registered as 'atomfasta')."""
+    """Represents a FASTA file type based on ATOM records (registered as 'atomfasta')."""
 
     type_id = 'atomfasta'
     path_parts = ['fasta']
@@ -37,7 +36,7 @@ class AtomFastaFileType(GenericFileType):
 
 
 class CombsFastaFileType(GenericFileType):
-    """Represents a FASTA file type (registered as 'combsfasta')."""
+    """Represents a FASTA file type based on COMBS mapping (registered as 'combsfasta')."""
 
     type_id = 'combsfasta'
     path_parts = ['fasta']
@@ -45,6 +44,9 @@ class CombsFastaFileType(GenericFileType):
 
 
 class FileTypes(object):
+    """
+    Provides convenient access to all the different file types
+    """
 
     _types = {}
     for cls in GenericFileType.__subclasses__():
@@ -52,6 +54,17 @@ class FileTypes(object):
 
     @classmethod
     def get(cls, file_type):
+        """
+        Returns the FileType class corresponding to the provided key.
+
+        Args:
+            file_type: index used to register the class 
+
+        Example:
+            FileTypes.get('combsfasta')
+            # CombsFastaFileType
+
+        """
         return cls._types.get(file_type)
 
 

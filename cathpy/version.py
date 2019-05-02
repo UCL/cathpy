@@ -1,5 +1,5 @@
 """
-cathpy.version - manipulating database / release versions
+Provides access to common functions related to CATH versions
 """
 
 # core

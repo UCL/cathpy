@@ -1,5 +1,5 @@
 """
-CATH FunFHMMER - tool for remote sequence search against CATH FunFams
+Search protein sequence remotely against CATH FunFams
 """
 
 import functools
@@ -17,8 +17,12 @@ from cathpy.models import Scan
 
 LOG = logging.getLogger(__name__)
 
+DEFAULT_HMMSCAN_QUEUE = 'hmmscan_api'
+
 
 def log_progress(_func=None, *, msg=None):
+    """Provides a generic method to log progress"""
+
     def decorator_log_success(func):
         @functools.wraps(func)
         def wrapper_decorator(*args, **kwargs):
@@ -78,7 +82,7 @@ class SubmitResponse(ResponseBase):
         try:
             self.task_id = kwargs.pop('task_id')
         except KeyError:
-            raise TypeError('Missing task_id parameter')
+            raise TypeError("Missing 'task_id' parameter")
 
         super().__init__(**kwargs)
 
@@ -124,7 +128,18 @@ class Client(ApiClientBase):
     Families (FunFams) in their protein sequence.
     """
 
-    def __init__(self, *, base_url='http://www.cathdb.info', sleep=2, retries=50, log=None):
+    def __init__(self, *, base_url='http://www.cathdb.info', queue=DEFAULT_HMMSCAN_QUEUE,
+                 sleep=2, retries=50, log=None):
+        """Create a new API client.
+
+        Args:
+            base_url (str): override the default base URL
+            queue (str): override the default queue
+            sleep (int): number of seconds to wait between checks
+            retries (int): number of times to check before quitting
+
+        """
+
         super().__init__(base_url)
         self.sleep = sleep
         self.submit_url = base_url + '/search/by_funfhmmer'
@@ -132,6 +147,7 @@ class Client(ApiClientBase):
         self.results_url = base_url + '/search/by_funfhmmer/results/:task_id'
         self.headers = {'accept': 'application/json'}
         self.retries = retries
+        self.queue = queue
         if not log:
             log = LOG
         self.log = log
@@ -149,7 +165,9 @@ class Client(ApiClientBase):
             with open(fasta_file, 'r') as f:
                 fasta = f.read()
 
-        task_id = self.submit(fasta).task_id
+        submit_response = self.submit(fasta, queue=self.queue)
+
+        task_id = submit_response.task_id
 
         @log_progress(msg="Waiting for job to complete ...")
         def wait_for_task(task_id, retries, sleep):
@@ -176,13 +194,16 @@ class Client(ApiClientBase):
         return response
 
     @log_progress(msg="Submitting sequence search")
-    def submit(self, fasta):
-        """Submits a protein sequence to be searched and returns a task_id."""
+    def submit(self, fasta, *, queue=None):
+        """Submits a protein sequence to be searched; returns :class:`SubmitResponse`."""
+
+        if not queue:
+            queue = self.queue
 
         try:
             self.log.info("submit.POST: %s", self.submit_url)
-            r = requests.post(self.submit_url, data={
-                              'fasta': fasta}, headers=self.headers)
+            data = {'fasta': fasta, 'queue': queue}
+            r = requests.post(self.submit_url, data=data, headers=self.headers)
         except:
             raise err.HttpError(
                 'http request failed: POST {}'.format(self.submit_url))
@@ -198,7 +219,7 @@ class Client(ApiClientBase):
         return SubmitResponse(**data)
 
     def check(self, task_id):
-        """Checks the status of an existing search."""
+        """Checks the status of an existing search, returns :class:`CheckResponse`"""
 
         url = self.check_url.replace(':task_id', task_id)
 
@@ -214,14 +235,14 @@ class Client(ApiClientBase):
 
     @log_progress(msg="Retrieving results")
     def results(self, task_id):
-        """Retrieves the results of a search."""
+        """Retrieves the results of a search, returns :class:`ResultResponse`"""
 
         url = self.results_url.replace(':task_id', task_id)
 
         self.log.info("results.GET: %s", url)
         r = requests.get(url, headers=self.headers)
         if not r.content:
-            LOG.warn(
+            LOG.warning(
                 "funfhmmer results returned empty content, assuming this means no results found")
             raise err.NoMatchesError
         else:

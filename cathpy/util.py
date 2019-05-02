@@ -33,7 +33,7 @@ SCORECONS_EXE = os.path.join(TOOL_DIR, PLATFORM_DIRNAME, 'scorecons')
 SCORECONS_MATRIX_FILE = os.path.join(DATA_DIR, 'PET91mod.mat2')
 
 class GroupsimResult(object):
-    """Represents the result from running the groupsim algorithm."""
+    """Represents the result from running the `groupsim` algorithm."""
 
     def __init__(self, *, scores = None):
         self.scores = scores
@@ -64,11 +64,12 @@ class GroupsimResult(object):
 
     @property
     def count_positions(self):
-        """Returns the number of positions in the groupsim result."""
+        """Returns the number of positions in the `groupsim` result."""
         return len(self.scores)
 
     @property
     def to_string(self):
+        """Returns the `groupsim` result as a string."""
         # normalise 0-1 to 0-9
         return "".join([str(int(s*9)) if s else '-' for s in self.scores])
 
@@ -87,7 +88,7 @@ class GroupsimRunner(object):
         self.python2path = python2path
 
     def run_alignment(self, alignment, *, column_gap=None, group_gap=None, mclachlan=False):
-        """Runs groupsim against a given alignment."""
+        """Runs `groupsim` against a given alignment."""
 
         # mclachan max score is 5: normalise to 0-1 before storing  
         maxscore = 5 if mclachlan else 1
@@ -144,13 +145,13 @@ class GroupsimRunner(object):
             p = Popen(groupsim_args, stdout=PIPE, stderr=PIPE, universal_newlines=True)
             groupsim_out, groupsim_err = p.communicate()
         except CalledProcessError as e:
-            LOG.error('CMD: {}\nCODE: {}\nOUTPUT: {}\nSTDERR: "{}"\nSTDOUT: "{}"\n'.format(
-                e.cmd, e.returncode, e.output, e.stderr, e.stdout))
+            LOG.error('CMD: %s\nCODE: %s\nOUTPUT: %s\nSTDERR: "%s"\nSTDOUT: "%s"\n',
+                e.cmd, e.returncode, e.output, e.stderr, e.stdout)
             raise e
         except:
-            raise err.FileNotFoundError("Encountered unexpected error running GroupSim: `{}`".format(
+            raise FileNotFoundError("Encountered unexpected error running GroupSim: `%s`",
                 " ".join(groupsim_args)
-            ))
+            )
 
         gs_io = io.StringIO(groupsim_out)
 
@@ -173,7 +174,7 @@ class ScoreconsResult(object):
 
 
 class ScoreconsRunner(object):
-    """Runs scorecons for a given alignment."""
+    """Runs `scorecons` for a given alignment."""
 
     def __init__(self, *, scorecons_path=SCORECONS_EXE, matrix_path=SCORECONS_MATRIX_FILE):
         self.scorecons_path = scorecons_path
@@ -182,7 +183,7 @@ class ScoreconsRunner(object):
             self.scorecons_path, self.matrix_path))
 
     def run_alignment(self, alignment):
-        """Runs scorecons on a given alignment."""
+        """Runs `scorecons` on a given alignment."""
 
         fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=False, suffix=".fa")
         fasta_tmp_filename = fasta_tmp.name
@@ -202,10 +203,13 @@ class ScoreconsRunner(object):
 
     def run_stockholm(self, sto_file):
         """
-        Returns scorecons data for the provided STOCKHOLM file.
+        Returns `scorecons` data for the provided STOCKHOLM file.
         
+        Args:
+            sto_file (str|file): alignment file in **Stockholm** format
+            
         Returns:
-            result (ScoreconsResult): scorecons result
+            ScoreconsResult: a scorecons result object
 
         """
 
@@ -217,10 +221,10 @@ class ScoreconsRunner(object):
 
     def run_fasta(self, fasta_file):
         """
-        Returns scorecons data (ScoreconsResult) for the provided FASTA file.
+        Returns scorecons data for the provided FASTA file.
         
         Returns:
-            result (ScoreconsResult): scorecons result
+            ScoreconsResult: scorecons result
         """
 
         tmp_scorecons_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.scorecons', delete=True)
@@ -270,7 +274,13 @@ class ScoreconsRunner(object):
         return sc_numbers
 
 class FunfamFileFinder(object):
-    """Finds a Funfam alignment file within a directory."""
+    """Finds a Funfam alignment file within a directory.
+
+    Args:
+        base_dir (str): path to the base directory
+        ff_tmpl (str): template to use when searching for files
+
+    """
 
     grep_path = 'grep'
 
@@ -342,15 +352,16 @@ class StructuralClusterMerger(object):
     Merges FunFams based on a structure-based alignment of representative sequences.
     
     Args:
-        cath_version: version of CATH
-        sc_file: structure-based alignment (`*.fa`) of funfam reps
-        ff_dir: path of the funfam alignments (`*.sto`) to merge
-        out_fasta: file to write merged alignment (FASTA)
-        out_sto: file to write merged alignment (STOCKHOLM)
-        ff_tmpl: template used to find the funfam alignment files
-        add_groupsim: add groupsim data (default: True)
-        add_scorecons: add scorecons data (default: True)
-        cath_release: specify custom release data directory
+        cath_version (str): version of CATH
+        sc_file (str): structure-based alignment (`*.fa`) of funfam reps
+        ff_dir (str): path of the funfam alignments (`*.sto`) to merge
+        out_fasta (str): file to write merged alignment (FASTA)
+        out_sto (str): file to write merged alignment (STOCKHOLM)
+        ff_tmpl (str): template used to find the funfam alignment files
+        add_groupsim (bool): add groupsim data (default: True)
+        add_scorecons (bool): add scorecons data (default: True)
+        cath_release (cathpy.datafiles.ReleaseDir): specify custom release data directory
+
     """
 
     def __init__(self, *, cath_version, sc_file, ff_dir, out_fasta=None, 
@@ -376,6 +387,7 @@ class StructuralClusterMerger(object):
         self.cath_release = cath_release
 
     def run(self):
+        """Runs the alignment merge."""
 
         LOG.info("Running alignment merge")
 
@@ -526,10 +538,10 @@ class AlignmentSummaryRunner(object):
     Provides a summary report for sequence alignment files.
     
     Args:
-        aln_dir: input alignment directory
-        aln_file: input alignment file 
-        suffix: filter alignments by suffix
-        skipempty: skip empty files    
+        aln_dir (str): input alignment directory
+        aln_file (str): input alignment file 
+        suffix (str): filter alignments by suffix
+        skipempty (bool): skip empty files    
     """
 
     def __init__(self, *, aln_dir=None, aln_file=None, suffix='.sto', skipempty=False):
@@ -566,6 +578,7 @@ class AlignmentSummaryRunner(object):
         return all_aln_files
 
     def run(self):
+        """Run the alignment summary"""
 
         print('{}'.format(" ".join(AlignmentSummary.headers())))
 

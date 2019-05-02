@@ -22,7 +22,11 @@ setup(
         'cathpy': 'cathpy',
     },
     package_data={
-        'cathpy': ['tools/GroupSim/*', 'tools/*/scorecons'],
+        'cathpy': [
+            'tools/GroupSim/*',
+            'tools/*/scorecons',
+            'tools/data/*',
+        ],
     },
     scripts=[
         'scripts/cath-funfhmmer-api',

@@ -1,5 +1,5 @@
 """
-cathpy.align - manipulating protein sequences and alignments
+Manipulate protein sequences and alignments
 """
 
 # core
