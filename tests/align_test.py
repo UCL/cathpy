@@ -16,6 +16,8 @@ class TestSequence(testutils.TestBase):
         self.stockholm_file = os.path.join(
             os.path.dirname(__file__), 'data', 'test.sto')
 
+        self.stockholm_gzip_file = self.stockholm_file + '.gz'
+
         self.fasta_file = tempfile.NamedTemporaryFile(mode='w+', delete=False)
 
         # removing gaps from alignments
@@ -161,6 +163,10 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
 
     def test_read_stockholm_file(self):
         aln = Align.new_from_stockholm(self.stockholm_file)
+        self.assertEqual(aln.count_sequences, 51)
+
+    def test_read_stockholm_gzip_file(self):
+        aln = Align.new_from_stockholm(self.stockholm_gzip_file)
         self.assertEqual(aln.count_sequences, 51)
 
     def test_read_fasta_str(self):

@@ -4,6 +4,7 @@ Manipulate protein sequences and alignments
 
 # core
 import io
+import gzip
 import logging
 import re
 import functools
@@ -778,8 +779,10 @@ class Align(object):
         if isinstance(file_or_string, str):
             if file_or_string[0] == '>':
                 _io = io.StringIO(file_or_string)
+            elif file_or_string.endswith('.gz'):
+                _io = gzip.open(file_or_string, 'rt')
             else:
-                _io = open(file_or_string)
+                _io = open(file_or_string, 'rt')
         elif isinstance(file_or_string, io.IOBase):
             _io = file_or_string
         else:
@@ -792,7 +795,7 @@ class Align(object):
     def new_from_stockholm(cls, sto_io, *, nowarnings=False):
         """Initialises an alignment object from a STOCKHOLM file / string / io"""
 
-        sto_io, sto_filename = __class__._get_io_from_file_or_string(sto_io) # pylint: disable=W0212
+        sto_io, sto_filename = cls._get_io_from_file_or_string(sto_io) # pylint: disable=W0212
 
         aln = cls()
         sto_header = sto_io.readline()
