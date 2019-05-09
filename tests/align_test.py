@@ -12,6 +12,77 @@ logger = logging.getLogger(__name__)
 
 class TestSequence(testutils.TestBase):
 
+    def test_create_sequence(self):
+        seq = Sequence('id1/23-123', '---AKGHP--GPKAPGPAK--')
+        self.assertEqual(seq.id, 'id1/23-123')
+        self.assertEqual(seq.accession, 'id1')
+        self.assertEqual(len(seq.segs), 1)
+        self.assertEqual(seq.segs[0].start, 23)
+        self.assertEqual(seq.segs[0].stop, 123)
+        self.assertEqual(seq.seq, '---AKGHP--GPKAPGPAK--')
+        self.assertEqual(seq.get_res_at_offset(0), '-')
+        self.assertEqual(seq.get_res_at_offset(3), 'A')
+        seq.insert_gap_at_offset(5)
+        self.assertEqual(seq.seq, '---AK-GHP--GPKAPGPAK--')
+        seq.insert_gap_at_offset(-3, gap_char='.')
+        self.assertEqual(seq.seq, '---AK-GHP--GPKAPGPA.K--')
+
+    def test_sequence_methods(self):
+        seq = Sequence('id1/23-123', '---AKGHP--GPKAPGPAK--')
+        self.assertEqual(seq.get_offset_at_seq_position(1),
+                         3)  # seq pos '1' 'A' -> offset '3'
+        self.assertEqual(seq.get_res_at_seq_position(2), 'K')
+        # offset 5 'G' -> seq pos 3 'AKG'
+        self.assertEqual(seq.get_seq_position_at_offset(5), 3)
+        self.assertEqual(seq.get_res_at_offset(5), 'G')
+
+    def test_sequence_lower_case(self):
+        seq = Sequence('id1/23-123', '---AKGHP--GPKAPGPAK--')
+        seq.lower_case_at_offset(6)
+        self.assertEqual(seq.seq, '---AKGhP--GPKAPGPAK--')
+
+    def test_create_segment(self):
+        seg = Segment(1, 10)
+        self.assertEqual(seg.start, 1)
+        self.assertEqual(seg.stop, 10)
+        self.assertEqual(str(seg), '1-10')
+
+    def test_split_hdr(self):
+        hdr = Sequence.split_hdr('domain|1cukA01/12-134_178-234')
+        self.assertEqual(hdr['id'], 'domain|1cukA01/12-134_178-234')
+        self.assertEqual(hdr['accession'], '1cukA01')
+        self.assertEqual(hdr['id_type'], 'domain')
+        self.assertIsInstance(hdr['segs'][0], Segment)
+        self.assertEqual(hdr['segs'][0].start, 12)
+        self.assertEqual(hdr['segs'][0].stop, 134)
+        self.assertIsInstance(hdr['segs'][1], Segment)
+        self.assertEqual(str(hdr['segs'][1]), '178-234')
+        self.assertEqual(hdr['id_ver'], None)
+
+    def test_apply_segments(self):
+        seq1str = 'AKGHP GPKAP GPAKK APHPP PAIIH PAPIL HADSA P'.replace(
+            ' ', '')
+        seq1 = Sequence('testid', seq1str)
+        self.assertEqual(seq1.id, 'testid')
+        self.assertEqual(len(seq1.seq), len(seq1str))
+
+        seq2 = seq1.apply_segments([Segment(3, 5)])
+        self.assertEqual(seq1.id, 'testid')
+        self.assertEqual(len(seq1.seq), len(seq1str))
+        self.assertEqual(seq2.id, 'testid/3-5')
+        self.assertEqual(seq2.seq, 'GHP')
+
+        seq3 = seq1.apply_segments(
+            [Segment(3, 10), Segment(15, 25)])
+
+        seq3str = ''.join(['GHPGPKAP', 'KAPHPPPAIIH'])
+        self.assertEqual(seq3.id, 'testid/3-10_15-25')
+        self.assertEqual(len(seq3.seq), 8+11)
+        self.assertEqual(seq3.seq, seq3str)
+
+
+class TestAlign(testutils.TestBase):
+
     def setUp(self):
         self.stockholm_file = os.path.join(
             os.path.dirname(__file__), 'data', 'test.sto')
@@ -81,9 +152,9 @@ AKG.AK.GH-PKA-..-APG..P--GP
 '''[1:]
 
         self.fasta_aln_after_merge2 = '''
->ref1  
+>ref1
 ..---...AK.GHP--.GP..KAPG..PAK--.
->ref2  
+>ref2
 ..CGC...AK.GH-PK.A-..-APG..P--GT.
 >src1.1
 ..---g..AGgG-P--.GPgkKAPGg--AK--.
@@ -101,53 +172,6 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
     def tearDown(self):
         pass
         # os.remove(self.fasta_file.name)
-
-    def test_create_sequence(self):
-        seq = Sequence('id1/23-123', '---AKGHP--GPKAPGPAK--')
-        self.assertEqual(seq.id, 'id1/23-123')
-        self.assertEqual(seq.accession, 'id1')
-        self.assertEqual(len(seq.segs), 1)
-        self.assertEqual(seq.segs[0].start, 23)
-        self.assertEqual(seq.segs[0].stop, 123)
-        self.assertEqual(seq.seq, '---AKGHP--GPKAPGPAK--')
-        self.assertEqual(seq.get_res_at_offset(0), '-')
-        self.assertEqual(seq.get_res_at_offset(3), 'A')
-        seq.insert_gap_at_offset(5)
-        self.assertEqual(seq.seq, '---AK-GHP--GPKAPGPAK--')
-        seq.insert_gap_at_offset(-3, gap_char='.')
-        self.assertEqual(seq.seq, '---AK-GHP--GPKAPGPA.K--')
-
-    def test_sequence_methods(self):
-        seq = Sequence('id1/23-123', '---AKGHP--GPKAPGPAK--')
-        self.assertEqual(seq.get_offset_at_seq_position(1),
-                         3)  # seq pos '1' 'A' -> offset '3'
-        self.assertEqual(seq.get_res_at_seq_position(2), 'K')
-        # offset 5 'G' -> seq pos 3 'AKG'
-        self.assertEqual(seq.get_seq_position_at_offset(5), 3)
-        self.assertEqual(seq.get_res_at_offset(5), 'G')
-
-    def test_sequence_lower_case(self):
-        seq = Sequence('id1/23-123', '---AKGHP--GPKAPGPAK--')
-        seq.lower_case_at_offset(6)
-        self.assertEqual(seq.seq, '---AKGhP--GPKAPGPAK--')
-
-    def test_create_segment(self):
-        seg = Segment(1, 10)
-        self.assertEqual(seg.start, 1)
-        self.assertEqual(seg.stop, 10)
-        self.assertEqual(str(seg), '1-10')
-
-    def test_split_hdr(self):
-        hdr = Sequence.split_hdr('domain|1cukA01/12-134_178-234')
-        self.assertEqual(hdr['id'], 'domain|1cukA01/12-134_178-234')
-        self.assertEqual(hdr['accession'], '1cukA01')
-        self.assertEqual(hdr['id_type'], 'domain')
-        self.assertIsInstance(hdr['segs'][0], Segment)
-        self.assertEqual(hdr['segs'][0].start, 12)
-        self.assertEqual(hdr['segs'][0].stop, 134)
-        self.assertIsInstance(hdr['segs'][1], Segment)
-        self.assertEqual(str(hdr['segs'][1]), '178-234')
-        self.assertEqual(hdr['id_ver'], None)
 
     def test_read_fasta_filename(self):
         aln = Align.new_from_fasta(self.fasta_file.name)
@@ -242,7 +266,7 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         with open(pir_tmp.name, 'r') as f:
             pir_expected = f.read()
 
-        #self.assertMultiLineEqual(self.pir_aln_ref, pir_expected)
+        # self.assertMultiLineEqual(self.pir_aln_ref, pir_expected)
         self.assertEqual(self.pir_aln_ref, pir_expected)
 
     def test_write_sto(self):
