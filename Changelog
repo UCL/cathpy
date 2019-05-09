@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.8
+
+*Release date: 09/05/2019*
+
+* align:
+  * handle `.gz` align files
+  * use start/stop (in params) rather than start/end 
+
+## v0.1.7
+
+*Release date: 02/05/2019*
+
 ## v0.1.6
 
 *Release date: 02/05/2019*
