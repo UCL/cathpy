@@ -334,7 +334,13 @@ class ScanResult(object):
 
     def __init__(self, *, query_name, hits, **kwargs):
         self.query_name = query_name
-        self.hits = [ScanHit(**hit) for hit in hits]
+        self._hits = [ScanHit(**hit) for hit in hits]
+
+    @property
+    def hits(self):
+        """Returns the :class:`ScanHit` objects."""
+
+        return self._hits
 
 
 class Scan(object):
