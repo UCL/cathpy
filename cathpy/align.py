@@ -333,13 +333,13 @@ class Sequence(object):
             residues[offset] = gap_char
             self._set_sequence("".join(residues))
 
-    def lower_case_at_offset(self, start, end=None):
+    def lower_case_at_offset(self, start, stop=None):
         """Lower case the residues in the given sequence window."""
-        if end is None:
-            end = start + 1
+        if stop is None:
+            stop = start + 1
 
         old_seq = self.seq
-        new_seq = old_seq[:start] + old_seq[start:end].lower() + old_seq[end:]
+        new_seq = old_seq[:start] + old_seq[start:stop].lower() + old_seq[stop:]
         self._set_sequence(new_seq)
 
     def set_all_gap_chars(self, gap_char='-'):
@@ -352,9 +352,9 @@ class Sequence(object):
         seqstr = re.sub(r'[a-z]', gap_char, self.seq)
         self._set_sequence(seqstr)
 
-    def slice_seq(self, start, end=None):
+    def slice_seq(self, start, stop=None):
         """Return a slice of this sequence."""
-        return self.seq[start:end]
+        return self.seq[start:stop]
 
     @staticmethod
     def _chunker(text_str, width):
@@ -373,6 +373,29 @@ class Sequence(object):
             return self.accession + '/' + segs_str
         else:
             return self.accession
+
+    def apply_segments(self, segs):
+        """
+        Returns a subset of the current sequence, chopped by the segments.
+
+        Args:
+            segs ([:class:`Segment`]): array of segments
+
+        Returns:
+            seq (:class:`Sequence`): sequence object 
+        """
+
+        if self.segs:
+            raise Exception("cannot apply segments as Sequence already has segments defined")
+        
+        seq = self.seq
+        acc = self.accession
+        startstops = [(seg.start, seg.stop) for seg in segs]
+        seq_range = '_'.join(['{}-{}'.format(ss[0],ss[1]) for ss in startstops])
+        seq_parts = [seq[ss[0]-1:ss[1]] for ss in startstops]
+
+        subseq = Sequence(hdr="{}/{}".format(acc, seq_range), seq="".join(seq_parts))
+        return subseq
 
     def __str__(self):
         """Represents this Sequence as a string."""
@@ -424,6 +447,7 @@ class Correspondence(object):
 
         Example format:
 
+        ```
             >gi|void|ref1
             A   1   5   A
             K   2   6   K
@@ -437,6 +461,7 @@ class Correspondence(object):
             P  10   *   *
             G  11   *   *
             ...
+        ```
         """
 
         if isinstance(gcf_io, str):
@@ -1084,14 +1109,14 @@ class Align(object):
         for s in self.seqs:
             s.set_gap_char_at_offset(offset, gap_char)
 
-    def lower_case_at_offset(self, start, end=None):
+    def lower_case_at_offset(self, start, stop=None):
         """Lower case all the residues in the given alignment window."""
         for s in self.seqs:
-            s.lower_case_at_offset(start, end)
+            s.lower_case_at_offset(start, stop)
 
-    def slice_seqs(self, start, end=None):
+    def slice_seqs(self, start, stop=None):
         """Return an array of Sequence objects from start to end."""
-        return [Sequence(s._hdr, s.slice_seq(start, end)) for s in self.seqs]
+        return [Sequence(s._hdr, s.slice_seq(start, stop)) for s in self.seqs]
 
     def merge_alignment(self, merge_aln, ref_seq_acc: str, 
                         ref_correspondence: Correspondence = None,
