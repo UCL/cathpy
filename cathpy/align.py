@@ -1046,9 +1046,18 @@ class Align(object):
         for seq in self.seqs:
             self.__seq_ids.add(seq.id)
 
-    def add_sequence(self, seq: Sequence):
-        """Add a sequence to this alignment."""
+    def add_sequence(self, seq:Sequence, *, offset:int=None):
+        """
+        Add a sequence to this alignment.
 
+        Args:
+            offset (int): the index in the list where the sequence should be added (default: append)
+        
+        """
+
+        if not offset:
+            offset = len(self.sequences)
+        
         if seq.id in self.__seq_ids:
             raise err.SeqIOError((
                 "Error: cannot add a sequence with id {}, "
@@ -1064,9 +1073,20 @@ class Align(object):
         else:
             self.__aln_positions = seq.length()
 
-        self.seqs.append(seq)
+        self.seqs.insert(offset, seq)
         self.__seq_ids.add(seq.id)
         return seq
+
+    def subset(self, ids, *, collapse_gaps=True):
+        """
+        Returns a subset of the alignment containing just the sequence ids
+        """
+
+        seqs = [self.find_seq_by_id(i) for i in ids]
+        new_align = Align(seqs=seqs)
+        if collapse_gaps:
+            new_align = new_align.remove_alignment_gaps()
+        return new_align
 
     def remove_sequence_by_id(self, seq_id: str):
         """Removes a sequence from the alignment."""
