@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.1.9
+
+*Release date: 16/05/2019*
+
+* minor improvements to Sequence and Alignment
+  * align.add_sequence() now accepts `offset`
+  * len(Sequence) works as expected
+  * Segment start/stop can be accessed with seg[0], seg[1]
+
 ## v0.1.8
 
 *Release date: 09/05/2019*
