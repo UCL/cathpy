@@ -404,6 +404,10 @@ class Sequence(object):
         """Represents this Sequence as a string."""
         return '{:<30} {}'.format(self.id, self.seq)
 
+    def __len__(self):
+        return len(self.seq)
+
+
 
 class Correspondence(object):
     """
