@@ -1117,7 +1117,7 @@ class Align(object):
                     #   aln_offset, seqs[seq_pos].id, seq_pos, res) )
                     new_seq_strings[seq_pos] += res
             else:
-                LOG.info("Removing complete gap from alignment offset: %s", aln_offset)
+                LOG.debug("Removing complete gap from alignment offset: %s", aln_offset)
 
         new_aln = Align()
         for seq_pos in range(len(new_seq_strings)):
