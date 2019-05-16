@@ -393,7 +393,7 @@ class Sequence(object):
         
         seq = self.seq
         acc = self.accession
-        startstops = [(seg.start, seg.stop) for seg in segs]
+        startstops = [(seg[0], seg[1]) for seg in segs]
         seq_range = '_'.join(['{}-{}'.format(ss[0],ss[1]) for ss in startstops])
         seq_parts = [seq[ss[0]-1:ss[1]] for ss in startstops]
 
