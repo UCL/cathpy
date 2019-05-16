@@ -322,7 +322,7 @@ class Sequence(object):
     def insert_gap_at_offset(self, offset, gap_char="-"):
         """Insert a gap into the current sequence at a given offset."""
         new_seq = self.seq[:offset] + gap_char + self.seq[offset:]
-        self._set_sequence(new_seq)
+        self.set_sequence(new_seq)
 
     def set_gap_char_at_offset(self, offset, gap_char):
         """
@@ -334,7 +334,7 @@ class Sequence(object):
         residues = list(self.seq)
         if Sequence.is_gap(residues[offset]) and residues[offset] != gap_char:
             residues[offset] = gap_char
-            self._set_sequence("".join(residues))
+            self.set_sequence("".join(residues))
 
     def lower_case_at_offset(self, start, stop=None):
         """Lower case the residues in the given sequence window."""
@@ -343,17 +343,17 @@ class Sequence(object):
 
         old_seq = self.seq
         new_seq = old_seq[:start] + old_seq[start:stop].lower() + old_seq[stop:]
-        self._set_sequence(new_seq)
+        self.set_sequence(new_seq)
 
     def set_all_gap_chars(self, gap_char='-'):
         """Sets all gap characters."""
         seqstr = re.sub(self.re_gap_chars, gap_char, self.seq)
-        self._set_sequence(seqstr)
+        self.set_sequence(seqstr)
 
     def set_lower_case_to_gap(self, gap_char='-'):
         """Set all lower-case characters to gap."""
         seqstr = re.sub(r'[a-z]', gap_char, self.seq)
-        self._set_sequence(seqstr)
+        self.set_sequence(seqstr)
 
     def slice_seq(self, start, stop=None):
         """Return a slice of this sequence."""
