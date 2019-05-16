@@ -185,7 +185,8 @@ class Sequence(object):
         seq = re.sub(self.re_gap_chars, '', self._seq)
         return seq
 
-    def _set_sequence(self, seq):
+    def set_sequence(self, seq):
+        """Sets the AA residues for this Sequence."""
         self._seq = seq
 
     def set_cluster_id(self, id_str):
