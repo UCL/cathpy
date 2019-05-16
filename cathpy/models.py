@@ -259,6 +259,10 @@ class Segment(object):
     def __repr__(self):
         return "Segment:{}-{}".format(self.start, self.stop)
 
+    def __getitem__(self, idx):
+        items = [self.start, self.stop]
+        return items[idx]
+
 
 class ScanHsp(object):
     """Object to store the High Scoring Pair (HSP) from a sequence scan."""
