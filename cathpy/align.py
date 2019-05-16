@@ -209,6 +209,8 @@ class Sequence(object):
         Returns:
             info (dict): header info
 
+        ::
+
             {
                 'id': 'domain|4_2_0|1cukA01/3-23_56-123',
                 'accession': '1cukA01',
@@ -380,7 +382,7 @@ class Sequence(object):
         Returns a subset of the current sequence, chopped by the segments.
 
         Args:
-            segs ([:class:`Segment`]): array of segments
+            segs ([]): [Segment] or [[START, STOP], ...]
 
         Returns:
             seq (:class:`Sequence`): sequence object 
@@ -448,7 +450,8 @@ class Correspondence(object):
 
         Example format:
 
-        ```
+        ::
+
             >gi|void|ref1
             A   1   5   A
             K   2   6   K
@@ -462,7 +465,7 @@ class Correspondence(object):
             P  10   *   *
             G  11   *   *
             ...
-        ```
+        
         """
 
         if isinstance(gcf_io, str):
@@ -622,6 +625,8 @@ class Correspondence(object):
         """Renders the current object as a GCF string.
 
         Example format:
+
+        ::
 
             >gi|void|ref1
             A   1   5   A
