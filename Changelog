@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.1.10
+
+*Release date: 21/05/2019*
+
+* stockholm parser can now process meta data in Pfam alignments
+* use `uid` rather than `id` in `cathpy.align`
+
 ## v0.1.9
 
 *Release date: 16/05/2019*
