@@ -7,14 +7,14 @@ from cathpy.align import Segment, Sequence, Align
 
 from . import testutils
 
-logger = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 class TestSequence(testutils.TestBase):
 
     def test_create_sequence(self):
         seq = Sequence('id1/23-123', '---AKGHP--GPKAPGPAK--')
-        self.assertEqual(seq.id, 'id1/23-123')
+        self.assertEqual(seq.uid, 'id1/23-123')
         self.assertEqual(seq.accession, 'id1')
         self.assertEqual(len(seq.segs), 1)
         self.assertEqual(seq.segs[0].start, 23)
@@ -63,20 +63,20 @@ class TestSequence(testutils.TestBase):
         seq1str = 'AKGHP GPKAP GPAKK APHPP PAIIH PAPIL HADSA P'.replace(
             ' ', '')
         seq1 = Sequence('testid', seq1str)
-        self.assertEqual(seq1.id, 'testid')
+        self.assertEqual(seq1.uid, 'testid')
         self.assertEqual(len(seq1.seq), len(seq1str))
 
         seq2 = seq1.apply_segments([Segment(3, 5)])
-        self.assertEqual(seq1.id, 'testid')
+        self.assertEqual(seq1.uid, 'testid')
         self.assertEqual(len(seq1.seq), len(seq1str))
-        self.assertEqual(seq2.id, 'testid/3-5')
+        self.assertEqual(seq2.uid, 'testid/3-5')
         self.assertEqual(seq2.seq, 'GHP')
 
         seq3 = seq1.apply_segments(
             [Segment(3, 10), Segment(15, 25)])
 
         seq3str = ''.join(['GHPGPKAP', 'KAPHPPPAIIH'])
-        self.assertEqual(seq3.id, 'testid/3-10_15-25')
+        self.assertEqual(seq3.uid, 'testid/3-10_15-25')
         self.assertEqual(len(seq3.seq), 8+11)
         self.assertEqual(seq3.seq, seq3str)
 
@@ -84,8 +84,9 @@ class TestSequence(testutils.TestBase):
 class TestAlign(testutils.TestBase):
 
     def setUp(self):
-        self.stockholm_file = os.path.join(
-            os.path.dirname(__file__), 'data', 'test.sto')
+        data_dir = os.path.join(os.path.dirname(__file__), 'data')
+        self.stockholm_file = os.path.join(data_dir, 'test.sto')
+        self.pfam_sto_file = os.path.join(data_dir, 'PF03770.sto')
 
         self.stockholm_gzip_file = self.stockholm_file + '.gz'
 
@@ -177,8 +178,8 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         aln = Align.new_from_fasta(self.fasta_file.name)
         self.assertEqual(aln.count_sequences, 2)
         seqs = aln.seqs
-        self.assertEqual(seqs[0].id, 'id1')
-        self.assertEqual(seqs[1].id, 'id2')
+        self.assertEqual(seqs[0].uid, 'id1')
+        self.assertEqual(seqs[1].uid, 'id2')
 
     def test_read_fasta_fileio(self):
         self.fasta_file.seek(0)
@@ -238,14 +239,14 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         expected_aln_after_merge1 = Align.new_from_fasta(
             self.fasta_aln_after_merge1)
         self.assertEqual(expected_aln_after_merge1.count_sequences, 4)
-        self.assertEqual([s.id for s in aln_ref.seqs], [
+        self.assertEqual([s.uid for s in aln_ref.seqs], [
             'ref1', 'ref2', 'src1.1', 'src1.2', ])
 
         aln_ref.merge_alignment(aln_merge2, 'ref2')
         expected_aln_after_merge2 = Align.new_from_fasta(
             self.fasta_aln_after_merge2)
         self.assertEqual(expected_aln_after_merge2.count_sequences, 6)
-        self.assertEqual([s.id for s in aln_ref.seqs], [
+        self.assertEqual([s.uid for s in aln_ref.seqs], [
             'ref1', 'ref2', 'src1.1', 'src1.2', 'src2.1', 'src2.2', ])
 
         sto_tmp = tempfile.NamedTemporaryFile(
@@ -276,15 +277,17 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
 
         aln = Align.new_from_stockholm(self.stockholm_file)
 
+        self.assertEqual(aln.uid, '1.10.8.10/FF/14534')
+
         # make sure we have parsed the meta data okay
         first_seq = aln.get_seq_at_offset(0)
         seq_meta = first_seq.meta
         self.assertEqual(seq_meta['AC'], 'Q96CS3')
         self.assertEqual(seq_meta['OS'], 'Homo sapiens')
         self.assertEqual(seq_meta['DE'], 'FAS-associated factor 2')
-        logger.info('first seq: %s', repr(vars(first_seq)))
+        LOG.info('first seq: %s', repr(vars(first_seq)))
 
-        logger.info('Writing out tmp STOCKHOLM file to %s', sto_out)
+        LOG.info('Writing out tmp STOCKHOLM file to %s', sto_out)
         aln.write_sto(sto_out)
 
         sto_expected = ''
@@ -298,6 +301,27 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
 
         self.maxDiff = None
         self.assertMultiLineEqual(sto_got, sto_expected)
+
+    def test_parse_pfam_stockholm(self):
+        aln = Align.new_from_stockholm(self.pfam_sto_file)
+        self.assertEqual(aln.count_sequences, 107)
+
+        #LOG.info("aln: %s", pprint.pformat(aln.__dict__))
+
+        self.assertEqual(aln.cath_version, None)
+        self.assertEqual(aln.dops_score, None)
+        self.assertEqual(aln.accession, 'PF03770.16')
+        self.assertRegex(aln.author, r'^Finn')
+
+        with self.assertRaises(AttributeError):
+            # make sure this is in meta, not object level attribute
+            self.assertRegex(
+                aln.source_seed, r'^Pfam-B')  # pylint: disable=no-member
+
+        self.assertRegex(aln.meta['source_seed'], r'^Pfam-B')
+        self.assertRegex(aln.meta['search_method'], r'^hmmsearch')
+
+        self.assertEqual(list(aln.seq_meta.keys()), ['SS_cons', 'seq_cons'])
 
 
 if __name__ == '__main__':

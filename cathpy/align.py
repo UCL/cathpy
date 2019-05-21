@@ -41,12 +41,12 @@ class Sequence(object):
                 self.meta[key] = val
 
     @property
-    def id(self):
-        """Returns the id for this Sequence"""
+    def uid(self):
+        """Returns the unique id for this Sequence"""
         return self._id
 
-    def set_id(self, _id):
-        """Sets the id of the current Sequence object"""
+    def set_uid(self, _id):
+        """Sets the unique id of the current Sequence object"""
         self._id = _id
 
     @property
@@ -290,7 +290,7 @@ class Sequence(object):
         """Return a string for this Sequence in FASTA format."""
 
         fasta_str = ""
-        fasta_str += '>' + self.id + '\n'
+        fasta_str += '>' + self.uid + '\n'
         if wrap_width:
             for line in Sequence._chunker(self.seq, wrap_width):
                 fasta_str += line + '\n'
@@ -302,7 +302,7 @@ class Sequence(object):
         """Return a string for this Sequence in PIR format."""
 
         pir_str = ""
-        pir_str += '>P1;{}\n'.format(self.id if not use_accession else self.accession)
+        pir_str += '>P1;{}\n'.format(self.uid if not use_accession else self.accession)
         desc = self.description or self.accession
         pir_str += desc + '\n'
 
@@ -371,11 +371,17 @@ class Sequence(object):
     @property
     def accession_and_seginfo(self):
         """Returns accession and segment info for this Sequence."""
-        segs_str = '_'.join(['-'.join([str(s.start), str(s.stop)]) for s in self.segs])
+        segs_str = self.seginfo
         if segs_str:
             return self.accession + '/' + segs_str
         else:
             return self.accession
+
+    @property
+    def seginfo(self):
+        """Returns the segment info for this Sequence."""
+        segs_str = '_'.join(['-'.join([str(s.start), str(s.stop)]) for s in self.segs])
+        return segs_str
 
     def apply_segments(self, segs):
         """
@@ -402,7 +408,7 @@ class Sequence(object):
 
     def __str__(self):
         """Represents this Sequence as a string."""
-        return '{:<30} {}'.format(self.id, self.seq)
+        return '{:<30} {}'.format(self.uid, self.seq)
 
     def __len__(self):
         return len(self.seq)
@@ -438,10 +444,11 @@ class Correspondence(object):
         super().__init__(**kwargs)
 
     @property
-    def id(self):
+    def uid(self):
+        """Returns the unique id of the current Correspondence object."""
         return self._id
 
-    def set_id(self, _id):
+    def set_uid(self, _id):
         """Sets the id of the current Correspondence object"""
         self._id = _id
 
@@ -576,7 +583,7 @@ class Correspondence(object):
     def atom_sequence(self):
         """Returns a Sequence corresponding to the ATOM records."""
 
-        _id = "atom|{}".format(self.id)
+        _id = "atom|{}".format(self.uid)
         res = [res.pdb_aa if res.pdb_label else Correspondence.FASTA_GAP_CHAR 
                for res in self.residues]
         return Sequence(_id, "".join(res))
@@ -585,7 +592,7 @@ class Correspondence(object):
     def seqres_sequence(self):
         """Returns a Sequence corresponding to the SEQRES records."""
 
-        _id = "seqres|{}".format(self.id)
+        _id = "seqres|{}".format(self.uid)
         res = [res.aa for res in self.residues]
         return Sequence(_id, "".join(res))
 
@@ -621,7 +628,7 @@ class Correspondence(object):
             else:
                 raise err.SeqIOError("unexpected error - shouldn't be able to reach this code")
 
-        corr = __class__(_id=self.id, residues=selected_residues)
+        corr = __class__(_id=self.uid, residues=selected_residues)
 
         return corr
 
@@ -687,42 +694,81 @@ class Align(object):
     MERGE_GAP_CHAR = '.'
 
     STO_META_TO_ATTR = [
-        ('ID', '_id'),
+        # required
+        ('ID', '_uid'),
+        ('AC', 'accession'),
         ('DE', 'description'),
+        ('AU', 'author'),
+        ('SE', 'meta.source_seed'),
+        ('SS', 'meta.source_structure'),
+        ('BM', 'meta.build_method'),
+        ('SM', 'meta.search_method'),
+        ('GA', 'meta.gathering_threshold'),
+        ('TC', 'meta.trusted_cutoff'),
+        ('NC', 'meta.noise_cutoff'),
         ('AC', 'accession'),
         ('TP', 'aln_type'),
-        ('DR', {
-            'CATH': 'cath_version',
-            'DOPS': 'dops_score', 
-        }),
         ('TC', 'min_bitscore'),
         ('SQ', None),
+        # optional
+        ('DC', 'meta.db_comment'),
+        ('DR', {
+            'CATH': 'cath_version',
+            'DOPS': 'dops_score',
+            'INTERPRO': 'interpro',
+        }),
+        ('RC', 'meta.ref_comment'),
+        ('RN', 'meta.ref_number'),
+        ('RM', 'meta.ref_medline'),
+        ('RT', 'meta.ref_title'),
+        ('RA', 'meta.ref_author'),
+        ('RL', 'meta.ref_location'),
+        ('PI', 'meta.prev_id'),
+        ('KW', 'meta.keywords'),
+        ('CC', 'meta.comment'),
+        ('NE', 'meta.pfam_accession'),
+        ('NL', 'meta.seq_location'),
+        ('WK', 'meta.wikipedia_link'),
+        ('CL', 'meta.pfam_clan'),
+        ('MB', 'meta.pfam_clan_membership'),
+        # trees
+        ('NH', 'tree_nhx'),
+        ('TN', 'tree_id'),
     ]
 
-    def __init__(self, seqs=None, *, _id=None, accession=None,
-                 description=None, aln_type=None, min_bitscore=None,
-                 cath_version=None, dops_score=None):
-        self.meta = {}
-        self._id = _id
+    def __init__(self, seqs=None, *, uid=None, accession=None, author=None,
+                 cath_version=None, dops_score=None, description=None,
+                 aln_type=None, min_bitscore=None, tree_nhx=None, tree_id=None):
+
+        self.meta = {} # per file meta data 
+        self.seq_meta = {} # consensus sequence-based meta data
         self.__seq_ids = set()
+
+        self._uid = uid
         self.accession = accession
+        self.author = author
         self.description = description
-        self.aln_type = aln_type
-        self.min_bitscore = min_bitscore
         self.cath_version = cath_version
         self.dops_score = dops_score
+        self.accession = accession
+        self.aln_type = aln_type
+        self.min_bitscore = min_bitscore
+        self.tree_nhx = tree_nhx
+        self.tree_id = tree_id
+
         self.seqs = seqs if seqs else []
         self.__aln_positions = 0
         self._merge_counter = 0
 
-    @property
-    def id(self):
-        """Returns the id of this Align object."""
-        return self._id
 
-    def set_id(self, _id):
+    @property
+    def uid(self):
+        """Returns the id of this Align object."""
+        return self._uid
+
+    def set_uid(self, uid):
         """Sets the id of this Align object."""
-        self._id = _id
+        self._uid = uid
 
     def _next_merge_id(self):
         self._merge_counter += 1
@@ -769,7 +815,7 @@ class Align(object):
 
     def find_seq_by_id(self, _id):
         """Returns the Sequence corresponding to the provided id."""
-        seqs_with_id = [seq for seq in self.seqs if seq.id == _id]
+        seqs_with_id = [seq for seq in self.seqs if seq.uid == _id]
         if len(seqs_with_id) > 1:
             raise err.SeqIOError("Found more than one ({}) sequence matching id '{}'".format(
                 len(seqs_with_id), _id))
@@ -830,7 +876,7 @@ class Align(object):
     def new_from_stockholm(cls, sto_io, *, nowarnings=False):
         """Initialises an alignment object from a STOCKHOLM file / string / io"""
 
-        sto_io, sto_filename = cls._get_io_from_file_or_string(sto_io) # pylint: disable=W0212
+        sto_io, sto_filename = cls._get_io_from_file_or_string(sto_io)
 
         aln = cls()
         sto_header = sto_io.readline()
@@ -838,8 +884,11 @@ class Align(object):
         assert sto_header.startswith('# STOCKHOLM 1.0')
 
         aln_meta = {}
+        aln_seq_meta = {}
         seq_meta_by_id = {}
         seq_aa_by_id = {}
+
+        aln_meta_unrecognised_features = {}
 
         gc_meta_to_attr = {meta: attr for (meta, attr) in cls.STO_META_TO_ATTR}
 
@@ -867,25 +916,31 @@ class Align(object):
 
                 attr = gc_meta_to_attr[feature]
                 if type(attr) is dict:
-                    key, value = per_file_ann.split(':')
-                    key = key.strip()
-                    value = value.strip()
-                    if key not in attr:
-                        raise err.ParseError((
-                            'encountered unexpected GF tag {}->{} in line {} "{}"'
-                            '(known tags: {})').format(
-                                feature, key, line_count, line, repr(attr)))
-                    attr = attr[key]
-                    per_file_ann = value
+                    key, val = re.compile(r'[;:]\s+').split(per_file_ann, maxsplit=1)
+                    
+                    per_file_ann = val
+                    if key in attr:
+                        attr = attr[key]
+                    else:
+                        LOG.warn('encountered unexpected GF tag %s->%s in line %s "%s" (known tags: %s)', 
+                            feature, key, line_count, line, repr(attr))
+                        if feature not in aln_meta_unrecognised_features:
+                            aln_meta_unrecognised_features[feature] = []
+                        aln_meta_unrecognised_features[feature].extend([per_file_ann])
+                        attr = None
 
                 if attr:
-                    LOG.debug('setting aln attr "%s" to "%s"', attr, per_file_ann)
-                    setattr(aln, attr, per_file_ann)
+                    if attr.startswith('meta.'):
+                        attr = attr[len('meta.'):]
+                        aln_meta[attr] = per_file_ann
+                    else:
+                        LOG.debug('setting aln attr "%s" to "%s"', attr, per_file_ann)
+                        setattr(aln, attr, per_file_ann)
 
             elif line.startswith('#=GC'):
                 try:
                     _, feature, per_col_ann = line.split(None, 2)
-                    aln_meta[feature] = per_col_ann
+                    aln_seq_meta[feature] = per_col_ann
                 except ValueError:
                     if not nowarnings:
                         LOG.warning('ignoring GC record with incorrect columns (%s:%s "%s")',
@@ -932,6 +987,9 @@ class Align(object):
 
         for key, val in aln_meta.items():
             aln.meta[key] = val
+
+        for key, val in aln_seq_meta.items():
+            aln.seq_meta[key] = val
 
         sto_io.close()
 
@@ -1044,7 +1102,7 @@ class Align(object):
     def _reindex_seq_ids(self):
         self.__seq_ids = set()
         for seq in self.seqs:
-            self.__seq_ids.add(seq.id)
+            self.__seq_ids.add(seq.uid)
 
     def add_sequence(self, seq:Sequence, *, offset:int=None):
         """
@@ -1058,23 +1116,23 @@ class Align(object):
         if not offset:
             offset = len(self.sequences)
         
-        if seq.id in self.__seq_ids:
+        if seq.uid in self.__seq_ids:
             raise err.SeqIOError((
                 "Error: cannot add a sequence with id {}, "
                 "since this alignment already has a sequence with that id. [{}]").format(
-                    seq.id, ",".join(self.__seq_ids)))
+                    seq.uid, ",".join(self.__seq_ids)))
 
         if self.aln_positions:
             if self.aln_positions != seq.length():
                 raise err.SeqIOError((
                     "Error: cannot add a sequence (id:{}) "
                     "with {} positions to an alignment with {} positions.").format(
-                        seq.id, seq.length(), self.aln_positions))
+                        seq.uid, seq.length(), self.aln_positions))
         else:
             self.__aln_positions = seq.length()
 
         self.seqs.insert(offset, seq)
-        self.__seq_ids.add(seq.id)
+        self.__seq_ids.add(seq.uid)
         return seq
 
     def subset(self, ids, *, collapse_gaps=True):
@@ -1092,7 +1150,7 @@ class Align(object):
         """Removes a sequence from the alignment."""
 
         for idx, seq in enumerate(self.seqs):
-            if seq.id == seq_id:
+            if seq.uid == seq_id:
                 LOG.info("Removing sequence with '{}' from alignment".format(seq_id))
                 del self.seqs[idx]
                 return seq
@@ -1114,7 +1172,7 @@ class Align(object):
                 for seq_pos in range(len(seqs)):
                     res = seqs[seq_pos].seq[aln_offset]
                     # print( "seq[{}:{}] pos:{} res:{}".format(
-                    #   aln_offset, seqs[seq_pos].id, seq_pos, res) )
+                    #   aln_offset, seqs[seq_pos].uid, seq_pos, res) )
                     new_seq_strings[seq_pos] += res
             else:
                 LOG.debug("Removing complete gap from alignment offset: %s", aln_offset)
@@ -1210,31 +1268,31 @@ class Align(object):
         ref_seq_in_merge = merge_aln.find_seq_by_accession(ref_seq_acc)
 
         if self_ref_id:
-            ref_seq_in_ref.set_id(self_ref_id)
+            ref_seq_in_ref.set_uid(self_ref_id)
 
         # if the merge_ref_id has been specified, or there is not a 1:1 correspondence
         # between reference sequence in the alignments, then the merged ref sequence
         # will be included in the final alignment. Otherwise it will be removed.
         if merge_ref_id:
-            ref_seq_in_merge.set_id(merge_ref_id)
+            ref_seq_in_merge.set_uid(merge_ref_id)
         else:
             ref_seq_in_merge.accession += '_merge'
             ref_id = ref_seq_in_merge.accession_and_seginfo
-            ref_seq_in_merge.set_id(ref_id)
+            ref_seq_in_merge.set_uid(ref_id)
             del ref_id
 
-        if ref_seq_in_ref.id is ref_seq_in_merge.id:
+        if ref_seq_in_ref.uid is ref_seq_in_merge.uid:
             raise err.DuplicateSequenceError((
                 'sequence in ref alignment [{}] cannot have the same id as '
                 'sequence in merge alignment [{}] (consider specifying self_ref_id'
-                'or merge_ref_id)').format(ref_seq_in_ref.id, ref_seq_in_merge.id))
+                'or merge_ref_id)').format(ref_seq_in_ref.uid, ref_seq_in_merge.uid))
 
         self._reindex_seq_ids()
         
         if ref_correspondence or merge_ref_id:
             merge_id_to_remove = None
         else:
-            merge_id_to_remove = ref_seq_in_merge.id
+            merge_id_to_remove = ref_seq_in_merge.uid
         
         if ref_correspondence is None:
             # fake a 1:1 correspondence for internal use
@@ -1356,13 +1414,13 @@ class Align(object):
                     merge_aln.set_gap_char_at_offset(merge_aln_pos, '.')
 
                     # IMPORTANT: do not increment merge_aln_pos
-                    ref_corr_pos  += 1
-                    ref_aln_pos   += 1
+                    ref_corr_pos += 1
+                    ref_aln_pos += 1
                     merge_aln_pos += 1
                     continue
 
-            ref_corr_pos  += 1
-            ref_aln_pos   += 1
+            ref_corr_pos += 1
+            ref_aln_pos += 1
             merge_aln_pos += 1
 
         LOG.info("FINISHED MERGE")
@@ -1397,7 +1455,7 @@ class Align(object):
             if original_seq.is_cath_domain:
                 seq = self.find_seq_by_accession(original_seq.accession)
             else:
-                seq = self.find_seq_by_id(original_seq.id)
+                seq = self.find_seq_by_id(original_seq.uid)
 
             # LOG.debug('Working on sequence: {}'.format(str(original_seq)))
 
@@ -1409,7 +1467,7 @@ class Align(object):
                 ref_merge_seqnum_to_seqpos[res.seq_num] = seq_pos
 
             if not seq:
-                raise err.SeqIOError("failed to find sequence with id '{}' in merge aln".format(seq.id))
+                raise err.SeqIOError("failed to find sequence with id '{}' in merge aln".format(seq.uid))
 
             for aln_offset in range(self.aln_positions):
 
@@ -1470,7 +1528,7 @@ class Align(object):
                             "                  {aln_pointer:>{aln_pos}}\n"
                             "(aln_offset={}, seq_pos(ref)={}, seq_num(merge)={}, seq_pos(merge)={}, ref_merge_offset={})"
                             ).format(
-                                merged_res_at_aln_offset, original_res, aln_offset, seq.id,
+                                merged_res_at_aln_offset, original_res, aln_offset, seq.uid,
                                 ref_correspondence.atom_sequence,
                                 ref_correspondence.seqres_sequence,
                                 ref_seq_in_ref.seq,
@@ -1498,7 +1556,7 @@ class Align(object):
             seqs_by_cluster_id[seq.cluster_id].extend([seq])
 
         for cluster_id in seqs_by_cluster_id:
-            seq_ids = ', '.join([s.id for s in seqs_by_cluster_id[cluster_id]])
+            seq_ids = ', '.join([s.uid for s in seqs_by_cluster_id[cluster_id]])
             LOG.debug("Cluster %s: %s", cluster_id, seq_ids)
 
         return merge_aln.seqs
@@ -1545,7 +1603,7 @@ class Align(object):
         # output alignment to tmp fasta file
         scons_result = scons.run_alignment(self)
         self.dops_score = scons_result.dops
-        self.meta['scorecons'] = scons_result.to_string
+        self.seq_meta['scorecons'] = scons_result.to_string
 
     def add_groupsim(self):
         """Add groupsim annotation to this alignment."""
@@ -1554,7 +1612,7 @@ class Align(object):
         LOG.info("Calculating GroupSim ...")
         # output alignment to tmp fasta file
         gs_result = gs.run_alignment(self)
-        self.meta['groupsim'] = gs_result.to_string
+        self.seq_meta['groupsim'] = gs_result.to_string
 
     def write_sto(self, sto_file, *, meta=None):
         """Write the alignment to a file in STOCKHOLM format."""
@@ -1562,7 +1620,7 @@ class Align(object):
         # putting these here to separate the data from the formatting
         sto_format = '1.0'
 
-        # allow meta keys to be provided in args, otherwise fill with the 
+        # allow meta keys to be provided in args, otherwise fill with the
         # appropriate alignment attributes
         aln_meta = {}
         if meta:
@@ -1571,7 +1629,7 @@ class Align(object):
 
         comment_pad = 0
         for seq in self.seqs:
-            comment_pad = max(comment_pad, len(seq.id) + 1)
+            comment_pad = max(comment_pad, len(seq.uid) + 1)
 
         seq_pad = comment_pad + 8
         gc_pad = seq_pad - 5
@@ -1597,7 +1655,7 @@ class Align(object):
             f.write('#=GR {:<{comment_pad}} {} {}\n'.format(seq_id, key, per_pos_str, comment_pad=comment_pad))
         
         def _SEQ(f, seq):
-            f.write('{:<{seq_pad}} {}\n'.format(seq.id, seq.seq, seq_pad=seq_pad))
+            f.write('{:<{seq_pad}} {}\n'.format(seq.uid, seq.seq, seq_pad=seq_pad))
 
         def _START(f):
             f.write('# STOCKHOLM {}\n'.format(sto_format))
@@ -1607,7 +1665,7 @@ class Align(object):
 
         with open(sto_file, 'w') as f:
             _START(f)
-            _GF(f, 'ID', aln_meta.get('ID', self.id))
+            _GF(f, 'ID', aln_meta.get('ID', self.uid))
             _GF(f, 'DE', aln_meta.get('DE', self.description))
             _GF(f, 'AC', aln_meta.get('AC', self.accession))
             _GF(f, 'TP', aln_meta.get('TP', self.aln_type))
@@ -1618,9 +1676,12 @@ class Align(object):
             if self.dops_score:
                 _GF(f, 'DR', 'DOPS: {:.3f}'.format(float(self.dops_score)))
 
+            for key, val in sorted(self.meta.items()):
+                _GF(f, key, val)
+
             for seq in self.seqs:
                 for key, val in seq.meta.items():
-                    _GS(f, seq.id, key, val)
+                    _GS(f, seq.uid, key, val)
 
             if self.min_bitscore:
                 _GF(f, 'TC', self.min_bitscore)
@@ -1630,7 +1691,7 @@ class Align(object):
             for seq in self.seqs:
                 _SEQ(f, seq)
 
-            for key, val in sorted(self.meta.items()):
+            for key, val in sorted(self.seq_meta.items()):
                 _GC(f, key, val)
 
             _END(f)

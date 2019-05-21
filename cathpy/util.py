@@ -113,10 +113,9 @@ class GroupsimRunner(object):
         aln_copy = alignment.copy()
         for seq in aln_copy.seqs:
             if not seq.cluster_id:
-                raise err.InvalidInputError("need to set_cluster_id() on alignment sequences before running groupsim: {}".format(
-                    seq.__dict__
-                ))
-            seq._id = '|'.join([seq._id, str(seq.cluster_id)])
+                raise err.InvalidInputError((
+                    "need to set_cluster_id() on alignment sequences before running groupsim: {}").format(seq.__dict__))
+            seq.set_uid('{}|{}'.format(seq.uid, str(seq.cluster_id)))
 
         source_ids = {s.cluster_id for s in aln_copy.seqs}
 
@@ -128,7 +127,7 @@ class GroupsimRunner(object):
 
         aln_copy.write_fasta(fasta_tmp_filename)
 
-        groupsim_args = [self.python2path, self.groupsim_path, 
+        groupsim_args = [self.python2path, self.groupsim_path,
             '-c', str(self.column_gap), '-g', str(self.group_gap)]
 
         if mclachlan:
@@ -139,19 +138,18 @@ class GroupsimRunner(object):
 
         groupsim_args = [str(a) for a in groupsim_args]
 
-        LOG.debug("running groupsim: sys: " + " ".join(groupsim_args))
+        LOG.debug("running groupsim: sys: %s", " ".join(groupsim_args))
 
         try:
             p = Popen(groupsim_args, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-            groupsim_out, groupsim_err = p.communicate()
+            groupsim_out, _ = p.communicate()
         except CalledProcessError as e:
             LOG.error('CMD: %s\nCODE: %s\nOUTPUT: %s\nSTDERR: "%s"\nSTDOUT: "%s"\n',
-                e.cmd, e.returncode, e.output, e.stderr, e.stdout)
+                      e.cmd, e.returncode, e.output, e.stderr, e.stdout)
             raise e
         except:
-            raise FileNotFoundError("Encountered unexpected error running GroupSim: `%s`",
-                " ".join(groupsim_args)
-            )
+            raise FileNotFoundError("Encountered unexpected error running GroupSim: `{}`".format(
+                " ".join(groupsim_args)))
 
         gs_io = io.StringIO(groupsim_out)
 
@@ -179,8 +177,7 @@ class ScoreconsRunner(object):
     def __init__(self, *, scorecons_path=SCORECONS_EXE, matrix_path=SCORECONS_MATRIX_FILE):
         self.scorecons_path = scorecons_path
         self.matrix_path = matrix_path
-        LOG.debug( "scorecons.init: bin:{} matrix:{}".format(
-            self.scorecons_path, self.matrix_path))
+        LOG.debug( "scorecons.init: bin:%s matrix:%s", self.scorecons_path, self.matrix_path)
 
     def run_alignment(self, alignment):
         """Runs `scorecons` on a given alignment."""
@@ -241,11 +238,11 @@ class ScoreconsRunner(object):
             scorecons_out, scorecons_err = p.communicate()
 
         except subprocess.CalledProcessError as e:
-            LOG.error('CMD: {}\nCODE: {}\nOUTPUT: {}\nSTDERR: "{}"\nSTDOUT: "{}"\n'.format(
-                e.cmd, e.returncode, e.output, e.stderr, e.stdout))
+            LOG.error('CMD: %s\nCODE: %s\nOUTPUT: %s\nSTDERR: "%s"\nSTDOUT: "%s"\n',
+                e.cmd, e.returncode, e.output, e.stderr, e.stdout)
             raise e
         except:
-            raise err.FileNotFoundError("Encountered error running scorecons: `{}`".format(
+            raise FileNotFoundError("Encountered error running scorecons: `{}`".format(
                 " ".join(scorecons_args)
             ))
 
@@ -412,7 +409,7 @@ class StructuralClusterMerger(object):
         LOG.info(" ... found {} representatives".format(sc_aln.count_sequences))
 
         cluster_id = '-'.join([sfam_id, cluster_type, sc_num])
-        sc_aln.set_id(cluster_id)
+        sc_aln.set_uid(cluster_id)
         sc_aln.accession = cluster_id
         sc_aln.aln_type = cluster_type
         sc_aln.description = '{}, Structural Cluster ({}) {}'.format(sfam_id, cluster_type, sc_num)
@@ -460,12 +457,12 @@ class StructuralClusterMerger(object):
             LOG.debug('SC REP (SC): {}'.format(sc_rep_in_sc))
             LOG.debug('SC REP (FF): {}'.format(sc_rep_in_ff))
 
-            # get the chain correspondence file 
+            # get the chain correspondence file
             rep_chain_id = sc_rep_acc[:5]
             gcf_file = cath_release.get_file('chaingcf', rep_chain_id)
 
             chain_corr = Correspondence.new_from_gcf(gcf_file)
-            
+
             # TODO: get a subset that only corresponds to the domain (not chain)
             seqres_segments = sc_rep_in_ff.segs
             LOG.warning("TODO: this code currently assumes that the start-stop information "

@@ -1,7 +1,4 @@
 import logging
-import os
-import re
-import tempfile
 import unittest
 
 from cathpy.align import Align, Sequence, Segment, Correspondence
@@ -110,7 +107,7 @@ ghCHC.fsAK.HP-PK.A-..-AHGP.....--GPa
         gcf = Correspondence.new_from_gcf(self.gcf_ref1)
         self.assertEqual(gcf.seqres_length, 14)
         self.assertEqual(gcf.atom_length, 11)
-        self.assertEqual(gcf.id, 'ref1')
+        self.assertEqual(gcf.uid, 'ref1')
         gcf_as_fasta = gcf.to_fasta()
         self.assertEqual(gcf_as_fasta, self.gcf_ref1_as_fasta)
 
@@ -191,7 +188,7 @@ ghCHC.fsAK.HP-PK.A-..-AHGP.....--GPa
 
         aln_ref.merge_alignment(aln_merge1, 'ref1', gcf)
         aln_after_merge1 = Align.new_from_fasta(self.aln_after_merge1)
-        self.assertIn('ref1_merge', [s.id for s in aln_ref.seqs])
+        self.assertIn('ref1_merge', [s.uid for s in aln_ref.seqs])
         #LOG.info("aln_after_merge1:\n%s", aln_ref.to_fasta())
         self.assertEqual(aln_ref.to_fasta(), aln_after_merge1.to_fasta())
 
