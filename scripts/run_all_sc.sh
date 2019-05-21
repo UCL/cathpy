@@ -7,7 +7,10 @@
 # You probably want to check the variables below, then run this with 
 # something like:
 #
-# nohup scripts/run_all_sc.sh > run_all_sc.out >& run_all_sc.err &
+#   nohup scripts/run_all_sc.sh sfam.list > run_all_sc.out >& run_all_sc.err &
+#
+# (where 'sfam.list' is a list of all sfams you want to include)
+
 
 if [[ $# -eq 0 ]]; then
 	echo "usage: $0 sfam.list"
