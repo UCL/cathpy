@@ -326,14 +326,14 @@ class FunfamFileFinder(object):
                     e.cmd, e.returncode, e.output, e.stderr, e.stdout))
                 raise
         except:
-            raise err.FileNotFoundError("Encountered error trying to find domain_id '{}' (grep: `{}`)".format(
+            raise FileNotFoundError("Encountered error trying to find domain_id '{}' (grep: `{}`)".format(
                 domain_id, " ".join(grep_args)
             ))
 
         ff_files = grep_out.splitlines()
 
         if len(ff_files) == 0:
-            raise err.FileNotFoundError("Failed to find FunFam alignment for domain_id '{}' (grep: `{}`)".format(
+            raise FileNotFoundError("Failed to find FunFam alignment for domain_id '{}' (grep: `{}`)".format(
                 domain_id, " ".join(grep_args)))
         elif len(ff_files) > 1:
             raise err.GeneralError("Found more than one FunFam file ({}) containing the domain id '{}' (grep: `{}`):\n{}\n".format(
@@ -379,7 +379,7 @@ class StructuralClusterMerger(object):
         self.add_scorecons = add_scorecons
 
         if not cath_release:
-            cath_release = datafiles.ReleaseDir(self.cath_version)
+            cath_release = ReleaseDir(self.cath_version)
 
         self.cath_release = cath_release
 
