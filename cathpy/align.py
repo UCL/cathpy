@@ -690,6 +690,18 @@ class Correspondence(object):
     def __repr__(self):
         return self.to_fasta()
 
+
+class AlignMetaSummary(object):
+
+    def __init__(self, *, seq_count, ec_term_counts=None, go_term_counts=None,
+        cath_domain_count=0, dops_score=None, organism_newick=None):
+        self.seq_count = seq_count
+        self.ec_term_counts = ec_term_counts
+        self.go_term_counts = go_term_counts
+        self.cath_domain_count = cath_domain_count
+        self.dops_score = dops_score
+        self.organism_newick = organism_newick
+
 class Align(object):
     """Object representing a protein sequence alignment."""
 
@@ -1766,7 +1778,6 @@ class Align(object):
                     setattr(parent_node, 'sequence_count', 0)
                 node.sequence_count += 1
 
-
         taxon_namespace = dendropy.TaxonNamespace(all_taxon_terms)
         tree.taxon_namespace = taxon_namespace
 
@@ -1776,18 +1787,24 @@ class Align(object):
             node.label = "{} ({})".format(node.label, node.sequence_count) 
 
         tree.seed_node.label = "ROOT ({})".format(self.count_sequences)
-
+        
         # LOG.info("tree:\n{}".format(tree.as_ascii_plot(show_internal_node_labels=True)))
         # LOG.info("newick: {}".format(tree.as_string(schema="newick")))
 
-        return {
-            "ec_term_counts": uniq_ec_counts,
-            "go_term_counts": uniq_go_counts,
-            "cath_domain_count": cath_domain_count,
-            "seq_count": self.count_sequences,
-            "dops_score": float(self.dops_score),
-            "newick": tree.as_string(schema="newick").strip(),
-        }
+        organism_newick = tree.as_string(schema="newick").strip()
+
+        uniq_ec_counts = uniq_ec_counts if uniq_ec_counts else None
+        uniq_go_counts = uniq_go_counts if uniq_go_counts else None
+
+        return AlignMetaSummary(
+            ec_term_counts=uniq_ec_counts,
+            go_term_counts=uniq_go_counts,
+            cath_domain_count=cath_domain_count,
+            seq_count=self.count_sequences,
+            dops_score=float(self.dops_score),
+            organism_newick=organism_newick,
+        )
 
     def __str__(self):
         return "\n".join([str(seq) for seq in self.seqs])
+
