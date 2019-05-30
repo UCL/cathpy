@@ -9,6 +9,9 @@ import logging
 import re
 import functools
 
+# pip
+import dendropy
+
 # local
 from cathpy import error as err
 from cathpy.tests import is_valid_domain_id
@@ -922,7 +925,7 @@ class Align(object):
                     if key in attr:
                         attr = attr[key]
                     else:
-                        LOG.warn('encountered unexpected GF tag %s->%s in line %s "%s" (known tags: %s)', 
+                        LOG.warning('encountered unexpected GF tag %s->%s in line %s "%s" (known tags: %s)', 
                             feature, key, line_count, line, repr(attr))
                         if feature not in aln_meta_unrecognised_features:
                             aln_meta_unrecognised_features[feature] = []
@@ -1695,6 +1698,96 @@ class Align(object):
                 _GC(f, key, val)
 
             _END(f)
+
+    def get_meta_summary(self):
+        """
+        Returns summary of information about meta data
+
+        This makes some assumptions about the formatting of certain `GS DR` records in
+        stockholm files.
+
+        """
+        uniq_go_counts = {}
+        uniq_ec_counts = {}
+        cath_domain_count = 0
+        nodes_by_id = {}
+
+        tree = dendropy.Tree()
+        nodes_by_id['ROOT'] = tree.seed_node
+        all_taxon_terms = set()
+
+        for seq in self.seqs:
+            go_terms = []
+            ec_terms = []
+            org_terms = []
+            if seq.is_cath_domain:
+                cath_domain_count += 1
+            if 'DR_GO' in seq.meta:
+                go_terms = list(filter(None, 
+                    [s.strip() for s in seq.meta['DR_GO'].split(';')]))
+            if 'DR_EC' in seq.meta:
+                ec_terms = list(filter(None,
+                    [s.strip() for s in seq.meta['DR_EC'].split(';')]))
+            if 'DR_ORG' in seq.meta:
+                org_terms = list(filter(None,
+                    [s.strip() for s in seq.meta['DR_ORG'].split(';')]))
+            
+            for go_term in go_terms:
+                if go_term not in uniq_go_counts:
+                    uniq_go_counts[go_term] = 0
+                uniq_go_counts[go_term] += 1
+
+            for ec_term in ec_terms:
+                if ec_term not in uniq_ec_counts:
+                    uniq_ec_counts[ec_term] = 0
+                uniq_ec_counts[ec_term] += 1
+
+            for org_term in org_terms:
+                all_taxon_terms.add(org_term)
+
+            for idx in range(len(org_terms)-1, 0, -1):
+                org_term = org_terms[idx]
+                parent_org_term = org_terms[idx-1] if idx > 1 else 'ROOT'
+                
+                node_id = '/'.join(org_terms[:idx])
+                if node_id not in nodes_by_id:
+                    nodes_by_id[node_id] = dendropy.Node(label=org_term)
+                node = nodes_by_id[node_id]
+
+                parent_node_id = '/'.join(org_terms[:idx-1]) if idx > 1 else 'ROOT'
+                if parent_node_id not in nodes_by_id:
+                    nodes_by_id[parent_node_id] = dendropy.Node(label=parent_org_term)
+                parent_node = nodes_by_id[parent_node_id]
+                parent_node.add_child(node)
+
+                if not hasattr(node, 'sequence_count'):
+                    setattr(node, 'sequence_count', 0)
+                if not hasattr(parent_node, 'sequence_count'):
+                    setattr(parent_node, 'sequence_count', 0)
+                node.sequence_count += 1
+
+
+        taxon_namespace = dendropy.TaxonNamespace(all_taxon_terms)
+        tree.taxon_namespace = taxon_namespace
+
+        for node_id, node in nodes_by_id.items():
+            taxon_id = node_id.split('/')[-1]
+            node.taxon = taxon_namespace.get_taxon(taxon_id)
+            node.label = "{} ({})".format(node.label, node.sequence_count) 
+
+        tree.seed_node.label = "ROOT ({})".format(self.count_sequences)
+
+        # LOG.info("tree:\n{}".format(tree.as_ascii_plot(show_internal_node_labels=True)))
+        # LOG.info("newick: {}".format(tree.as_string(schema="newick")))
+
+        return {
+            "ec_term_counts": uniq_ec_counts,
+            "go_term_counts": uniq_go_counts,
+            "cath_domain_count": cath_domain_count,
+            "seq_count": self.count_sequences,
+            "dops_score": float(self.dops_score),
+            "newick": tree.as_string(schema="newick").strip(),
+        }
 
     def __str__(self):
         return "\n".join([str(seq) for seq in self.seqs])

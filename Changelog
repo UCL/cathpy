@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.11
+
+*Release date: 30/05/2019*
+
+* generate summary of alignment meta data `align.get_meta_summary`
+
 ## v0.1.10
 
 *Release date: 21/05/2019*

@@ -38,6 +38,7 @@ setup(
         'requests',
         'jsonpickle',
         'tqdm',
+        'dendropy',
     ],
     classifiers=(
         "Programming Language :: Python :: 3",
