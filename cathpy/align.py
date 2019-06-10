@@ -873,7 +873,7 @@ class Align(object):
 
         filename = str(file_or_string)
         if isinstance(file_or_string, str):
-            if file_or_string[0] == '>':
+            if file_or_string[0] in ('>', '#'): # fasta or stockholm
                 _io = io.StringIO(file_or_string)
             elif file_or_string.endswith('.gz'):
                 _io = gzip.open(file_or_string, 'rt')
