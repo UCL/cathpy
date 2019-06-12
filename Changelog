@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.13
+
+*Release date: 12/06/2019*
+
+* allow for null results from funfhmmer scan
+
 ## v0.1.12
 
 *Release date: 30/05/2019*
