@@ -101,12 +101,18 @@ class CheckResponse(ResponseBase):
 class ResultResponse(ResponseBase):
     """Class that represents the response from FunFHMMER RESULTS request."""
 
-    def __init__(self, *, query_fasta, funfam_scan, funfam_resolved_scan, cath_version, **kwargs):
+    def __init__(self, *, query_fasta, cath_version, funfam_scan=None, funfam_resolved_scan=None, **kwargs):
         self.query_fasta = query_fasta
-        self.funfam_scan = Scan(**funfam_scan)
-        self.funfam_resolved_scan = Scan(**funfam_resolved_scan)
         self.cath_version = cath_version
 
+        if funfam_scan and not isinstance(funfam_scan, Scan):
+            funfam_scan = Scan(**funfam_scan)
+        self.funfam_scan = funfam_scan
+
+        if funfam_resolved_scan and not isinstance(funfam_resolved_scan, Scan):
+            funfam_resolved_scan = Scan(**funfam_resolved_scan)
+        self.funfam_resolved_scan = funfam_resolved_scan
+        
         super().__init__(**kwargs)
 
     def as_json(self, *, pp=False):
