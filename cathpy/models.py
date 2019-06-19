@@ -117,7 +117,7 @@ class CathID(object):
     @property
     def cath_id(self):
         """Returns the CATH ID as a string."""
-        return str(self.cath_id)
+        return str(self)
 
     def cath_id_to_depth(self, depth):
         """Returns the CATH ID as a string."""
