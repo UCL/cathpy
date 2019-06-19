@@ -1,0 +1,374 @@
+"""
+Parse CATH Release files
+"""
+
+# core
+import logging
+import re
+
+import cathpy.error as err
+from cathpy.models import CathID
+
+LOG = logging.getLogger(__name__)
+
+
+class HasCathIDMixin(object):
+    """
+    Mixin for classes that contain a CATH ID
+
+    Usage:
+    ::
+        class MyClass(HasCathIDMixin, object):
+            def __init__(self, *, cath_id, **kwargs):
+                super(MyClass, self).super(cath_id=cath_id)
+
+    Provides:
+    ::
+        self.cath_id
+        self.cath_id_depth
+        self.sfam_id
+        self.cath_id_to_depth(n)
+
+    """
+
+    def __init__(self, *, cath_id, **kwargs):
+        self._cath_id = CathID(cath_id)
+
+    @property
+    def cath_id(self):
+        """
+        Returns the full CATH ID
+        """
+        return self._cath_id.cath_id
+
+    @property
+    def cath_id_depth(self):
+        """
+        Returns the depth of the CATH ID (eg '1.10.8' = 3)
+        """
+        return self._cath_id.depth
+
+    @property
+    def sfam_id(self):
+        """
+        Returns the Superfamily ID of the CATH ID 
+        """
+        return self._cath_id.cath_id_to_depth(4)
+
+    def cath_id_to_depth(self, depth):
+        """
+        Returns the CATH ID to a given depth
+        """
+        return self._cath_id.cath_id_to_depth(depth)
+
+
+class BaseReleaseFileList(object):
+    """
+    Base class for CATH release lists
+    """
+
+    entry_cls = None
+
+    def __init__(self, *, entries=None):
+        self._entries = entries
+
+    def __getitem__(self, key):
+        return self._entries[key]
+
+    def __setitem__(self, key, value):
+        self._entries[key] = value
+
+    def __iter__(self):
+        return iter(self._entries)
+
+    @property
+    def entries(self):
+        """
+        Returns the entries
+        """
+        return self._entries
+
+    @classmethod
+    def new_from_file(cls, filename):
+        """
+        Creates a new instance from a file
+        """
+
+        entries = []
+        with open(filename, 'rt') as fileio:
+            for line in fileio:
+                if line.startswith('#'):
+                    continue
+                entry = cls.entry_cls.new_from_string(line)
+                entries.extend([entry])
+
+        return cls(entries=entries)
+
+    def write_to_file(self, filename):
+        """
+        Writes the entries out to file
+        """
+        with open(filename, 'wt') as fileio:
+            for entry in self.entries:
+                fileio.write(entry.to_string() + "\n")
+
+    def __len__(self):
+        """
+        Returns the number of entries in the list
+        """
+        return len(self._entries)
+
+
+class SegFrag(object):
+
+    def __init__(self, *, chain_code, start_pdb, start_insert, end_pdb, end_insert, atom_length=None):
+        self.chain_code = chain_code
+        self.start_pdb = int(start_pdb)
+        self.start_insert = start_insert
+        self.end_pdb = int(end_pdb)
+        self.end_insert = end_insert
+        self.atom_length = atom_length
+
+
+class Segment(SegFrag):
+    pass
+
+
+class Fragment(SegFrag):
+    pass
+
+
+class Domain(object):
+    def __init__(self, *, segments):
+        self.segments = segments
+
+
+class CathDomallEntry(object):
+    """
+    Class representing a CATH Domall entry (chopping)
+    """
+
+    def __init__(self, *, chain_id, domains, fragments=None):
+        self.chain_id = chain_id
+        self.domains = domains
+        if not fragments:
+            fragments = []
+        self.fragments = fragments
+
+    def to_string(self):
+        """
+        Returns the entry as a Domall line
+        """
+
+        domall_line = "{} D{:02d} F{:02d} ".format(
+            self.chain_id, len(self.domains), len(self.fragments))
+
+        def insert_code(ins_code):
+            return ins_code if ins_code else '-'
+
+        for d in self.domains:
+            domall_line += " {} ".format(len(d.segments))
+            for s in d.segments:
+                domall_line += " {} {:>4d} {} {} {:>4d} {} ".format(
+                    s.chain_code, s.start_pdb, insert_code(s.start_insert),
+                    s.chain_code, s.end_pdb, insert_code(s.end_insert),
+                )
+
+        for f in self.fragments:
+            domall_line += " {} {:>4d} {} {} {:>4d} {} ({}) ".format(
+                f.chain_code, f.start_pdb, insert_code(f.start_insert),
+                f.chain_code, f.end_pdb, insert_code(f.end_insert),
+                f.atom_length,
+            )
+
+        domall_line = domall_line.strip()
+
+        return domall_line
+
+    @classmethod
+    def new_from_string(cls, domall_line):
+        """
+        Create a new instance from a Domall string
+        """
+        domall_line = domall_line.strip()
+        cols = domall_line.split()
+        chain_id, dom_count, frag_count = cols[0:3]
+
+        dom_count = int(dom_count[1:])
+        frag_count = int(frag_count[1:])
+
+        domains = []
+        fragments = []
+
+        idx = 3
+        dom_idx = 0
+        while dom_idx < dom_count:
+            seg_count = int(cols[idx])
+            idx += 1
+            segments = []
+            # LOG.info("dom[%s] seg_count=%s", dom_idx, seg_count)
+            for seg_idx in range(seg_count):
+                start_chain, start_pdb, start_ins, end_chain, end_pdb, end_ins = cols[idx:idx+6]
+                if start_ins == '-':
+                    start_ins = None
+                if end_ins == '-':
+                    end_ins = None
+                idx += 6
+                seg = Segment(chain_code=start_chain, start_pdb=start_pdb, start_insert=start_ins,
+                              end_pdb=end_pdb, end_insert=end_ins)
+                # LOG.info("seg[%s]: %s", seg_idx, seg.__dict__)
+                segments.extend([seg])
+            dom = Domain(segments=segments)
+            domains.extend([dom])
+            dom_idx += 1
+
+        frag_idx = 0
+        while frag_idx < frag_count:
+            start_chain, start_pdb, start_ins, end_chain, end_pdb, end_ins, frag_len = cols[
+                idx:idx+7]
+            idx += 7
+            frag_idx += 1
+            frag_len_match = re.match(r'^\((\d+)\)', frag_len)
+            if not frag_len_match:
+                raise err.ParseError(
+                    'failed to parse frag len from "{}": {} (idx={})'.format(frag_len, domall_line, idx))
+            atom_length = frag_len_match.group(1)
+            frag = Fragment(chain_code=start_chain, start_pdb=start_pdb, start_insert=start_ins,
+                            end_pdb=end_pdb, end_insert=end_ins, atom_length=atom_length)
+            fragments.extend([frag])
+
+        if idx != len(cols):
+            raise err.ParseError('col index is {}, but there are {} columns: {}'.format(
+                idx, len(cols), domall_line,
+            ))
+
+        return cls(
+            chain_id=str(chain_id),
+            domains=domains,
+            fragments=fragments,
+        )
+
+
+class CathDomall(BaseReleaseFileList):
+    """
+    Class representing a CathDomall release file (domain boundaries)
+    """
+
+    entry_cls = CathDomallEntry
+
+
+class CathNamesEntry(HasCathIDMixin, object):
+    def __init__(self, *, cath_id, example_domain_id, name,):
+        super(CathNamesEntry, self).__init__(cath_id=cath_id)
+        self.example_domain_id = example_domain_id
+        self.name = name
+
+    def to_string(self):
+        return "{}    {}    :{}".format(
+            self.cath_id,
+            self.example_domain_id,
+            self.name,
+        )
+
+    @classmethod
+    def new_from_string(cls, nameline):
+        nameline = nameline.strip()
+        cols = nameline.split(sep=None, maxsplit=2)
+        if len(cols) != 3:
+            raise err.ParseError("expected 3 cols in CathNames line '{}' (found {})".format(
+                nameline, len(cols)))
+
+        name = cols[2]
+        if not name.startswith(':'):
+            raise err.ParseError(
+                "expected name '{}' to start with ':'".format(nameline))
+        name = name[1:]
+
+        return cls(
+            cath_id=str(cols[0]),
+            example_domain_id=str(cols[1]),
+            name=str(name)
+        )
+
+
+class CathNamesList(BaseReleaseFileList):
+
+    entry_cls = CathNamesEntry
+
+    def remove_cath_id(self, cath_id):
+
+        entries = [
+            entry for entry in self.entries if not entry.cath_id.startswith(cath_id)]
+
+        return CathNamesList(entries=entries)
+
+
+class CathDomainListEntry(HasCathIDMixin, object):
+    def __init__(self, *, domain_id,
+                 class_code, arch_code, top_code, homol_code,
+                 s35_code, s60_code, s95_code, s100_code, domain_code,
+                 atom_length, resolution,):
+
+        codes = [str(code) for code in [class_code, arch_code, top_code,
+                                        homol_code, s35_code, s60_code,
+                                        s95_code, s100_code, domain_code]]
+        cath_id = '.'.join(codes)
+        super(CathDomainListEntry, self).__init__(cath_id=cath_id)
+
+        self.domain_id = domain_id
+        self.class_code = class_code
+        self.arch_code = arch_code
+        self.top_code = top_code
+        self.homol_code = homol_code
+        self.s35_code = s35_code
+        self.s60_code = s60_code
+        self.s95_code = s95_code
+        self.s100_code = s100_code
+        self.domain_code = domain_code
+        self.atom_length = atom_length
+        self.resolution = resolution
+
+    def to_string(self):
+        return "{} {:5d} {:5d} {:5d} {:5d} {:5d} {:5d} {:5d} {:5d} {:5d} {:5d} {:.3f}".format(
+            self.domain_id,
+            self.class_code, self.arch_code, self.top_code,
+            self.homol_code, self.s35_code, self.s60_code,
+            self.s95_code, self.s100_code, self.domain_code,
+            self.atom_length,
+            self.resolution,
+        )
+
+    @classmethod
+    def new_from_string(cls, domainlist):
+        domainlist = domainlist.strip()
+        cols = domainlist.split()
+        if len(cols) != 12:
+            raise err.ParseError("expected 12 cols in CathDomainList line '{}' (found {})".format(
+                domainlist, len(cols)))
+
+        return cls(
+            domain_id=str(cols[0]),
+            class_code=int(cols[1]),
+            arch_code=int(cols[2]),
+            top_code=int(cols[3]),
+            homol_code=int(cols[4]),
+            s35_code=int(cols[5]),
+            s60_code=int(cols[6]),
+            s95_code=int(cols[7]),
+            s100_code=int(cols[8]),
+            domain_code=int(cols[9]),
+            atom_length=int(cols[10]),
+            resolution=float(cols[11]),
+        )
+
+
+class CathDomainList(BaseReleaseFileList):
+
+    entry_cls = CathDomainListEntry
+
+    def remove_cath_id(self, cath_id):
+
+        entries = [
+            entry for entry in self.entries if not entry.cath_id.startswith(cath_id)]
+
+        return self.__class__(entries=entries)

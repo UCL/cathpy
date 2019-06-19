@@ -1,0 +1,1000 @@
+#---------------------------------------------------------------------
+# FILE NAME:    CathNames.v4.2.0
+# FILE DATE:    04.09.2017
+#
+# CATH VERSION: v4.2.0
+# VERSION DATE: 04.09.2017
+#
+# FILE FORMAT:  Cath Names File (CNF) Format 2.0
+#
+# FILE DESCRIPTION:
+# Description of each node in the CATH hierarchy for all class, architecture
+# and topology levels. CATH homologous superfamily names are also included
+# if they have been defined.
+#
+# See 'README.file_formats' for file format information
+#---------------------------------------------------------------------
+1    1oaiA00    :Mainly Alpha
+2    1h8pA02    :Mainly Beta
+3    4g1qB01    :Alpha Beta
+4    1bg5A03    :Few Secondary Structures
+1.10    1oaiA00    :Orthogonal Bundle
+1.20    1mz9A00    :Up-down Bundle
+1.25    4uafB00    :Alpha Horseshoe
+1.40    3iisM00    :Alpha solenoid
+1.50    4ayoA00    :Alpha/alpha barrel
+2.10    1h8pA02    :Ribbon
+2.20    4gv5A00    :Single Sheet
+2.30    1nh2D02    :Roll
+2.40    5avdA02    :Beta Barrel
+2.50    3eojA00    :Clam
+2.60    2hnuA00    :Sandwich
+2.70    2obeA04    :Distorted Sandwich
+2.80    3nbcA00    :Trefoil
+2.90    2dpfA00    :Orthogonal Prism
+2.100    1w99A03    :Aligned Prism
+2.102    2bmoA02    :3-layer Sandwich
+2.105    1n7vA01    :3 Propeller
+2.110    3c7xA00    :4 Propeller
+2.115    5c2mA00    :5 Propeller
+2.120    2bf6A01    :6 Propeller
+2.130    2oizA01    :7 Propeller
+2.140    1w6sA00    :8 Propeller
+2.150    3laaA00    :2 Solenoid
+2.160    3kwdA00    :3 Solenoid
+2.170    4gmuA02    :Beta Complex
+2.180    4iglD00    :Shell
+3.10    4g1qB01    :Roll
+3.15    1ewfA01    :Super Roll
+3.20    2eiyB02    :Alpha-Beta Barrel
+3.30    4h1bA02    :2-Layer Sandwich
+3.40    2hbaA00    :3-Layer(aba) Sandwich
+3.50    4r1bA01    :3-Layer(bba) Sandwich
+3.55    4n2pA00    :3-Layer(bab) Sandwich
+3.60    4z3xA01    :4-Layer Sandwich
+3.65    5u4hA02    :Alpha-beta prism
+3.70    1ud9A00    :Box
+3.75    4ytbA01    :5-stranded Propeller
+3.80    4fs7A00    :Alpha-Beta Horseshoe
+3.90    1j0pA00    :Alpha-Beta Complex
+3.100    1vq8L02    :Ribosomal Protein L15; Chain: K; domain 2
+4.10    1bg5A03    :Irregular
+1.10.8    1oaiA00    :Helicase, Ruva Protein; domain 3
+1.10.10    1xmkA00    :Arc Repressor Mutant, subunit A
+1.10.12    5jbxA02    :Lyase 2-enoyl-coa Hydratase; Chain  A, domain 2
+1.10.15    1vq8W02    :3-methyladenine DNA Glycosylase II; Chain A, domain 3
+1.10.20    4cayB00    :Histone, subunit A
+1.10.30    3fghA00    :DNA Binding (I), subunit A
+1.10.40    2ptrB03    :Ribonucleotide Reductase Protein R1; domain 1
+1.10.45    1wvfA04    :Vanillyl-alcohol Oxidase; Chain A, domain 4
+1.10.60    1on2A02    :Diphtheria Toxin Repressor; domain 2
+1.10.100    1wqjI00    :Insulin-like, subunit E
+1.10.101    4lpqA01    :Muramoyl-pentapeptide Carboxypeptidase; domain 1
+1.10.110    4xuwA00    :Hydrophobic Seed Protein
+1.10.132    1k4tA04    :Topoisomerase I; Chain A, domain 4
+1.10.135    1m15A01    :Transferase Creatine Kinase; Chain A, domain 1
+1.10.140    1cmbA00    :MET Apo-Repressor, subunit A
+1.10.150    3h7iA02    :DNA polymerase; domain 1
+1.10.155    1af7A01    :Chemotaxis Receptor Methyltransferase Cher; domain 1
+1.10.166    3tk8B01    :Tetrahydrodipicolinate-N-succinyltransferase; Chain A, domain 1
+1.10.167    2ihdA02    :Regulator of G-protein Signalling 4; domain 2
+1.10.168    1a0rP02    :Phosducin; domain 2
+1.10.170    1bvp103    :Bluetongue Virus 10, subunit 1; domain 3
+1.10.185    1jvrA00    :Human T-cell Leukemia Virus Type II Matrix Protein
+1.10.189    1kblA02    :Pyruvate Phosphate di-kinase; domain 2
+1.10.195    1vpuA00    :Cytoplasmic domain of VPU protein
+1.10.196    1dk8A01    :Regulator of G-protein Signalling 4; domain 1
+1.10.210    1utgA00    :Uteroglobin
+1.10.220    2ii2A04    :Annexin V; domain 1
+1.10.225    1l9lA00    :NK-Lysin
+1.10.230    2ibpA02    :Cytochrome p450-Terp; domain 2
+1.10.238    1psrA00    :Recoverin; domain 1
+1.10.239    2aibA00    :Beta-cryptogein
+1.10.240    1n3lA02    :Tyrosyl-Transfer RNA Synthetase
+1.10.245    5c5aA00    :MDM2
+1.10.246    1n5uA03    :Serum Albumin; Chain A, Domain 1
+1.10.250    1bvp101    :Bluetongue Virus 10, subunit 1; domain 1
+1.10.260    1hq1A00    :434 Repressor (Amino-terminal Domain)
+1.10.268    4ckkC03    :Topoisomerase; domain 3
+1.10.269    2wb0X01    :Adenovirus Single-stranded Dna-binding Protein, domain 1
+1.10.274    1zymA02    :Enzyme I; Chain A, domain 2
+1.10.275    1gkmA01    :Fumarase C; Chain B, domain 1
+1.10.285    1bgvA03    :Glutamate Dehydrogenase; Chain A, domain 3
+1.10.286    4du6E01    :GTP Cyclohydrolase I; Chain A, domain 1
+1.10.287    4a5uB00    :Helix Hairpins
+1.10.288    2o2kA02    :Cobalamin-dependent Methionine Synthase; domain 2
+1.10.290    2gaiA04    :Topoisomerase I; domain 4
+1.10.300    5i34A02    :Adenylosuccinate Synthetase, subunit A; domain 2
+1.10.340    1u84A00    :Endonuclease III; domain 1
+1.10.357    2zcmA00    :Tetracycline Repressor; domain 2
+1.10.375    2wlvA00    :Human Immunodeficiency Virus Type 1 Capsid Protein
+1.10.390    5jviE02    :Neutral Protease; domain 2
+1.10.400    1cipA02    :GI Alpha 1, domain 2-like
+1.10.405    1d5tA03    :Guanine Nucleotide Dissociation Inhibitor; domain 1
+1.10.418    2vzcB00    :Actin-binding Protein, T-fimbrin; domain 1
+1.10.420    3e2oA02    :Peroxidase; domain 2
+1.10.437    5c3fA01    :Apoptosis Regulator Bcl-x
+1.10.439    1gk9A01    :Penicillin Amidohydrolase; domain 1
+1.10.440    2endA00    :Endonuclease V
+1.10.441    2wfpA03    :Phosphomannose Isomerase; domain 2
+1.10.442    5b1aD00    :Cytochrome C Oxidase; Chain D
+1.10.443    1xo0A02    :hpI Integrase; Chain A
+1.10.455    1iqvA00    :Ribosomal Protein S7
+1.10.460    1mw9X02    :Topoisomerase I; domain 2
+1.10.468    2wjnC02    :Photosynthetic Reaction Center, subunit C; domain 2
+1.10.470    2vsgA02    :Variant Surface Glycoprotein, subunit A; domain 2
+1.10.472    2i53A01    :Cyclin A; domain 1
+1.10.486    3lfuA04    :PCRA; domain 4
+1.10.489    2ciwA00    :Chloroperoxidase
+1.10.490    2nrlA00    :Globin-like
+1.10.506    3fayA00    :GTPase Activation - p120GAP; domain 1
+1.10.510    5lvoA02    :Transferase(Phosphotransferase); domain 1
+1.10.520    3e2oA01    :Peroxidase; domain 1
+1.10.530    2vb1A00    :Lysozyme
+1.10.532    1bgfA00    :Transcription Factor, Stat-4
+1.10.533    2bbrA02    :Death Domain, Fas
+1.10.540    2uxwA02    :Butyryl-Coa Dehydrogenase, subunit A; domain 1
+1.10.555    2ovjA00    :Phosphatidylinositol 3-kinase; Chain A
+1.10.560    1sx3A01    :GROEL; domain 1
+1.10.565    4pf3A00    :Retinoid X Receptor
+1.10.569    4z3xA03    :Aldehyde Ferredoxin Oxidoreductase Protein, subunit A; domain 2
+1.10.575    5fbfA00    :P1 Nuclease
+1.10.579    1owlA03    :DNA Cyclobutane Dipyrimidine Photolyase, subunit A; domain 3
+1.10.580    2ibpA01    :Citrate Synthase; domain 1
+1.10.590    5csmA00    :Chorismate Mutase, subunit A
+1.10.599    1b25A03    :Aldehyde Ferredoxin Oxidoreductase Protein, subunit A; domain 3
+1.10.600    1wmwB00    :Farnesyl Diphosphate Synthase
+1.10.601    1sigA00    :RNA Polymerase Primary Sigma Factor
+1.10.606    1qi9A00    :Vanadium-containing Chloroperoxidase; domain 2
+1.10.620    1mxrA00    :Ribonucleotide Reductase, subunit A
+1.10.630    1jfbA00    :Cytochrome p450
+1.10.640    3nt1A02    :Myeloperoxidase, subunit C
+1.10.645    4u9hL00    :Cytochrome-c3 Hydrogenase; chain B
+1.10.700    3wrbB02    :Protocatechuate 4,5-dioxygenase; Chain A
+1.10.720    1e7lA02    :Transcription Termination Factor Rho, Rna-binding Domain; Chain A, Domain 1
+1.10.730    4qreA03    :Isoleucyl-tRNA Synthetase; Domain 1
+1.10.740    1musA03    :Transferase Inhibitor Protein From Tn5; Chain A, domain2
+1.10.750    1lm8V01    :Elongin C; Chain C, domain 1
+1.10.760    3ziyA03    :Cytochrome Bc1 Complex; Chain D, domain 2
+1.10.780    4fasA01    :Hydroxylamine Oxidoreductase; Chain A, domain 1
+1.10.790    3o79B00    :Major Prion Protein
+1.10.800    1j8uA00    :Phenylalanine Hydroxylase
+1.10.820    1heiA03    :RNA Helicase; Chain A, domain 3
+1.10.840    2ii0A02    :Son of Sevenless (SoS) protein; Chain S, domain 2
+1.10.860    4ehsA00    :DNAb Helicase; Chain A
+1.10.870    1iieA00    :HLA-dr Antigens Associated Invariant Chain; Chain A
+1.10.880    1sknP00    :Transcription Factor Skn-1; Chain P
+1.10.890    4xvvA00    :10k-s Protein, Hypothetical Protein A; Chain A
+1.10.930    2oq1A02    :Syk Kinase; Chain A, domain 2
+1.10.940    3d3bA00    :N-utilizing Substance Protein B Homolog; Chain A
+1.10.950    1yu5X00    :Villin Headpiece Domain; Chain A
+1.10.1000    1xszA02    :Arf Nucleotide-binding Site Opener; domain 2
+1.10.1020    2g1pA02    :Adenine-specific Methyltransferase; domain 2
+1.10.1030    1a9xA04    :Carbamoyl Phosphate Synthetase; Chain A, domain 4
+1.10.1040    3ws7A02    :N-(1-d-carboxylethyl)-l-norvaline Dehydrogenase; domain 2
+1.10.1050    2vqeD01    :Ribosomal Protein S4 Delta 41; Chain A, domain 1
+1.10.1060    2h88B02    :Fumarate Reductase Iron-sulfur Protein; Chain B, domain 2
+1.10.1070    2wxfA05    :Phosphatidylinositol 3-kinase Catalytic Subunit; Chain A, Domain 5
+1.10.1080    3kalA03    :Glutathione Synthetase; Chain A, domain 3
+1.10.1090    2fyuF00    :Cytochrome Bc1 Complex; Chain F
+1.10.1100    1tbaA00    :Transcription Initiation Factor IId 230k; Chain A
+1.10.1130    3bnjA01    :Flavocytochrome C3; Chain A, domain 2
+1.10.1140    2ck3D03    :Bovine Mitochondrial F1-ATPase, ATP Synthase Beta Chain; Chain D, domain3
+1.10.1160    2ja2A03    :Glutamyl-tRNA Synthetase; domain 2
+1.10.1170    4hy4B00    :Inhibitor Of Apoptosis Protein (2mihbC-IAP-1); Chain A
+1.10.1180    1f6vA00    :DNA Transposition Protein; Chain A
+1.10.1200    4bpfA00    :Non-ribosomal Peptide Synthetase Peptidyl Carrier Protein; Chain A
+1.10.1220    1irqA00    :Arc Repressor Mutant
+1.10.1240    4jgiA01    :Methyltransferase, Methionine Synthase (B12-binding Domains); Chain A, domain 1
+1.10.1270    1jhgA00    :Trp Operon Repressor; Chain A
+1.10.1280    3awuA00    :di-copper center containing domain from catechol oxidase
+1.10.1290    16vpA00    :Conserved core of transcriptional regulatory protein vp16
+1.10.1300    1tbfA00    :Catalytic domain of cyclic nucleotide phosphodiesterase 4b2b
+1.10.1320    1mswD01    :T7 RNA polymerase; domain 1
+1.10.1330    2vn6B00    :Type 1 dockerin domain
+1.10.1350    1qhdA02    :Viral capsid alpha domain
+1.10.1370    4ka7A02    :Neurolysin; domain 3
+1.10.1380    1r1hA02    :Neutral endopeptidase; domain 2
+1.10.1390    2cxnA03    :Phosphoglucose isomerase, C-terminal domain
+1.10.1400    1gk9B03    :Penicillin amidase (Acylase) alpha subunit, N-terminal domain
+1.10.1410    4ud4A01    :Poly(a)-polymerase, middle domain
+1.10.1420    1wb9A03    :MutS, DNA mismatch repair protein; Chain A, domain 3
+1.10.1440    1i5jA00    :Apolipoprotein Cii; Chain: A; 
+1.10.1450    5m33B00    :Cd81 Antigen, Extracellular Domain; Chain: A
+1.10.1470    1rykA00    :Protein Yjbj; Chain: A; 
+1.10.1490    1iyrA00    :Dna Fragmentation Factor Alpha Subunit; Chain: A; 
+1.10.1500    2pbyB02    :Probable Glutaminase Ybgj; Chain: A, domain 2
+1.10.1510    1ng6A01    :Hypothetical Protein Yqey; Chain: A; domain1
+1.10.1520    3o2rA00    :Ribonuclease iii, N-terminal Endonuclease Domain; Chain A
+1.10.1530    1wtjB01    :Hypothetical Oxidoreductase Yiak; Chain: A, domain 1
+1.10.1540    1t77A02    :Neurobeachin; Chain: A, domain 1
+1.10.1580    3cnlA02    :Conserved Hypothetical Protein Ylqf; Chain: A; domain 2
+1.10.1600    1jeyA04    :Ku70; Chain: A; domain 4
+1.10.1610    4kqkB01    :5,6-Dimethylbenzimidazole Phosphoribosyltransferase; Chain: A; domain 1
+1.10.1620    1vq8200    :Atp Synthase Epsilon Chain; Chain: I; 
+1.10.1630    1zoqC00    :Creb-binding Protein; Chain: A
+1.10.1650    1vq8P01    :50s Ribosomal Protein L19e, Chain O, domain 1
+1.10.1660    1q08A00    :Multidrug-efflux Transporter Regulator; Chain: A; Domain 2
+1.10.1670    2xhiA02    :Endonuclease Iii, domain 2
+1.10.1690    1ceuA00    :Hiv-1 Regulatory Protein N-terminal Domain Vpr; Chain: A; 
+1.10.1710    3mw6C00    :Fertility Inhibition Protein O; Chain: A; Domain 1
+1.10.1720    1e5rB02    :Proline Oxidase; Chain: A,  Domain 2
+1.10.1740    4lupA00    :Rna Polymerase Sigma Factor; Chain: A
+1.10.1750    3pvvA00    :Chromosomal Replication Initiator Protein Dnaa; Chain: A; 
+1.10.1760    1k8kE00    :Arp2/3 complex 21 kDa subunit ARPC3
+1.10.1780    3wdcA00    :Double Clp-N motif
+1.10.1790    3nufB00    :PTS-regulatory domain, PRD
+1.10.1810    1tkvA00    :Anti-sigma factor AsiA
+1.10.1820    1qf8A01    :protein kinase ck2 holoenzyme, chain C, domain 1
+1.10.1840    5c5oA03    :main proteinase (3clpro) structure, domain 3
+1.10.1850    1tx9A00    :Procapsid Of Bacteriophage Phix174, Chain 1
+1.10.1870    2axqA03    :Domain 3, Saccharopine reductase
+1.10.1900    3kujA01    :c-terminal domain of poly(a) binding protein
+1.10.2000    1ijyA00    :Frizzled cysteine-rich domain
+1.10.2010    1j0tA00    :Crustacean CHH/MIH/GIH neurohormone
+1.10.2020    2qeeA02    :uronate isomerase, domain 2, chain A
+1.10.2030    4pkwA02    :Anthrax toxin lethal factor, domain 3, chain A
+1.10.2040    1jmuB02    :Protein mu-1, chain B, domain 2
+1.10.2050    1jmuB03    :Protein mu-1, chain B, domain 3
+1.10.2060    1k87A02    :PutA proline dehydrogenase (PRODH), domain 2
+1.10.2080    1n8vB00    :Antennal chemosensory protein a6
+1.10.2090    4xb4B00    :orange carotenoid protein, domain 2
+1.10.3020    3i2kA02    :alpha-amino acid ester hydrolase ( Helical cap domain)
+1.10.3030    1n81A00    :Gametocyte protein Pfg27
+1.10.3040    1n93X01    :borna disease virus nucleoprotein, domain 1
+1.10.3050    1n93X02    :borna disease virus nucleoprotein, domain 2
+1.10.3060    1tf5A04    :Helical scaffold and wing domains of SecA
+1.10.3070    1nxhA00    :Hypothetical protein MTH393
+1.10.3080    4eneB00    :Clc chloride channel
+1.10.3090    4wbyA02    :cca-adding enzyme, domain 2
+1.10.3100    2ox6D00    :Putative cytoplasmic protein
+1.10.3110    3lovA03    :protoporphyrinogen ix oxidase, domain 3
+1.10.3120    2nsaA00    :Trigger factor, domain 2
+1.10.3130    3q1xA01    :serine acetyltransferase, domain 1
+1.10.3140    1u8vA01    :4-hydroxybutyryl-coa dehydratase, domain 1
+1.10.3160    4b2fA00    :Bbcrasp-1
+1.10.3170    1w36B02    :Recbcd, chain B, domain 2
+1.10.3180    4zdsB00    :DNA-binding domain of ethylene- insensitive3-like3
+1.10.3190    1wpbB02    :yfbu gene product, domain 2
+1.10.3200    1yozA00    :Hypothetical protein af0941
+1.10.3210    3tm8B00    :Hypothetical protein af1432
+1.10.3230    1xn8A00    :Hypothetical protein yqbg
+1.10.3250    1wteB01    :type ii restriction endonuclease, domain 1
+1.10.3260    2cfmA01    :DNA ligase i, domain 1
+1.10.3270    2r4fD01    :HMGR, N-terminal domain
+1.10.3280    1kyqA03    :Siro heme synthase C-terminal domain-like
+1.10.3290    5cklA00    :Fic-like fold
+1.10.3300    3h0nA00    :Jann2411-like fold
+1.10.3320    2gviA01    :pa2218 like fold
+1.10.3330    3o7iA00    :UraD-like
+1.10.3340    3fybB00    :SMc04008-like fold
+1.10.3350    4u12A00    :HP0242-like fold
+1.10.3360    2p3yA02    :VPA0735-like fold
+1.10.3370    5awwY00    :Preprotein translocase SecY subunit 
+1.10.3380    3im1A01    :Sec63 N-terminal domain-like fold
+1.10.3390    2otaA00    :YejL-like
+1.10.3400    2ph7A01    :af_2093 domain like fold
+1.10.3410    3bg2A03    :putative deoxyguanosinetriphosphate triphosphohydrolase fold
+1.10.3420    2yf4F00    :putative ntp pyrophosphohydrolase like fold
+1.10.3430    3b9wA00    :Ammonium transporter fold
+1.10.3440    2pv4A00    :Sama2622-like fold
+1.10.3450    2ijqA00    :Hyaluronidase domain-like
+1.10.3460    2bhwA01    :Chlorophyll a-b binding protein 
+1.10.3470    2nq2A00    :ABC transporter involved in vitamin B12 uptake, BtuC
+1.10.3480    1s9uA00    :TorD-like
+1.10.3490    2p62A02    :PH0156-like
+1.10.3500    3bzcA02    :Tex N-terminal region-like 
+1.10.3510    2o5hA00    :NMB0513-like
+1.10.3520    3rznA01    :Glycolipid transfer protein, GLTP 
+1.10.3530    2ijrA02    :Api92-like
+1.10.3540    3bhwA00    :fold of a uncharacterized protein from magnetospirillum magneticum
+1.10.3550    3bg2A02    :eoxyguanosinetriphosphate triphosphohydrolase fold
+1.10.3560    2jynA01    :yst0336 like fold
+1.10.3570    3hhwK01    :Rhabdovirus nucleoprotein-like fold
+1.10.3580    2r31A02    :ATP12-like fold
+1.10.3590    2qtsA03    :acid-sensing ion channel 1 fold
+1.10.3600    3c4rA00    :uncharacterized protein encoded by cryptic prophage fold
+1.10.3610    3hhwK02    :Rhabdovirus nucleoprotein-like
+1.10.3620    3ca8A01    :YdcF fold
+1.10.3630    2zihC00    :yeast vps74-n-term truncation variant fold
+1.10.3640    3c24A02    :putative oxidoreductase fold
+1.10.3650    1q16B03    :nitrate reductase domain fold
+1.10.3660    2f1kC02    :6-phosphogluconate dehydrogenase C-terminal fold
+1.10.3670    4q68A01    :Putative xylanase fold
+1.10.3680    2h5nC00    :TerB-like 
+1.10.3690    2igsA00    :PA2222-like fold
+1.10.3700    2o8sA01    :AGR_C_984p-like
+1.10.3710    2r9gA02    :post-AAA+ oligomerization domain-like 
+1.10.3720    3rlfF04    :MetI-like fold
+1.10.3730    5bseA02    :ProC C-terminal domain-like fold
+1.10.3740    2i71B02    :SSO1389-like fold
+1.10.3750    1sedA00    :Hypothetical protein YhaI fold
+1.10.3760    1y9iA00    :YutG-like
+1.10.3780    3ckcA03    :TPR-like
+1.10.3790    1pc6A00    :NinB fold
+1.10.3800    2auaA02    :ADP-ribosylation fold
+1.10.3810    2oqoA00    :Penicillin binding protein transpeptidase fold
+1.10.3820    2j7aC00    :Multiheme cytochrome fold
+1.10.3830    2kdcA00    :Diacylglycerol kinase fold
+1.10.3860    5dwyA00    :Proton glutamate symport protein 
+1.10.3870    1y8aA02    :AF1437-like domain fold
+1.10.3880    1t07A00    :YggX-like
+1.10.3890    1sdiA00    :YcfC-like
+1.10.3900    2oezB02    :YacF-like
+1.10.3910    2fi0A00    :SP0561-like
+1.10.3920    2fefA02    :PA2201 C-terminal domain-like 
+1.10.3930    1s9rA02    :Pentein
+1.10.3940    3dt5A00    :AF_0924 fold
+1.10.3950    3fh3A00    :putative ecf-type sigma factor negative effector from bacillus cereus
+1.10.3960    1tm9A00    :Hypothetical protein MG354 fold
+1.10.3970    1x3aA00    :BSD domain-like fold
+1.10.3980    1vrmA02    :T-fold
+1.10.3990    3kk4A01    :Ribbon-helix-helix fold
+1.10.4000    1g8eB00    :Flagellar transcriptional activator fold
+1.10.4010    1w2yA00    :all-alpha NTP pyrophosphatase fold
+1.10.4020    3lhrB00    :DNA breaking-rejoining enzymes fold
+1.10.4030    1m5yA01    :Triger factor/SurA peptide-binding fold
+1.10.4040    1sd4A02    :Penicillinase repressor fold
+1.10.4050    1v4aA01    :Nucleotidyltransferase substrate binding subunit/domain fold
+1.10.4060    1zboA02    :LON domain-like fold
+1.10.4070    2o9xA02    :putative redox-enzyme maturation protein fold
+1.10.4080    2yzvA00    :ADP-ribosylglycohydrolase fold
+1.10.4090    5gmzA00    :Hepatitis B viral capsid (hbcag) fold
+1.10.4100    2hp0A01    :2-methylcitrate dehydratase PrpD
+1.10.4110    1q5zA00    :Invasion protein A fold
+1.10.4120    1gzsB00    :SopE-like GEF fold
+1.10.4140    3nb2A04    :effector protein (NleL) fold
+1.10.4150    2fm9A00    :SipA N-terminal domain-like 
+1.10.4160    2jlnA00    :Hydantoin permease
+1.10.4170    2jo7A00    :Glycosylphosphatidylinositol-anchored merozoite surface protein
+1.10.4180    2vy2A00    :Protein LEAFY
+1.10.4190    2wglA00    :Urease accessory protein UreF
+1.10.4200    3h9pC00    :Triphosphoribosyl-dephospho-CoA protein
+1.20.5    1mz9A00    :Single alpha-helices involved in coiled-coils or other helix-helix interfaces
+1.20.10    1ehsA00    :Heat-Stable Enterotoxin B
+1.20.20    2xquA01    :F1FO ATP Synthase
+1.20.50    2erlA00    :Pheromone ER-1
+1.20.58    2spcA00    :Methane Monooxygenase Hydroxylase; Chain G, domain 1
+1.20.59    2d8dB00    :Chorismate Mutase Domain, subunit A
+1.20.80    3fp5A00    :Acyl-CoA Binding Protein
+1.20.81    2fcwA00    :Receptor-associated Protein
+1.20.82    4cmhA01    :ADP Ribosyl Cyclase; Chain A, domain 1
+1.20.85    1rzhM01    :Photosynthetic Reaction Center, subunit M; domain 1
+1.20.89    3u7qB03    :Nitrogenase Molybdenum-iron Protein, subunit B; domain 4
+1.20.90    1mc2A00    :Phospholipase A2
+1.20.91    5cqeB01    :Influenza Virus Matrix Protein; Chain A, domain 1
+1.20.120    2ykzA00    :Four Helix Bundle (Hemerythrin (Met), subunit A)
+1.20.140    3bnjA02    :Butyryl-CoA Dehydrogenase, subunit A; domain 3
+1.20.141    4oltB01    :Chitosanase, subunit A; domain 1
+1.20.142    4zzxB01    :Poly(ADP-ribose) Polymerase; domain 1
+1.20.144    3bb0A01    :Vanadium-containing Chloroperoxidase; domain 1
+1.20.150    2lisA00    :Lysin
+1.20.190    3x0uB01    :Delta-Endotoxin; domain 1
+1.20.200    1gkmA02    :Fumarase C; Chain A, domain 2
+1.20.210    5b1aA00    :Cytochrome C Oxidase; Chain A
+1.20.225    4rgdA00    :Bacteriocin As-48; Chain A
+1.20.245    4wfoA05    :Lipoxygenase-1; domain 5
+1.20.250    1ciiA01    :Colicin Ia; domain 1
+1.20.272    3bgeA01    :Zinc Finger, Delta Prime; domain 3
+1.20.810    3cx5C00    :Cytochrome Bc1 Complex; Chain C
+1.20.840    5a0yA03    :Methyl-coenzyme M Reductase; Chain B, domain 2
+1.20.850    4fasA02    :Hydroxylamine Oxidoreductase; Chain A, domain 2
+1.20.860    1jb0K00    :Alpha-t-alpha
+1.20.870    2ii0A01    :Son of sevenless (SoS) protein; Chain S, domain 1
+1.20.890    3g36B00    :cAMP-dependent Protein Kinase, Chain A
+1.20.900    4yonA01    :Dbl Homology Domain; Chain A
+1.20.910    3b5oA00    :Heme Oxygenase; Chain A
+1.20.920    5ibnA00    :Histone Acetyltransferase; Chain A
+1.20.930    3nfqB02    :Transcription Elongation Factor S-II; Chain A
+1.20.940    1dvkA00    :RNA Binding Protein, Prp18; Chain A
+1.20.950    1kqfC00    :Fumarate Reductase Cytochrome B subunit
+1.20.960    3ax2A00    :Mitochondrial Import Receptor Subunit Tom20; Chain A
+1.20.970    2elcA01    :Transferase, Pyrimidine Nucleoside Phosphorylase; Chain A, domain 3
+1.20.990    3qfsA02    :NADPH-cytochrome p450 Reductase; Chain A, domain 3
+1.20.1000    1f5nA01    :Signaling Protein - Interferon-induced Guanylate-binding Protein 1; Chain A, domain 1
+1.20.1020    3t92A00    :CREB-binding Protein; Chain A
+1.20.1050    4mf5A02    :Glutathione S-transferase Yfyf (Class Pi); Chain A, domain 2
+1.20.1060    4bwjA02    :Taq DNA Polymerase; Chain T, domain 4
+1.20.1070    5ax0A00    :Rhopdopsin 7-helix transmembrane proteins
+1.20.1080    3zojA00    :Glycerol uptake facilitator protein
+1.20.1090    5br4A02    :Dehydroquinate synthase-like, alpha domain
+1.20.1110    3ar4A02    :Calcium-transporting ATPase, transmembrane domain
+1.20.1120    1epwA02    :Clostridium botulinum neurotoxin B, "coiled-coil" domain
+1.20.1130    1jb0B00    :Photosystem I p700 chlorophyll A apoprotein A1
+1.20.1150    2c0gA02    :Endoplasmic reticulum protein erp29
+1.20.1160    2ld7B00    :Paired amphipathic helix 2 (pah2 repeat)
+1.20.1170    4phqC00    :Hemolysin E; Chain: A; 
+1.20.1180    4e6uA02    :Udp N-acetylglucosamine O-acyltransferase; Domain 2
+1.20.1200    3ci3A01    :Hypothetical Protein Ta1238; Chain: A; 
+1.20.1220    3cuzA02    :Malate Synthase G; Chain: A; Domain 4
+1.20.1230    1jadA00    :Phospholipase C Beta; Chain: A
+1.20.1240    1jb0L00    :Photosystem 1 Reaction Centre Subunit Xi; Chain: L; 
+1.20.1250    2d48A00    :Growth Hormone; Chain: A; 
+1.20.1260    4cvrA00    :Ferritin
+1.20.1270    4f01A02    :Substrate Binding Domain Of Dnak; Chain:A; Domain 2
+1.20.1280    1mtyG01    :Monooxygenase
+1.20.1290    2oyoA02    :AhpD-like
+1.20.1300    4ysxD00    :3 helical TM bundles of succinate and fumarate reductases
+1.20.1310    2wzkA01    :5 helical Cullin repeat like
+1.20.1320    1wp9B03    :phosphoenolpyruvate carboxylase, domain 3
+1.20.1330    3k8wA01    :f41 fragment of flagellin, N-terminal domain
+1.20.1340    3k40A01    :dopa decarboxylase, N-terminal domain
+1.20.1370    3wkyB01    :Hemocyanin, N-terminal domain
+1.20.1380    3sk7A00    :Replication modulator SeqA, C-terminal DNA-binding domain
+1.20.1390    3v53E00    :PWI domain
+1.20.1400    1t50A00    :Mollusk pheromone
+1.20.1410    1r0dB00    :I/LWEQ domain
+1.20.1420    4w8pA01    :A middle domain of Talin 1
+1.20.1430    3p0bA02    :immunoglobulin/albumin-binding domain-like
+1.20.1440    1sj8A02    :de novo design (two linked rop proteins)
+1.20.1450    4phzB00    :particulate methane monooxygenase, chain B
+1.20.1460    1u7lA02    :subunit c (vma5p) of the yeast v-atpase, domain 2
+1.20.1480    1td6A01    :hypothetical protein mp506/mpn330, domain 1
+1.20.1500    2iazA00    :YheA-like fold
+1.20.1510    3h90A01    :Alpha-lytic protease prodomain-like
+1.20.1520    2k0sA00    :Adp-ribosylation factor-like protein 2-binding protein fold
+1.20.1530    1zcdA00    :Na+/H+ antiporter like fold
+1.20.1540    2xovA00    :Rhomboid-like fold
+1.20.1550    2zuqA00    :Bromodomain-like
+1.20.1560    4a82A01    :ABC transporter transmembrane region fold
+1.20.1570    3bh1A02    :dip2346 fold
+1.20.1580    2vf7A02    :ABC transporter ATPase like fold
+1.20.1590    2q9rA01    :YP_001051499.1 fold like
+1.20.1600    5azpB01    :Outer membrane efflux proteins (OEP)
+1.20.1610    2ww2A04    :Glycosyl hydrolase family fold
+1.20.1630    2vpzC00    :Formate dehydrogenase/DMSO reductase fold
+1.20.1640    4dx5C01    :Multidrug efflux transporter AcrB transmembrane fold
+1.20.1650    2qmaA01    :PLP-dependent transferase-like
+1.20.1660    2b6cA01    :ARM repeat  fold
+1.20.1670    4dk2A02    :all-alpha NTP pyrophosphatase
+1.20.1680    4dk2A01    :all-alpha NTP pyrophosphatases
+1.20.1690    1v9mA02    :V-type ATP synthase subunit C fold
+1.20.1700    1xfiA02    :AF1104-like
+1.20.1710    3nftA00    :IpaD-like 
+1.20.1720    2gfpA00    :Multidrug resistance protein D
+1.20.1730    3dh4B01    :Sodium/glucose cotransporter
+1.20.1740    3giaA00    :Amino acid/polyamine transporter I
+1.25.10    4uafB00    :Leucine-rich Repeat Variant
+1.25.20    1qsaA01    :70-kda Soluble Lytic Transglycosylase; domain 1
+1.25.40    3ro3A00    :Serine Threonine Protein Phosphatase 5, Tetratricopeptide repeat
+1.25.50    3b34A05    :Zincin-like fold
+1.25.60    2ouxA01    :MgtE N-terminal fold
+1.25.70    3m66A00    :Transcription termination factor 3, mitochondrial
+1.40.10    3iisM00    :Peridinin-chlorophyll Protein, Chain M
+1.40.20    3e0sB00    :CHAD domain
+1.50.10    4ayoA00    :Glycosyltransferase
+1.50.40    1okcA00    :Mitochondrial carrier fold
+2.10.10    1h8pA02    :Seminal Fluid Protein  PDC-109 (Domain B)
+2.10.22    1bx7A00    :Antistasin; domain 1
+2.10.25    3sovA02    :Laminin
+2.10.50    3wvtA01    :Tumor Necrosis Factor Receptor, subunit A; domain 2
+2.10.55    1lmlA03    :Leishmanolysin; domain 3
+2.10.60    2j8bA00    :CD59
+2.10.69    2fj8A01    :Cysteine Protease (Bromelain) Inhibitor, subunit H
+2.10.70    4k12A00    :Complement Module; domain 1
+2.10.77    3ku3A01    :Hemagglutinin; Chain A, domain 2
+2.10.80    1lpbA00    :Lipase, subunit A
+2.10.90    2askA00    :Cystine Knot Cytokines, subunit B
+2.10.109    3k2zA02    :Umud Fragment, subunit A
+2.10.110    4hi8B00    :Cysteine Rich Protein
+2.10.150    4gy7A03    :Urease, subunit B
+2.10.160    4deqA02    :Vascular Endothelial Growth Factor-165, Heparin-binding Domain
+2.10.210    1ppjI00    :Cytochrome Bc1 Complex; Chain I
+2.10.220    4c9rB00    :Hormone Receptor, Insulin-like Growth Factor Receptor 1; Chain A domain 2
+2.10.230    1nltA02    :Chaperone, DNAj Protein; Chain A
+2.10.240    1ep3B03    :Dihydroorotate dehydrogenase B (pyrk subunit); domain 3
+2.10.250    3rg0A02    :Calnexin lumenal domain, non-globular proline-rich hairpin domain
+2.10.260    5itmA00    :Pemi-like Protein 1; Chain: D
+2.10.270    2f6eA00    :left handed beta-beta-3-solenoid
+2.10.280    1h6wA01    :heat- and protease-stable fragment of the bacteriophage t4 short fibre, domain 1
+2.10.290    2jneA00    :Rubredoxin-like
+2.10.300    1uunA02    :Porin MspA ribbon fold
+2.10.310    1qmbB00    :Serpins fold
+2.20.20    4gv5A00    :Anthopleurin-A
+2.20.25    3i07B01    :N-terminal domain of TfIIb
+2.20.28    2dsxA00    :Rubrerythrin, domain 2
+2.20.50    1lshA03    :Outer Surface Protein A; domain 2
+2.20.60    2lutA01    :Heparin-binding Growth Factor, Midkine; Chain A
+2.20.70    2f21A01    :Ubiquitin Ligase Nedd4; Chain: W; 
+2.20.80    1lshA04    :Lipovitellin-phosvitin complex, chain A, domain 4
+2.20.90    1lshB00    :Lipovitellin-phosvitin complex; beta-sheet shell regions
+2.20.100    3vdjA00    :TSP-1 type 1 repeat
+2.20.110    1h3iA01    :Histone H3 K4-specific methyltransferase SET7/9 N-terminal domain
+2.20.120    2j8gA03    :Multimodular pneumococcal cell wall endolysin, domain 3
+2.20.130    3pfgA02    :S-adenosyl-L-methionine-dependent methyltransferases
+2.20.140    2ra8A01    :q64v53_bacfr protein fold
+2.20.150    3pl2A02    :putative 5-dehydro-2- deoxygluconokinase like fold
+2.20.160    1ya5T01    :titin filament fold
+2.20.170    3bxjA01    :GTPase activation domain, GAP fold
+2.20.180    2r01A02    :putative fmn-dependent nitroreductase like fold
+2.20.200    5azpA02    :Outer membrane efflux proteins (OEP)
+2.20.210    4m5xA02    :ubp-family deubiquitinating enzyme fold
+2.20.220    1r7aA03    :Glycosyl hydrolase fold
+2.20.230    3eo5A01    :Resuscitation-promoting factor rpfb fold
+2.30.18    1nh2D02    :TATA box binding Protein, subunit D; domain 2
+2.30.22    1dkgB02    :Nucleotide Exchange Factor Grpe; Chain A, domain 2
+2.30.24    3rioA01    :Transcription Regulation, Sacy; Chain A
+2.30.26    2e6fA02    :Dihydroorotate Dehydrogenase A; chain A, domain 2
+2.30.27    1g3pA01    :Phage FD Coat Protein, Membrane penetration domain
+2.30.29    1unqA00    :PH-domain like
+2.30.30    5d7uA00    :SH3 type barrels.
+2.30.31    2it9A00    :Transcriptional Co-activator pc4; Chain A
+2.30.32    1e8rA00    :Xylanase; Chain A
+2.30.33    1g31A00    :10 Kd Chaperonin, Protein Cpn10; Chain O
+2.30.34    1lmlA04    :Leishmanolysin; domain 4
+2.30.36    2pbdA02    :Actin; Chain A, domain 2
+2.30.38    2d1sA01    :Luciferase; domain 3
+2.30.39    5c98B02    :Alpha-1-antitrypsin; domain 1
+2.30.40    1ra0A01    :Urease, subunit C; domain 1
+2.30.42    4z8jA00    :Pdz3 Domain
+2.30.60    2rdkA00    :HIV-inactivating Protein, Cyanovirin-n
+2.30.90    1mkcA00    :Heparin-binding Growth Factor, Midkine; Chain A, C-terminal Domain;
+2.30.110    2r0xA00    :Pnp Oxidase; Chain A
+2.30.120    1gk9B02    :Penicillin G acylase, beta-roll domain 
+2.30.130    4dmgA01    :Archaeosine Trna-guanine Transglycosylase; Chain: A, domain 4
+2.30.140    2i7cA01    :Spermidine Synthase; Chain: A, domain 2
+2.30.150    2a6hC04    :Rna Polymerase Beta Subunit; Chain: C, domain 4
+2.30.160    1fjrA01    :Methuselah Ectodomain; Chain: A, domain 1
+2.30.170    1jjdA00    :Ribosomal Protein L24e; Chain: T;
+2.30.180    1o70A01    :FAS1 domain
+2.30.210    2v0cA03    :Leucyl-tRNA synthetase, domain 3
+2.30.220    1io1A03    :f41 fragment of flagellin, C-terminal domain
+2.30.230    1lshA01    :Lipovitellin-phosvitin complex; beta-sheet shell regions
+2.30.240    1yduA01    :at5g01610, DUF538 DOMAIN
+2.30.250    5jgfA02    :Aminopeptidase i, Domain 2
+2.30.260    4q68A02    :putative xylanase like fold
+2.30.270    2ra9A02    :duf1285 protein fold
+2.30.280    3fdeB01    :PUA domain-like
+2.30.290    5dmdA00    :BH3618-like
+2.30.300    1wruA01    :Phage tail proteins - horseshoe like beta roll fold 
+2.30.310    5h3xA01    :ibrinogen binding protein from staphylococcus aureus fold
+2.30.320    1pv5A00    :Hypothetical protein YwqG fold
+2.30.330    4yx1A00    :Surface presentation of antigens (SPOA) 
+2.30.340    1yvuA02    :PAZ domain fold
+2.40.10    5avdA02    :Thrombin, subunit H
+2.40.15    1a1xA00    :Proto-oncogene - Oncogene Product P14tcl1
+2.40.20    1i71A00    :Plasminogen Kringle 4
+2.40.30    3w5hA01    :Elongation Factor Tu (Ef-tu); domain 3
+2.40.33    2g50F03    :M1 Pyruvate Kinase; Domain 3
+2.40.37    2vd8A01    :Lyase, Ornithine Decarboxylase; Chain A, domain 1
+2.40.40    3x2mA00    :Barwin-like endoglucanases
+2.40.50    4xdxA00    :OB fold (Dihydrolipoamide Acetyltransferase, E2P)
+2.40.70    1bxoA02    :Cathepsin D, subunit A; domain 1
+2.40.100    4o8hA00    :Cyclophilin
+2.40.110    2uxwA03    :Butyryl-CoA Dehydrogenase, subunit A; domain 2
+2.40.128    2x8sA02    :Lipocalin
+2.40.150    1whiA00    :Ribosomal Protein L14
+2.40.155    2wurA00    :Green Fluorescent Protein
+2.40.160    5fvnA00    :Porin
+2.40.170    1af6A00    :Maltoporin; Chain A
+2.40.180    4aumA01    :Catalase HpII,  Chain A, domain 1
+2.40.200    1jb7B00    :Telomere-binding Protein Beta Subunit; Chain B
+2.40.220    4xjwA03    :Intramolecular trans-sialidase; domain 3
+2.40.230    1qd5A00    :Outer membrane phospholipase (ompla); Chain C
+2.40.240    3aiiA03    :Ribosomal Protein L25; Chain P
+2.40.250    3wttB00    :Polyomavirus Enhancer Binding Protein 2; Chain: A; 
+2.40.260    2w1jA00    :Sortase; Chain: A; 
+2.40.270    1twfB06    :Dna-directed Rna Polymerase Ii 140kd Polypeptide; Chain: B; Domain 6
+2.40.280    1wjxA00    :Small Protein B; Chain: A; 
+2.40.290    1ow1A00    :Ku70; Chain: A; Domain 2
+2.40.300    1c5eA00    :Virus Head Decoration Protein; Chain: A,
+2.40.310    1nycA00    :Staphostatins
+2.40.320    5a67A00    :Hypothetical Protein Pfu-838710-001
+2.40.330    4i1kA00    :At1g16640 B3 domain
+2.40.340    5eruA04    :Beta-clip
+2.40.350    2q03B00    :AOC barrel-like
+2.40.360    2in5A00    :YmcC-like fold
+2.40.370    2ichA01    :AttH-like fold
+2.40.380    3exmA01    :FomD barrel-like fold
+2.40.390    2o3iA02    :CV3147-like
+2.40.400    4zboC00    :Acetoacetate decarboxylase-like
+2.40.410    3c8iA00    :putative membrane protein from Corynebacterium diphtheriae fold
+2.40.420    3c2qA01    :conserved putative lor/sdh protein from methanococcus maripaludis s2 fold
+2.40.430    3rlfF03    :Periplasmic binding protein-like II
+2.40.440    4lpqA02    :L,D-transpeptidase catalytic domain-like
+2.40.450    2gmqA00    :PUA domain-like fold
+2.40.460    4wz8B02    :ClpP/crotonase fold
+2.40.470    1ye9A02    :catalase hpii fold
+2.40.480    4h6cB00    :AOC barrel-like
+2.40.490    4gipD02    :Head and neck region of the ectodomain of NDV fusion glycoprotein
+2.40.500    1h5wB02    :Upper collar protein gp10 (connector protein) fold
+2.40.510    4ooxA01    :Nucleoplasmin-like/VP (viral coat and capsid proteins) 
+2.50.10    3eojA00    :Bacteriochlorophyll-a Protein
+2.50.20    4mxtA00    :outer membrane lipoprotein receptor (LolB), chain A
+2.60.9    2hnuA00    :Neurophysin II; Chain A
+2.60.11    5b1aF00    :Cytochrome C Oxidase; Chain F
+2.60.15    2e5yA01    :ATP Synthase; domain 1
+2.60.20    4iauA02    :Gamma-B Crystallin; domain 1
+2.60.30    2oizH00    :Electron Transport Ethylamine Dehydrogenase
+2.60.34    4f01B01    :Substrate Binding Domain Of DNAk; Chain A, domain 1
+2.60.40    4unuA00    :Immunoglobulin-like
+2.60.60    4wfoA01    :Lipoxygenase-1
+2.60.90    4xqaA00    :Adenovirus Type 5 Fiber Protein (Receptor Binding Domain)
+2.60.98    1svbA01    :Tick-borne Encephalitis virus Glycoprotein; domain 1
+2.60.110    2vhkA00    :Thaumatin
+2.60.120    5k8sB00    :Jelly Rolls
+2.60.130    4whsD00    :Protocatechuate 3,4-Dioxygenase, subunit A
+2.60.169    2bpa100    :Bacteriophage G4 Capsid Proteins Gpf, Gpg, Gpj, subunit 1
+2.60.175    4mbyH00    :Polyomavirus Vp1; Chain A
+2.60.200    4r9pA00    :Tumour Suppressor Smad4
+2.60.210    4ysiA00    :Apoptosis, Tumor Necrosis Factor Receptor Associated Protein 2; Chain A
+2.60.220    1rwhA03    :Chondroitinase Ac; Chain A, domain 3
+2.60.240    1cq3A00    :Viral Chemokine Inhibitor; Chain A
+2.60.250    1p35C00    :Baculovirus p35
+2.60.260    3tj8A01    :HSP40/DNAj peptide-binding domain
+2.60.270    4wdcA00    :Mutm (Fpg) Protein; Chain: A, domain 2 
+2.60.290    1nc7A00    :Hypothetical Protein Tm1070; Chain: A
+2.60.300    1r94A00    :Hypothetical Protein Aq_1857; Chain: A; 
+2.60.310    1js8B02    :Hemocyanin; Chain: A, domain 2
+2.60.320    3ld7A00    :mini-chromosome maintenance (MCM) complex, domain 2
+2.60.330    1n7vA02    :receptor-binding protein prd1-p2, domain 2
+2.60.340    1n7zA01    :baseplate structural protein gp8, domain 1
+2.60.350    1x0cA01    :Dex49a from penicillium minioluteum complex, domain 1
+2.60.370    1so9A00    :Ctag/Cox11 (Pfam 04442)
+2.60.390    3og2A03    :beta-galactosidase, domain 3
+2.60.410    3mzfA02    :Peptidoglycan synthesis regulatory factor (PBP3), Domain 2
+2.60.420    1v7wA02    :Maltose phosphorylase, domain 3
+2.60.430    2p84A01    :YopX-like fold
+2.60.440    2oezA01    :YacF-like 
+2.60.450    2r19A00    :lipopolysaccharide transport protein A fold
+2.60.460    2qzbA00    :protein yfey like fold
+2.60.470    2qtsA02    :Acid-sensing ion channels like fold
+2.60.480    3g74C00    :eubacterium ventriosum atcc fold
+2.60.490    4dw1A02    :atp-gated p2x4 ion channel fold
+2.60.500    1ywmA01    :Surface Active Protein fold
+2.60.510    3tcqA02    :EV matrix protein fold
+2.60.520    1zruC01    :Triple-stranded beta-helix 
+2.60.530    1jmmA02    :Major cell-surface adhesin PAc
+2.70.9    2obeA04    :Adenovirus Type 2 Hexon; domain 4
+2.70.10    2pw8I00    :Thrombin Inhibitor (Hirudin); Chain I
+2.70.20    1mw9X03    :Topoisomerase I; domain 3
+2.70.40    1euwA00    :Deoxyuridine 5'-Triphosphate Nucleotidohydrolase; Chain A
+2.70.50    1kmtA00    :Coagulation Factor XIII; Chain A, domain 1
+2.70.70    4qp5A00    :Glucose Permease (Domain IIA)
+2.70.98    1rwhA02    :Beta-galactosidase; Chain A, domain 5
+2.70.100    2v3iA00    :1,4-Beta-D-Glucan Cellobiohydrolase I; Chain A
+2.70.130    1gp0A00    :Cation-dependent Mannose-6-phosphate Receptor; Chain A
+2.70.150    3ar4A01    :Calcium-transporting ATPase, cytoplasmic transduction domain A
+2.70.160    4c08A02    :Hnrnp arginine n-methyltransferase1
+2.70.170    2wn9D00    :Acetylcholine Binding Protein; Chain: A, 
+2.70.180    1njhA00    :Protein Yojf; Chain: A; 
+2.70.210    5m04A01    :Spo0b-associated Gtp-binding Protein; Chain: A, 
+2.70.220    2ag4A00    :Ganglioside M2 Activator Protein; Chain: A, 
+2.70.230    3w9eC00    :Glycoprotein D; Chain: A; 
+2.70.240    4iyaA00    :Leukocidin-like
+2.70.250    1n7vA03    :receptor-binding protein prd1-p2, domain 3
+2.80.10    3nbcA00    :Trefoil (Acidic Fibroblast Growth Factor, subunit A)
+2.80.20    1yu4C02    :Tail fiber receptor-binding protein
+2.90.10    2dpfA00    :Agglutinin, subunit A
+2.90.20    1z1yA01    :Plasmodium vivax P25 fold
+2.100.10    1w99A03    :Vitelline Membrane Outer Layer Protein I, subunit A
+2.102.10    2bmoA02    :Rieske Iron-sulfur Protein
+2.102.20    3og2A02    :beta-galactosidase, domain 2
+2.102.30    3dclA01    :tm1086 (SG structure) fold
+2.105.10    1n7vA01    :Pseudo beta propeller
+2.110.10    3c7xA00    :Hemopexin
+2.115.10    5c2mA00    :Tachylectin-2; Chain A
+2.120.10    2bf6A01    :Neuraminidase
+2.130.10    2oizA01    :Methylamine Dehydrogenase; Chain H
+2.140.10    1w6sA00    :Methanol Dehydrogenase; Chain A
+2.150.10    3laaA00    :Alkaline Protease, subunit P, domain 1
+2.160.10    3kwdA00    :UDP N-Acetylglucosamine Acyltransferase; domain 1
+2.160.20    1k5cA00    :Pectate Lyase C-like
+2.160.30    1h6wA02    :heat- and protease-stable fragment of the bacteriophage t4 short fibre, domain 2
+2.170.8    4gmuA02    :Phosphoenolpyruvate Carboxykinase; domain 2
+2.170.9    2obeB02    :Adenovirus Type 2 Hexon; domain 1
+2.170.11    1oisA02    :DNA Topoisomerase I; domain 2
+2.170.14    2xc1A01    :Tailspike Protein; Chain
+2.170.15    2d42A01    :Proaerolysin; Chain A, domain 3
+2.170.16    3nzmA00    :Endonuclease - Pi-scei; Chain A, domain 1
+2.170.30    3ng9A00    :Empty Capsid Viral Protein 2
+2.170.40    4jzzA01    :HIV Envelope Protein Gp120; Chain G
+2.170.120    2pa8D02    :RNA Polymerase Alpha Subunit; Chain A, domain 2
+2.170.130    1kmoA01    :Ferric Hydroxamate Uptake Protein; Chain A, domain 1
+2.170.140    1dqcA00    :Antimicrobial Protein, Tachycitin; Chain A
+2.170.150    1yz1A00    :Metal Binding Protein, Guanine Nucleotide Exchange Factor; Chain A
+2.170.160    4jjjA02    :Endo-1,4-beta-glucanase f; domain 2
+2.170.170    3s9zA02    :Malate synthase G - maily-beta sub-domain
+2.170.180    1fjrA02    :Methuselah ectodomain, domain 2
+2.170.190    5erqA03    :Molybdopterin biosynthesis moeA protein; domain 3
+2.170.200    2nnuA02    :Regulatory Protein E2; Chain: A; Domain 2
+2.170.210    3mudA01    :Dna Repair Protein Xrcc4; Chain: A, domain 1
+2.170.220    2d5bA02    :Methionyl-trna Synthetase; domain 2
+2.170.230    1b12A02    :Signal Peptidase I; Chain: A, domain 2
+2.170.240    1t60D00    :Noncollagenous (NC1) domain of collagen IV
+2.170.260    4z4dA02    :paz domain
+2.170.270    3f9xD00    :Beta-clip-like
+2.170.280    1io1A02    :f41 fragment of flagellin, middle domain
+2.170.290    1n7zA02    :baseplate structural protein gp8, domain 2
+2.170.300    2gy5A03    :Tie2 ligand-binding domain fold
+2.180.10    4iglD00    :RHS repeat-associated core
+3.10.10    4g1qB01    :HIV Type 1 Reverse Transcriptase; Chain A, domain 1
+3.10.20    1igdA00    :Ubiquitin-like (UB roll)
+3.10.25    2blnA02    :Methionyl-tRNA Fmet Formyltransferase; Chain A, domain 2
+3.10.28    2ab5A01    :Endonuclease I-creI
+3.10.40    3g4nA01    :Pertussis Toxin; Chain B, domain 1
+3.10.50    1itxA02    :Chitinase A; domain 3
+3.10.100    3wh2A00    :Mannose-Binding Protein A; Chain A
+3.10.105    1jetA03    :Dipeptide-binding Protein; domain 3
+3.10.110    1z2uA00    :Ubiquitin Conjugating Enzyme
+3.10.120    3x34A00    :Flavocytochrome B2; Chain A, domain 1
+3.10.129    4mtuA00    :Thiol Ester Dehydrase; Chain A
+3.10.130    1dy5A00    :P-30 Protein
+3.10.150    4k3lB02    :DNA Polymerase III; Chain A, domain 2
+3.10.170    5jviE01    :Elastase; domain 1
+3.10.180    1nkiA00    :2,3-Dihydroxybiphenyl 1,2-Dioxygenase; domain 1
+3.10.196    2o2kA01    :Cobalamin-dependent Methionine Synthase; domain 1
+3.10.200    3ks3A00    :Carbonic Anhydrase II
+3.10.250    1z8gA01    :Mac-2 Binding Protein
+3.10.260    1bm8A00    :Mlu1-box Binding Protein; DNA-binding Domain
+3.10.270    3l8wA00    :Urate Oxidase
+3.10.280    3jv1A00    :Mitochondrial Matrix Protein; Chain A
+3.10.290    3kbgA01    :Structural Genomics Hypothetical 15.5 Kd Protein In mrcA-pckA Intergenic Region; Chain A
+3.10.300    3ubyA00    :3-methyladenine DNA Glycosylase; Chain A
+3.10.310    4jbdA02    :Diaminopimelate Epimerase; Chain A, domain 1
+3.10.320    4x5wA01    :Class II Histocompatibility Antigen, M Beta Chain; Chain B, domain 1
+3.10.330    5b6cA02    :Vcp-like ATPase; Chain A, domain 2
+3.10.340    4gvqA01    :Methenyltetrahydromethanopterin Cyclohydrolase; Chain A, domain 1
+3.10.350    5k2lA00    :Membrane-bound Lytic Murein Transglycosylase D; Chain A
+3.10.360    1fd3A00    :Antimicrobial Peptide, Beta-defensin 2; Chain A
+3.10.380    2b5uA03    :Ribonuclease domain of colicin e3 (Residues 456-551)
+3.10.390    1oqjA00    :SAND domain
+3.10.400    1r6xA01    :Sulfate adenylyltransferase
+3.10.410    3do6A03    :Formyltetrahydrofolate synthetase; domain 3
+3.10.420    2hngA00    :Bacterial Protein-export protein SecB
+3.10.430    1divA02    :Ribosomal Protein L9; domain 2
+3.10.440    1vq8X00    :Ribosomal Protein L31e; Chain: W; 
+3.10.450    2o9uX00    :Nuclear Transport Factor 2; Chain: A, 
+3.10.460    2w2rA00    :VSV matrix protein
+3.10.470    1t23A00    :chromosomal protein mc1
+3.10.490    3judA00    :Hypothetical upf0131 protein ytfp
+3.10.500    1x9yA01    :prostaphopain b, domain 1
+3.10.510    2hfqA00    :NE1680-like fold
+3.10.520    1vrmA01    :T-fold
+3.10.530    2jovA01    :CPE0013-like fold
+3.10.540    2ra9A01    :duf1285 like fold
+3.10.550    2hlyA00    :Atu2299-like
+3.10.560    2j58A01    :Outer membrane lipoprotein wza fold like
+3.10.570    3ib5A00    :sex pheromone staph- cam373 precursor fold
+3.10.580    2uv4A00    :CBS-domain
+3.10.590    2hd9A00    :ph1033 like fold
+3.10.600    2qf7A03    :pyruvate carboxylase f1077a mutant fold
+3.10.610    3ci0J01    :Pili subunits
+3.10.620    3c9qA00    :C8orf32 fold
+3.10.630    3bh1A01    :dip2346 fold like
+3.10.640    2g3wA00    :Restriction endonuclease-like alpha-beta roll fold
+3.10.650    3rlfF02    :MalF N-terminal region-like 
+3.10.660    4x33A00    :Microbial ribonuclease fold
+3.10.670    4g29A00    :Secreted effector protein ssei fold
+3.10.680    1s5lB02    :Photosystem II CP47 reaction center protein
+3.10.690    1sj5A00    :Bifunctional nuclease domain
+3.15.10    1ewfA01    :Bactericidal permeability-increasing protein; domain 1
+3.15.20    1ewfA02    :Bactericidal permeability-increasing protein; domain 2
+3.15.30    3bqwA01    :putative capsid protein of prophage fold
+3.20.10    2eiyB02    :D-amino Acid Aminotransferase; Chain A, domain 2
+3.20.14    3a9sA03    :L-fucose Isomerase; Chain A, domain 3
+3.20.16    4p3hA00    :Serine Protease, Human Cytomegalovirus Protease; Chain A
+3.20.19    3h5jA00    :Aconitase; domain 4
+3.20.20    4beuA02    :TIM Barrel
+3.20.70    3o0qA00    :Anaerobic Ribonucleotide-triphosphate Reductase Large Chain
+3.20.80    5kawA00    :Multidrug-efflux Transporter 1 Regulator Bmrr; Chain A
+3.20.90    3c5nA00    :Tubby Protein; Chain A
+3.20.100    3bgyA00    :mRNA Triphosphatase Cet1; Chain A
+3.20.110    3bvxA01    :7-stranded beta/alpha barrel
+3.20.120    2b97A00    :hfbii hydrophobin
+3.20.130    2isbA00    :fumarase
+3.20.140    3os4A00    :nicotinate phosphoribosyltransferase
+3.20.160    2qhqB00    :pseudo Tubby roll
+3.20.170    2auaA01    :ADP-ribosylation fold
+3.20.180    2arzA02    :Split barrel-like
+3.20.190    1k3xA01    :N-terminal domain of MutM-like DNA repair proteins
+3.20.200    3lkmA02    :Protein kinase-like fold
+3.30.9    4h1bA02    :D-Amino Acid Oxidase; Chain A, domain 2
+3.30.10    1vbwA00    :Trypsin Inhibitor V; Chain A
+3.30.20    3wh1A02    :Endochitinase; domain 2
+3.30.30    1ahoA00    :Defensin A-like
+3.30.40    3t7lA00    :Herpes Virus-1
+3.30.43    1zr6A01    :Uridine Diphospho-n-acetylenolpyruvylglucosamine Reductase; domain 2
+3.30.44    1kvdB00    :Smk Toxin, Beta chain
+3.30.46    3thrA01    :Glycine N-methyltransferase; chain A, domain 1
+3.30.50    4olnA00    :Erythroid Transcription Factor GATA-1; Chain A
+3.30.54    2i06A02    :Replication Terminator Protein; Chain A, domain 2
+3.30.56    2cxiA01    :Phenylalanyl-tRNA Synthetase; Chain B, domain 1
+3.30.60    1p9gA00    :Wheat Germ Agglutinin (Isolectin 2); domain 1
+3.30.62    4u5wA00    :Nef Regulatory Factor
+3.30.63    1kgdA02    :Guanylate Kinase phosphate binding domain
+3.30.65    1yuaA01    :Bacterial Topoisomerase I; domain 1
+3.30.66    2f4qA01    :Viral Topoisomerase I
+3.30.67    5jhmA02    :Viral Envelope Glycoprotein; domain 2
+3.30.70    7fd1A00    :Alpha-Beta Plaits
+3.30.110    1tigA00    :Translation Initiation Factor IF3
+3.30.160    2nugA02    :Double Stranded RNA Binding Domain
+3.30.170    1cksB00    :Cyclin-Dependent Kinase Subunit Type 2
+3.30.190    1gk8I00    :Ribulose 1,5 Bisphosphate Carboxylase/Oxygenase
+3.30.200    5lvoA01    :Phosphorylase Kinase; domain 1
+3.30.210    3b0xA04    :Beta Polymerase; domain 3
+3.30.230    1nz0D00    :Ribosomal Protein S5; domain 2
+3.30.240    2ecsA00    :CRO Repressor
+3.30.250    5jrjA02    :Rec A Protein; domain 2
+3.30.260    1kp8A02    :GROEL; domain 2
+3.30.280    4ac7A00    :Urease; subunit A
+3.30.300    5a1iA03    :GMP Synthetase; Chain A, domain 3
+3.30.305    2hdiB00    :Colicin Ia; domain 2
+3.30.310    1qnaA01    :TATA-Binding Protein
+3.30.342    3qexA01    :DNA Polymerase; Chain A, domain 1
+3.30.350    2sicI00    :Subtilisin Inhibitor
+3.30.360    5kvsA02    :Dihydrodipicolinate Reductase; domain 2
+3.30.365    4usaA04    :Aldehyde Oxidoreductase; domain 4
+3.30.370    5f4cA00    :Barnase; Chain D
+3.30.379    1gqiA01    :Chitobiase; domain 2
+3.30.380    2qudA00    :MS2 Viral Coat Protein
+3.30.386    4oltA02    :Chitosanase; Chain A, domain 2
+3.30.387    4gsxA03    :Viral Envelope Glycoprotein; domain 3
+3.30.390    1r0mA01    :Enolase-like; domain 1
+3.30.410    4rekA02    :Cholesterol Oxidase; domain 2
+3.30.412    3g4nA02    :Proaerolysin; Chain A, domain 2
+3.30.413    4g38A02    :Sulfite Reductase Hemoprotein; domain 1
+3.30.420    4ep4A00    :Nucleotidyltransferase; domain 5
+3.30.428    3oheA00    :HIT family, subunit A
+3.30.429    3b64A00    :Macrophage Migration Inhibitory Factor
+3.30.430    1kptA00    :Killer Toxin P4; Chain A
+3.30.450    1nwzA00    :Beta-Lactamase
+3.30.457    1qakA01    :Copper Amine Oxidase; Chain A, domain 1
+3.30.460    3hj4A02    :Beta Polymerase; domain 2
+3.30.465    1n62C03    :Uridine Diphospho-n-acetylenolpyruvylglucosamine Reductase; domain 3
+3.30.470    4chiA01    :D-amino Acid Aminotransferase; Chain A, domain 1
+3.30.479    3d7jA00    :Tetrahydropterin Synthase; Chain A
+3.30.497    5c98A01    :Antithrombin; Chain I, domain 2
+3.30.499    1c96A01    :Aconitase; domain 3
+3.30.500    1k5nA01    :Murine Class I Major Histocompatibility Complex, H2-DB; Chain A, domain 1
+3.30.505    5gjiA00    :SHC Adaptor Protein
+3.30.519    1d5tA02    :Guanine Nucleotide Dissociation Inhibitor; domain 2
+3.30.530    4bk7A00    :Alpha-D-Glucose-1,6-Bisphosphate; Chain A, domain 4
+3.30.540    5iz3A01    :Fructose-1,6-Bisphosphatase; Chain A, domain 1
+3.30.559    2rkvA01    :Chloramphenicol Acetyltransferase
+3.30.560    3qvpA03    :Glucose Oxidase; domain 3
+3.30.565    5cphA00    :Heat Shock Protein 90
+3.30.572    4gevA00    :Thymidylate Synthase; Chain A
+3.30.590    1m15A02    :Creatine Kinase; Chain A, domain 2
+3.30.700    1x6zA00    :Glycoprotein, Type 4 Pilin
+3.30.710    4bgcA00    :Potassium Channel Kv1.1; Chain A
+3.30.720    5aoxE00    :Signal recognition particle alu RNA binding heterodimer, srp9/1
+3.30.730    1gccA00    :GCC-box Binding Domain
+3.30.740    2xqqC00    :Protein Inhibitor Of Neuronal Nitric Oxide Synthase
+3.30.750    1h4xA00    :Transcription Regulator spoIIAA
+3.30.760    4ue8A00    :RNA Cap, Translation Initiation Factor Eif4e
+3.30.780    4mo0A00    :Translation Initiation Factor Eif1
+3.30.800    3x01B01    :Phosphatidylinositol Phosphate Kinase II Beta
+3.30.810    3x01A02    :Phosphatidylinositol Phosphate Kinase Iibeta; Chain: A, domain 2
+3.30.830    3go9A02    :Cytochrome Bc1 Complex; Chain A, domain 1
+3.30.860    3a1pB00    :30s Ribosomal Protein S19; Chain A
+3.30.870    1rffA01    :Endonuclease; Chain A
+3.30.890    3vxvA00    :Methyl-cpg-binding Protein 2; Chain A
+3.30.900    5c50B00    :Cell Cycle, Spindle Assembly Checkpoint Protein; Chain A
+3.30.910    1ghhA00    :Protein Binding, DinI Protein; Chain A
+3.30.920    3t3lA00    :Metal Transport, Frataxin; Chain A
+3.30.930    4xemA01    :BirA Bifunctional Protein; domain 2
+3.30.950    2z6rA02    :Methyltransferase, Cobalt-precorrin-4 Transmethylase; Domain 2
+3.30.960    3agkA01    :Translation, Eukaryotic Peptide Chain Release Factor Subunit 1; Chain A
+3.30.980    1v4pC01    :Threonyl-tRNA Synthetase; Chain A, domain 2
+3.30.990    1qd1A01    :Formiminotransferase-cyclodeaminase; Chain B, domain 1
+3.30.1010    4uwhA02    :Phosphatidylinositol 3-kinase Catalytic Subunit; Chain A, domain 4
+3.30.1020    2v2gD02    :Antioxidant, Horf6; Chain A, domain 2
+3.30.1030    4gvqA02    :Methenyltetrahydromethanopterin Cyclohydrolase; Chain A, domain 2
+3.30.1040    1dtdB00    :Carboxypeptidase Inhibitor; Chain A
+3.30.1050    1pz4A00    :Nonspecific Lipid-transfer Protein; Chain A
+3.30.1060    4gwbA00    :Peptide Methionine Sulfoxide Reductase; Chain A
+3.30.1070    3ku7B00    :Cell Cycle; Chain A
+3.30.1110    2absA02    :Adenosine kinase, small domain
+3.30.1120    1hdhA02    :Arylsulfatase, C-terminal domain
+3.30.1130    2o90A00    :GTP Cyclohydrolase I, domain 2
+3.30.1140    2vqeC02    :Ribosomal protein S3 C-terminal domain 
+3.30.1150    4g7xB00    :Fusion Protein Consisting Of Minor Coat Protein, Glycine Rich Linker, Tola, And A His Tag; Chain: A; Domain 2
+3.30.1160    1dw9A02    :Cyanate Lyase; Chain: A, domain 2
+3.30.1170    1gaxA04    :Valyl-trna Synthetase; Chain: A, domain 4
+3.30.1180    4x9xA02    :Hypothetical Protein Tm841; Chain: A;domain 3
+3.30.1190    1nr3A00    :Dna-binding Protein Tfx; Chain: A; 
+3.30.1200    1n91A00    :Conserved Hypothetical Protein Mth637; Chain: A; 
+3.30.1220    1nijA02    :Hypothetical Protein Yjia; Chain: A;domain 2
+3.30.1230    1g2rA00    :Hypothetical Cytosolic Protein; Chain: A; 
+3.30.1240    2rbkA02    :Hypothetical Protein, Haloacid Dehalogenase-like Hydrolase; Chain: A; domain 2
+3.30.1250    2wbmA01    :Hypothetical 12.0 Kda Protein In Nam8-gar1 Intergenic Region; Chain: A; 
+3.30.1280    2zw2A00    :Mth169; Chain: A , 
+3.30.1300    3covA02    :Pantoate--beta-alanine Ligase; Chain: A,domain 2
+3.30.1310    1j8bA00    :Ybab; Chain: A; 
+3.30.1320    3bn0A00    :S16 Ribosomal Protein; Chain: A; 
+3.30.1330    3kizA01    :60s Ribosomal Protein L30; Chain: A; 
+3.30.1340    3ccdA00    :Histidine-containing Protein; Chain: A; 
+3.30.1350    1ejgA00    :Crambin
+3.30.1360    1xppD00    :Gyrase A; domain 2
+3.30.1370    1zzkA00    :Ribosomal Protein S8; Chain: A, domain 1
+3.30.1380    3k7iB00    :Muramoyl-pentapeptide Carboxypeptidase; domain 2
+3.30.1390    3dnjA00    :Ribosomal Protein L30; Chain: A, 
+3.30.1400    1f46B00    :Cell Division Protein Zipa; Chain: A,
+3.30.1410    1jg5A00    :Gtp Cyclohydrolase I Feedback Regulatory Protein; Chain: K
+3.30.1420    1sauA01    :Dissimilatory Siroheme-sulfite Reductase; Chain: A; domain 1
+3.30.1430    1vq8B03    :Ribosomal Protein L3; Chain: B; domain 2,
+3.30.1440    1iq4A00    :50s Ribosomal Protein L5; Chain: A, 
+3.30.1450    3d4eA01    :Beta-lactamase Inhibitory Protein; Chain:B, domain 1
+3.30.1460    4g6tA00    :Yope Regulator; Chain: A, 
+3.30.1470    1jb0D00    :Photosystem 1 Reaction Centre Subunit Ii; Chain: D; 
+3.30.1480    1k0rA01    :N Utilization Substance Protein A; Chain:P; domain 4
+3.30.1490    1seiA02    :Dna Ligase; domain 1
+3.30.1500    4o6uA00    :Heme-binding Protein A; Chain: A; 
+3.30.1510    3do6A02    :Domain 2, N(10)-formyltetrahydrofolate synthetase
+3.30.1520    1kq6A00    :PX Domain
+3.30.1530    1o9iA02    :manganese catalase, domain 2, chain A
+3.30.1540    2yimA02    :formyl-coa transferase, domain 3
+3.30.1550    3cjsB00    :Ribosomal protein L11, N-terminal domain
+3.30.1560    1oo0A00    :Mago nashi protein
+3.30.1570    1hufA00    :YopH tyrosine phosphatase N-terminal domain
+3.30.1580    2l6qA00    :Head-to-tail joining protein W, gpW
+3.30.1590    1iv8A02    :Maltooligosyl trehalose synthase, domain 2
+3.30.1600    4bn4A02    :SIR2/SIRT2 'Small Domain'
+3.30.1610    5hb6B00    :c-terminal autoproteolytic domain of nucleoporin nup98
+3.30.1620    1l1lA02    :b-12 dependent (class ii) ribonucleotide reductase, Chain A, Domain 2
+3.30.1640    4ywkA01    :mini-chromosome maintenance (MCM) complex, chain A, domain 1
+3.30.1650    1oaoC03    :Bifunctional carbon monoxide dehydrogenase/acetyl-coa synthase(codh/acs), Chain M, domain 3
+3.30.1660    2ux9C00    :Dodecin subunit-like
+3.30.1670    1okgA03    :3-mercaptopyruvate sulfurtransferase, domain 3
+3.30.1680    4wk0B01    :ligand-binding face of the semaphorins, domain 2
+3.30.1690    3vorA00    :TcpA-like pilin
+3.30.1700    3p3eA02    :lpxc deacetylase, domain 1
+3.30.1710    1qysA00    :top7, de novo designed protein
+3.30.1730    1t8sA01    :amp nucleosidase, domain 1
+3.30.1740    3od8F00    :first zn-finger domain of poly(adp-ribose) polymerase-1
+3.30.1750    1vclA03    :hemolytic lectin cel-iii, domain 3
+3.30.1760    1vk1A02    :Conserved hypothetical protein from pyrococcus furiosus pfu- 392566-001, domain 2
+3.30.1770    2py5A03    :TPR 1 domain of DNA polymerase
+3.30.1780    1x7dB01    :ornithine cyclodeaminase, domain 1
+3.30.1790    1td6A02    :hypothetical protein mp506/mpn330, domain 2
+3.30.1810    2hh8A00    :YdfO-like fold
+3.30.1820    2iayA00    :Lp2179-like fold
+3.30.1830    2joeA01    :YehR-like fold
+3.30.1840    1xdpA02    :polyphosphate kinase like
+3.30.1850    3bq9A01    :MCP/YpsA-like
+3.30.1860    2qyaA01    :uncharacterized conserved protein from methanopyrus kandleri fold like
+3.30.1870    2qgmA02    :EreA/ChaN-like, small alpha-beta sandwich
+3.30.1880    3awuB01    :protein ne1242 fold
+3.30.1890    4e29B00    :Bacterial polysaccharide co-polymerase-like
+3.30.1900    3bt3A01    :glyoxalase-related enzyme like fold
+3.30.1910    2jroA01    :so0334 like fold
+3.30.1920    3cddB03    :Phage tail proteins - 2 layer sandwich fold
+3.30.1930    3bqwA02    :capsid protein of prophage fold
+3.30.1940    3bu2A02    :Nucleic acid-binding protein fold
+3.30.1950    2j58A03    :wza like fold
+3.30.1960    2it2B00    :SSo0622-like fold
+3.30.1970    2fdoA00    :AF2331-like fold
+3.30.1980    1qw2A00    :Hypothetical protein Ta1206 fold
+3.30.1990    1sr8A01    :CbiD-like
+3.30.2000    2gjvA00    :STM4215-like
+3.30.2010    4jiuA00    :Zincin-like
+3.30.2020    2auwA01    :NE0471 N-terminal domain-like
+3.30.2030    2fpnA01    :TBP-like
+3.30.2040    2pifA02    :PSTPO5379-like fold
+3.30.2050    5b66O02    :photosynthetic oxygen evolving center fold
+3.30.2060    3fpnB00    :Penicillin-binding protein 1b fold
+3.30.2070    2vpzA04    :Formate dehydrogenase/DMSO reductase,
+3.30.2080    2ww2A02    :GH92 mannosidase fold
+3.30.2090    4dx5A08    :Multidrug efflux transporter AcrB TolC docking domain; DN and DC subdomains 
+3.30.2110    1sr8A02    :CbiD-like
+3.30.2120    1r7lA00    :Bacillus phage protein
+3.30.2130    1zhvA00    :VC0802-like
+3.30.2140    1w5rA01    :Arylamine N-acetyltransferase fold
+3.30.2150    1nt2B01    :S-adenosyl-L-methionine-dependent methyltransferases
+3.30.2160    3h1dA02    :Hect, E3 ligase catalytic domain
+3.30.2170    3gocA00    :archaeoglobus fulgidus dsm 4304 fold
+3.30.2180    2r6iA01    :ATP12-like
+3.30.2190    2gukA00    :PG1857-like 
+3.30.2200    3fn2A00    :histidine kinase doma clostridium symbiosum atcc 14940
+3.30.2210    3fy6D01    :Integron cassette protein  fold
+3.30.2220    3fgxA00    :rbstp2171 
+3.30.2230    4a3pA01    :DUSP-like
+3.30.2240    3bl9B02    :mRNA decapping enzyme DcpS N-terminal fold
+3.30.2250    1ro2A02    :Prim-pol fold
+3.30.2260    2nmlA00    :ERH-like fold
+3.30.2270    2gagD00    :Folate-binding fold
+3.30.2280    1sgoA01    :copper amine oxidase-like fold
+3.30.2290    1vpbA01    :PmbA/TldD fold
+3.30.2300    1vbkA02    :THUMP fold
+3.30.2310    1xqbA02    :YaeB-like fold
