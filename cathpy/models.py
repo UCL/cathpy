@@ -365,25 +365,27 @@ class Scan(object):
     def as_tsv(self, *, header=True):
         """Returns the Scan as CSV"""
 
-        result = self.results[0]
-
         lines = []
         if header:
             headers = 'funfam members uniq_ec_terms query_region match_region evalue score description'.split()
             lines.append("\t".join(headers))
 
-        for hit in result.hits:
-            ec_term_count = hit.data['ec_term_count'] or 0
-            for hsp in hit.hsps:
-                line = '\t'.join([
-                    '{}'.format(hit.match_name),
-                    '{}'.format(hit.data['funfam_members']),
-                    '{}'.format(ec_term_count),
-                    '{}-{}'.format(hsp.query_start, hsp.query_end),
-                    '{}-{}'.format(hsp.hit_start, hsp.hit_end),
-                    '{:.1e}'.format(hsp.evalue),
-                    '{:d}'.format(int(hsp.score)),
-                    '"{}"'.format(hit.match_description),
-                ])
-                lines.append(line)
+        result = self.results[0]
+
+        if result:
+            for hit in result.hits:
+                ec_term_count = hit.data['ec_term_count'] or 0
+                for hsp in hit.hsps:
+                    line = '\t'.join([
+                        '{}'.format(hit.match_name),
+                        '{}'.format(hit.data['funfam_members']),
+                        '{}'.format(ec_term_count),
+                        '{}-{}'.format(hsp.query_start, hsp.query_end),
+                        '{}-{}'.format(hsp.hit_start, hsp.hit_end),
+                        '{:.1e}'.format(hsp.evalue),
+                        '{:d}'.format(int(hsp.score)),
+                        '"{}"'.format(hit.match_description),
+                    ])
+                    lines.append(line)
+
         return "".join([l + "\n" for l in lines])
