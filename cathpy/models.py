@@ -175,7 +175,7 @@ class ClusterFile(object):
     ::
 
         cf = ClusterFile('/path/to/1.10.8.10-ff-1234.reduced.sto')
-        cf.dir           # '/path/to'
+        cf.path          # '/path/to'
         cf.sfam_id       # '1.10.8.10'
         cf.cluster_type  # 'ff'
         cf.cluster_num   # '1234'
@@ -185,11 +185,11 @@ class ClusterFile(object):
 
     """
 
-    def __init__(self, path, *, dir=None, sfam_id=None, cluster_type=None, cluster_num=None,
+    def __init__(self, fullpath, *, path=None, sfam_id=None, cluster_type=None, cluster_num=None,
                  join_char=None, desc=None, suffix=None):
 
         # explicitly declare attributes (to keep pylint happy at the very least)
-        self.dir = None
+        self.path = None
         self.sfam_id = None
         self.cluster_type = None
         self.cluster_num = None
@@ -198,10 +198,10 @@ class ClusterFile(object):
         self.suffix = None
 
         # initialise from path (if given)
-        attrs = ('dir', 'sfam_id', 'cluster_type',
+        attrs = ('path', 'sfam_id', 'cluster_type',
                  'cluster_num', 'join_char', 'desc', 'suffix')
-        if path:
-            path_info = __class__.split_path(path)
+        if fullpath:
+            path_info = __class__.split_path(fullpath)
             for attr in attrs:
                 setattr(self, attr, path_info[attr])
 
@@ -240,7 +240,7 @@ class ClusterFile(object):
         m = re_file.match(os.path.basename(path))
         if m:
             info = m.groupdict()
-            info['dir'] = os.path.dirname(path)
+            info['path'] = os.path.dirname(path)
             return info
 
         raise err.NoMatchesError(
@@ -258,11 +258,11 @@ class ClusterFile(object):
             self.suffix]
 
         # remove elements that are not defined (eg. desc, suffix)
-        file_parts = [p for p in file_parts if p != None]
+        file_parts = [p for p in file_parts if p is not None]
 
         filename = ''.join(file_parts)
 
-        path = os.path.join(self.dir, filename) if self.dir else filename
+        path = os.path.join(self.path, filename) if self.path else filename
 
         return path
 
