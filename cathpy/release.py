@@ -1,5 +1,5 @@
 """
-Parse CATH Release files
+Provides access to read/write/manipulate CATH Release files
 """
 
 # core
@@ -14,7 +14,7 @@ LOG = logging.getLogger(__name__)
 
 class HasCathIDMixin(object):
     """
-    Mixin for classes that contain a CATH ID
+    Mixin for classes that contain a :class:`cathpy.models.CathID`
 
     Usage:
     ::
@@ -69,10 +69,13 @@ class HasCathIDMixin(object):
 
 class HasEntriesWithCathIDMixin(object):
     """
-    Mixin for container classes that have entries with :class:HasCathIDMixin
+    Mixin for container classes that have entries with :class:`HasCathIDMixin`
     """
 
     def filter_cath_id(self, cath_id):
+        """
+        Returns a new container after filtering to only include entries within a given CATH ID
+        """
         if not isinstance(cath_id, CathID):
             cath_id = CathID(cath_id)
         depth = cath_id.depth
@@ -234,6 +237,20 @@ class CathDomallEntry(object):
     def new_from_string(cls, domall_line):
         """
         Create a new instance from a Domall string
+
+        Usage:
+
+        ::
+
+            domall_str = '10gsA D02 F01  2  A    2 - A   78 -  A  187 - A  208 -  1  A   79 - A  186 -  A  209 - A  209 - (1)'
+            domall = Domall.new_from_string(domall_str)
+
+            domall.domains[0].segments[0].chain_code    # 'A'
+            domall.domains[0].segments[0].start_pdb     # 2
+            domall.domains[0].segments[0].start_insert  # None
+            domall.domains[0].segments[0].end_pdb       # 78
+            domall.domains[0].segments[0].end_insert    # None
+
         """
         domall_line = domall_line.strip()
         cols = domall_line.split()
@@ -296,13 +313,22 @@ class CathDomallEntry(object):
 
 class CathDomall(HasEntriesWithCathIDMixin, BaseReleaseFileList):
     """
-    Class representing a CathDomall release file (domain boundaries)
+    Class representing a CathDomall release file - domain boundaries
+
+    Inherits:
+     - :class:`BaseReleaseFileList`
+     - :class:`HasEntriesWithCathIDMixin`
+
     """
 
     entry_cls = CathDomallEntry
 
 
 class CathNamesEntry(HasCathIDMixin, object):
+    """
+    Class representing a CATH Names entry - name of node in CATH hierarchy
+    """
+
     def __init__(self, *, cath_id, example_domain_id, name,):
         super(CathNamesEntry, self).__init__(cath_id=cath_id)
         self.example_domain_id = example_domain_id
@@ -337,6 +363,13 @@ class CathNamesEntry(HasCathIDMixin, object):
 
 
 class CathNamesList(HasEntriesWithCathIDMixin, BaseReleaseFileList):
+    """
+    Represents a CathNamesList - file containing names for nodes in the CATH hiearchy
+
+    Inherits:
+     - :class:`BaseReleaseFileList`
+     - :class:`HasEntriesWithCathIDMixin`
+    """
 
     entry_cls = CathNamesEntry
 
@@ -374,6 +407,9 @@ class CathDomainListEntry(HasCathIDMixin, object):
         self.resolution = resolution
 
     def to_string(self):
+        """
+        Returns the entry as a CathDomainList string
+        """
         return "{} {:5d} {:5d} {:5d} {:5d} {:5d} {:5d} {:5d} {:5d} {:5d} {:5d} {:.3f}".format(
             self.domain_id,
             self.class_code, self.arch_code, self.top_code,
@@ -385,6 +421,9 @@ class CathDomainListEntry(HasCathIDMixin, object):
 
     @classmethod
     def new_from_string(cls, domainlist):
+        """
+        Creates a new entry from a CathDomainList string
+        """
         domainlist = domainlist.strip()
         cols = domainlist.split()
         if len(cols) != 12:
@@ -411,6 +450,13 @@ class CathDomainListEntry(HasCathIDMixin, object):
 
 
 class CathDomainList(HasEntriesWithCathIDMixin, BaseReleaseFileList):
+    """
+    Represents a CathDomainList - file containing classification of CATH domains
+
+    Inherits:
+     - :class:`BaseReleaseFileList`
+     - :class:`HasEntriesWithCathIDMixin`
+    """
 
     entry_cls = CathDomainListEntry
 
