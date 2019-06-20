@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.14
+
+*Release date: 20/06/2019*
+
+* added `cathpy.release` to read/write/query CATH release files
+
 ## v0.1.13
 
 *Release date: 12/06/2019*
