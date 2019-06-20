@@ -5,4 +5,4 @@ sphinx-rtd-theme==0.4.3
 sphinxcontrib-napoleon==0.7
 tqdm==4.28.1
 jsonpickle>=0.9.6
-dendropy>=4.4.0
+dendropy==4.4.0
