@@ -6,9 +6,11 @@ Provides access to classes that representing general entities such as amino acid
 .. code:: python
 
     from cathpy.models import (
-        AminoAcid, AminoAcids, 
-        CathID, FunfamID,
-        ClusterFile, )
+        AminoAcid,
+        AminoAcids, 
+        CathID,
+        ClusterFile,
+        FunfamID, )
 
     aa = AminoAcids.get_by_id('A')
 
@@ -28,9 +30,9 @@ Provides access to classes that representing general entities such as amino acid
 
     funfam_file.path            # '/path/to/'
     funfam_file.sfam_id         # '1.10.8.10'
-    funfam_file.cluster_num     # 1234
     funfam_file.cluster_type    # 'ff'
-    funfam_file.desc            # 'reduced'
+    funfam_file.cluster_num     # 1234
+    funfam_file.desc            # '.reduced'
     funfam_file.suffix          # '.sto'
 
 .. automodule:: cathpy.models

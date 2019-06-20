@@ -1,8 +1,6 @@
 cathpy.release
 ==============
 
-Provides access to classes that can read/write/manipulate CATH release files 
-
 .. code:: python
 
     from cathpy.release import (
