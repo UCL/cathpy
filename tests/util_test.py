@@ -1,20 +1,16 @@
-import glob
 import logging
 import os
-import re
 import tempfile
-
-from .testutils import TestBase, log_title, log_level
 
 from cathpy import error as err
 from cathpy.util import StructuralClusterMerger
 from cathpy.datafiles import ReleaseDir
 from cathpy.align import Align
-from cathpy.version import CathVersion
 from cathpy import util
-from cathpy.error import OutOfBoundsError
 
-logger = logging.getLogger(__name__)
+from .testutils import TestBase, log_title, log_level
+
+LOG = logging.getLogger(__name__)
 
 
 class TestUtil(TestBase):
@@ -31,7 +27,8 @@ class TestUtil(TestBase):
         self.ff_tmpl = '__SFAM__-ff-__FF_NUM__.reduced.sto'
         self.merge_sto_file = os.path.join(self.data_dir, 'merge.sto')
         self.example_fasta_file = self.sc_file
-        self.cath_release = ReleaseDir(self.cath_version, base_dir=self.data_dir)
+        self.cath_release = ReleaseDir(
+            self.cath_version, base_dir=self.data_dir)
 
     @log_title
     def test_merge(self):
@@ -39,17 +36,17 @@ class TestUtil(TestBase):
             mode='w+', suffix='.fa', delete=True)
         tmp_sto_file = tempfile.NamedTemporaryFile(
             mode='w+', suffix='.sto', delete=False)
-        logger.info("Creating SC merger...")
+        LOG.info("Creating SC merger...")
 
-        merger = StructuralClusterMerger(cath_version=self.cath_version, 
-            sc_file=self.sc_file, 
-            out_sto=tmp_sto_file.name, 
-            out_fasta=tmp_fasta_file.name,
-            ff_dir=self.ff_dir, 
-            ff_tmpl=self.ff_tmpl,
-            cath_release=self.cath_release)
+        merger = StructuralClusterMerger(cath_version=self.cath_version,
+                                         sc_file=self.sc_file,
+                                         out_sto=tmp_sto_file.name,
+                                         out_fasta=tmp_fasta_file.name,
+                                         ff_dir=self.ff_dir,
+                                         ff_tmpl=self.ff_tmpl,
+                                         cath_release=self.cath_release)
 
-        logger.info("Merging SC alignment {}".format(self.sc_file))
+        LOG.info("Merging SC alignment {}".format(self.sc_file))
         merge_aln = merger.run()
         self.assertEqual(merge_aln.count_sequences, 701)
 
@@ -58,7 +55,7 @@ class TestUtil(TestBase):
         with open(self.merge_sto_file) as f:
             sto_expected = f.read()
 
-        logger.info("Checking {} versus {}".format(
+        LOG.info("Checking {} versus {}".format(
             tmp_sto_file.name, self.merge_sto_file))
         self.assertMultiLineEqual(sto_got, sto_expected)
 
@@ -121,7 +118,7 @@ class TestUtil(TestBase):
         sc_file = util.ClusterFile(sc_path)
         # 1.10.8.10__FF_SSG9__6.aln_reps.cora.fa
         self.assertDictEqual(sc_file.__dict__, {
-            'dir': sc_dir,
+            'path': sc_dir,
             'sfam_id': '1.10.8.10',
             'cluster_type': 'FF_SSG9',
             'cluster_num': '6',
@@ -136,7 +133,7 @@ class TestUtil(TestBase):
         ff_file = util.ClusterFile(ff_path)
         # 1.10.8.10-ff-14534.reduced.sto
         self.assertDictEqual(ff_file.__dict__, {
-            'dir': ff_dir,
+            'path': ff_dir,
             'sfam_id': '1.10.8.10',
             'cluster_type': 'ff',
             'cluster_num': '14534',
