@@ -96,7 +96,7 @@ class CathID(object):
 
     def __init__(self, cath_id):
         assert self.RE_CATH_ID.match(cath_id)
-        self._cath_id_parts = cath_id.split('.')
+        self._cath_id_parts = [int(n) for n in cath_id.split('.')]
 
     @property
     def depth(self):
@@ -109,7 +109,7 @@ class CathID(object):
 
         if self.depth < 4:
             raise err.OutOfBoundsError("cannot get sfam_id for CATH ID '{}' (require depth >= 4, not {})".format(
-                ".".join(self._cath_id_parts), len(self._cath_id_parts)
+                self.cath_id, len(self._cath_id_parts)
             ))
         else:
             return self.cath_id_to_depth(4)
@@ -121,10 +121,26 @@ class CathID(object):
 
     def cath_id_to_depth(self, depth):
         """Returns the CATH ID as a string."""
-        return ".".join(self._cath_id_parts[:depth])
+        return ".".join([str(c) for c in self._cath_id_parts[:depth]])
+
+    def __lt__(self, other):
+        """
+        Compares this CATH ID against another one
+        """
+        if not isinstance(other, CathID):
+            other = CathID(other)
+        return self._cath_id_parts < other._cath_id_parts
+
+    def __eq__(self, other):
+        """
+        Checks if this CATH ID is equal to another CATH ID (string or object)
+        """
+        if not isinstance(other, CathID):
+            other = CathID(other)
+        return self._cath_id_parts == other._cath_id_parts
 
     def __str__(self):
-        return ".".join(self._cath_id_parts)
+        return ".".join([str(c) for c in self._cath_id_parts])
 
 
 class ClusterID(object):

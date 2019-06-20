@@ -9,5 +9,6 @@ API
     error
     funfhmmer
     models
+    release
     util
     version

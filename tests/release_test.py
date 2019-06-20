@@ -1,10 +1,13 @@
 import difflib
 import filecmp
 import logging
+from random import shuffle
 import os
 import tempfile
 
-from cathpy.release import CathDomainList, CathNamesList, CathDomall, CathDomallEntry
+from cathpy.release import (
+    CathDomainList, CathNamesList, CathDomall,
+    CathDomainListEntry, CathDomallEntry, )
 
 from . import testutils
 
@@ -42,11 +45,12 @@ class TestDomainList(testutils.TestBase):
     def setUp(self):
         self.domainlist_file = os.path.join(os.path.dirname(
             __file__), 'data', 'release', 'CathDomainList')
+        self.domainlist = CathDomainList.new_from_file(self.domainlist_file)
 
     def test_domainlist(self):
         tmplistfile = tempfile.NamedTemporaryFile(mode='wt')
 
-        domainlist = CathDomainList.new_from_file(self.domainlist_file)
+        domainlist = self.domainlist
         self.assertEqual(len(domainlist), 984)
 
         domainlist.write_to_file(tmplistfile.name)
@@ -60,6 +64,57 @@ class TestDomainList(testutils.TestBase):
         self.assertEqual(domentry.sfam_id, '1.10.8.10')
         self.assertEqual([d.domain_id for d in domainlist[2:4]], [
                          '3frhA01', '3friA01'])
+
+    def test_sort(self):
+        entries = [e for e in self.domainlist.entries]
+        listcopy = CathDomainList(entries=entries)
+        self.assertEqual(self.domainlist.entries, listcopy.entries)
+        shuffle(listcopy.entries)
+        self.assertNotEqual(self.domainlist.entries, listcopy.entries)
+        sorted_entries = sorted(listcopy.entries)
+        listsorted = CathDomainList(entries=sorted_entries)
+        self.assertEqual(self.domainlist.entries, listsorted.entries)
+        # sort in place doesn't work yet
+        listcopy.sort()
+        self.assertEqual(self.domainlist.entries, listcopy.entries)
+
+    def test_filter_cath_id(self):
+        filteredlist = self.domainlist.filter_cath_id('1.10.8.20')
+        expected_domains = {
+            '3hx3A01': '1.10.8.20.1.1.1.1.1',
+            '4cj6A01': '1.10.8.20.1.1.1.2.1',
+            '3hy5A01': '1.10.8.20.5.1.1.1.1',
+            '4cizA01': '1.10.8.20.5.1.1.1.2',
+        }
+        entries = filteredlist.entries
+        self.assertEqual(
+            {c.domain_id: c.cath_id for c in entries[:2] + entries[-2:]}, expected_domains)
+
+    def test_filter_reps(self):
+        domainlist = self.domainlist
+        hreps = domainlist.filter_reps(4)
+        sreps = domainlist.filter_reps(5)
+        self.assertIsInstance(hreps, CathDomainList)
+        expected_hreps = ['1.10.8.10', '1.10.8.20',
+                          '1.10.8.40', '1.10.8.50', '1.10.8.60']
+        self.assertEqual([c.cath_id_to_depth(4)
+                          for c in hreps.entries], expected_hreps)
+
+        self.assertIsInstance(sreps[0], CathDomainListEntry)
+        self.assertEqual(sreps[0].cath_id, '1.10.8.10.1.1.1.1.1')
+        self.assertEqual(len(sreps[:3]), 3)
+        self.assertEqual(len(sreps[-3:]), 3)
+
+        expected_sreps = {
+            '1oaiA00': '1.10.8.10.1',
+            '3frhA01': '1.10.8.10.2',
+            '4g3oA00': '1.10.8.10.3',
+            '1c1kA01': '1.10.8.60.10',
+            '4lrtC02': '1.10.8.60.11',
+            '2fnaA02': '1.10.8.60.12', }
+
+        self.assertEqual({c.domain_id: c.cath_id_to_depth(5)
+                          for c in sreps[:3] + sreps[-3:]}, expected_sreps)
 
 
 class TestNamesList(testutils.TestBase):

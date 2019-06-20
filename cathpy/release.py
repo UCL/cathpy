@@ -61,8 +61,45 @@ class HasCathIDMixin(object):
         """
         return self._cath_id.cath_id_to_depth(depth)
 
+    def __lt__(self, other):
+        if isinstance(other, str):
+            other = CathID(other)
+        return self._cath_id < other._cath_id
 
-class BaseReleaseFileList(object):
+
+class HasEntriesWithCathIDMixin(object):
+    """
+    Mixin for container classes that have entries with :class:HasCathIDMixin
+    """
+
+    def filter_cath_id(self, cath_id):
+        if not isinstance(cath_id, CathID):
+            cath_id = CathID(cath_id)
+        depth = cath_id.depth
+        filtered_entries = [
+            c for c in self.entries if c.cath_id_to_depth(depth) == cath_id]
+        return self.__class__(entries=filtered_entries)
+
+    def filter_reps(self, depth):
+        """
+        Returns a new container after filtering to only include one rep at a given depth 
+        """
+
+        # sort by cath_id
+        sorted_entries = sorted(self.entries)
+
+        # take first entry at given depth
+        reps = {}
+        for entry in sorted_entries:
+            rep_id = entry.cath_id_to_depth(depth)
+            if rep_id not in reps:
+                reps[rep_id] = entry
+
+        # return the entries
+        return self.__class__(entries=list(reps.values()))
+
+
+class BaseReleaseFileList(list):
     """
     Base class for CATH release lists
     """
@@ -70,6 +107,8 @@ class BaseReleaseFileList(object):
     entry_cls = None
 
     def __init__(self, *, entries=None):
+        if not isinstance(entries, list):
+            entries = list(entries)
         self._entries = entries
 
     def __getitem__(self, key):
@@ -111,6 +150,12 @@ class BaseReleaseFileList(object):
         with open(filename, 'wt') as fileio:
             for entry in self.entries:
                 fileio.write(entry.to_string() + "\n")
+
+    def sort(self, key=None):
+        """
+        Sort the entries inplace 
+        """
+        self._entries = sorted(self.entries, key=key)
 
     def __len__(self):
         """
@@ -249,7 +294,7 @@ class CathDomallEntry(object):
         )
 
 
-class CathDomall(BaseReleaseFileList):
+class CathDomall(HasEntriesWithCathIDMixin, BaseReleaseFileList):
     """
     Class representing a CathDomall release file (domain boundaries)
     """
@@ -291,7 +336,7 @@ class CathNamesEntry(HasCathIDMixin, object):
         )
 
 
-class CathNamesList(BaseReleaseFileList):
+class CathNamesList(HasEntriesWithCathIDMixin, BaseReleaseFileList):
 
     entry_cls = CathNamesEntry
 
@@ -361,8 +406,11 @@ class CathDomainListEntry(HasCathIDMixin, object):
             resolution=float(cols[11]),
         )
 
+    def __repr__(self):
+        return self.to_string()
 
-class CathDomainList(BaseReleaseFileList):
+
+class CathDomainList(HasEntriesWithCathIDMixin, BaseReleaseFileList):
 
     entry_cls = CathDomainListEntry
 
