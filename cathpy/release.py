@@ -32,6 +32,7 @@ class HasCathIDMixin(object):
     """
 
     def __init__(self, *, cath_id, **kwargs):
+        super().__init__(**kwargs)
         self._cath_id = CathID(cath_id)
 
     @property
@@ -109,7 +110,8 @@ class BaseReleaseFileList(list):
 
     entry_cls = None
 
-    def __init__(self, *, entries=None):
+    def __init__(self, *, entries=None, **kwargs):
+        super().__init__(**kwargs)
         if not isinstance(entries, list):
             entries = list(entries)
         self._entries = entries
