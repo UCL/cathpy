@@ -172,8 +172,16 @@ class ClusterFile(object):
     """
     Object that represents a file relating to a CATH Cluster.
 
-    Example:
-        /path/to/1.10.8.10-ff-1234.sto
+    ::
+
+        cf = ClusterFile('/path/to/1.10.8.10-ff-1234.reduced.sto')
+        cf.dir           # '/path/to'
+        cf.sfam_id       # '1.10.8.10'
+        cf.cluster_type  # 'ff'
+        cf.cluster_num   # '1234'
+        cf.join_char     # '-'
+        cf.desc          # '.reduced'
+        cf.suffix        # '.sto'
 
     """
 
@@ -263,7 +271,14 @@ class ClusterFile(object):
 
 
 class Segment(object):
-    """Class to represent a protein segment."""
+    """
+    Class to represent a protein segment.
+
+    Args:
+    - start (int): numeric start position of the segment
+    - stop (int): numeric stop position of the segment
+
+    """
 
     def __init__(self, start: int, stop: int):
         self.start = int(start)
@@ -281,31 +296,31 @@ class Segment(object):
 
 
 class ScanHsp(object):
-    """Object to store the High Scoring Pair (HSP) from a sequence scan."""
+    """
+    Object to store the High Scoring Pair (HSP) from a sequence scan.
+
+    Stores information about the High Scoring Pair
+    within a given :class:`ScanHit`.
+
+    Args:
+        hit_start (int): position of the hsp start for the hit
+        hit_end (int): position of the hsp end for the hit
+        hit_string (str): hit residues in the matching hsp
+        query_start (int): position of the hsp start for query
+        query_end (int): position of the hsp end for query
+        query_string
+        evalue (float): evalue of the hsp
+        homology_string (str): query  
+        length (int): length of the hsp
+        rank (int): the rank of this hsp
+        score (float): the bit score 
+
+
+    """
 
     def __init__(self, *, evalue, hit_start, hit_end, hit_string=None,
                  homology_string=None, length, query_start, query_end,
                  query_string=None, rank, score, **kwargs):
-        """Create a new :class:`ScanHsp` object.
-
-        Stores information about the High Scoring Pair
-        within a given :class:`ScanHit`.
-
-        Args:
-            hit_start (int): position of the hsp start for the hit
-            hit_end (int): position of the hsp end for the hit
-            hit_string (str): hit residues in the matching hsp
-            query_start (int): position of the hsp start for query
-            query_end (int): position of the hsp end for query
-            query_string
-            evalue (float): evalue of the hsp
-            homology_string (str): query  
-            length (int): length of the hsp
-            rank (int): the rank of this hsp
-            score (float): the bit score 
-
-        """
-
         self.evalue = evalue
         self.hit_start = hit_start
         self.hit_end = hit_end
@@ -325,21 +340,18 @@ class ScanHit(object):
     Each :class:`ScanResult` object (ie **query**),
     contains one or more :class:`ScanHit` objects (ie **match**)
 
+    Args:
+        match_name (str): name of the match
+        match_cath_id (str): CATH superfamily id of the match
+        match_description (str): description of the match
+        match_length (str): number of residues in the match protein
+        hsps (dict|ScanHsp): array of :class:`ScanHsp` objects 
+        significance (float): significance score
+
     """
 
     def __init__(self, *, match_name, match_cath_id, match_description,
                  match_length, hsps, significance, data, **kwargs):
-        """Create a new :class:`ScanHit` object.
-
-        Args:
-            match_name (str): name of the match
-            match_cath_id (str): CATH superfamily id of the match
-            match_description (str): description of the match
-            match_length (str): number of residues in the match protein
-            hsps (dict|ScanHsp): array of :class:`ScanHsp` objects 
-            significance (float): significance score
-
-        """
         self.match_name = match_name
         self.match_cath_id = match_cath_id
         self.match_description = match_description
@@ -350,7 +362,13 @@ class ScanHit(object):
 
 
 class ScanResult(object):
-    """Object to store a result from a sequence :class:`Scan`."""
+    """
+    Object to store a result from a sequence :class:`Scan`.
+
+    Args:
+        query_name (str): name of the query sequence
+        hits ([:class:`ScanHit`]): hits for the query sequence
+    """
 
     def __init__(self, *, query_name, hits, **kwargs):
         self.query_name = query_name
@@ -362,6 +380,9 @@ class Scan(object):
 
     A scan can contain one or more :class:`ScanResult` objects
     (eg **query**).
+
+    Args:
+        results ([:class:`ScanResult`]): results of this scan (one result per query sequence)
 
     """
 
