@@ -554,17 +554,18 @@ class AlignmentSummaryRunner(object):
         skipempty (bool): skip empty files    
     """
 
-    def __init__(self, *, aln_dir=None, aln_file=None, suffix='.sto', skipempty=False):
+    def __init__(self, *, aln_dir=None, aln_file=None, suffix='.sto', skipempty=False, recursive=False):
         self.suffix = suffix
         self.skipempty = skipempty
+        self.recursive = recursive
         if aln_file:
             self._files = [aln_file]
         elif aln_dir:
-            self._files = self._get_files(aln_dir, suffix=suffix)
+            self._files = self._get_files(aln_dir, suffix=suffix, recursive=recursive)
         else:
             raise Exception("error: expected 'aln_file' or 'aln_dir'")
         
-    def _get_files(self, input_dir, *, suffix):
+    def _get_files(self, input_dir, *, suffix, recursive):
 
         all_aln_files = []
 
@@ -584,6 +585,9 @@ class AlignmentSummaryRunner(object):
             aln_files = nonempty_files
 
             all_aln_files.extend(aln_files)
+
+            if not recursive:
+                break
         
         return all_aln_files
 
