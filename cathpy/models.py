@@ -144,28 +144,75 @@ class CathID(object):
 
 
 class ClusterID(object):
-    """Represents a Cluster Identifier (FunFam, SC, etc)"""
+    """
+    Represents a Cluster Identifier (FunFam, SC, etc)
 
-    def __init__(self, sfam_id, cluster_type, cluster_num):
-        self.sfam_id = sfam_id
+    Usage:
+
+    ::
+
+        # equivalent
+        cluster_id = ClusterID('1.10.8.10-ff-1234')
+        cluster_id = ClusterID.from_string('1.10.8.10-ff-1234')
+        cluster_id = ClusterID(sfam_id='1.10.8.10', cluster_type='ff', cluster_num=1234)
+
+        cluster_id.sfam_id        # '1.10.8.10'
+        cluster_id.cath_id        # CathID('1.10.8.10')
+        cluster_id.cluster_type   # 'ff'
+        cluster_id.cluster_num    # 1234
+
+        cluster_id.to_string()    # '1.10.8.10-ff-1234'
+
+    """
+
+    def __init__(self, *args, **kwargs):
+
+        sfam_id = None
+        cluster_type = None
+        cluster_num = None
+
+        if len(args) == 1:
+            cluster_id = ClusterID.from_string(args[0])
+            sfam_id = cluster_id.sfam_id
+            cluster_type = cluster_id.cluster_type
+            cluster_num = cluster_id.cluster_num
+
+        if not sfam_id:
+            sfam_id = kwargs['sfam_id']
+        if not cluster_type:
+            cluster_type = kwargs['cluster_type']
+        if not cluster_num:
+            cluster_num = kwargs['cluster_num']
+
+        self.cath_id = CathID(sfam_id)
         self.cluster_type = cluster_type
-        self.cluster_num = cluster_num
+        self.cluster_num = int(cluster_num)
+
+    @property
+    def sfam_id(self):
+        return self.cath_id.sfam_id
 
     @classmethod
-    def new_from_file(cls, file):
+    def from_string(cls, file):
         """Parse a new :class:`ClusterID` from a filename."""
         cf = ClusterFile(file)
-        cls(cf.sfam_id, cf.cluster_type, cf.cluster_num)
+        return cls(sfam_id=cf.sfam_id, cluster_type=cf.cluster_type, cluster_num=cf.cluster_num)
+
+    def to_string(self):
+        """
+        Returns this object as a string (ie filepath).
+        """
+        return "{}-{}-{}".format(self.sfam_id, self.cluster_type, self.cluster_num)
 
     def __str__(self):
-        return "{}-{}-{}".format(self.sfam_id, self.cluster_type, self.cluster_num)
+        return self.to_string()
 
 
 class FunfamID(ClusterID):
     """Object that represents a FunFam ID."""
 
-    def __init__(self, sfam_id, cluster_num):
-        super().__init__(sfam_id, 'FF', cluster_num)
+    def __init__(self, *, sfam_id, cluster_num):
+        super().__init__(sfam_id=sfam_id, cluster_type='FF', cluster_num=cluster_num)
 
 
 class ClusterFile(object):
@@ -216,7 +263,8 @@ class ClusterFile(object):
         """
         Returns the cluster id as a :class:`ClusterID` object
         """
-        ClusterID(self.sfam_id, self.cluster_type, self.cluster_num)
+        ClusterID(sfam_id=self.sfam_id, cluster_type=self.cluster_type,
+                  cluster_num=self.cluster_num)
 
     @classmethod
     def split_path(cls, path):
@@ -233,18 +281,20 @@ class ClusterFile(object):
                              r'(?:-|__)'
                              # 1234
                              r'(?P<cluster_num>[0-9]+)'
-                             # .reduced
+                             # .reduced (optional)
                              r'(?P<desc>.*?)'
-                             r'(?P<suffix>\.\w+)$')                           # .sto
+                             # .sto (optional)
+                             r'(?P<suffix>\.\w+)?$')
 
-        m = re_file.match(os.path.basename(path))
+        basename = os.path.basename(path)
+        m = re_file.match(basename)
         if m:
             info = m.groupdict()
             info['path'] = os.path.dirname(path)
             return info
 
         raise err.NoMatchesError(
-            'failed to parse cluster details from filename {}'.format(path))
+            'failed to parse cluster details from filename "{}"'.format(basename))
 
     def to_string(self, join_char=None):
         """Represents the ClusterFile as a string (file path)."""

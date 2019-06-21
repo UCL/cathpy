@@ -85,7 +85,7 @@ class TestUtil(TestBase):
     @log_level('cathpy.util', 'DEBUG')
     def test_scorecons(self):
         sc = util.ScoreconsRunner()
-        aln = Align.new_from_fasta(self.example_fasta_file)
+        aln = Align.from_fasta(self.example_fasta_file)
 
         sc_res = sc.run_fasta(self.example_fasta_file)
         self.assertEqual(sc_res.dops, 92.889)
@@ -93,7 +93,7 @@ class TestUtil(TestBase):
 
     def test_groupsim(self):
         gs = util.GroupsimRunner()
-        aln = Align.new_from_fasta(self.example_fasta_file)
+        aln = Align.from_fasta(self.example_fasta_file)
 
         seqs = aln.seqs
 

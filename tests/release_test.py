@@ -45,7 +45,7 @@ class TestDomainList(testutils.TestBase):
     def setUp(self):
         self.domainlist_file = os.path.join(os.path.dirname(
             __file__), 'data', 'release', 'CathDomainList')
-        self.domainlist = CathDomainList.new_from_file(self.domainlist_file)
+        self.domainlist = CathDomainList.from_file(self.domainlist_file)
 
     def test_domainlist(self):
         tmplistfile = tempfile.NamedTemporaryFile(mode='wt')
@@ -53,7 +53,7 @@ class TestDomainList(testutils.TestBase):
         domainlist = self.domainlist
         self.assertEqual(len(domainlist), 984)
 
-        domainlist.write_to_file(tmplistfile.name)
+        domainlist.to_file(tmplistfile.name)
         cmp_file_contents(self.domainlist_file, tmplistfile.name)
         self.assertEqual(cmp_file_contents(
             self.domainlist_file, tmplistfile.name), 0)
@@ -64,6 +64,9 @@ class TestDomainList(testutils.TestBase):
         self.assertEqual(domentry.sfam_id, '1.10.8.10')
         self.assertEqual([d.domain_id for d in domainlist[2:4]], [
                          '3frhA01', '3friA01'])
+
+        self.assertEqual(domainlist['3friA01'].domain_id, '3friA01')
+        self.assertEqual(domainlist['3friA01'].cath_id, '1.10.8.10.2.1.1.1.2')
 
     def test_sort(self):
         entries = [e for e in self.domainlist.entries]
@@ -126,10 +129,10 @@ class TestNamesList(testutils.TestBase):
     def test_nameslist(self):
         tmplistfile = tempfile.NamedTemporaryFile(mode='wt')
 
-        namelist = CathNamesList.new_from_file(self.namelist_file)
+        namelist = CathNamesList.from_file(self.namelist_file)
         self.assertEqual(len(namelist), 984)
 
-        namelist.write_to_file(tmplistfile.name)
+        namelist.to_file(tmplistfile.name)
         self.assertEqual(cmp_file_contents(
             self.namelist_file, tmplistfile.name, rstrip=True), 0)
 
@@ -151,26 +154,26 @@ class TestDomallList(testutils.TestBase):
             '1adiB D03 F00  2  B    1 - B  100 -  B  201 - B  265 -  1  B  101 - B  200 -  1  B  266 - B  431 -',
         )
 
-        entry = CathDomallEntry.new_from_string(entry_strings[0])
+        entry = CathDomallEntry.from_string(entry_strings[0])
         self.assertEqual(entry.chain_id, '10gsA')
         self.assertEqual(len(entry.domains), 2)
         self.assertEqual(len(entry.fragments), 1)
 
         for entry_string in entry_strings:
-            entry = CathDomallEntry.new_from_string(entry_string)
+            entry = CathDomallEntry.from_string(entry_string)
             self.assertEqual(entry.to_string(), entry_string)
 
     def test_domall(self):
         tmplistfile = tempfile.NamedTemporaryFile(mode='wt')
 
-        domall = CathDomall.new_from_file(self.domall_file)
+        domall = CathDomall.from_file(self.domall_file)
         self.assertEqual(len(domall), 982)
         self.assertEqual([d.chain_id for d in domall[3:5]], ['103lA', '103mA'])
 
-        domall.write_to_file(tmplistfile.name)
+        domall.to_file(tmplistfile.name)
         self.assertEqual(cmp_file_contents(
             self.domall_file, tmplistfile.name), 0)
 
-        domall.write_to_file(tmplistfile.name)
-        newlist = CathDomall.new_from_file(tmplistfile.name)
+        domall.to_file(tmplistfile.name)
+        newlist = CathDomall.from_file(tmplistfile.name)
         self.assertEqual(len(newlist), 982)

@@ -175,7 +175,7 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         # os.remove(self.fasta_file.name)
 
     def test_read_fasta_filename(self):
-        aln = Align.new_from_fasta(self.fasta_file.name)
+        aln = Align.from_fasta(self.fasta_file.name)
         self.assertEqual(aln.count_sequences, 2)
         seqs = aln.seqs
         self.assertEqual(seqs[0].uid, 'id1')
@@ -183,25 +183,25 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
 
     def test_read_fasta_fileio(self):
         self.fasta_file.seek(0)
-        aln = Align.new_from_fasta(self.fasta_file)
+        aln = Align.from_fasta(self.fasta_file)
         self.assertEqual(aln.count_sequences, 2)
 
     def test_read_stockholm_file(self):
-        aln = Align.new_from_stockholm(self.stockholm_file)
+        aln = Align.from_stockholm(self.stockholm_file)
         self.assertEqual(aln.count_sequences, 51)
 
     def test_read_stockholm_gzip_file(self):
-        aln = Align.new_from_stockholm(self.stockholm_gzip_file)
+        aln = Align.from_stockholm(self.stockholm_gzip_file)
         self.assertEqual(aln.count_sequences, 51)
 
     def test_read_fasta_str(self):
-        aln = Align.new_from_fasta(self.fasta_contents)
+        aln = Align.from_fasta(self.fasta_contents)
         self.assertEqual(aln.count_sequences, 2)
 
     def test_remove_gaps(self):
         self.log_title('remove_gaps')
         self.fasta_file.seek(0)
-        aln = Align.new_from_fasta(self.fasta_contents)
+        aln = Align.from_fasta(self.fasta_contents)
         self.assertEqual(aln.count_sequences, 2)
         new_aln = aln.remove_alignment_gaps()
         new_seqs = new_aln.seqs
@@ -210,14 +210,14 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
 
     def test_copy_aln(self):
         self.log_title('copy_aln')
-        aln_ref = Align.new_from_fasta(self.fasta_aln_ref)
+        aln_ref = Align.from_fasta(self.fasta_aln_ref)
         aln_copy = aln_ref.copy()
         self.assertNotEqual(aln_copy, aln_ref)
         self.assertEqual(str(aln_copy), str(aln_ref))
 
     def test_aln_add_gap(self):
         self.log_title('aln_add_gap')
-        aln = Align.new_from_fasta(self.fasta_aln_ref)
+        aln = Align.from_fasta(self.fasta_aln_ref)
         self.assertEqual(aln.seqs[0].seq, '---AKGHP--GPKAPGPAK--')
         self.assertEqual(aln.seqs[1].seq, 'CGCAKGH-PKA--APGP--GT')
         aln.insert_gap_at_offset(4)
@@ -228,22 +228,22 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         self.assertEqual(aln.seqs[1].seq, 'CGCA-KGH-PKA--APGP-.-GT')
 
     def test_merge_aln(self):
-        aln_ref = Align.new_from_fasta(self.fasta_aln_ref)
+        aln_ref = Align.from_fasta(self.fasta_aln_ref)
         self.assertEqual(aln_ref.count_sequences, 2)
-        aln_merge1 = Align.new_from_fasta(self.fasta_aln_merge1)
+        aln_merge1 = Align.from_fasta(self.fasta_aln_merge1)
         self.assertEqual(aln_merge1.count_sequences, 3)
-        aln_merge2 = Align.new_from_fasta(self.fasta_aln_merge2)
+        aln_merge2 = Align.from_fasta(self.fasta_aln_merge2)
         self.assertEqual(aln_merge2.count_sequences, 3)
 
         aln_ref.merge_alignment(aln_merge1, 'ref1')
-        expected_aln_after_merge1 = Align.new_from_fasta(
+        expected_aln_after_merge1 = Align.from_fasta(
             self.fasta_aln_after_merge1)
         self.assertEqual(expected_aln_after_merge1.count_sequences, 4)
         self.assertEqual([s.uid for s in aln_ref.seqs], [
             'ref1', 'ref2', 'src1.1', 'src1.2', ])
 
         aln_ref.merge_alignment(aln_merge2, 'ref2')
-        expected_aln_after_merge2 = Align.new_from_fasta(
+        expected_aln_after_merge2 = Align.from_fasta(
             self.fasta_aln_after_merge2)
         self.assertEqual(expected_aln_after_merge2.count_sequences, 6)
         self.assertEqual([s.uid for s in aln_ref.seqs], [
@@ -258,7 +258,7 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         aln_ref.write_sto(sto_out)
 
     def test_pir(self):
-        aln_ref = Align.new_from_pir(self.pir_aln_ref)
+        aln_ref = Align.from_pir(self.pir_aln_ref)
         self.assertEqual(aln_ref.count_sequences, 2)
         pir_tmp = tempfile.NamedTemporaryFile(
             mode='w+', delete=True, suffix='.pir')
@@ -275,7 +275,7 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         sto_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True)
         sto_out = sto_tmp.name
 
-        aln = Align.new_from_stockholm(self.stockholm_file)
+        aln = Align.from_stockholm(self.stockholm_file)
 
         self.assertEqual(aln.uid, '1.10.8.10/FF/14534')
 
@@ -303,7 +303,7 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         self.assertMultiLineEqual(sto_got, sto_expected)
 
     def test_parse_pfam_stockholm(self):
-        aln = Align.new_from_stockholm(self.pfam_sto_file)
+        aln = Align.from_stockholm(self.pfam_sto_file)
         self.assertEqual(aln.count_sequences, 107)
 
         # LOG.info("aln: %s", pprint.pformat(aln.__dict__))
@@ -324,7 +324,7 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         self.assertEqual(list(aln.seq_meta.keys()), ['SS_cons', 'seq_cons'])
 
     def test_meta_summary(self):
-        aln = Align.new_from_stockholm(self.stockholm_file)
+        aln = Align.from_stockholm(self.stockholm_file)
         meta_info = aln.get_meta_summary()
 
         self.assertEqual(meta_info.ec_term_counts, None)

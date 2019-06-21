@@ -429,7 +429,7 @@ class Correspondence(object):
     Within CATH, this is most commonly initialised from a GCF file:
 
     ```
-    aln = Correspondence.new_from_gcf('/path/to/<id>.gcf')
+    aln = Correspondence.from_gcf('/path/to/<id>.gcf')
     ```
 
     TODO: allow this to be created from PDBe API endpoint.
@@ -456,7 +456,7 @@ class Correspondence(object):
         self._id = _id
 
     @classmethod
-    def new_from_gcf(cls, gcf_io):
+    def from_gcf(cls, gcf_io):
         """Create a new Correspondence object from a GCF io / filename / string.
 
         This provides a correspondence between SEQRES and ATOM records for a given
@@ -855,14 +855,14 @@ class Align(object):
         return self.seqs[offset]
 
     @classmethod
-    def new_from_fasta(cls, fasta_io):
+    def from_fasta(cls, fasta_io):
         """Initialises an alignment object from a FASTA file / string / io"""
         aln = Align()
         aln.read_sequences_from_fasta(fasta_io)
         return aln
 
     @classmethod
-    def new_from_pir(cls, pir_io):
+    def from_pir(cls, pir_io):
         """Initialises an alignment object from a PIR file / string / io"""
         aln = Align()
         aln.read_sequences_from_pir(pir_io)
@@ -888,7 +888,7 @@ class Align(object):
         return _io, filename
 
     @classmethod
-    def new_from_stockholm(cls, sto_io, *, nowarnings=False):
+    def from_stockholm(cls, sto_io, *, nowarnings=False):
         """Initialises an alignment object from a STOCKHOLM file / string / io"""
 
         sto_io, sto_filename = cls._get_io_from_file_or_string(sto_io)

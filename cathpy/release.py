@@ -109,6 +109,7 @@ class BaseReleaseFileList(list):
     """
 
     entry_cls = None
+    pk_key = None
 
     def __init__(self, *, entries=None, **kwargs):
         super().__init__(**kwargs)
@@ -117,7 +118,19 @@ class BaseReleaseFileList(list):
         self._entries = entries
 
     def __getitem__(self, key):
-        return self._entries[key]
+        if isinstance(key, str) and self.pk_key:
+            entries = [e for e in self._entries if getattr(
+                e, self.pk_key) == key]
+            if len(entries) == 1:
+                return entries[0]
+            elif entries == 0:
+                return None
+            else:
+                raise err.TooManyMatchesError(
+                    'found more than one match where {}={} (matches={})'.format(
+                        self.pk_key, key, len(entries)))
+        else:
+            return self._entries[key]
 
     def __setitem__(self, key, value):
         self._entries[key] = value
@@ -133,28 +146,39 @@ class BaseReleaseFileList(list):
         return self._entries
 
     @classmethod
-    def new_from_file(cls, filename):
+    def from_file(cls, fileio):
         """
-        Creates a new instance from a file
+        Creates a new instance of this object from a file
         """
 
+        if isinstance(fileio, str):
+            fileio = open(fileio, 'rt')
+
         entries = []
-        with open(filename, 'rt') as fileio:
+        try:
             for line in fileio:
                 if line.startswith('#'):
                     continue
-                entry = cls.entry_cls.new_from_string(line)
+                entry = cls.entry_cls.from_string(line)
                 entries.extend([entry])
+        finally:
+            fileio.close()
 
         return cls(entries=entries)
 
-    def write_to_file(self, filename):
+    def to_file(self, fileio):
         """
         Writes the entries out to file
         """
-        with open(filename, 'wt') as fileio:
+
+        if isinstance(fileio, str):
+            fileio = open(fileio, 'wt')
+
+        try:
             for entry in self.entries:
                 fileio.write(entry.to_string() + "\n")
+        finally:
+            fileio.close()
 
     def sort(self, key=None):
         """
@@ -236,7 +260,7 @@ class CathDomallEntry(object):
         return domall_line
 
     @classmethod
-    def new_from_string(cls, domall_line):
+    def from_string(cls, domall_line):
         """
         Create a new instance from a Domall string
 
@@ -245,7 +269,7 @@ class CathDomallEntry(object):
         ::
 
             domall_str = '10gsA D02 F01  2  A    2 - A   78 -  A  187 - A  208 -  1  A   79 - A  186 -  A  209 - A  209 - (1)'
-            domall = Domall.new_from_string(domall_str)
+            domall = Domall.from_string(domall_str)
 
             domall.domains[0].segments[0].chain_code    # 'A'
             domall.domains[0].segments[0].start_pdb     # 2
@@ -324,6 +348,7 @@ class CathDomall(HasEntriesWithCathIDMixin, BaseReleaseFileList):
     """
 
     entry_cls = CathDomallEntry
+    pk_key = 'chain_id'
 
 
 class CathNamesEntry(HasCathIDMixin, object):
@@ -344,7 +369,7 @@ class CathNamesEntry(HasCathIDMixin, object):
         )
 
     @classmethod
-    def new_from_string(cls, nameline):
+    def from_string(cls, nameline):
         nameline = nameline.strip()
         cols = nameline.split(sep=None, maxsplit=2)
         if len(cols) != 3:
@@ -374,13 +399,7 @@ class CathNamesList(HasEntriesWithCathIDMixin, BaseReleaseFileList):
     """
 
     entry_cls = CathNamesEntry
-
-    def remove_cath_id(self, cath_id):
-
-        entries = [
-            entry for entry in self.entries if not entry.cath_id.startswith(cath_id)]
-
-        return CathNamesList(entries=entries)
+    pk_key = 'cath_id'
 
 
 class CathDomainListEntry(HasCathIDMixin, object):
@@ -422,7 +441,7 @@ class CathDomainListEntry(HasCathIDMixin, object):
         )
 
     @classmethod
-    def new_from_string(cls, domainlist):
+    def from_string(cls, domainlist):
         """
         Creates a new entry from a CathDomainList string
         """
@@ -461,10 +480,4 @@ class CathDomainList(HasEntriesWithCathIDMixin, BaseReleaseFileList):
     """
 
     entry_cls = CathDomainListEntry
-
-    def remove_cath_id(self, cath_id):
-
-        entries = [
-            entry for entry in self.entries if not entry.cath_id.startswith(cath_id)]
-
-        return self.__class__(entries=entries)
+    pk_key = 'domain_id'

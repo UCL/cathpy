@@ -39,14 +39,14 @@ class GroupsimResult(object):
         self.scores = scores
 
     @classmethod
-    def new_from_file(cls, gs_file):
+    def from_file(cls, gs_file):
         """Create a new groupsim result from an output file."""
         with open(gs_file) as f:
-            obj = cls.new_from_io(f)
+            obj = cls.from_io(f)
             return obj
 
     @classmethod
-    def new_from_io(cls, gs_io, *, maxscore=1):
+    def from_io(cls, gs_io, *, maxscore=1):
         """Create a new groupsim result from an io source."""
         gs_scores = []
         for line in gs_io:
@@ -153,7 +153,7 @@ class GroupsimRunner(object):
 
         gs_io = io.StringIO(groupsim_out)
 
-        res = GroupsimResult.new_from_io(gs_io, maxscore=maxscore)
+        res = GroupsimResult.from_io(gs_io, maxscore=maxscore)
 
         return res
 
@@ -212,7 +212,7 @@ class ScoreconsRunner(object):
 
         fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix=".fa")
         fasta_tmp_filename = fasta_tmp.name
-        aln = Align.new_from_stockholm(sto_file)
+        aln = Align.from_stockholm(sto_file)
         aln.write_fasta(fasta_tmp_filename)
         return self.run_fasta(fasta_tmp_filename)
 
@@ -299,7 +299,7 @@ class FunfamFileFinder(object):
             raise err.NoMatchesError("failed to match template '{}' against filename '{}'".format(
                 ff_re, filename
             ))
-        ff_id = FunfamID(m.group('sfam_id'), int(m.group('ff_num')))
+        ff_id = FunfamID(sfam_id=m.group('sfam_id'), cluster_num=int(m.group('ff_num')))
 
         return ff_id
 
@@ -366,7 +366,7 @@ class StructuralClusterMerger(object):
         add_groupsim=True, add_scorecons=True, cath_release=None):
 
         if type(cath_version) is str:
-            cath_version = CathVersion.new_from_string(cath_version)
+            cath_version = CathVersion.from_string(cath_version)
 
         self.cath_version = cath_version
         self.sc_file = sc_file
@@ -405,7 +405,7 @@ class StructuralClusterMerger(object):
         LOG.info('Cluster number: ' + sc_num)
 
         LOG.info("Parsing structure-based alignment: ")
-        sc_aln = Align.new_from_fasta(self.sc_file)
+        sc_aln = Align.from_fasta(self.sc_file)
         LOG.info(" ... found {} representatives".format(sc_aln.count_sequences))
 
         cluster_id = '-'.join([sfam_id, cluster_type, sc_num])
@@ -443,7 +443,7 @@ class StructuralClusterMerger(object):
             LOG.info('Reading FunFam alignment: {}'.format(ff_aln_file))
 
             # parse it into an alignment
-            ff_aln = Align.new_from_stockholm(ff_aln_file)
+            ff_aln = Align.from_stockholm(ff_aln_file)
 
             # we need the funfam_number for groupsim
             funfam_id = ff_finder.funfam_id_from_file(ff_aln_file)
@@ -461,7 +461,7 @@ class StructuralClusterMerger(object):
             rep_chain_id = sc_rep_acc[:5]
             gcf_file = cath_release.get_file('chaingcf', rep_chain_id)
 
-            chain_corr = Correspondence.new_from_gcf(gcf_file)
+            chain_corr = Correspondence.from_gcf(gcf_file)
 
             # TODO: get a subset that only corresponds to the domain (not chain)
             seqres_segments = sc_rep_in_ff.segs
@@ -581,7 +581,7 @@ class AlignmentSummaryRunner(object):
 
         for aln_file in self._files:
             try:
-                aln = Align.new_from_stockholm(aln_file)
+                aln = Align.from_stockholm(aln_file)
             except:
                 raise Exception("Failed to parse STOCKHOLM alignment from file {}".format(aln_file))
 
