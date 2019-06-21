@@ -76,10 +76,34 @@ class Residue(object):
         if seq_num:
             seq_num = int(seq_num)
 
+        self.pdb_residue_num = None
+        self.pdb_insert_code = None
+        if pdb_label:
+            self.set_pdb_label(pdb_label)
+
         self.aa = aa
         self.seq_num = seq_num
-        self.pdb_label = pdb_label
         self.pdb_aa = pdb_aa if pdb_aa else aa
+
+    def set_pdb_label(self, pdb_label):
+        if pdb_label[-1].isalpha():
+            self.pdb_residue_num = pdb_label[:-1]
+            self.pdb_insert_code = pdb_label[-1]
+        else:
+            self.pdb_residue_num = pdb_label
+            self.pdb_insert_code = None
+
+    @property
+    def pdb_label(self):
+        if not self.pdb_residue_num:
+            return None
+        return '{}{}'.format(
+            str(self.pdb_residue_num),
+            self.pdb_insert_code if self.pdb_insert_code else '')
+
+    @property
+    def has_pdb_insert_code(self):
+        return bool(self.pdb_insert_code)
 
     def __str__(self):
         return self.aa

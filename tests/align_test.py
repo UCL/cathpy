@@ -120,6 +120,7 @@ A  12  12   A
         self.assertEqual(gcf_from_str.get_res_by_pdb_label('10A').seq_num, 7)
         self.assertEqual(gcf_from_str.last_residue.seq_num, 12)
         self.assertEqual(gcf_from_str.first_residue.pdb_aa, 'A')
+        self.assertEqual(gcf_from_str.to_gcf(), self.example_gcf_text)
 
 
 class TestAlign(testutils.TestBase):

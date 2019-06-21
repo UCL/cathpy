@@ -428,10 +428,10 @@ class Correspondence(object):
 
     Within CATH, this is most commonly initialised from a GCF file:
 
-    ```
-    aln = Correspondence.from_gcf('/path/to/<id>.gcf')
-    ```
+    ::
 
+        aln = Correspondence.from_gcf('/path/to/<uid>.gcf')
+    
     TODO: allow this to be created from PDBe API endpoint.
 
     """
@@ -439,21 +439,18 @@ class Correspondence(object):
     GCF_GAP_CHAR = '*'
     FASTA_GAP_CHAR = '-'
 
-    def __init__(self, _id=None, residues=None, **kwargs):
+    def __init__(self, uid=None, *, hdr=None, residues=None,):
         """Create a new Correspondence object."""
 
-        self._id = _id
+        self._uid = uid
+        self._hdr = hdr
         self.residues = residues if residues else []
-        super().__init__(**kwargs)
+        super().__init__()
 
     @property
     def uid(self):
         """Returns the unique id of the current Correspondence object."""
-        return self._id
-
-    def set_uid(self, _id):
-        """Sets the id of the current Correspondence object"""
-        self._id = _id
+        return self._uid
 
     @classmethod
     def from_gcf(cls, gcf_io):
@@ -489,8 +486,9 @@ class Correspondence(object):
                 gcf_io = open(gcf_io)
         
         try:
-            hdr = gcf_io.readline()
-            _id = hdr.strip().split('|')[-1]
+            hdr = gcf_io.readline().strip()
+            hdr = hdr[1:] # remove '>'
+            uid = hdr.split('|')[-1]
         except AttributeError:
             # make a potentially confusing error slightly less so
             raise err.SeqIOError(
@@ -519,7 +517,7 @@ class Correspondence(object):
 
         gcf_io.close()
 
-        corr = Correspondence(_id, residues=residues)
+        corr = Correspondence(uid=uid, hdr=hdr, residues=residues)
 
         return corr
 
@@ -633,7 +631,7 @@ class Correspondence(object):
             else:
                 raise err.SeqIOError("unexpected error - shouldn't be able to reach this code")
 
-        corr = __class__(_id=self.uid, residues=selected_residues)
+        corr = __class__(uid=self.uid, hdr=self._hdr, residues=selected_residues)
 
         return corr
 
@@ -660,13 +658,15 @@ class Correspondence(object):
         
         """
 
-        gcf_str = '>' + self._id + '\n'
+        hdr = self._hdr if self._hdr else self.uid
+        gcf_str = '>' + hdr + '\n'
         for res in self.residues:
             if res.pdb_label:
-                vals = [res.aa, res.seq_num, res.pdb_label, res.pdb_aa]
+                pdb_label = '{}{}'.format(res.pdb_residue_num, res.pdb_insert_code if res.pdb_insert_code else ' ')
+                vals = [res.aa, res.seq_num, pdb_label, res.pdb_aa]
             else:
-                vals = [res.aa, res.seq_num, '*', '*']
-            gcf_str += '{} {:>4} {:>4}  {}\n'.format(*vals)
+                vals = [res.aa, res.seq_num, '* ', '*']
+            gcf_str += '{} {:>3} {:>4}  {}\n'.format(*vals)
 
         return gcf_str
 
@@ -1316,7 +1316,7 @@ class Align(object):
             # ignore any residue that does not have a seq_num (ie gap)
             residues = [res for res in ref_seq_in_ref.get_residues() if res.seq_num]
             for r in residues:
-                r.pdb_label = str(r.seq_num)
+                r.set_pdb_label(str(r.seq_num))
                 # LOG.debug("fake correspondence: residue={}".format(repr(r)))
             ref_correspondence = Correspondence(ref_seq_acc, residues=residues)
 
