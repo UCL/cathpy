@@ -3,11 +3,13 @@ import os
 import tempfile
 import unittest
 
-from cathpy.align import Segment, Sequence, Align
+from cathpy.align import (Align, Correspondence, Residue, Segment, Sequence,)
 
 from . import testutils
 
 LOG = logging.getLogger(__name__)
+
+DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
 
 class TestSequence(testutils.TestBase):
@@ -81,12 +83,50 @@ class TestSequence(testutils.TestBase):
         self.assertEqual(seq3.seq, seq3str)
 
 
+class TestCorrespondence(testutils.TestBase):
+
+    def setUp(self):
+        self.example_gcf_file = os.path.join(
+            DATA_DIR, 'v4_2_0', 'chaingcf', '2jp7A.gcf')
+
+        self.example_gcf_text = """
+>gi|void|ref1
+A   1   5   A
+K   2   6   K
+G   3   7   G
+H   4   8   H
+P   5   9   P
+G   6  10   G
+P   7  10A  P
+K   8  10B  K
+A   9  11   A
+P  10   *   *
+G  11   *   *
+A  12  12   A
+""".lstrip()
+
+    def test_synopsis(self):
+        gcf_from_file = Correspondence.from_gcf(self.example_gcf_file)
+        self.assertEqual(gcf_from_file.seqres_length, 57)
+
+        gcf_from_str = Correspondence.from_gcf(self.example_gcf_text)
+        self.assertEqual(gcf_from_str.seqres_length, 12)
+        self.assertIsInstance(gcf_from_str.get_res_at_offset(0), Residue)
+        self.assertEqual(gcf_from_str.get_res_by_seq_num(8).pdb_label, '10B')
+        self.assertEqual(gcf_from_str.get_res_offset_by_atom_pos(
+            10), 11)  # ignores gaps, returns last residue as offset
+        self.assertIsInstance(
+            gcf_from_str.get_res_by_pdb_label('10A'), Residue)
+        self.assertEqual(gcf_from_str.get_res_by_pdb_label('10A').seq_num, 7)
+        self.assertEqual(gcf_from_str.last_residue.seq_num, 12)
+        self.assertEqual(gcf_from_str.first_residue.pdb_aa, 'A')
+
+
 class TestAlign(testutils.TestBase):
 
     def setUp(self):
-        data_dir = os.path.join(os.path.dirname(__file__), 'data')
-        self.stockholm_file = os.path.join(data_dir, 'test.sto')
-        self.pfam_sto_file = os.path.join(data_dir, 'PF03770.sto')
+        self.stockholm_file = os.path.join(DATA_DIR, 'test.sto')
+        self.pfam_sto_file = os.path.join(DATA_DIR, 'PF03770.sto')
 
         self.stockholm_gzip_file = self.stockholm_file + '.gz'
 

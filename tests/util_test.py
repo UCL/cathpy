@@ -4,7 +4,8 @@ import os
 import tempfile
 
 from cathpy import error as err
-from cathpy.util import StructuralClusterMerger, AlignmentSummaryRunner
+from cathpy.util import (StructuralClusterMerger,
+                         AlignmentSummaryRunner, GroupsimRunner, GroupsimResult, )
 from cathpy.datafiles import ReleaseDir
 from cathpy.align import Align
 from cathpy import util
@@ -32,7 +33,7 @@ class TestUtil(TestBase):
         self.cath_release = ReleaseDir(
             self.cath_version, base_dir=self.data_dir)
 
-    def test_alignment_summary(self):
+    def test_alignment_summary_file(self):
 
         runner = AlignmentSummaryRunner(
             aln_file=self.merge_sto_file)
@@ -45,6 +46,18 @@ class TestUtil(TestBase):
         self.assertEqual(summary.total_positions, 64492)
         self.assertEqual(summary.seq_count, 701)
         self.assertEqual(round(summary.gap_per, 2), round(39.12, 2))
+
+    def test_alignment_summary_dir(self):
+
+        runner = AlignmentSummaryRunner(
+            aln_dir=self.data_dir, suffix='.sto')
+        entries = runner.run()
+        self.assertEqual(len(entries), 3)
+
+        runner = AlignmentSummaryRunner(
+            aln_dir=self.data_dir, suffix='.sto', recursive=True)
+        entries = runner.run()
+        self.assertEqual(len(entries), 7)
 
     @log_title
     def test_merge(self):
@@ -149,6 +162,21 @@ class TestUtil(TestBase):
         LOG.info("DIFF: %s", ''.join(difflines))
         expected_groupsim = '#=GC groupsim                 --------------10014101040141141031--2151411010022021221001040000---0-1-10-----\n'
         self.assertEqual(''.join(difflines), '+ ' + expected_groupsim)
+
+    def test_groupsim_runner(self):
+
+        aln = Align.from_fasta(self.example_fasta_file)
+
+        # need to set the cluster id on sequences
+        runner = GroupsimRunner()
+        with self.assertRaises(err.InvalidInputError):
+            runner.run_alignment(aln)
+
+        for seq_idx, seq in enumerate(aln.sequences):
+            seq.set_cluster_id('cluster1' if seq_idx < 5 else 'cluster2')
+
+        result = runner.run_alignment(aln)
+        self.assertIsInstance(result, GroupsimResult)
 
     def test_cluster_file(self):
         sc_path = os.path.abspath(self.sc_file)
