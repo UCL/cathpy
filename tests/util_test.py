@@ -1,9 +1,10 @@
 import logging
+import difflib
 import os
 import tempfile
 
 from cathpy import error as err
-from cathpy.util import StructuralClusterMerger
+from cathpy.util import StructuralClusterMerger, AlignmentSummaryRunner
 from cathpy.datafiles import ReleaseDir
 from cathpy.align import Align
 from cathpy import util
@@ -27,8 +28,23 @@ class TestUtil(TestBase):
         self.ff_tmpl = '__SFAM__-ff-__FF_NUM__.reduced.sto'
         self.merge_sto_file = os.path.join(self.data_dir, 'merge.sto')
         self.example_fasta_file = self.sc_file
+        self.example_sto_file = self.ff_file
         self.cath_release = ReleaseDir(
             self.cath_version, base_dir=self.data_dir)
+
+    def test_alignment_summary(self):
+
+        runner = AlignmentSummaryRunner(
+            aln_file=self.merge_sto_file)
+        entries = runner.run()
+        self.assertEqual(len(entries), 1)
+        summary = entries[0]
+        self.assertEqual(summary.aln_length, 92)
+        self.assertEqual(summary.dops, 88.422)
+        self.assertEqual(summary.gap_count, 25228)
+        self.assertEqual(summary.total_positions, 64492)
+        self.assertEqual(summary.seq_count, 701)
+        self.assertEqual(round(summary.gap_per, 2), round(39.12, 2))
 
     @log_title
     def test_merge(self):
@@ -86,9 +102,14 @@ class TestUtil(TestBase):
     def test_scorecons(self):
         sc = util.ScoreconsRunner()
         aln = Align.from_fasta(self.example_fasta_file)
-
         sc_res = sc.run_fasta(self.example_fasta_file)
         self.assertEqual(sc_res.dops, 92.889)
+        self.assertEqual(len(sc_res.scores), aln.aln_positions)
+        del aln
+
+        aln = Align.from_stockholm(self.example_sto_file)
+        sc_res = sc.run_stockholm(self.example_sto_file)
+        self.assertEqual(sc_res.dops, 61.529)
         self.assertEqual(len(sc_res.scores), aln.aln_positions)
 
     def test_groupsim(self):
@@ -104,13 +125,30 @@ class TestUtil(TestBase):
 
         gs_res = gs.run_alignment(aln)
         self.assertEqual(gs_res.count_positions, aln.aln_positions)
-        print("GS: {}".format(repr(gs_res.__dict__)))
+        LOG.info("GS: {}".format(repr(gs_res.__dict__)))
 
-        # aln.write_sto('tmp.sto')
-        # aln.add_scorecons()
-        # aln.write_sto('tmp.plus_scorecons.sto')
-        # aln.add_groupsim()
-        # aln.write_sto('tmp.plus_groupsim.sto')
+        sto_file = tempfile.NamedTemporaryFile(delete=False, suffix='.sto')
+        sto_with_groupsim_file = tempfile.NamedTemporaryFile(delete=False,
+                                                             suffix='.groupsim.sto')
+
+        LOG.info("Writing STOCKHOLM file (without groupsim): %s", sto_file.name)
+        aln.write_sto(sto_file.name)
+        LOG.info("Adding groupsim data ... ")
+        aln.add_groupsim()
+        LOG.info("Writing STOCKHOLM file (with groupsim): %s",
+                 sto_with_groupsim_file.name)
+        aln.write_sto(sto_with_groupsim_file.name)
+
+        with open(sto_file.name) as f1:
+            with open(sto_with_groupsim_file.name) as f2:
+                lines1 = f1.readlines()
+                lines2 = f2.readlines()
+                ndiff = difflib.ndiff(lines1, lines2)
+
+        difflines = [l for l in ndiff if not l.startswith(' ')]
+        LOG.info("DIFF: %s", ''.join(difflines))
+        expected_groupsim = '#=GC groupsim                 --------------10014101040141141031--2151411010022021221001040000---0-1-10-----\n'
+        self.assertEqual(''.join(difflines), '+ ' + expected_groupsim)
 
     def test_cluster_file(self):
         sc_path = os.path.abspath(self.sc_file)
