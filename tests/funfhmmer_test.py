@@ -7,6 +7,7 @@ import tempfile
 from .testutils import TestBase, log_title, log_level
 
 from cathpy.funfhmmer import Client, ResultResponse
+import cathpy.error as err
 
 LOG = logging.getLogger(__name__)
 
@@ -24,11 +25,23 @@ class TestFunfhmmer(TestBase):
         response = client.search_fasta(fasta_file=self.test_fasta_file1)
         self.assertIsInstance(response, ResultResponse)
         re_expected_id = r'1.10.8.10/FF/14534'
-        self.assertRegex(response.as_json(), re_expected_id)
+        self.assertRegex(response.as_json(pp=True), re_expected_id)
+
         self.assertRegex(response.funfam_scan.as_json(), re_expected_id)
         self.assertRegex(response.funfam_scan.as_tsv(), re_expected_id)
         self.assertRegex(
             response.funfam_resolved_scan.as_tsv(), re_expected_id)
+
+    def test_bad_url(self):
+        client = Client(base_url='http://invalid.base_url.that.does.not.exist')
+        with self.assertRaises(err.HttpError):
+            client.search_fasta(fasta_file=self.test_fasta_file1)
+
+    def test_no_results(self):
+        client = Client()
+        with self.assertRaises(err.NoMatchesError):
+            client.search_fasta(
+                fasta='>test\nAAAAAAGGGGGAAAAAGGGGAAAAAAGGGGGAAAAAGGGGGAAAAGGGGGAAAAA')
 
     def test_resolved_results(self):
         client = Client()
