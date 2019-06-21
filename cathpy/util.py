@@ -517,18 +517,31 @@ class AlignmentSummary(object):
         self.gap_count = int(gap_count)
         self.total_positions = int(total_positions)
 
-    def __str__(self):
-        return "{:<70s} {:>6d} {:>6d} {:>6s} {:>6.2f}".format(self.path,
+    def to_string(self):
+        """
+        Render the alignment summary as a string 
+
+        ::
+
+            path   aln_length   seq_count   dops    gap_per
+
+        """
+        return "{:<70s} {:>6d} {:>6d} {:>6s} {:>6.2f}".format(
+            self.path,
             self.aln_length, self.seq_count, 
             "{:.2f}".format(self.dops) if self.dops is not None else 'NULL', 
-            100 * self.gap_count / self.total_positions)
+            self.gap_per)
+
+    def __str__(self):
+        return self.to_string()
+
+    @property
+    def gap_per(self):
+        return 100 * self.gap_count / self.total_positions
 
     @classmethod
     def headers(cls):
         return ['file', 'aln_len', 'seq_count', 'dops', 'gap_per']
-
-    def to_string(self):
-        return self.__str__()
 
 class AlignmentSummaryRunner(object):
     """
@@ -577,7 +590,9 @@ class AlignmentSummaryRunner(object):
     def run(self):
         """Run the alignment summary"""
 
-        print('{}'.format(" ".join(AlignmentSummary.headers())))
+        LOG.info('{}'.format(" ".join(AlignmentSummary.headers())))
+
+        summary_entries = []
 
         for aln_file in self._files:
             try:
@@ -589,7 +604,10 @@ class AlignmentSummaryRunner(object):
                 aln_sum = AlignmentSummary(path=aln_file, dops=aln.dops_score, aln_length=aln.aln_positions, 
                     seq_count=aln.count_sequences, gap_count=aln.total_gap_positions, 
                     total_positions=aln.total_positions)
+                summary_entries.extend([aln_sum])
             except:
                 raise Exception("Failed to generate alignment summary from file: {}".format(aln_file))
 
-            print(aln_sum.to_string())
+            LOG.info(aln_sum.to_string())
+
+        return summary_entries
