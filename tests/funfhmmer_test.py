@@ -24,6 +24,7 @@ class TestFunfhmmer(TestBase):
         response = client.search_fasta(fasta_file=self.test_fasta_file1)
         self.assertIsInstance(response, ResultResponse)
         re_expected_id = r'1.10.8.10/FF/14534'
+        self.assertRegex(response.as_json(), re_expected_id)
         self.assertRegex(response.funfam_scan.as_json(), re_expected_id)
         self.assertRegex(response.funfam_scan.as_tsv(), re_expected_id)
         self.assertRegex(
