@@ -534,38 +534,40 @@ class Correspondence(object):
         atom_residues = [res for res in self.residues if res.pdb_label is not None]
         return len(atom_residues)
 
-    def get_res_at_offset(self, offset: int):
-        """Return the ``Residue`` at the given offset (zero-based)"""
+    def get_res_at_offset(self, offset: int) -> Residue:
+        """Return the :class:`Residue` at the given offset (zero-based)"""
         return self.residues[offset]
 
-    def get_res_by_seq_num(self, seq_num: int):
-        """Return the ``Residue`` with the given sequence number"""
+    def get_res_by_seq_num(self, seq_num: int) -> Residue:
+        """Return the :class:`Residue` with the given sequence number"""
         res = next((res for res in self.residues if res.seq_num == seq_num), None)
         return res
 
-    def get_res_by_pdb_label(self, pdb_label):
-        """Returns the Residue that matches `pdb_label`"""
+    def get_res_by_pdb_label(self, pdb_label: str) -> Residue:
+        """Returns the :class:`Residue` that matches `pdb_label`"""
         res = next((res for res in self.residues if res.pdb_label == pdb_label), None)
         return res
 
-    def get_res_by_atom_pos(self, pos):
+    def get_res_by_atom_pos(self, pos: int) -> Residue:
         """Returns Residue corresponding to position in the ATOM sequence (ignores gaps)."""
+        assert isinstance(pos, int)
         assert pos >= 1
         atom_residues = [res for res in self.residues if res.pdb_label is not None]
         res = atom_residues[pos-1]
         return res
 
-    def get_res_offset_by_atom_pos(self, pos):
+    def get_res_offset_by_atom_pos(self, pos: int) -> Residue:
         """Returns offset of Residue at position in the ATOM sequence (ignores gaps)."""
+        assert isinstance(pos, int)
         assert pos >= 1
-        atom_pos = 1
+        atom_pos = 0
         for offset, res in enumerate(self.residues):
-            # LOG.debug("pos({}) -> res: offset: {}, res: {}, atom_pos: {}".format(
-            #     pos, offset, repr(res), atom_pos))
-            if atom_pos == pos:
-                return offset
             if res.pdb_label is not None:
                 atom_pos += 1
+            # LOG.debug("pos({}) -> res: offset: {}, res: {}, atom_pos: {}".format(
+            #      pos, offset, repr(res), atom_pos))
+            if atom_pos == pos:
+                return offset
 
         atom_residues = [res for res in self.residues if res.pdb_label is not None]
         raise err.OutOfBoundsError(
@@ -573,12 +575,12 @@ class Correspondence(object):
                 pos, repr(atom_residues[-1]), atom_pos))
 
     @property
-    def first_residue(self):
+    def first_residue(self) -> Residue:
         """Returns the first residue in the correspondence."""
         return self.get_res_at_offset(0)
 
     @property
-    def last_residue(self):
+    def last_residue(self) -> Residue:
         """Returns the last residue in the correspondence."""
         return self.get_res_at_offset(-1)
 
