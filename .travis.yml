@@ -6,6 +6,6 @@ install:
 script:
   - "pytest --cov=cathpy"
 before_install:
-  - "pip install codecov "
+  - "pip install pytest pytest-cov codecov"
 after_success:
   - "codecov"
