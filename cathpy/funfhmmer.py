@@ -49,7 +49,7 @@ class ApiClientBase(object):
         self.base_url = base_url
         self.default_accept = default_accept
 
-    def get(self, url, *, headers=None, accept=None):
+    def get(self, url, *, headers=None, accept=None, **kwargs):
         """Performs a GET request"""
 
         if not accept:
@@ -59,10 +59,10 @@ class ApiClientBase(object):
             headers = {}
 
         headers['accept'] = accept
-        req = requests.get(url, headers=headers)
+        req = requests.get(url, headers=headers, **kwargs)
         return req
 
-    def post(self, url, *, headers=None, accept=None):
+    def post(self, url, *, headers=None, accept=None, **kwargs):
         """Performs a POST request"""
 
         if not accept:
@@ -71,7 +71,7 @@ class ApiClientBase(object):
             headers = {}
 
         headers['accept'] = accept
-        req = requests.post(url, headers=headers)
+        req = requests.post(url, headers=headers, **kwargs)
         return req
 
 
@@ -216,7 +216,7 @@ class Client(ApiClientBase):
         try:
             self.log.info("submit.POST: %s", self.submit_url)
             data = {'fasta': fasta, 'queue': queue}
-            r = requests.post(self.submit_url, data=data, headers=self.headers)
+            r = self.post(self.submit_url, data=data, headers=self.headers)
         except:
             raise err.HttpError(
                 'http request failed: POST {}'.format(self.submit_url))
