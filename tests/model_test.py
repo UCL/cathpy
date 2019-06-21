@@ -1,6 +1,6 @@
 import logging
 
-from cathpy.models import AminoAcid, AminoAcids, CathID
+from cathpy.models import AminoAcid, AminoAcids, CathID, ClusterID
 from cathpy.error import OutOfBoundsError
 from . import testutils
 
@@ -30,3 +30,24 @@ class TestCathID(testutils.TestBase):
             cath_id = CathID("1.10.8").sfam_id
             self.assertRegex(err.exception, r'require depth',
                              'sfam_id fails when depth < 4')
+
+
+class TestClusterID(testutils.TestBase):
+
+    def test_cluster_id(self):
+
+        id_str = '1.10.8.10-ff-1234'
+        cluster_id1 = ClusterID(id_str)
+        cluster_id2 = ClusterID.from_string(id_str)
+        cluster_id3 = ClusterID(sfam_id='1.10.8.10',
+                                cluster_type='ff', cluster_num=1234)
+        self.assertEqual(str(cluster_id1), id_str)
+        self.assertEqual(str(cluster_id2), id_str)
+        self.assertEqual(str(cluster_id3), id_str)
+
+        self.assertIsInstance(cluster_id1.cath_id, CathID)
+        self.assertEqual(cluster_id1.sfam_id, '1.10.8.10')
+        self.assertEqual(cluster_id1.cluster_type, 'ff')   # 'ff'
+        self.assertEqual(cluster_id1.cluster_num, 1234)    # 1234
+
+        self.assertEqual(cluster_id1.to_string(), '1.10.8.10-ff-1234')
