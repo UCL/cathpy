@@ -4,6 +4,16 @@
 Welcome to CathPy's documentation!
 ==================================
 
+.. image:: https://readthedocs.org/projects/cathpy/badge/?version=latest
+  :target: https://cathpy.readthedocs.io/en/latest/?badge=latest
+
+.. image:: https://travis-ci.com/UCL/cathpy.svg?branch=master
+  :target: https://travis-ci.com/UCL/cathpy
+
+.. image:: https://codecov.io/gh/UCL/cathpy/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/UCL/cathpy
+
+
 **CathPy** is a Bioinformatics library and toolkit written for `Python3 <https://python.org>`_.
 It is written and maintained by the maintainers of `CATH <http://www.cathdb.info>`_, the Protein 
 Structure Classification Database at `UCL <https://www.ucl.ac.uk/orengo-group>`_, UK.
