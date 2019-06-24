@@ -605,7 +605,7 @@ class Correspondence(object):
         res = [res.aa for res in self.residues]
         return Sequence(_id, "".join(res))
 
-    def apply_seqres_segments(self, segs) -> Correspondence:
+    def apply_seqres_segments(self, segs):
         """Returns a new correspondence from just the residues within the segments."""
 
         current_seg_offset = 0
@@ -687,7 +687,7 @@ class Correspondence(object):
         seqs = self.to_sequences()
         return seqs[0].to_fasta(**kwargs) + seqs[1].to_fasta(**kwargs)
 
-    def to_aln(self) -> Align:
+    def to_aln(self):
         """Returns the Correspondence as an Align object."""
         seqs = self.to_sequences()
         return Align(seqs=seqs)
@@ -719,17 +719,17 @@ class Align(object):
     format.
 
     Args:
-        seqs ([:class:`Sequence`]) - aligned sequences
-        uid (str) - unique identifier for this alignment
-        accession (str) - accession for this alignment
-        author (str) - person responsible for creating this alignment
-        cath_version (str|cathpy.version.CathVersion) - CATH version
-        dops_score (float) - sequence diversity score (0 low, 100 high)
-        description (str) - description to associate with this alignment
-        aln_type (str) - type of alignment (eg cluster type)
-        min_bitscore (float) - minimum bitscore for sequences in this alignment
-        tree_nhx (str) - store the tree (NHX format)
-        tree_id (str) - identifier of the tree
+        seqs ([:class:`Sequence`]): aligned sequences (required)
+        uid (str): unique identifier for this alignment
+        accession (str): accession for this alignment
+        author (str): person responsible for creating this alignment
+        cath_version (str | :class:`CathVersion`): CATH version
+        dops_score (float): sequence diversity score (0 low, 100 high)
+        description (str): description to associate with this alignment
+        aln_type (str): type of alignment (eg cluster type)
+        min_bitscore (float): minimum bitscore for sequences in this alignment
+        tree_nhx (str): store the tree (NHX format)
+        tree_id (str): identifier of the tree
         
     """
 
