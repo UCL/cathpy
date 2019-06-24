@@ -523,17 +523,17 @@ class Correspondence(object):
 
     @property
     def seqres_length(self) -> int:
-        """Return the number of SEQRES residues"""
+        """Returns the number of `SEQRES` residues"""
         return len(self.residues)
 
     @property
     def atom_length(self) -> int:
-        """Return the number of ATOM residues"""
+        """Returns the number of `ATOM` residues"""
         atom_residues = [res for res in self.residues if res.pdb_label is not None]
         return len(atom_residues)
 
     def get_res_at_offset(self, offset: int) -> Residue:
-        """Return the :class:`Residue` at the given offset (zero-based)"""
+        """Returns the :class:`Residue` at the given offset (zero-based)"""
         return self.residues[offset]
 
     def get_res_by_seq_num(self, seq_num: int) -> Residue:
@@ -555,7 +555,13 @@ class Correspondence(object):
         return res
 
     def get_res_offset_by_atom_pos(self, pos: int) -> Residue:
-        """Returns offset of Residue at position in the ATOM sequence (ignores gaps)."""
+        """
+        Returns offset of Residue at given position in the ATOM sequence (ignoring gaps).
+        
+        Raises:
+            :class:`cathpy.error.OutOfBoundsError`
+            
+        """
         assert isinstance(pos, int)
         assert pos >= 1
         atom_pos = 0
@@ -583,7 +589,7 @@ class Correspondence(object):
         return self.get_res_at_offset(-1)
 
     @property
-    def atom_sequence(self):
+    def atom_sequence(self) -> Sequence:
         """Returns a Sequence corresponding to the ATOM records."""
 
         _id = "atom|{}".format(self.uid)
@@ -592,14 +598,14 @@ class Correspondence(object):
         return Sequence(_id, "".join(res))
 
     @property
-    def seqres_sequence(self):
+    def seqres_sequence(self) -> Sequence:
         """Returns a Sequence corresponding to the SEQRES records."""
 
         _id = "seqres|{}".format(self.uid)
         res = [res.aa for res in self.residues]
         return Sequence(_id, "".join(res))
 
-    def apply_seqres_segments(self, segs):
+    def apply_seqres_segments(self, segs) -> Correspondence:
         """Returns a new correspondence from just the residues within the segments."""
 
         current_seg_offset = 0
@@ -635,7 +641,7 @@ class Correspondence(object):
 
         return corr
 
-    def to_gcf(self):
+    def to_gcf(self) -> str:
         """Renders the current object as a GCF string.
 
         Example format:
@@ -671,17 +677,17 @@ class Correspondence(object):
         return gcf_str
 
 
-    def to_sequences(self):
+    def to_sequences(self) -> [Sequence]:
         """Returns the Correspondence as a list of `Sequence` objects"""
         seqs = (self.seqres_sequence, self.atom_sequence)
         return seqs
 
-    def to_fasta(self, **kwargs):
+    def to_fasta(self, **kwargs) -> str:
         """Returns the Correspondence as a string (FASTA format)."""
         seqs = self.to_sequences()
         return seqs[0].to_fasta(**kwargs) + seqs[1].to_fasta(**kwargs)
 
-    def to_aln(self):
+    def to_aln(self) -> Align:
         """Returns the Correspondence as an Align object."""
         seqs = self.to_sequences()
         return Align(seqs=seqs)
@@ -705,7 +711,27 @@ class AlignMetaSummary(object):
         self.organism_newick = organism_newick
 
 class Align(object):
-    """Object representing a protein sequence alignment."""
+    """
+    Object representing a protein sequence alignment.
+    
+    The only required field is `sequences`, otherwise all fields are optional
+    and are mainly here to satisfy the named fields in `STOCKHOLM` alignment 
+    format.
+
+    Args:
+        seqs ([:class:`Sequence`]) - aligned sequences
+        uid (str) - unique identifier for this alignment
+        accession (str) - accession for this alignment
+        author (str) - person responsible for creating this alignment
+        cath_version (str|cathpy.version.CathVersion) - CATH version
+        dops_score (float) - sequence diversity score (0 low, 100 high)
+        description (str) - description to associate with this alignment
+        aln_type (str) - type of alignment (eg cluster type)
+        min_bitscore (float) - minimum bitscore for sequences in this alignment
+        tree_nhx (str) - store the tree (NHX format)
+        tree_id (str) - identifier of the tree
+        
+    """
 
     REF_GAP_CHAR = '-'
     MERGE_GAP_CHAR = '.'
