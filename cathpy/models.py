@@ -349,8 +349,8 @@ class Segment(object):
     Class to represent a protein segment.
 
     Args:
-    - start (int): numeric start position of the segment
-    - stop (int): numeric stop position of the segment
+        start (int): numeric start position of the segment
+        stop (int): numeric stop position of the segment
 
     """
 
@@ -419,18 +419,21 @@ class ScanHit(object):
         match_cath_id (str): CATH superfamily id of the match
         match_description (str): description of the match
         match_length (str): number of residues in the match protein
-        hsps (dict|ScanHsp): array of :class:`ScanHsp` objects 
+        hsps (dict|ScanHsp): array of :class:`ScanHsp` objects
         significance (float): significance score
+        data (dict): additional meta data about the hit (optional)
 
     """
 
     def __init__(self, *, match_name, match_cath_id, match_description,
-                 match_length, hsps, significance, data, **kwargs):
+                 match_length, hsps, significance, data=None, **kwargs):
         self.match_name = match_name
         self.match_cath_id = match_cath_id
         self.match_description = match_description
         self.match_length = match_length
         self.hsps = [ScanHsp(**hsp) for hsp in hsps]
+        if not data:
+            data = {}
         self.data = data
         self.significance = significance
 
@@ -500,3 +503,42 @@ class Scan(object):
                     lines.append(line)
 
         return "".join([l + "\n" for l in lines])
+
+
+class SsapResult(object):
+    """
+    Represents a result from SSAP pairwise structure comparison
+
+    Args:
+        id1 (str): id of protein 1 
+        id2 (str): id of protein 2
+        len1 (int): length of protein 1
+        len2 (int): length of protein 2
+        seqid (int): number of aligned residues
+
+    """
+
+    def __init__(self, *,
+                 id1=None, id2=None,
+                 len1=None, len2=None,
+                 seqid=None, alnov=None,
+                 ssap_score=None, rmsd=None,
+                 alignment=None):
+        self.id1 = id1
+        self.id2 = id2
+        self.len1 = len1
+        self.len2 = len2
+        self.seqid = seqid
+        self.alnov = alnov
+        self.ssap_score = ssap_score
+        self.rmsd = rmsd
+        self.alignment = alignment
+
+    @classmethod
+    def from_string(cls, ssap_line, *, alignment=None):
+        ssap_line = ssap_line.strip()
+        id1, id2, len1, len2, ssap_score, seqid, alnov, rmsd = ssap_line.split()
+        return cls(id1=id1, id2=id2,
+                   len1=len1, len2=len2, seqid=seqid,
+                   alnov=alnov, ssap_score=ssap_score,
+                   rmsd=rmsd, alignment=alignment,)
