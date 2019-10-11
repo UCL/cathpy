@@ -17,8 +17,8 @@ class AminoAcid(object):
     """Class representing an Amino Acid."""
 
     def __init__(self, one, three, word):
-        self.one = one
-        self.three = three
+        self.one = str(one).upper()
+        self.three = str(three).upper()
         self.word = word
 
     def __str__(self):
@@ -29,7 +29,7 @@ class AminoAcid(object):
 class AminoAcids(object):
     """Provides access to recognised Amino Acids."""
 
-    aa_by_id = {aa[2]: AminoAcid(aa[2], aa[1], aa[0]) for aa in (
+    amino_acids = [AminoAcid(aa[2], aa[1], aa[0]) for aa in (
         ('alanine', 'ala', 'A'),
         ('arginine', 'arg', 'R'),
         ('asparagine', 'asn', 'N'),
@@ -52,20 +52,37 @@ class AminoAcids(object):
         ('tryptophan', 'trp', 'W'),
         ('tyrosine', 'tyr', 'Y'),
         ('valine', 'val', 'V'),
-    )}
+    )]
+
+    _aa_by_one = {aa.one: aa for aa in amino_acids}
+    _aa_by_three = {aa.three: aa for aa in amino_acids}
 
     def __init__(self):
         pass
 
     @classmethod
-    def is_valid_aa(cls, aa_letter):
-        """Check if aa is a valid single character aa code."""
-        return str(aa_letter).upper() in cls.aa_by_id
+    def is_valid_aa(cls, aa_str):
+        """Check if aa is a valid 1 or 3-letter AA code."""
+        try:
+            cls.get_by_id(aa_str)
+            return True
+        except Exception:
+            return False
 
     @classmethod
-    def get_by_id(cls, aa_letter):
+    def get_by_id(cls, aa_str):
         """Return the AminoAcid object by the given single character aa code."""
-        return cls.aa_by_id[aa_letter.upper()]
+
+        aa_str = str(aa_str)
+        aa_obj = None
+        if len(aa_str) == 1:
+            aa_obj = cls._aa_by_one[aa_str.upper()]
+        elif len(aa_str) == 3:
+            aa_obj = cls._aa_by_three[aa_str.upper()]
+        else:
+            raise err.InvalidInputError(
+                "expected either 1- or 3-character amino acid id (not: '{}')".format(aa_str))
+        return aa_obj
 
 
 class Residue(object):
