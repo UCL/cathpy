@@ -45,22 +45,22 @@ if __name__ == '__main__':
 
     aln.add_scorecons()
 
-    logging.info('DOPS:          {}'.format(
-        'SAME' if old_dops_score == aln.dops_score else 'CHANGED'))
-    logging.info('OLD_DOPS:      {}'.format(old_dops_score))
-    logging.info('NEW_DOPS:      {}'.format(aln.dops_score))
+    logging.info('DOPS:          %s',
+                 'SAME' if old_dops_score == aln.dops_score else 'CHANGED')
+    logging.info('OLD_DOPS:      %s', old_dops_score)
+    logging.info('NEW_DOPS:      %s', aln.dops_score)
 
-    logging.info('SCORECONS:     {}'.format(
-        'SAME' if old_scorecons == aln.meta['scorecons'] else 'CHANGED'))
-    logging.info('OLD_SCORECONS: {}'.format(old_scorecons))
-    logging.info('NEW_SCORECONS: {}'.format(aln.meta['scorecons']))
+    logging.info('SCORECONS:     %s',
+                 'SAME' if old_scorecons == aln.meta['scorecons'] else 'CHANGED')
+    logging.info('OLD_SCORECONS: %s', old_scorecons)
+    logging.info('NEW_SCORECONS: %s', aln.meta['scorecons'])
 
     if args.out_file:
-        logging.info("Writing new alignment file: {}".format(args.out_file))
+        logging.info("Writing new alignment file: %s", args.out_file)
         aln.write_sto(args.out_file)
 
     if args.replace:
-        logging.info("Replacing alignment file: {}".format(args.in_file))
+        logging.info("Replacing alignment file: %s", args.in_file)
         aln.write_sto(args.in_file)
 
     logging.info('DONE')
