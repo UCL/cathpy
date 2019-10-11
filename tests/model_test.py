@@ -4,16 +4,25 @@ from cathpy.models import AminoAcid, AminoAcids, CathID
 from cathpy.error import OutOfBoundsError
 from . import testutils
 
-logger = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 class TestAminoAcids(testutils.TestBase):
 
     def test_aa(self):
+
         ala = AminoAcids.get_by_id('A')
         self.assertEqual(ala.one, 'A')
-        self.assertEqual(ala.three, 'ala')
+        self.assertEqual(ala.three, 'ALA')
         self.assertEqual(ala.word, 'alanine')
+
+        ala = AminoAcids.get_by_id('ALA')
+        self.assertEqual(ala.one, 'A')
+        self.assertEqual(ala.three, 'ALA')
+        self.assertEqual(ala.word, 'alanine')
+
+        val = AminoAcids.get_by_id('val')
+        self.assertEqual(val.one, 'V')
 
 
 class TestCathID(testutils.TestBase):
