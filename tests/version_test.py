@@ -33,7 +33,7 @@ class TestVersion(TestBase):
         self.assertFalse(cv.is_current)
 
     def test_current(self):
-        cv_current = CathVersion.new_from_string('current')
+        cv_current = CathVersion.from_string('current')
         self.assertEqual(cv_current.pg_dbname, 'cathdb_current')
         self.assertEqual(cv_current.dirname, 'current')
         self.assertEqual(cv_current.join('-'), 'current')

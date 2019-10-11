@@ -428,10 +428,10 @@ class Correspondence(object):
 
     Within CATH, this is most commonly initialised from a GCF file:
 
-    ```
-    aln = Correspondence.new_from_gcf('/path/to/<id>.gcf')
-    ```
+    ::
 
+        aln = Correspondence.from_gcf('/path/to/<uid>.gcf')
+    
     TODO: allow this to be created from PDBe API endpoint.
 
     """
@@ -439,24 +439,21 @@ class Correspondence(object):
     GCF_GAP_CHAR = '*'
     FASTA_GAP_CHAR = '-'
 
-    def __init__(self, _id=None, residues=None, **kwargs):
+    def __init__(self, uid=None, *, hdr=None, residues=None,):
         """Create a new Correspondence object."""
 
-        self._id = _id
+        self._uid = uid
+        self._hdr = hdr
         self.residues = residues if residues else []
-        super().__init__(**kwargs)
+        super().__init__()
 
     @property
     def uid(self):
         """Returns the unique id of the current Correspondence object."""
-        return self._id
-
-    def set_uid(self, _id):
-        """Sets the id of the current Correspondence object"""
-        self._id = _id
+        return self._uid
 
     @classmethod
-    def new_from_gcf(cls, gcf_io):
+    def from_gcf(cls, gcf_io):
         """Create a new Correspondence object from a GCF io / filename / string.
 
         This provides a correspondence between SEQRES and ATOM records for a given
@@ -489,8 +486,9 @@ class Correspondence(object):
                 gcf_io = open(gcf_io)
         
         try:
-            hdr = gcf_io.readline()
-            _id = hdr.strip().split('|')[-1]
+            hdr = gcf_io.readline().strip()
+            hdr = hdr[1:] # remove '>'
+            uid = hdr.split('|')[-1]
         except AttributeError:
             # make a potentially confusing error slightly less so
             raise err.SeqIOError(
@@ -519,53 +517,61 @@ class Correspondence(object):
 
         gcf_io.close()
 
-        corr = Correspondence(_id, residues=residues)
+        corr = Correspondence(uid=uid, hdr=hdr, residues=residues)
 
         return corr
 
     @property
     def seqres_length(self) -> int:
-        """Return the number of SEQRES residues"""
+        """Returns the number of `SEQRES` residues"""
         return len(self.residues)
 
     @property
     def atom_length(self) -> int:
-        """Return the number of ATOM residues"""
+        """Returns the number of `ATOM` residues"""
         atom_residues = [res for res in self.residues if res.pdb_label is not None]
         return len(atom_residues)
 
-    def get_res_at_offset(self, offset: int):
-        """Return the ``Residue`` at the given offset (zero-based)"""
+    def get_res_at_offset(self, offset: int) -> Residue:
+        """Returns the :class:`Residue` at the given offset (zero-based)"""
         return self.residues[offset]
 
-    def get_res_by_seq_num(self, seq_num: int):
-        """Return the ``Residue`` with the given sequence number"""
+    def get_res_by_seq_num(self, seq_num: int) -> Residue:
+        """Return the :class:`Residue` with the given sequence number"""
         res = next((res for res in self.residues if res.seq_num == seq_num), None)
         return res
 
-    def get_res_by_pdb_label(self, pdb_label):
-        """Returns the Residue that matches `pdb_label`"""
+    def get_res_by_pdb_label(self, pdb_label: str) -> Residue:
+        """Returns the :class:`Residue` that matches `pdb_label`"""
         res = next((res for res in self.residues if res.pdb_label == pdb_label), None)
         return res
 
-    def get_res_by_atom_pos(self, pos):
+    def get_res_by_atom_pos(self, pos: int) -> Residue:
         """Returns Residue corresponding to position in the ATOM sequence (ignores gaps)."""
+        assert isinstance(pos, int)
         assert pos >= 1
         atom_residues = [res for res in self.residues if res.pdb_label is not None]
         res = atom_residues[pos-1]
         return res
 
-    def get_res_offset_by_atom_pos(self, pos):
-        """Returns offset of Residue at position in the ATOM sequence (ignores gaps)."""
+    def get_res_offset_by_atom_pos(self, pos: int) -> Residue:
+        """
+        Returns offset of Residue at given position in the ATOM sequence (ignoring gaps).
+        
+        Raises:
+            :class:`cathpy.error.OutOfBoundsError`
+            
+        """
+        assert isinstance(pos, int)
         assert pos >= 1
-        atom_pos = 1
+        atom_pos = 0
         for offset, res in enumerate(self.residues):
-            # LOG.debug("pos({}) -> res: offset: {}, res: {}, atom_pos: {}".format(
-            #     pos, offset, repr(res), atom_pos))
-            if atom_pos == pos:
-                return offset
             if res.pdb_label is not None:
                 atom_pos += 1
+            # LOG.debug("pos({}) -> res: offset: {}, res: {}, atom_pos: {}".format(
+            #      pos, offset, repr(res), atom_pos))
+            if atom_pos == pos:
+                return offset
 
         atom_residues = [res for res in self.residues if res.pdb_label is not None]
         raise err.OutOfBoundsError(
@@ -573,17 +579,17 @@ class Correspondence(object):
                 pos, repr(atom_residues[-1]), atom_pos))
 
     @property
-    def first_residue(self):
+    def first_residue(self) -> Residue:
         """Returns the first residue in the correspondence."""
         return self.get_res_at_offset(0)
 
     @property
-    def last_residue(self):
+    def last_residue(self) -> Residue:
         """Returns the last residue in the correspondence."""
         return self.get_res_at_offset(-1)
 
     @property
-    def atom_sequence(self):
+    def atom_sequence(self) -> Sequence:
         """Returns a Sequence corresponding to the ATOM records."""
 
         _id = "atom|{}".format(self.uid)
@@ -592,7 +598,7 @@ class Correspondence(object):
         return Sequence(_id, "".join(res))
 
     @property
-    def seqres_sequence(self):
+    def seqres_sequence(self) -> Sequence:
         """Returns a Sequence corresponding to the SEQRES records."""
 
         _id = "seqres|{}".format(self.uid)
@@ -631,11 +637,11 @@ class Correspondence(object):
             else:
                 raise err.SeqIOError("unexpected error - shouldn't be able to reach this code")
 
-        corr = __class__(_id=self.uid, residues=selected_residues)
+        corr = __class__(uid=self.uid, hdr=self._hdr, residues=selected_residues)
 
         return corr
 
-    def to_gcf(self):
+    def to_gcf(self) -> str:
         """Renders the current object as a GCF string.
 
         Example format:
@@ -658,23 +664,25 @@ class Correspondence(object):
         
         """
 
-        gcf_str = '>' + self._id + '\n'
+        hdr = self._hdr if self._hdr else self.uid
+        gcf_str = '>' + hdr + '\n'
         for res in self.residues:
             if res.pdb_label:
-                vals = [res.aa, res.seq_num, res.pdb_label, res.pdb_aa]
+                pdb_label = '{}{}'.format(res.pdb_residue_num, res.pdb_insert_code if res.pdb_insert_code else ' ')
+                vals = [res.aa, res.seq_num, pdb_label, res.pdb_aa]
             else:
-                vals = [res.aa, res.seq_num, '*', '*']
-            gcf_str += '{} {:>4} {:>4}  {}\n'.format(*vals)
+                vals = [res.aa, res.seq_num, '* ', '*']
+            gcf_str += '{} {:>3} {:>4}  {}\n'.format(*vals)
 
         return gcf_str
 
 
-    def to_sequences(self):
+    def to_sequences(self) -> [Sequence]:
         """Returns the Correspondence as a list of `Sequence` objects"""
         seqs = (self.seqres_sequence, self.atom_sequence)
         return seqs
 
-    def to_fasta(self, **kwargs):
+    def to_fasta(self, **kwargs) -> str:
         """Returns the Correspondence as a string (FASTA format)."""
         seqs = self.to_sequences()
         return seqs[0].to_fasta(**kwargs) + seqs[1].to_fasta(**kwargs)
@@ -703,7 +711,27 @@ class AlignMetaSummary(object):
         self.organism_newick = organism_newick
 
 class Align(object):
-    """Object representing a protein sequence alignment."""
+    """
+    Object representing a protein sequence alignment.
+    
+    The only required field is `sequences`, otherwise all fields are optional
+    and are mainly here to satisfy the named fields in `STOCKHOLM` alignment 
+    format.
+
+    Args:
+        seqs ([:class:`Sequence`]): aligned sequences (required)
+        uid (str): unique identifier for this alignment
+        accession (str): accession for this alignment
+        author (str): person responsible for creating this alignment
+        cath_version (str | :class:`CathVersion`): CATH version
+        dops_score (float): sequence diversity score (0 low, 100 high)
+        description (str): description to associate with this alignment
+        aln_type (str): type of alignment (eg cluster type)
+        min_bitscore (float): minimum bitscore for sequences in this alignment
+        tree_nhx (str): store the tree (NHX format)
+        tree_id (str): identifier of the tree
+        
+    """
 
     REF_GAP_CHAR = '-'
     MERGE_GAP_CHAR = '.'
@@ -855,14 +883,14 @@ class Align(object):
         return self.seqs[offset]
 
     @classmethod
-    def new_from_fasta(cls, fasta_io):
+    def from_fasta(cls, fasta_io):
         """Initialises an alignment object from a FASTA file / string / io"""
         aln = Align()
         aln.read_sequences_from_fasta(fasta_io)
         return aln
 
     @classmethod
-    def new_from_pir(cls, pir_io):
+    def from_pir(cls, pir_io):
         """Initialises an alignment object from a PIR file / string / io"""
         aln = Align()
         aln.read_sequences_from_pir(pir_io)
@@ -889,7 +917,7 @@ class Align(object):
         return _io, filename
 
     @classmethod
-    def new_from_stockholm(cls, sto_io, *, nowarnings=False):
+    def from_stockholm(cls, sto_io, *, nowarnings=False):
         """Initialises an alignment object from a STOCKHOLM file / string / io"""
 
         sto_io, sto_filename = cls._get_io_from_file_or_string(sto_io)
@@ -1315,7 +1343,7 @@ class Align(object):
             # ignore any residue that does not have a seq_num (ie gap)
             residues = [res for res in ref_seq_in_ref.get_residues() if res.seq_num]
             for r in residues:
-                r.pdb_label = str(r.seq_num)
+                r.set_pdb_label(str(r.seq_num))
                 # LOG.debug("fake correspondence: residue={}".format(repr(r)))
             ref_correspondence = Correspondence(ref_seq_acc, residues=residues)
 

@@ -93,10 +93,34 @@ class Residue(object):
         if seq_num:
             seq_num = int(seq_num)
 
+        self.pdb_residue_num = None
+        self.pdb_insert_code = None
+        if pdb_label:
+            self.set_pdb_label(pdb_label)
+
         self.aa = aa
         self.seq_num = seq_num
-        self.pdb_label = pdb_label
         self.pdb_aa = pdb_aa if pdb_aa else aa
+
+    def set_pdb_label(self, pdb_label):
+        if pdb_label[-1].isalpha():
+            self.pdb_residue_num = pdb_label[:-1]
+            self.pdb_insert_code = pdb_label[-1]
+        else:
+            self.pdb_residue_num = pdb_label
+            self.pdb_insert_code = None
+
+    @property
+    def pdb_label(self):
+        if not self.pdb_residue_num:
+            return None
+        return '{}{}'.format(
+            str(self.pdb_residue_num),
+            self.pdb_insert_code if self.pdb_insert_code else '')
+
+    @property
+    def has_pdb_insert_code(self):
+        return bool(self.pdb_insert_code)
 
     def __str__(self):
         return self.aa
@@ -161,28 +185,75 @@ class CathID(object):
 
 
 class ClusterID(object):
-    """Represents a Cluster Identifier (FunFam, SC, etc)"""
+    """
+    Represents a Cluster Identifier (FunFam, SC, etc)
 
-    def __init__(self, sfam_id, cluster_type, cluster_num):
-        self.sfam_id = sfam_id
+    Usage:
+
+    ::
+
+        # equivalent
+        cluster_id = ClusterID('1.10.8.10-ff-1234')
+        cluster_id = ClusterID.from_string('1.10.8.10-ff-1234')
+        cluster_id = ClusterID(sfam_id='1.10.8.10', cluster_type='ff', cluster_num=1234)
+
+        cluster_id.sfam_id        # '1.10.8.10'
+        cluster_id.cath_id        # CathID('1.10.8.10')
+        cluster_id.cluster_type   # 'ff'
+        cluster_id.cluster_num    # 1234
+
+        cluster_id.to_string()    # '1.10.8.10-ff-1234'
+
+    """
+
+    def __init__(self, *args, **kwargs):
+
+        sfam_id = None
+        cluster_type = None
+        cluster_num = None
+
+        if len(args) == 1:
+            cluster_id = ClusterID.from_string(args[0])
+            sfam_id = cluster_id.sfam_id
+            cluster_type = cluster_id.cluster_type
+            cluster_num = cluster_id.cluster_num
+
+        if not sfam_id:
+            sfam_id = kwargs['sfam_id']
+        if not cluster_type:
+            cluster_type = kwargs['cluster_type']
+        if not cluster_num:
+            cluster_num = kwargs['cluster_num']
+
+        self.cath_id = CathID(sfam_id)
         self.cluster_type = cluster_type
-        self.cluster_num = cluster_num
+        self.cluster_num = int(cluster_num)
+
+    @property
+    def sfam_id(self):
+        return self.cath_id.sfam_id
 
     @classmethod
-    def new_from_file(cls, file):
+    def from_string(cls, file):
         """Parse a new :class:`ClusterID` from a filename."""
         cf = ClusterFile(file)
-        cls(cf.sfam_id, cf.cluster_type, cf.cluster_num)
+        return cls(sfam_id=cf.sfam_id, cluster_type=cf.cluster_type, cluster_num=cf.cluster_num)
+
+    def to_string(self):
+        """
+        Returns this object as a string (ie filepath).
+        """
+        return "{}-{}-{}".format(self.sfam_id, self.cluster_type, self.cluster_num)
 
     def __str__(self):
-        return "{}-{}-{}".format(self.sfam_id, self.cluster_type, self.cluster_num)
+        return self.to_string()
 
 
 class FunfamID(ClusterID):
     """Object that represents a FunFam ID."""
 
-    def __init__(self, sfam_id, cluster_num):
-        super().__init__(sfam_id, 'FF', cluster_num)
+    def __init__(self, *, sfam_id, cluster_num):
+        super().__init__(sfam_id=sfam_id, cluster_type='FF', cluster_num=cluster_num)
 
 
 class ClusterFile(object):
@@ -233,7 +304,8 @@ class ClusterFile(object):
         """
         Returns the cluster id as a :class:`ClusterID` object
         """
-        ClusterID(self.sfam_id, self.cluster_type, self.cluster_num)
+        ClusterID(sfam_id=self.sfam_id, cluster_type=self.cluster_type,
+                  cluster_num=self.cluster_num)
 
     @classmethod
     def split_path(cls, path):
@@ -250,18 +322,20 @@ class ClusterFile(object):
                              r'(?:-|__)'
                              # 1234
                              r'(?P<cluster_num>[0-9]+)'
-                             # .reduced
+                             # .reduced (optional)
                              r'(?P<desc>.*?)'
-                             r'(?P<suffix>\.\w+)$')                           # .sto
+                             # .sto (optional)
+                             r'(?P<suffix>\.\w+)?$')
 
-        m = re_file.match(os.path.basename(path))
+        basename = os.path.basename(path)
+        m = re_file.match(basename)
         if m:
             info = m.groupdict()
             info['path'] = os.path.dirname(path)
             return info
 
         raise err.NoMatchesError(
-            'failed to parse cluster details from filename {}'.format(path))
+            'failed to parse cluster details from filename "{}"'.format(basename))
 
     def to_string(self, join_char=None):
         """Represents the ClusterFile as a string (file path)."""
@@ -292,8 +366,8 @@ class Segment(object):
     Class to represent a protein segment.
 
     Args:
-    - start (int): numeric start position of the segment
-    - stop (int): numeric stop position of the segment
+        start (int): numeric start position of the segment
+        stop (int): numeric stop position of the segment
 
     """
 
@@ -362,18 +436,21 @@ class ScanHit(object):
         match_cath_id (str): CATH superfamily id of the match
         match_description (str): description of the match
         match_length (str): number of residues in the match protein
-        hsps (dict|ScanHsp): array of :class:`ScanHsp` objects 
+        hsps (dict|ScanHsp): array of :class:`ScanHsp` objects
         significance (float): significance score
+        data (dict): additional meta data about the hit (optional)
 
     """
 
     def __init__(self, *, match_name, match_cath_id, match_description,
-                 match_length, hsps, significance, data, **kwargs):
+                 match_length, hsps, significance, data=None, **kwargs):
         self.match_name = match_name
         self.match_cath_id = match_cath_id
         self.match_description = match_description
         self.match_length = match_length
         self.hsps = [ScanHsp(**hsp) for hsp in hsps]
+        if not data:
+            data = {}
         self.data = data
         self.significance = significance
 
@@ -443,3 +520,42 @@ class Scan(object):
                     lines.append(line)
 
         return "".join([l + "\n" for l in lines])
+
+
+class SsapResult(object):
+    """
+    Represents a result from SSAP pairwise structure comparison
+
+    Args:
+        id1 (str): id of protein 1 
+        id2 (str): id of protein 2
+        len1 (int): length of protein 1
+        len2 (int): length of protein 2
+        seqid (int): number of aligned residues
+
+    """
+
+    def __init__(self, *,
+                 id1=None, id2=None,
+                 len1=None, len2=None,
+                 seqid=None, alnov=None,
+                 ssap_score=None, rmsd=None,
+                 alignment=None):
+        self.id1 = id1
+        self.id2 = id2
+        self.len1 = len1
+        self.len2 = len2
+        self.seqid = seqid
+        self.alnov = alnov
+        self.ssap_score = ssap_score
+        self.rmsd = rmsd
+        self.alignment = alignment
+
+    @classmethod
+    def from_string(cls, ssap_line, *, alignment=None):
+        ssap_line = ssap_line.strip()
+        id1, id2, len1, len2, ssap_score, seqid, alnov, rmsd = ssap_line.split()
+        return cls(id1=id1, id2=id2,
+                   len1=len1, len2=len2, seqid=seqid,
+                   alnov=alnov, ssap_score=ssap_score,
+                   rmsd=rmsd, alignment=alignment,)

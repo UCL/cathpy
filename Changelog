@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.2.1
+
+*Release date: 21/06/2019*
+
+* changed new_from_(file|string|io) to from_(file|string|io)
+* cathpy.release container classes retrieve via primary key (eg. domainlist[0] === domainlist['1cukA01'])
+* added codecov
+
 ## v0.1.14
 
 *Release date: 20/06/2019*

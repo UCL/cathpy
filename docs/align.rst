@@ -5,7 +5,7 @@ cathpy.align
 
     from cathpy.align import Align
 
-    aln = Align.new_from_stockholm('/path/to/align.sto')
+    aln = Align.from_stockholm('/path/to/align.sto')
 
     aln.count_sequences
     # 75

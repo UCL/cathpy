@@ -70,7 +70,7 @@ class CathVersion(object):
             return "v" + self.join("_")
 
     @classmethod
-    def new_from_string(cls, version_str):
+    def from_string(cls, version_str):
         """Create a new CathVersion object from a string."""
         version_parts = cls._split_string(version_str)
         return cls(*version_parts)

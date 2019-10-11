@@ -39,14 +39,14 @@ class GroupsimResult(object):
         self.scores = scores
 
     @classmethod
-    def new_from_file(cls, gs_file):
+    def from_file(cls, gs_file):
         """Create a new groupsim result from an output file."""
         with open(gs_file) as f:
-            obj = cls.new_from_io(f)
+            obj = cls.from_io(f)
             return obj
 
     @classmethod
-    def new_from_io(cls, gs_io, *, maxscore=1):
+    def from_io(cls, gs_io, *, maxscore=1):
         """Create a new groupsim result from an io source."""
         gs_scores = []
         for line in gs_io:
@@ -153,7 +153,7 @@ class GroupsimRunner(object):
 
         gs_io = io.StringIO(groupsim_out)
 
-        res = GroupsimResult.new_from_io(gs_io, maxscore=maxscore)
+        res = GroupsimResult.from_io(gs_io, maxscore=maxscore)
 
         return res
 
@@ -212,7 +212,7 @@ class ScoreconsRunner(object):
 
         fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix=".fa")
         fasta_tmp_filename = fasta_tmp.name
-        aln = Align.new_from_stockholm(sto_file)
+        aln = Align.from_stockholm(sto_file)
         aln.write_fasta(fasta_tmp_filename)
         return self.run_fasta(fasta_tmp_filename)
 
@@ -299,7 +299,7 @@ class FunfamFileFinder(object):
             raise err.NoMatchesError("failed to match template '{}' against filename '{}'".format(
                 ff_re, filename
             ))
-        ff_id = FunfamID(m.group('sfam_id'), int(m.group('ff_num')))
+        ff_id = FunfamID(sfam_id=m.group('sfam_id'), cluster_num=int(m.group('ff_num')))
 
         return ff_id
 
@@ -366,7 +366,7 @@ class StructuralClusterMerger(object):
         add_groupsim=True, add_scorecons=True, cath_release=None):
 
         if type(cath_version) is str:
-            cath_version = CathVersion.new_from_string(cath_version)
+            cath_version = CathVersion.from_string(cath_version)
 
         self.cath_version = cath_version
         self.sc_file = sc_file
@@ -405,7 +405,7 @@ class StructuralClusterMerger(object):
         LOG.info('Cluster number: ' + sc_num)
 
         LOG.info("Parsing structure-based alignment: ")
-        sc_aln = Align.new_from_fasta(self.sc_file)
+        sc_aln = Align.from_fasta(self.sc_file)
         LOG.info(" ... found {} representatives".format(sc_aln.count_sequences))
 
         cluster_id = '-'.join([sfam_id, cluster_type, sc_num])
@@ -443,7 +443,7 @@ class StructuralClusterMerger(object):
             LOG.info('Reading FunFam alignment: {}'.format(ff_aln_file))
 
             # parse it into an alignment
-            ff_aln = Align.new_from_stockholm(ff_aln_file)
+            ff_aln = Align.from_stockholm(ff_aln_file)
 
             # we need the funfam_number for groupsim
             funfam_id = ff_finder.funfam_id_from_file(ff_aln_file)
@@ -461,7 +461,7 @@ class StructuralClusterMerger(object):
             rep_chain_id = sc_rep_acc[:5]
             gcf_file = cath_release.get_file('chaingcf', rep_chain_id)
 
-            chain_corr = Correspondence.new_from_gcf(gcf_file)
+            chain_corr = Correspondence.from_gcf(gcf_file)
 
             # TODO: get a subset that only corresponds to the domain (not chain)
             seqres_segments = sc_rep_in_ff.segs
@@ -517,18 +517,31 @@ class AlignmentSummary(object):
         self.gap_count = int(gap_count)
         self.total_positions = int(total_positions)
 
-    def __str__(self):
-        return "{:<70s} {:>6d} {:>6d} {:>6s} {:>6.2f}".format(self.path,
+    def to_string(self):
+        """
+        Render the alignment summary as a string 
+
+        ::
+
+            path   aln_length   seq_count   dops    gap_per
+
+        """
+        return "{:<70s} {:>6d} {:>6d} {:>6s} {:>6.2f}".format(
+            self.path,
             self.aln_length, self.seq_count, 
             "{:.2f}".format(self.dops) if self.dops is not None else 'NULL', 
-            100 * self.gap_count / self.total_positions)
+            self.gap_per)
+
+    def __str__(self):
+        return self.to_string()
+
+    @property
+    def gap_per(self):
+        return 100 * self.gap_count / self.total_positions
 
     @classmethod
     def headers(cls):
         return ['file', 'aln_len', 'seq_count', 'dops', 'gap_per']
-
-    def to_string(self):
-        return self.__str__()
 
 class AlignmentSummaryRunner(object):
     """
@@ -541,17 +554,18 @@ class AlignmentSummaryRunner(object):
         skipempty (bool): skip empty files    
     """
 
-    def __init__(self, *, aln_dir=None, aln_file=None, suffix='.sto', skipempty=False):
+    def __init__(self, *, aln_dir=None, aln_file=None, suffix='.sto', skipempty=False, recursive=False):
         self.suffix = suffix
         self.skipempty = skipempty
+        self.recursive = recursive
         if aln_file:
             self._files = [aln_file]
         elif aln_dir:
-            self._files = self._get_files(aln_dir, suffix=suffix)
+            self._files = self._get_files(aln_dir, suffix=suffix, recursive=recursive)
         else:
             raise Exception("error: expected 'aln_file' or 'aln_dir'")
         
-    def _get_files(self, input_dir, *, suffix):
+    def _get_files(self, input_dir, *, suffix, recursive):
 
         all_aln_files = []
 
@@ -571,17 +585,22 @@ class AlignmentSummaryRunner(object):
             aln_files = nonempty_files
 
             all_aln_files.extend(aln_files)
+
+            if not recursive:
+                break
         
         return all_aln_files
 
     def run(self):
         """Run the alignment summary"""
 
-        print('{}'.format(" ".join(AlignmentSummary.headers())))
+        LOG.info('{}'.format(" ".join(AlignmentSummary.headers())))
+
+        summary_entries = []
 
         for aln_file in self._files:
             try:
-                aln = Align.new_from_stockholm(aln_file)
+                aln = Align.from_stockholm(aln_file)
             except:
                 raise Exception("Failed to parse STOCKHOLM alignment from file {}".format(aln_file))
 
@@ -589,7 +608,10 @@ class AlignmentSummaryRunner(object):
                 aln_sum = AlignmentSummary(path=aln_file, dops=aln.dops_score, aln_length=aln.aln_positions, 
                     seq_count=aln.count_sequences, gap_count=aln.total_gap_positions, 
                     total_positions=aln.total_positions)
+                summary_entries.extend([aln_sum])
             except:
                 raise Exception("Failed to generate alignment summary from file: {}".format(aln_file))
 
-            print(aln_sum.to_string())
+            LOG.info(aln_sum.to_string())
+
+        return summary_entries

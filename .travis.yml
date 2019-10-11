@@ -4,4 +4,8 @@ python:
 install:
   - "pip install -e ."
 script:
-  - "pytest tests"
+  - "pytest --cov=cathpy"
+before_install:
+  - "pip install pytest-cov codecov"
+after_success:
+  - "codecov"

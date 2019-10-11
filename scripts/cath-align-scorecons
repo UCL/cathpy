@@ -33,9 +33,9 @@ if __name__ == '__main__':
     logging.basicConfig(level=log_level)
 
     if args.format == 'sto':
-        aln = Align.new_from_stockholm(args.in_file)
+        aln = Align.from_stockholm(args.in_file)
     elif args.format == 'fasta':
-        aln = Align.new_from_fasta(args.in_file)
+        aln = Align.from_fasta(args.in_file)
 
     if args.replace and args.format == 'fasta':
         raise Exception('cannot use --replace when input format is fasta')

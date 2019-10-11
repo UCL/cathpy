@@ -49,22 +49,29 @@ class ApiClientBase(object):
         self.base_url = base_url
         self.default_accept = default_accept
 
-    def get(self, url, *, accept=None):
+    def get(self, url, *, headers=None, accept=None, **kwargs):
         """Performs a GET request"""
 
         if not accept:
             accept = self.default_accept
-        headers = {'accept': accept}
-        req = requests.get(url, headers=headers)
+
+        if not headers:
+            headers = {}
+
+        headers['accept'] = accept
+        req = requests.get(url, headers=headers, **kwargs)
         return req
 
-    def post(self, url, *, accept=None):
+    def post(self, url, *, headers=None, accept=None, **kwargs):
         """Performs a POST request"""
 
         if not accept:
             accept = self.default_accept
-        headers = {'accept': accept}
-        req = requests.post(url, headers=headers)
+        if not headers:
+            headers = {}
+
+        headers['accept'] = accept
+        req = requests.post(url, headers=headers, **kwargs)
         return req
 
 
@@ -112,7 +119,7 @@ class ResultResponse(ResponseBase):
         if funfam_resolved_scan and not isinstance(funfam_resolved_scan, Scan):
             funfam_resolved_scan = Scan(**funfam_resolved_scan)
         self.funfam_resolved_scan = funfam_resolved_scan
-        
+
         super().__init__(**kwargs)
 
     def as_json(self, *, pp=False):
@@ -209,7 +216,7 @@ class Client(ApiClientBase):
         try:
             self.log.info("submit.POST: %s", self.submit_url)
             data = {'fasta': fasta, 'queue': queue}
-            r = requests.post(self.submit_url, data=data, headers=self.headers)
+            r = self.post(self.submit_url, data=data, headers=self.headers)
         except:
             raise err.HttpError(
                 'http request failed: POST {}'.format(self.submit_url))
@@ -230,7 +237,7 @@ class Client(ApiClientBase):
         url = self.check_url.replace(':task_id', task_id)
 
         self.log.info("check.GET: %s", url)
-        req = requests.get(url, headers=self.headers)
+        req = self.get(url, headers=self.headers)
         try:
             data = req.json()
         except Exception as e:
@@ -246,7 +253,7 @@ class Client(ApiClientBase):
         url = self.results_url.replace(':task_id', task_id)
 
         self.log.info("results.GET: %s", url)
-        r = requests.get(url, headers=self.headers)
+        r = self.get(url, headers=self.headers)
         if not r.content:
             LOG.warning(
                 "funfhmmer results returned empty content, assuming this means no results found")

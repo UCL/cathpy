@@ -104,7 +104,7 @@ ghCHC.fsAK.HP-PK.A-..-AHGP.....--GPa
 
     @testutils.log_title
     def test_parse_gcf(self):
-        gcf = Correspondence.new_from_gcf(self.gcf_ref1)
+        gcf = Correspondence.from_gcf(self.gcf_ref1)
         self.assertEqual(gcf.seqres_length, 14)
         self.assertEqual(gcf.atom_length, 11)
         self.assertEqual(gcf.uid, 'ref1')
@@ -115,7 +115,7 @@ ghCHC.fsAK.HP-PK.A-..-AHGP.....--GPa
 #     @testutils.log_level('cathpy.seqio', 'DEBUG')
     def test_correspondence_apply_segments(self):
 
-        corr_full = Correspondence.new_from_gcf(self.gcf_ref1)
+        corr_full = Correspondence.from_gcf(self.gcf_ref1)
 
         def _res(r):
             return (r.seq_num, r.pdb_label, r.aa)
@@ -177,23 +177,23 @@ ghCHC.fsAK.HP-PK.A-..-AHGP.....--GPa
     @testutils.log_title
 #     @testutils.log_level('cathpy.seqio', 'DEBUG')
     def test_merge_aln_with_correspondence(self):
-        aln_ref = Align.new_from_fasta(self.aln_structure)
+        aln_ref = Align.from_fasta(self.aln_structure)
         self.assertEqual(aln_ref.count_sequences, 2)
-        aln_merge1 = Align.new_from_fasta(self.aln_merge1)
+        aln_merge1 = Align.from_fasta(self.aln_merge1)
         self.assertEqual(aln_merge1.count_sequences, 3)
-        aln_merge2 = Align.new_from_fasta(self.aln_merge2)
+        aln_merge2 = Align.from_fasta(self.aln_merge2)
         self.assertEqual(aln_merge2.count_sequences, 3)
 
-        gcf = Correspondence.new_from_gcf(self.gcf_ref1)
+        gcf = Correspondence.from_gcf(self.gcf_ref1)
 
         aln_ref.merge_alignment(aln_merge1, 'ref1', gcf)
-        aln_after_merge1 = Align.new_from_fasta(self.aln_after_merge1)
+        aln_after_merge1 = Align.from_fasta(self.aln_after_merge1)
         self.assertIn('ref1_merge', [s.uid for s in aln_ref.seqs])
         #LOG.info("aln_after_merge1:\n%s", aln_ref.to_fasta())
         self.assertEqual(aln_ref.to_fasta(), aln_after_merge1.to_fasta())
 
         aln_ref.merge_alignment(aln_merge2, 'ref2')
-        aln_after_merge2 = Align.new_from_fasta(self.aln_after_merge2)
+        aln_after_merge2 = Align.from_fasta(self.aln_after_merge2)
         #LOG.info("aln_after_merge2:\n%s", aln_ref.to_fasta())
         self.assertEqual(aln_ref.to_fasta(), aln_after_merge2.to_fasta())
 
