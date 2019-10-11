@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.2
+
+*Release date: 11/10/2019*
+
+* improved amino acid checks
+* fixed bug with warning message when parsing stockholm alignments from string
+
 ## v0.2.1
 
 *Release date: 21/06/2019*

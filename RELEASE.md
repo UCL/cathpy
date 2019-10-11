@@ -11,9 +11,10 @@ pip install --upgrade setuptools wheel
 Bump version; document changes.
 
 ```
-git tag v0.1.7
 vim cathpy/__init__.py
+git tag v0.1.7
 vim Changelog
+git commit -m "bump version" Changelog cathpy/__init__.py
 ```
 
 Package release.
