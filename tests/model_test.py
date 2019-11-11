@@ -1,7 +1,7 @@
 import logging
 
-from cathpy.models import AminoAcid, AminoAcids, CathID, ClusterID
-from cathpy.error import OutOfBoundsError
+from cathpy.core.models import AminoAcid, AminoAcids, CathID, ClusterID
+from cathpy.core.error import OutOfBoundsError
 from . import testutils
 
 LOG = logging.getLogger(__name__)

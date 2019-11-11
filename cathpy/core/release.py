@@ -6,8 +6,8 @@ Provides access to read/write/manipulate CATH Release files
 import logging
 import re
 
-import cathpy.error as err
-from cathpy.models import CathID
+import cathpy.core.error as err
+from cathpy.core.models import CathID
 
 LOG = logging.getLogger(__name__)
 

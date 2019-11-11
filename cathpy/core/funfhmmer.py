@@ -12,8 +12,8 @@ import requests
 
 from tqdm import trange
 
-import cathpy.error as err
-from cathpy.models import Scan
+import cathpy.core.error as err
+from cathpy.core.models import Scan
 
 LOG = logging.getLogger(__name__)
 

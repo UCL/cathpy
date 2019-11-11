@@ -5,7 +5,7 @@ from random import shuffle
 import os
 import tempfile
 
-from cathpy.release import (
+from cathpy.core.release import (
     CathDomainList, CathNamesList, CathDomall,
     CathDomainListEntry, CathDomallEntry, )
 

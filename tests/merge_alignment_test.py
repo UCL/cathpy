@@ -1,7 +1,7 @@
 import logging
 import unittest
 
-from cathpy.align import Align, Sequence, Segment, Correspondence
+from cathpy.core.align import Align, Sequence, Segment, Correspondence
 
 from . import testutils
 

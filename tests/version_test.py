@@ -6,8 +6,8 @@ import tempfile
 
 from .testutils import TestBase, log_title, log_level
 
-from cathpy.version import CathVersion
-import cathpy.error as err
+from cathpy.core.version import CathVersion
+import cathpy.core.error as err
 
 LOG = logging.getLogger(__name__)
 

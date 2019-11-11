@@ -13,9 +13,9 @@ import functools
 import dendropy
 
 # local
-from cathpy import error as err
-from cathpy.tests import is_valid_domain_id
-from cathpy.models import AminoAcid, AminoAcids, Residue, Segment
+from cathpy.core import error as err
+from cathpy.core.tests import is_valid_domain_id
+from cathpy.core.models import AminoAcid, AminoAcids, Residue, Segment
 
 LOG = logging.getLogger(__name__)
 
@@ -1641,7 +1641,7 @@ class Align(object):
 
     def add_scorecons(self):
         """Add scorecons annotation to this alignment."""
-        from cathpy.util import ScoreconsRunner
+        from cathpy.core.util import ScoreconsRunner
         scons = ScoreconsRunner()
         LOG.info("Calculating scorecons / DOPS ...")
         # output alignment to tmp fasta file
@@ -1651,7 +1651,7 @@ class Align(object):
 
     def add_groupsim(self):
         """Add groupsim annotation to this alignment."""
-        from cathpy.util import GroupsimRunner
+        from cathpy.core.util import GroupsimRunner
         gs = GroupsimRunner()
         LOG.info("Calculating GroupSim ...")
         # output alignment to tmp fasta file

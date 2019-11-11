@@ -3,7 +3,8 @@ import os
 import tempfile
 import unittest
 
-from cathpy.align import (Align, Correspondence, Residue, Segment, Sequence,)
+from cathpy.core.align import (
+    Align, Correspondence, Residue, Segment, Sequence,)
 
 from . import testutils
 

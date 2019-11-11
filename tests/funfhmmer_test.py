@@ -6,8 +6,8 @@ import tempfile
 
 from .testutils import TestBase, log_title, log_level
 
-from cathpy.funfhmmer import Client, ResultResponse
-import cathpy.error as err
+from cathpy.core.funfhmmer import Client, ResultResponse
+import cathpy.core.error as err
 
 LOG = logging.getLogger(__name__)
 

@@ -6,7 +6,7 @@ Provides access to common functions related to CATH versions
 import logging
 import re
 
-from cathpy.error import ParseError
+from cathpy.core.error import ParseError
 
 LOG = logging.getLogger(__name__)
 

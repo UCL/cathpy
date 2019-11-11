@@ -3,12 +3,12 @@ import difflib
 import os
 import tempfile
 
-from cathpy import error as err
-from cathpy.util import (StructuralClusterMerger,
-                         AlignmentSummaryRunner, GroupsimRunner, GroupsimResult, )
-from cathpy.datafiles import ReleaseDir
-from cathpy.align import Align
-from cathpy import util
+from cathpy.core import error as err
+from cathpy.core.util import (StructuralClusterMerger,
+                              AlignmentSummaryRunner, GroupsimRunner, GroupsimResult, )
+from cathpy.core.datafiles import ReleaseDir
+from cathpy.core.align import Align
+from cathpy.core import util
 
 from .testutils import TestBase, log_title, log_level
 
@@ -111,7 +111,7 @@ class TestUtil(TestBase):
         self.assertEqual(ff_id.sfam_id, '1.10.8.10')
         self.assertEqual(ff_id.cluster_num, 14534)
 
-    @log_level('cathpy.util', 'DEBUG')
+    @log_level('cathpy.core.util', 'DEBUG')
     def test_scorecons(self):
         sc = util.ScoreconsRunner()
         aln = Align.from_fasta(self.example_fasta_file)

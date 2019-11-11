@@ -6,7 +6,7 @@ Provides access to the location of CATH data files
 import logging
 import os
 
-from cathpy.version import CathVersion
+from cathpy.core.version import CathVersion
 
 LOG = logging.getLogger(__name__)
 
