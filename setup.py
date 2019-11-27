@@ -40,6 +40,7 @@ setup(
         'jsonpickle',
         'tqdm',
         'dendropy',
+        'redis',
     ],
     entry_points='''
         [console_scripts]
