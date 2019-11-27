@@ -5,7 +5,7 @@ import argparse
 import logging
 
 # local
-from cathpy.align import Align
+from cathpy.core.align import Align
 
 parser = argparse.ArgumentParser(
     description="Update the scorecons data for a STOCKHOLM alignment",

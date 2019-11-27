@@ -10,9 +10,9 @@ import sys
 #import logstash
 
 # local
-from cathpy import util
+from cathpy.core import util
 
-host='localhost'
+host = 'localhost'
 
 # event_logger = logging.getLogger('python-logstash-logger')
 # event_logger.setLevel(logging.INFO)
@@ -28,19 +28,19 @@ parser = argparse.ArgumentParser(
     description="Merge FunFams using a structure-based alignment")
 
 parser.add_argument('--cv', type=str, dest='cath_version', required=True,
-    help='cath version')
+                    help='cath version')
 parser.add_argument('--in', type=str, dest='sc_file', required=True,
-    help='input reference structure-based alignment (FASTA)')
+                    help='input reference structure-based alignment (FASTA)')
 parser.add_argument('--out', type=str, dest='out_sto', required=True,
-    help='output merged alignment file (STOCKHOLM)')
+                    help='output merged alignment file (STOCKHOLM)')
 parser.add_argument('--ff_dir', type=str, required=False,
-    help='directory in which funfam alignments can be found (default: <sc_dir>)')
-parser.add_argument('--ff_tmpl', type=str, 
-    required=False, default='__SFAM__-ff-__FF_NUM__.reduced.sto',
-    help='template used to help locate funfam file (default: %(default)s)')
+                    help='directory in which funfam alignments can be found (default: <sc_dir>)')
+parser.add_argument('--ff_tmpl', type=str,
+                    required=False, default='__SFAM__-ff-__FF_NUM__.reduced.sto',
+                    help='template used to help locate funfam file (default: %(default)s)')
 
 parser.add_argument('--verbose', '-v', required=False, action='count', default=0,
-    help='more verbose logging')
+                    help='more verbose logging')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=log_level)
 
     if not args.ff_dir:
-        args.ff_dir = os.path.dirname(args.sc_file) 
+        args.ff_dir = os.path.dirname(args.sc_file)
 
     merge_args = dict([(key, vars(args)[key]) for key in (
         'cath_version', 'sc_file', 'out_sto', 'ff_dir', 'ff_tmpl')])

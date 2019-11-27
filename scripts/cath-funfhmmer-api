@@ -8,7 +8,7 @@ import argparse
 import logging
 
 # local
-from cathpy.funfhmmer import Client
+from cathpy.core.funfhmmer import Client
 
 parser = argparse.ArgumentParser(
     description="Search a protein sequence against CATH FunFams.",

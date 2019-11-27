@@ -7,7 +7,7 @@ import os
 import sys
 
 # local
-from cathpy import util
+from cathpy.core import util
 
 parser = argparse.ArgumentParser(
     description="Provide summary stats for alignments")
