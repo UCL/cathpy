@@ -2,6 +2,7 @@ import logging
 from os import path
 import tempfile
 
+import pytest
 import redis
 from cathpy.core import ssap, tasks
 from celery import Celery
@@ -13,6 +14,16 @@ LOG = logging.getLogger(__name__)
 REDIS_TEST_DATABASE = 3
 
 
+def redis_is_available():
+    LOG.info('Testing redis connection...')
+    try:
+        redis.Redis(db=REDIS_TEST_DATABASE).ping()
+        return True
+    except redis.RedisError:
+        return False
+
+
+@pytest.mark.skipif(not redis_is_available(), reason="Failed to connect to local redis instance (skipping tests)")
 class TestSsap(testutils.TestBase):
 
     def setUp(self):
