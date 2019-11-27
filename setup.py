@@ -41,6 +41,7 @@ setup(
         'tqdm',
         'dendropy',
         'redis',
+        'celery',
     ],
     entry_points='''
         [console_scripts]
