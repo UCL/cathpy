@@ -35,11 +35,16 @@ setup(
         'scripts/cath-sc-merge-alignment',
     ],
     install_requires=[
+        'Click',
         'requests',
         'jsonpickle',
         'tqdm',
         'dendropy',
     ],
+    entry_points='''
+        [console_scripts]
+        cath-cli=cathpy.core.scripts.cath_cli:cli
+    ''',
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
