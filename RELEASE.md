@@ -12,9 +12,9 @@ Bump version; document changes.
 
 ```
 vim cathpy/__init__.py
-git tag v0.1.7
 vim Changelog
-git commit -m "bump version" Changelog cathpy/__init__.py
+git tag v?.?.?
+git commit -m "release version v?.?.?" Changelog cathpy/__init__.py
 ```
 
 Package release.
