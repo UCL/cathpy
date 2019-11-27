@@ -16,7 +16,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/UCL/cathpy",
-    packages=['cathpy'],
+    packages=['cathpy.core'],
     test_suite="tests",
     package_dir={
         'cathpy': 'cathpy',
@@ -43,10 +43,9 @@ setup(
         'redis',
         'celery',
     ],
-    entry_points='''
-        [console_scripts]
-        cath-cli=cathpy.core.scripts.cath_cli:cli
-    ''',
+    entry_points={
+        'console_scripts': 'cath-cli=cathpy.core.scripts.cath_cli:cli',
+    },
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
