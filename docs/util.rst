@@ -3,8 +3,8 @@ cathpy.util
 
 .. code:: python
 
-    from cathpy import util
+    from cathpy.core import util
 
-.. automodule:: cathpy.util
+.. automodule:: cathpy.core.util
     :members:
 
