@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.3.0
+
+*Release date: 27/11/2019*
+
+* move cathpy.* to cathpy.core.* (allow namespace packages)
+* add `cath-cli`
+* add batch processing for ssaps
+
 ## v0.2.2
 
 *Release date: 11/10/2019*
