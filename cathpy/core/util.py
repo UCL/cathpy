@@ -32,63 +32,6 @@ GROUPSIM_DIR = os.path.join(TOOL_DIR, 'GroupSim')
 SCORECONS_EXE = os.path.join(TOOL_DIR, PLATFORM_DIRNAME, 'scorecons')
 SCORECONS_MATRIX_FILE = os.path.join(DATA_DIR, 'PET91mod.mat2')
 
-class SsapRunner:
-    """
-    Provides a wrapper around `cath-ssap` jobs
-
-    Args:
-    * results_file (str):
-    * ssap_exe (str): path to `cath-ssap` executable
-    * pdb_path (str): path to find PDB files
-    """
-
-    def __init__(self, *, ssap_exe='cath-ssap', pdb_path=None, cath_version=None):
-        self.ssap_exe = ssap_exe
-        self.pdb_path = pdb_path
-        self.tmp_aln_dir = tempfile.TemporaryDirectory()
-
-    def run(self, id1, id2, *, lock=None, datastores=None):
-        ssap_args = [self.ssap_exe, '--aligndir', self.tmp_aln_dir.name]
-        if self.pdb_path:
-            ssap_args.extend(['--pdb-path', self.pdb_path])
-        ssap_args.extend([id1, id2])
-        ssap_result = None
-        aln_file = os.path.join(self.tmp_aln_dir.name,
-                                "{}{}.list".format(id1, id2))
-
-        LOG.info("Running SSAP: %s %s", id1, id2)
-
-        try:
-            proc = subprocess.run(ssap_args,
-                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                  encoding='utf-8', check=True)
-            ssap_result_text = proc.stdout.strip()
-
-            if datastores:
-                ssap_result = SsapResult.from_string(ssap_result_text)
-                aln_text = None
-                with open(aln_file) as aln_fh:
-                    aln_text = aln_fh.read()
-                ssap_result.alignment_text = aln_text
-                for datastore in datastores:
-                    ds = SsapStorageFactory.get(datastore)
-                    ds.set_ssap_result(
-                        ssap_result, lock=lock, alnfile=aln_file)
-
-        except subprocess.CalledProcessError as error:
-            LOG.error(("caught exception when running 'cath-ssap':\n",
-                       "ARGS: %s\n",
-                       "CODE: %s\n",
-                       "STDOUT: %s\n",
-                       "STDERR: %s\n"),
-                      " ".join(ssap_args), error.returncode, error.stdout, error.stderr)
-
-        try:
-            os.unlink(aln_file)
-        except:
-            pass
-
-        return ssap_result
 
 class GroupsimResult(object):
     """Represents the result from running the `groupsim` algorithm."""
