@@ -1,5 +1,5 @@
-cathpy.util
-===========
+cathpy.core.util
+================
 
 .. code:: python
 

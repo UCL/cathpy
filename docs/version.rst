@@ -1,9 +1,9 @@
-cathpy.version
-==============
+cathpy.core.version
+===================
 
 .. code:: python
 
-    from cathpy.version import CathVersion
+    from cathpy.core.version import CathVersion
 
     cv = CathVersion("v4.2") # or "v4_2_0", "current"
 
@@ -16,6 +16,6 @@ cathpy.version
     cv.is_current
     # False
 
-.. automodule:: cathpy.version
+.. automodule:: cathpy.core.version
     :members:
 

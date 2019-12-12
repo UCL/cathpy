@@ -1,9 +1,9 @@
-cathpy.align
-============
+cathpy.core.align
+=================
 
 .. code:: python
 
-    from cathpy.align import Align
+    from cathpy.core.align import Align
 
     aln = Align.from_stockholm('/path/to/align.sto')
 
@@ -14,7 +14,7 @@ cathpy.align
     seq = aln.find_seq_by_id('1cukA01/1-151')
 
 
-.. automodule:: cathpy.align
+.. automodule:: cathpy.core.align
     :members:
 
 

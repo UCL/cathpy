@@ -1,11 +1,11 @@
-cathpy.models
-=============
+cathpy.core.models
+==================
 
 Provides access to classes that representing general entities such as amino acids, db identifiers, etc.
 
 .. code:: python
 
-    from cathpy.models import (
+    from cathpy.core.models import (
         AminoAcid,
         AminoAcids, 
         CathID,
@@ -35,6 +35,6 @@ Provides access to classes that representing general entities such as amino acid
     funfam_file.desc            # '.reduced'
     funfam_file.suffix          # '.sto'
 
-.. automodule:: cathpy.models
+.. automodule:: cathpy.core.models
     :members:
 

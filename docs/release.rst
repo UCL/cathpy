@@ -1,9 +1,9 @@
-cathpy.release
-==============
+cathpy.core.release
+===================
 
 .. code:: python
 
-    from cathpy.release import (
+    from cathpy.core.release import (
         CathDomainList, 
         CathNamesList,
         CathDomall, )
@@ -16,6 +16,6 @@ cathpy.release
     sreps = domainlist.filter_reps(depth=5)
     sreps.to_file('/path/to/CathDomainList.S35.list')
 
-.. automodule:: cathpy.release
+.. automodule:: cathpy.core.release
     :members:
 
