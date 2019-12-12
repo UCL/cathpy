@@ -8,6 +8,7 @@ import io
 import os
 import platform
 import re
+import statistics
 import subprocess
 from subprocess import Popen, PIPE, CalledProcessError
 import tempfile
@@ -163,11 +164,27 @@ class ScoreconsResult(object):
 
     def __init__(self, *, dops, scores):
         self.dops = dops
-        self.scores = scores
-    
+        self.scores = [float(score) for score in scores]
+
+    @property
+    def count_positions(self):
+        """
+        Returns the number of alignment positions
+        """
+        return len(self.scores)
+
+    @property
+    def average_scorecons(self):
+        """
+        Returns the average scorecons value across all positions in the alignment
+        """
+        return statistics.mean(self.scores)
+
     @property
     def to_string(self):
-        """Returns the scorecons results as a string (one char per position)."""
+        """
+        Returns the scorecons results as a string (one char per position).
+        """
         # normalise 0-1 to 0-9
         return "".join([str(int(s*9)) if s else '-' for s in self.scores])
 
@@ -606,8 +623,11 @@ class AlignmentSummaryRunner(object):
                 raise Exception("Failed to parse STOCKHOLM alignment from file {}".format(aln_file))
 
             try:
-                aln_sum = AlignmentSummary(path=aln_file, dops=aln.dops_score, aln_length=aln.aln_positions, 
-                    seq_count=aln.count_sequences, gap_count=aln.total_gap_positions, 
+                aln_sum = AlignmentSummary(path=aln_file, 
+                    dops=aln.dops_score, 
+                    aln_length=aln.aln_positions, 
+                    seq_count=aln.count_sequences,
+                    gap_count=aln.total_gap_positions, 
                     total_positions=aln.total_positions)
                 summary_entries.extend([aln_sum])
             except:
