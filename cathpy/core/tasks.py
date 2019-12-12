@@ -21,29 +21,26 @@ LOG = logging.getLogger(__name__)
 
 
 @app.task
-def run_ssap(id1, id2, *, cath_version, pdb_path=DEFAULT_PDB_PATH, datastores=None):
+def run_ssap(id1, id2, *, cath_version, pdb_path=DEFAULT_PDB_PATH, datastore_dsn=None):
 
     ssap_runner = ssap.SsapRunner(
         pdb_path=pdb_path, cath_version=cath_version)
 
-    ssap_runner.run(id1, id2, datastores=datastores)
+    ssap_runner.run(id1, id2, datastore_dsn=datastore_dsn)
 
 
 @app.task
-def run_ssap_pairs(pairs, *, cath_version, pdb_path=DEFAULT_PDB_PATH, datastores=None, max_consecutive_errors=5):
+def run_ssap_pairs(pairs, *, cath_version, pdb_path=DEFAULT_PDB_PATH, datastore_dsn=None, max_consecutive_errors=5):
 
     ssap_runner = ssap.SsapRunner(
         pdb_path=pdb_path, cath_version=cath_version)
-
-    if datastores:
-        datastores = [ssap.SsapStorageFactory.get(d) for d in datastores]
 
     consecutive_error_count = 0
 
     for idx, pair in enumerate(pairs):
         id1, id2 = pair
         try:
-            ssap_runner.run(id1, id2, datastores=datastores)
+            ssap_runner.run(id1, id2, datastore_dsn=datastore_dsn)
             consecutive_error_count = 0
         except Exception as e:
             consecutive_error_count += 1
