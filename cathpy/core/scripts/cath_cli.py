@@ -7,26 +7,27 @@ import time
 from urllib.parse import urlparse
 
 import click
-import click_log
 import redis
 
 from cathpy.core import tasks, ssap, version
 
+#import click_log
+# click_log.basic_config(LOG)
+
 logging.basicConfig(
     level='DEBUG', format='%(asctime)s %(levelname)6s | %(message)s', datefmt='%Y/%m/%d %H:%M:%S')
 LOG = logging.getLogger(__name__)
-# click_log.basic_config(LOG)
 
 DEFAULT_PDB_PATH = '/cath/data/{cath_version}/pdb'
-DEFAULT_REDIS_DSN = 'redis://localhost'
+DEFAULT_DATASTORE_DSN = 'mongodb://localhost/cath'
 DEFAULT_CHUNK_SIZE = 1000
 DEFAULT_DUMP_MAX_ENTRIES = 1000
 
 
 class SsapBatchContext(object):
-    def __init__(self, *, pdb_path, redis_dsn, cath_version, chunk_size, ssap_batch, force=False, debug=False):
+    def __init__(self, *, pdb_path, datastore_dsn, cath_version, chunk_size, ssap_batch, force=False, debug=False):
         self.pdb_path = pdb_path
-        self.redis_dsn = redis_dsn
+        self.datastore_dsn = datastore_dsn
         self.ssap_batch = ssap_batch
         self.chunk_size = chunk_size
         self.cath_version = str(cath_version)
@@ -52,7 +53,7 @@ def validate_cath_version(ctx, param, value):
             f'failed to parse cath version "{value}" (eg "current") err:{e}')
 
 
-def validate_redis_dsn(ctx, param, value):
+def validate_datastore_dsn(ctx, param, value):
     if value is None:
         return None
     try:
@@ -60,33 +61,29 @@ def validate_redis_dsn(ctx, param, value):
         return value
     except ValueError as e:
         raise click.BadParameter(
-            f'failed to parse dsn "{value}" (eg "redis://localhost") err:{e}')
+            f'failed to parse dsn "{value}" (eg "mongodb://localhost/cath", "redis://localhost/0") err:{e}')
 
 
 @click.command()
 @click.option('--cath_version', type=str, callback=validate_cath_version, required=True)
-@click.option('--redis_dsn', type=str, callback=validate_redis_dsn, default=DEFAULT_REDIS_DSN)
+@click.option('--datastore_dsn', type=str, callback=validate_datastore_dsn, default=DEFAULT_DATASTORE_DSN)
 @click.option('--max_entries', type=int, default=DEFAULT_DUMP_MAX_ENTRIES)
-def ssap_redis_dump(redis_dsn, cath_version, max_entries):
+def ssap_redis_dump(datastore_dsn, cath_version, max_entries):
     '''
-    dump SSAP data
+    dump SSAP data from Redis datastore
     '''
-    u = urlparse(redis_dsn)
-    redis_args = {'host': u.hostname}
-    if u.port:
-        args['port'] = u.port
-    rd = redis.Redis(**redis_args)
+    ds = ssap.SsapStorageFactory.get(datastore_dsn)
 
     match_key = ssap.SsapResult.mk_key(
         cath_version=cath_version, id1='ID1', id2='ID2').replace('ID1-ID2', '*')
 
-    LOG.info(f"Dumping redis records matching '{match_key}'")
+    LOG.info(f"Dumping datastore records matching '{match_key}'")
 
     report_chunk_size = int(max_entries / 10)
 
-    for idx, key in enumerate(rd.scan_iter(match=match_key), 1):
+    for idx, key in enumerate(ds.scan_iter(match=match_key), 1):
         key = key.decode('utf-8')
-        ssap_data = json.loads(rd.get(key))
+        ssap_data = json.loads(ds.get(key))
         ssap_str = json.dumps({'id': key, **ssap_data})
         print(ssap_str)
         if idx % report_chunk_size == 0:
@@ -100,22 +97,22 @@ def ssap_redis_dump(redis_dsn, cath_version, max_entries):
 @click.group()
 @click.option('--cath_version', type=str, callback=validate_cath_version, required=True)
 @click.option('--pairs', type=click.Path(exists=True, file_okay=True), required=True)
-@click.option('--redis_dsn', type=str, callback=validate_redis_dsn, default=DEFAULT_REDIS_DSN)
+@click.option('--datastore_dsn', type=str, callback=validate_datastore_dsn, default=DEFAULT_DATASTORE_DSN)
 @click.option('--pdb_path', type=str, default=DEFAULT_PDB_PATH)
 @click.option('--chunk_size', type=int, default=DEFAULT_CHUNK_SIZE)
 @click.option('--force/--no-force', default=False)
 @click.option('--debug/--no-debug', default=False, envvar='CATHPY_DEBUG')
 @click.pass_context
-def ssap_batch_group(ctx, redis_dsn, chunk_size, cath_version, pairs, pdb_path, force, debug):
+def ssap_batch_group(ctx, datastore_dsn, chunk_size, cath_version, pairs, pdb_path, force, debug):
     '''
     manage SSAP jobs
     '''
 
     ssap_batch = ssap.SsapBatch(cath_version=cath_version,
-                                datastore=redis_dsn,
+                                datastore_dsn=datastore_dsn,
                                 pairs_file=pairs,)
     opts = {
-        'redis_dsn': redis_dsn,
+        'datastore_dsn': datastore_dsn,
         'chunk_size': chunk_size,
         'cath_version': cath_version,
         'debug': debug,
@@ -137,7 +134,7 @@ def ssap_batch_submit(batch_ctx):
 
     batch = batch_ctx.ssap_batch
     chunk_size = batch_ctx.chunk_size
-    redis_dsn = batch_ctx.redis_dsn
+    datastore_dsn = batch_ctx.datastore_dsn
     pdb_path = batch_ctx.pdb_path
     cath_version = batch_ctx.cath_version
     force = batch_ctx.force
@@ -151,11 +148,11 @@ def ssap_batch_submit(batch_ctx):
             break
 
         LOG.info(
-            f'Submitting {len(pairs_missing)} missing records from datastore ({batch.datastore})')
+            f'Submitting {len(pairs_missing)} missing records from datastore ({datastore_dsn})')
         LOG.debug(
-            f'cath_version:{cath_version} pdb_path:{pdb_path} datastores={[redis_dsn]}')
+            f'cath_version:{cath_version} pdb_path:{pdb_path} datastore_dsn={datastore_dsn}')
         result = tasks.run_ssap_pairs.delay(
-            pairs_missing, cath_version=str(cath_version), pdb_path=pdb_path, datastores=[redis_dsn])
+            pairs_missing, cath_version=str(cath_version), pdb_path=pdb_path, datastore_dsn=datastore_dsn)
         celery_tasks.extend([result])
 
     LOG.info(
@@ -169,7 +166,7 @@ def ssap_batch_submit(batch_ctx):
                 [t for t in celery_tasks if t.status == status_type])
 
         LOG.info("Batch status at {} ({}):".format(
-            time.strftime('%Y-%m-%d %H:%M:%S'), redis_dsn))
+            time.strftime('%Y-%m-%d %H:%M:%S'), datastore_dsn))
         LOG.info(
             ' '.join(['{:15s}'.format(f'{t}:{status_count[t]:<3}') for t in status_types]))
         LOG.info("")
@@ -206,7 +203,7 @@ def ssap_batch_info(batch_ctx):
 
 
 @click.command()
-def ssap_batch_worker(redis_dsn, cath_version, pairs):
+def ssap_batch_worker(datastore_dsn, cath_version, pairs):
     """Start a worker to process SSAP pairs"""
     LOG.info('Starts worker(s) to process SSAP pairs from queue')
 
