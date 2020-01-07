@@ -14,7 +14,7 @@ LOG = logging.getLogger()
 
 DEFAULT_CHUNK_SIZE = 1000
 
-TOOL_DIR = pkg_resources.resource_filename(__name__, "../tools")
+TOOL_DIR = pkg_resources.resource_filename(__name__, "tools")
 PLATFORM_DIRNAME = "{}-{}".format(platform.system().lower(),
                                   platform.machine())
 CATH_SSAP_EXE = os.path.join(TOOL_DIR, PLATFORM_DIRNAME, 'cath-ssap')

@@ -26,7 +26,7 @@ from cathpy.core.error import ParseError, OutOfBoundsError
 
 LOG = logging.getLogger(__name__)
 
-TOOL_DIR = pkg_resources.resource_filename(__name__, "../tools")
+TOOL_DIR = pkg_resources.resource_filename(__name__, "tools")
 DATA_DIR = os.path.join(TOOL_DIR, "data")
 PLATFORM_DIRNAME = "{}-{}".format(platform.system().lower(), platform.machine())
 GROUPSIM_DIR = os.path.join(TOOL_DIR, 'GroupSim')
