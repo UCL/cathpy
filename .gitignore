@@ -15,3 +15,4 @@ dist/
 .vscode/
 .coverage
 dist/
+conf/logstash.conf
