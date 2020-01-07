@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.3.4
+
+*Release date: 07/01/2020*
+
+* correct setup for namespace packages and tools
+
+## v0.3.1
+
+*Release date: 27/11/2019*
+
+* correct setup for namespace packages
+
 ## v0.3.0
 
 *Release date: 27/11/2019*
