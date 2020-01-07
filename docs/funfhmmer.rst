@@ -1,9 +1,9 @@
-cathpy.funfhmmer
-================
+cathpy.core.funfhmmer
+=====================
 
 .. code:: python
 
-    from cathpy import funfhmmer
+    from cathpy.core import funfhmmer
 
     api = funfhmmer.Client()
 
@@ -13,6 +13,6 @@ cathpy.funfhmmer
 
     res.funfam_resolved_scan.as_tsv()
 
-.. automodule:: cathpy.funfhmmer
+.. automodule:: cathpy.core.funfhmmer
     :members:
 
