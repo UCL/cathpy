@@ -15,7 +15,7 @@ from cathpy.core import tasks, ssap, version
 # click_log.basic_config(LOG)
 
 logging.basicConfig(
-    level='DEBUG', format='%(asctime)s %(levelname)6s | %(message)s', datefmt='%Y/%m/%d %H:%M:%S')
+    level='INFO', format='%(asctime)s %(levelname)7s | %(message)s', datefmt='%Y/%m/%d %H:%M:%S')
 LOG = logging.getLogger(__name__)
 
 DEFAULT_PDB_PATH = '/cath/data/{cath_version}/pdb'
@@ -25,13 +25,14 @@ DEFAULT_DUMP_MAX_ENTRIES = 1000
 
 
 class SsapBatchContext(object):
-    def __init__(self, *, pdb_path, datastore_dsn, cath_version, chunk_size, ssap_batch, force=False, debug=False):
+    def __init__(self, *, pdb_path, datastore_dsn, cath_version, chunk_size, ssap_batch, force=False, inline=False, debug=False):
         self.pdb_path = pdb_path
         self.datastore_dsn = datastore_dsn
         self.ssap_batch = ssap_batch
         self.chunk_size = chunk_size
         self.cath_version = str(cath_version)
         self.force = force
+        self.inline = inline
         self.debug = debug
 
 
@@ -68,9 +69,9 @@ def validate_datastore_dsn(ctx, param, value):
 @click.option('--cath_version', type=str, callback=validate_cath_version, required=True)
 @click.option('--datastore_dsn', type=str, callback=validate_datastore_dsn, default=DEFAULT_DATASTORE_DSN)
 @click.option('--max_entries', type=int, default=DEFAULT_DUMP_MAX_ENTRIES)
-def ssap_redis_dump(datastore_dsn, cath_version, max_entries):
+def ssap_batch_dump(datastore_dsn, cath_version, max_entries):
     '''
-    dump SSAP data from Redis datastore
+    dump data from SSAP datastore
     '''
     ds = ssap.SsapStorageFactory.get(datastore_dsn)
 
@@ -101,12 +102,15 @@ def ssap_redis_dump(datastore_dsn, cath_version, max_entries):
 @click.option('--pdb_path', type=str, default=DEFAULT_PDB_PATH)
 @click.option('--chunk_size', type=int, default=DEFAULT_CHUNK_SIZE)
 @click.option('--force/--no-force', default=False)
+@click.option('--inline', is_flag=True, default=False)
 @click.option('--debug/--no-debug', default=False, envvar='CATHPY_DEBUG')
 @click.pass_context
-def ssap_batch_group(ctx, datastore_dsn, chunk_size, cath_version, pairs, pdb_path, force, debug):
+def ssap_batch_group(ctx, datastore_dsn, chunk_size, cath_version, pairs, pdb_path, force, inline, debug):
     '''
     manage SSAP jobs
     '''
+
+    pdb_path = pdb_path.format(cath_version=cath_version.dirname)
 
     ssap_batch = ssap.SsapBatch(cath_version=cath_version,
                                 datastore_dsn=datastore_dsn,
@@ -119,6 +123,7 @@ def ssap_batch_group(ctx, datastore_dsn, chunk_size, cath_version, pairs, pdb_pa
         'pdb_path': pdb_path,
         'ssap_batch': ssap_batch,
         'force': force,
+        'inline': inline,
     }
 
     ctx.obj = SsapBatchContext(**opts)
@@ -137,11 +142,15 @@ def ssap_batch_submit(batch_ctx):
     datastore_dsn = batch_ctx.datastore_dsn
     pdb_path = batch_ctx.pdb_path
     cath_version = batch_ctx.cath_version
+    inline = batch_ctx.inline
     force = batch_ctx.force
 
     batch_count = 1
-    total_processed = 0
-    celery_tasks = []
+    task_results = []
+    pairs_submitted = 0
+
+    ssap_func = tasks.run_ssap_pairs if inline else tasks.run_ssap_pairs.delay
+
     for pairs_missing, processed in batch.read_pairs(chunk_size=chunk_size, force=force):
         if not pairs_missing:
             LOG.info("All pairs present, not submitting any ssap tasks")
@@ -151,31 +160,40 @@ def ssap_batch_submit(batch_ctx):
             f'Submitting {len(pairs_missing)} missing records from datastore ({datastore_dsn})')
         LOG.debug(
             f'cath_version:{cath_version} pdb_path:{pdb_path} datastore_dsn={datastore_dsn}')
-        result = tasks.run_ssap_pairs.delay(
-            pairs_missing, cath_version=str(cath_version), pdb_path=pdb_path, datastore_dsn=datastore_dsn)
-        celery_tasks.extend([result])
 
-    LOG.info(
-        f"Created {len(celery_tasks)} batch tasks")
+        pairs_submitted += len(pairs_missing)
 
-    while True:
-        status_types = ('PENDING', 'STARTED', 'RETRY', 'FAILURE', 'SUCCESS')
-        status_count = {}
-        for status_type in status_types:
-            status_count[status_type] = len(
-                [t for t in celery_tasks if t.status == status_type])
+        result = ssap_func(pairs_missing, cath_version=str(
+            cath_version), pdb_path=pdb_path, datastore_dsn=datastore_dsn)
+        task_results.extend([result])
 
-        LOG.info("Batch status at {} ({}):".format(
-            time.strftime('%Y-%m-%d %H:%M:%S'), datastore_dsn))
+    if inline:
         LOG.info(
-            ' '.join(['{:15s}'.format(f'{t}:{status_count[t]:<3}') for t in status_types]))
-        LOG.info("")
+            f"Ran {len(task_results)} batch tasks ({pairs_submitted} SSAP pairs)")
 
-        if len(celery_tasks) == len([t for t in celery_tasks if t.status not in ('PENDING', 'STARTED', 'RETRY')]):
-            LOG.info("All tasks finished")
-            break
+    else:
+        LOG.info(
+            f"Created {len(task_results)} batch tasks")
 
-        time.sleep(5)
+        while True:
+            status_types = ('PENDING', 'STARTED',
+                            'RETRY', 'FAILURE', 'SUCCESS')
+            status_count = {}
+            for status_type in status_types:
+                status_count[status_type] = len(
+                    [t for t in task_results if t.status == status_type])
+
+            LOG.info("Batch status at {} ({}):".format(
+                time.strftime('%Y-%m-%d %H:%M:%S'), datastore_dsn))
+            LOG.info(
+                ' '.join(['{:15s}'.format(f'{t}:{status_count[t]:<3}') for t in status_types]))
+            LOG.info("")
+
+            if len(task_results) == len([t for t in task_results if t.status not in ('PENDING', 'STARTED', 'RETRY')]):
+                LOG.info("All tasks finished")
+                break
+
+            time.sleep(5)
 
 
 @click.command()
@@ -211,9 +229,9 @@ def ssap_batch_worker(datastore_dsn, cath_version, pairs):
 ssap_batch_group.add_command(ssap_batch_submit, name='submit')
 ssap_batch_group.add_command(ssap_batch_info, name='info')
 ssap_batch_group.add_command(ssap_batch_worker, name='worker')
+#ssap_batch_group.add_command(ssap_batch_dump, name='dump')
 
-
-cli.add_command(ssap_redis_dump, name='ssap-redis-dump')
+cli.add_command(ssap_batch_dump, name='ssap-batch-dump')
 cli.add_command(ssap_batch_group, name='ssap-batch')
 
 
