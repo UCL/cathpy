@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="cathpy",
-    version='0.3.5',
+    version='0.3.6',
     author="Ian Sillitoe",
     author_email="i.sillitoe@ucl.ac.uk",
     description="CathPy - Python Bioinformatics Toolkit for CATH (Protein Classification).",
@@ -21,6 +21,10 @@ setup(
     package_data={
         'cathpy.core': [
             'tools/GroupSim/*',
+            'tools/*/cath-cluster',
+            'tools/*/cath-resolve-hits',
+            'tools/*/cath-ssap',
+            'tools/*/cath-superpose',
             'tools/*/scorecons',
             'tools/data/*',
         ],
