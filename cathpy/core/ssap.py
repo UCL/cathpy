@@ -6,6 +6,8 @@ import pkg_resources
 import platform
 import subprocess
 import tempfile
+from threading import Lock
+
 from urllib.parse import urlparse
 
 from cathpy.core import version, tasks
@@ -209,9 +211,17 @@ class SsapRunner:
             aln_text = None
             ssap_result = SsapResult.from_string(
                 ssap_result_text, cath_version=cath_version)
-            with open(aln_file) as aln_fh:
-                aln_text = aln_fh.read()
-            ssap_result.alignment_text = aln_text
+
+            try:
+                with open(aln_file) as aln_fh:
+                    aln_text = aln_fh.read()
+                ssap_result.alignment_text = aln_text
+            except FileNotFoundError:
+                if ssap_result.ssap_score == 0:
+                    LOG.warning(
+                        f"Failed to find SSAP alignment '{aln_file}' but SSAP score is low ({ssap_result.ssap_score}) so ignoring")
+                else:
+                    raise
 
             if datastore_dsn:
                 try:
@@ -251,10 +261,13 @@ class FileSsapStore(SsapStore):
     def __init__(self, filepath):
         self.filepath = filepath
         self._already_processed = set()
+        self.lock = Lock()
 
-    def set_ssap_result(self, ssap_result, *, lock, **kwargs):
+    def set_ssap_result(self, ssap_result, *, lock, timeout=2, **kwargs):
         filepath = self.filepath
-        lock.acquire(timeout=DEFAULT_SSAP_OUTPUT_TIMEOUT)
+        if not lock:
+            lock = self.lock
+        lock.acquire(timeout=timeout)
         try:
             with open(filepath, 'a') as ssap_logfh:
                 ssap_logfh.write(f'{ssap_result.to_string()}\n')
