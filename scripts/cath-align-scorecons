@@ -3,6 +3,7 @@
 # core
 import argparse
 import logging
+import os
 
 # local
 from cathpy.core.align import Align
@@ -26,11 +27,17 @@ parser.add_argument('--replace', action='store_true', default=False,
 parser.add_argument('--verbose', '-v', required=False, action='count', default=0,
                     help='more verbose logging')
 
+parser.add_argument('--quiet', '-q', required=False, default=0,
+                    help='less versbose logging')
+
 if __name__ == '__main__':
     args = parser.parse_args()
 
     log_level = logging.DEBUG if args.verbose > 0 else logging.INFO
-    logging.basicConfig(level=log_level)
+    if args.quiet:
+        log_level = logging.WARN
+    logging.basicConfig(
+        level=log_level, format="%(message)s")
 
     if args.format == 'sto':
         aln = Align.from_stockholm(args.in_file)
@@ -38,22 +45,18 @@ if __name__ == '__main__':
         aln = Align.from_fasta(args.in_file)
 
     if args.replace and args.format == 'fasta':
-        raise Exception('cannot use --replace when input format is fasta')
+        raise Exception(
+            'cannot use --replace when input format is fasta (nothing will have changed)')
 
     old_dops_score = aln.dops_score
     old_scorecons = aln.meta['scorecons'] if 'scorecons' in aln.meta else '-'
 
     aln.add_scorecons()
 
-    logging.info('DOPS:          %s',
-                 'SAME' if old_dops_score == aln.dops_score else 'CHANGED')
-    logging.info('OLD_DOPS:      %s', old_dops_score)
-    logging.info('NEW_DOPS:      %s', aln.dops_score)
+    print('{:70s} {:.3f}'.format(args.in_file, aln.dops_score))
 
-    logging.info('SCORECONS:     %s',
-                 'SAME' if old_scorecons == aln.meta['scorecons'] else 'CHANGED')
-    logging.info('OLD_SCORECONS: %s', old_scorecons)
-    logging.info('NEW_SCORECONS: %s', aln.meta['scorecons'])
+    logging.debug('OLD_DOPS:      %s', old_dops_score)
+    logging.debug('NEW_DOPS:      %s', aln.dops_score)
 
     if args.out_file:
         logging.info("Writing new alignment file: %s", args.out_file)
@@ -63,4 +66,4 @@ if __name__ == '__main__':
         logging.info("Replacing alignment file: %s", args.in_file)
         aln.write_sto(args.in_file)
 
-    logging.info('DONE')
+    logging.debug('DONE')
