@@ -38,7 +38,7 @@ class SsapBatchContext(object):
 @click.group()
 @click.help_option('-h', '--help')
 @click.version_option('0.1', '-v', '--version', message='%(prog)s %(version)s')
-@click_log.simple_verbosity_option(LOG, '--verbosity')
+# @click_log.simple_verbosity_option(LOG, '--verbosity')
 def cli():
     pass
 
