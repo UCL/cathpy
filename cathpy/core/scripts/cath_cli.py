@@ -75,6 +75,10 @@ def ssap_batch_dump(datastore_dsn, cath_version, max_entries):
     '''
     ds = ssap.SsapStorageFactory.get(datastore_dsn)
 
+    if not isinstance(ds, ssap.MongoSsapStore):
+        raise Exception('Sorry, currently only able to dump ssaps from mongodb datastore')
+
+    # this was here for the redis datastore
     match_key = ssap.SsapResult.mk_key(
         cath_version=cath_version, id1='ID1', id2='ID2').replace('ID1-ID2', '*')
 
@@ -82,9 +86,10 @@ def ssap_batch_dump(datastore_dsn, cath_version, max_entries):
 
     report_chunk_size = int(max_entries / 10)
 
-    for idx, key in enumerate(ds.scan_iter(match=match_key), 1):
-        key = key.decode('utf-8')
-        ssap_data = json.loads(ds.get(key))
+    for idx, ssap_data in enumerate(ds.find({'cath_version': str(cath_version)}), 1):
+        # key = key.decode('utf-8')
+        # ssap_data = json.loads(ds.get(key))
+        key = ssap_data.pop('_id', None)
         ssap_str = json.dumps({'id': key, **ssap_data})
         print(ssap_str)
         if idx % report_chunk_size == 0:
