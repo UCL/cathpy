@@ -7,3 +7,4 @@ tqdm==4.28.1
 jsonpickle>=0.9.6
 dendropy==4.4.0
 pymongo==3.9.0
+sphinx==2.3.1
