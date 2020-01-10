@@ -8,7 +8,6 @@ import pytest
 # deps
 import celery
 from click.testing import CliRunner
-from celery.utils.log import get_task_logger
 
 # local
 from cathpy.core.scripts.cath_cli import cli
@@ -16,26 +15,6 @@ from cathpy.core.scripts.cath_cli import cli
 from .testutils import TestBase, log_title, log_level
 
 LOG = logging.getLogger(__name__)
-
-CELERY_LOG = get_task_logger
-
-
-@celery.signals.after_setup_logger.connect
-def on_after_setup_logger(**kwargs):
-    logger = logging.getLogger('celery')
-    logger.propagate = True
-    logger = logging.getLogger('celery.app.trace')
-    logger.propagate = True
-    logger.info('celery log')
-
-
-@pytest.fixture(scope='session')
-def celery_config():
-    LOG.info("Starting up test celery worker...")
-    return {
-        'broker_url': 'redis://localhost',
-        'result_backend': 'redis://localhost',
-    }
 
 
 class TestCli(TestBase):
