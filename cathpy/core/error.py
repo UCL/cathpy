@@ -19,6 +19,10 @@ class MissingExecutableError(GeneralError):
     """Missing an external executable."""
 
 
+class MissingLockError(GeneralError):
+    """Missing a lock object."""
+
+
 class MissingScoreconsError(MissingExecutableError):
     """Failed to find scorecons executable"""
 
