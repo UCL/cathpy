@@ -14,16 +14,20 @@ LOG = logging.getLogger(__name__)
 
 class HasCathIDMixin(object):
     """
-    Mixin for classes that contain a :class:`cathpy.models.CathID`
+    Mixin for classes that contain a :class:`cathpy.core.models.CathID`
 
     Usage:
-    ::
+
+    .. code:: python
+
         class MyClass(HasCathIDMixin, object):
             def __init__(self, *, cath_id, **kwargs):
                 super(MyClass, self).super(cath_id=cath_id)
 
     Provides:
-    ::
+
+    .. code:: python
+
         self.cath_id
         self.cath_id_depth
         self.sfam_id
