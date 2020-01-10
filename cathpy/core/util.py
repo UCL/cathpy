@@ -271,7 +271,7 @@ class ScoreconsRunner(object):
         
         dops_score = float(match.group(1))
 
-        sc_numbers = __class__.split_scorecons_file(tmp_scorecons_file.name)
+        sc_numbers = self.__class__.split_scorecons_file(tmp_scorecons_file.name)
 
         res = ScoreconsResult(dops = dops_score, scores = sc_numbers)
 
