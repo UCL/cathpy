@@ -301,7 +301,8 @@ class FileSsapStore(SsapStore):
             for line in ssapfh:
                 _id1, _id2, *_ = line.split()
                 if (_id1 == id1 and _id2 == id2) or (_id1 == id2 and _id2 == id1):
-                    ssap_result = SsapResult.from_string(line, cath_version=cath_version)
+                    ssap_result = SsapResult.from_string(
+                        line, cath_version=cath_version)
                     break
 
         return ssap_result
