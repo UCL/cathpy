@@ -11,6 +11,7 @@ from threading import Lock
 from urllib.parse import urlparse
 
 from cathpy.core import version, tasks
+from cathpy.core.error import MissingLockError
 
 LOG = logging.getLogger()
 
@@ -160,9 +161,12 @@ class SsapRunner:
     Provides a wrapper around `cath-ssap` jobs
 
     Args:
-    * results_file (str):
-    * ssap_exe (str): path to `cath-ssap` executable
-    * pdb_path (str): path to find PDB files
+        results_file (str):
+        ssap_exe (str): path to `cath-ssap` executable
+        pdb_path (str): path to find PDB files
+
+    Returns:
+        :class:`cathpy.core.ssap.SsapResult`
     """
 
     def __init__(self, *, ssap_exe=CATH_SSAP_EXE, pdb_path=None, cath_version):
@@ -172,6 +176,15 @@ class SsapRunner:
         self.tmp_aln_dir = tempfile.TemporaryDirectory()
 
     def run(self, id1, id2, *, lock=None, datastore_dsn=None):
+        """
+        Runs SSAP
+
+        Args:
+            id1 (str): protein id1 
+            id2 (str): protein id2
+            datastore_dsn (str): dsn to store the ssap data 
+        """
+
         cath_version = self.cath_version
 
         ssap_key = SsapResult.mk_key(
@@ -254,14 +267,44 @@ class SsapRunner:
 
 
 class SsapStore:
-    pass
+
+    def set_ssap_result(self, ssap_result):
+        raise Exception('method not implemented')
+
+    def get_ssap_result(self, *, id1=None, id2=None, cath_version=None, key=None):
+        raise Exception('method not implemented')
+
+    def __contains__(self, key):
+        raise Exception('method not implemented')
 
 
 class FileSsapStore(SsapStore):
+    """
+    Store SSAPs in a file
+    """
+
     def __init__(self, filepath):
         self.filepath = filepath
         self._already_processed = set()
         self.lock = Lock()
+
+    def get_ssap_result(self, *, id1, id2, cath_version='current'):
+        """
+        Get a SsapResult from the ssapfile
+
+        Args:
+            id1 (str): id1
+            id2 (str): id2
+        """
+        ssap_result = None
+        with open(self.filepath) as ssapfh:
+            for line in ssapfh:
+                _id1, _id2, *_ = line.split()
+                if (_id1 == id1 and _id2 == id2) or (_id1 == id2 and _id2 == id1):
+                    ssap_result = SsapResult.from_string(line, cath_version=cath_version)
+                    break
+
+        return ssap_result
 
     def set_ssap_result(self, ssap_result, *, lock, timeout=2, **kwargs):
         filepath = self.filepath
@@ -278,6 +321,7 @@ class FileSsapStore(SsapStore):
 
     def _process_existing_results(self):
         results_file = self.filepath
+        cath_version = 'current'
         try:
             LOG.info(
                 "Building list of SSAP results we have already processed  ... ")
@@ -286,7 +330,8 @@ class FileSsapStore(SsapStore):
                     if ssapline.startswith('#'):
                         continue
                     try:
-                        ssap_result = SsapResult.from_string(ssapline)
+                        ssap_result = SsapResult.from_string(
+                            ssapline, cath_version=cath_version)
                     except Exception as err:
                         raise Exception(
                             'failed to parse SSAP file {}, line {}: "{}": {}'.format(
@@ -295,7 +340,7 @@ class FileSsapStore(SsapStore):
                     ssap_key = ssap_result.unique_key()
                     self._already_processed.add(ssap_key)
             LOG.info("  ... found %d existing records",
-                     len(self.already_processed))
+                     len(self._already_processed))
         except FileNotFoundError:
             pass
 
@@ -333,6 +378,10 @@ class TarSsapStore(SsapStore):
 
 
 class RedisSsapStore(SsapStore):
+    """
+    Store SSAPs in redis datastore
+    """
+
     def __init__(self, url=None, *, db=0, host='localhost', port=6379):
         redis_args = {'host': host, 'port': port, 'db': db}
         if url:
@@ -353,6 +402,9 @@ class RedisSsapStore(SsapStore):
     @property
     def redis(self):
         return self._redis
+
+    def find(self, *args, match=None, **kwargs):
+        return self._redis.scan_iter()
 
     def set_ssap_result(self, ssap_result, *, key=None, **kwargs):
         if not key:
@@ -405,6 +457,10 @@ class RedisSsapStore(SsapStore):
 
 
 class MongoSsapStore(SsapStore):
+    """
+    Store SSAPs via MongoDB 
+    """
+
     def __init__(self, url=None, *, db='cath', host='localhost', port=27017, collection='ssaps'):
         mongo_args = {'host': host, 'port': port}
         if url:
@@ -442,6 +498,9 @@ class MongoSsapStore(SsapStore):
             LOG.error(
                 f"Encountered error when updating mongo document '{key}' (err: {err})")
             raise
+
+    def find(self, *args, **kwargs):
+        return self._collection.find(*args, **kwargs)
 
     def get_ssap_result(self, *, id1=None, id2=None, cath_version=None, key=None):
         """
@@ -486,6 +545,16 @@ class MongoSsapStore(SsapStore):
 
 
 class SsapStorageFactory:
+    """
+    Get access to different types of SSAP datastores
+
+    .. code-block:: python
+
+        ds = SsapStorageFactory.get('file:/path/to/ssaplist.txt')
+        ds = SsapStorageFactory.get('mongodb://localhost')
+
+
+    """
 
     initialisers = {
         'file': lambda arg_str: FileSsapStore(arg_str),
@@ -497,6 +566,15 @@ class SsapStorageFactory:
 
     @classmethod
     def get(cls, dsn, *args, **kwargs):
+        """
+        Return an instance of a SSAP datastore based on dsn
+
+        Args:
+
+
+        Returns:
+            :class:`SsapStore`: the SSAP datastore 
+        """
 
         if isinstance(dsn, SsapStore):
             return dsn
