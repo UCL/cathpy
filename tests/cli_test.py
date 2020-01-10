@@ -32,7 +32,7 @@ class TestCathAlignScorecons(TestBase):
         cmd_args = [f'{self.scriptdir}/cath-align-scorecons',
                     '--in', self.fastafile, '--format', 'fasta']
         result = subprocess.run(args=cmd_args, check=True,
-                                capture_output=True, text=True)
+                                stdout=subprocess.PIPE, encoding='utf-8')
         self.assertEqual(result.returncode, 0)
         filepath, dops = result.stdout.rstrip().split()
         self.assertEqual(filepath, path.abspath(self.fastafile))
