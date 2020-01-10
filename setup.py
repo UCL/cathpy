@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="cathpy",
-    version='0.3.6',
+    version='0.3.7',
     author="Ian Sillitoe",
     author_email="i.sillitoe@ucl.ac.uk",
     description="CathPy - Python Bioinformatics Toolkit for CATH (Protein Classification).",
