@@ -12,11 +12,17 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import cathpy.core
-import sphinx_rtd_theme
+
+# core
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../cathpy'))
+sys.path.insert(0, os.path.abspath('..'))
+
+# deps
+import sphinx_rtd_theme
+
+# local
+import cathpy.core
 
 
 # -- Project information -----------------------------------------------------
@@ -28,9 +34,9 @@ author = 'Ian Sillitoe'
 # the following vars get overridden in setup.py
 
 # The short X.Y version
-#version = ''
+version = '.'.join((cathpy.core.__version__.split('.')[:2]))
 # The full version, including alpha/beta/rc tags
-#release = ''
+release = cathpy.core.__version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -174,7 +180,7 @@ texinfo_documents = [
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
-#import guzzle_sphinx_theme
+# import guzzle_sphinx_theme
 
 html_theme = 'sphinx_rtd_theme'
 

@@ -2,20 +2,12 @@
 
 from setuptools import setup, find_namespace_packages
 
-from sphinx.setup_command import BuildDoc
-cmdclass = {'build_sphinx': BuildDoc}
-
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-name = "cathpy"
-version = '0.3'
-release = '0.3.9'
-
 setup(
-    name=name,
-    version=release,
+    name="cathpy",
+    version='0.3.9',
     author="Ian Sillitoe",
     author_email="i.sillitoe@ucl.ac.uk",
     description="CathPy - Python Bioinformatics Toolkit for CATH (Protein Classification).",
@@ -62,13 +54,4 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ),
-    cmdclass=cmdclass,
-    command_options={
-        'build_sphinx': {
-            'project': ('setup.py', name),
-            'version': ('setup.py', version),
-            'release': ('setup.py', release),
-            'source_dir': ('setup.py', 'docs'),
-        }
-    }
 )
