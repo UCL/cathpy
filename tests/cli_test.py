@@ -1,6 +1,7 @@
 # core
 import logging
 from os import path
+import subprocess
 import tempfile
 from unittest.mock import patch
 import pytest
@@ -15,6 +16,27 @@ from cathpy.core.scripts.cath_cli import cli
 from .testutils import TestBase, log_title, log_level
 
 LOG = logging.getLogger(__name__)
+
+
+class TestCathAlignScorecons(TestBase):
+
+    def setUp(self):
+        self.scriptdir = path.join(path.dirname(__file__), '..', 'scripts')
+        self.datadir = path.join(path.dirname(__file__), 'data')
+        self.fastafile = path.join(
+            self.datadir, 'funfams', '1.10.8.10-ff-15593.reduced.fa')
+        self.stofile = path.join(
+            self.datadir, 'funfams', '1.10.8.10-ff-15593.reduced.sto')
+
+    def test_script(self):
+        cmd_args = [f'{self.scriptdir}/cath-align-scorecons',
+                    '--in', self.fastafile, '--format', 'fasta']
+        result = subprocess.run(args=cmd_args, check=True,
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0)
+        filepath, dops = result.stdout.rstrip().split()
+        self.assertEqual(filepath, path.abspath(self.fastafile))
+        self.assertTrue(float(dops) > 90)
 
 
 class TestCli(TestBase):
