@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.8
+
+*Release date: 10/01/2020*
+
+* make subprocess usage compatible with python < 3.7
+
 ## v0.3.7
 
 *Release date: 10/01/2020*
