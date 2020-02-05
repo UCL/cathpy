@@ -32,6 +32,7 @@ PLATFORM_DIRNAME = "{}-{}".format(platform.system().lower(), platform.machine())
 GROUPSIM_DIR = os.path.join(TOOL_DIR, 'GroupSim')
 SCORECONS_EXE = os.path.join(TOOL_DIR, PLATFORM_DIRNAME, 'scorecons')
 SCORECONS_MATRIX_FILE = os.path.join(DATA_DIR, 'PET91mod.mat2')
+CATH_RESOLVE_HITS_EXE = os.path.join(TOOL_DIR, PLATFORM_DIRNAME, 'cath-resolve-hits')
 
 
 class GroupsimResult(object):
@@ -95,7 +96,7 @@ class GroupsimRunner(object):
         # mclachan max score is 5: normalise to 0-1 before storing  
         maxscore = 5 if mclachlan else 1
 
-        fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=False, suffix=".fa")
+        fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=True, suffix=".fa")
         fasta_tmp_filename = fasta_tmp.name
 
         if not column_gap:
@@ -200,7 +201,7 @@ class ScoreconsRunner(object):
     def run_alignment(self, alignment):
         """Runs `scorecons` on a given alignment."""
 
-        fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', delete=False, suffix=".fa")
+        fasta_tmp = tempfile.NamedTemporaryFile(mode='w+', prefix="scorecons-runner-", suffix=".faa")
         fasta_tmp_filename = fasta_tmp.name
 
         aln_copy = alignment.copy()
@@ -214,7 +215,9 @@ class ScoreconsRunner(object):
         LOG.info('Writing normalised alignment to %s', fasta_tmp_filename)
         aln_copy.write_fasta(fasta_tmp_filename)
 
-        return self.run_fasta(fasta_tmp_filename)
+        result = self.run_fasta(fasta_tmp_filename)
+
+        return result
 
     def run_stockholm(self, sto_file):
         """
@@ -244,9 +247,9 @@ class ScoreconsRunner(object):
 
         tmp_scorecons_file = tempfile.NamedTemporaryFile(mode='w+', suffix='.scorecons', delete=True)
 
-        scorecons_args = (self.scorecons_path, 
-            '-a', fasta_file, 
-            '-m', self.matrix_path, 
+        scorecons_args = (self.scorecons_path,
+            '-a', fasta_file,
+            '-m', self.matrix_path,
             '-o', tmp_scorecons_file.name)
 
         LOG.debug("running scorecons: sys: " + " ".join(scorecons_args))
@@ -273,7 +276,7 @@ class ScoreconsRunner(object):
 
         sc_numbers = self.__class__.split_scorecons_file(tmp_scorecons_file.name)
 
-        res = ScoreconsResult(dops = dops_score, scores = sc_numbers)
+        res = ScoreconsResult(dops=dops_score, scores=sc_numbers)
 
         return res
 
@@ -535,19 +538,24 @@ class AlignmentSummary(object):
         self.gap_count = int(gap_count)
         self.total_positions = int(total_positions)
 
+
+    @classmethod
+    def col_names(cls):
+        return ('path', 'aln_length', 'seq_count', 'dops', 'gap_per')
+
     def to_string(self):
         """
         Render the alignment summary as a string 
 
         ::
 
-            path   aln_length   seq_count   dops    gap_per
+            path  aln_length   seq_count   dops    gap_per
 
         """
         return "{:<70s} {:>6d} {:>6d} {:>6s} {:>6.2f}".format(
             self.path,
             self.aln_length, self.seq_count, 
-            "{:.2f}".format(self.dops) if self.dops is not None else 'NULL', 
+            "{:.2f}".format(self.dops) if self.dops is not None else 'NULL',
             self.gap_per)
 
     def __str__(self):
@@ -567,18 +575,39 @@ class AlignmentSummaryRunner(object):
     
     Args:
         aln_dir (str): input alignment directory
-        aln_file (str): input alignment file 
+        aln_file (str): input alignment file
+        format (str): input alignment format
         suffix (str): filter alignments by suffix
         skipempty (bool): skip empty files    
     """
 
-    def __init__(self, *, aln_dir=None, aln_file=None, suffix='.sto', skipempty=False, recursive=False):
+    ALN_FORMATS = {
+        'fasta': { 'suffix': '.faa', 'file_parser': Align.from_fasta }, 
+        'stockholm': { 'suffix': '.faa', 'file_parser': Align.from_stockholm },
+    }
+    VALID_ALN_FORMATS = set(ALN_FORMATS.keys())
+
+    def __init__(self, *, aln_format, aln_dir=None, aln_file=None,
+        suffix=None, skipempty=False, recursive=False):
+
+        if aln_format not in self.VALID_ALN_FORMATS:
+            raise Exception(f"error: '{aln_format}' is not a valid aln_format ({self.VALID_ALN_FORMATS})")
+        self.aln_format = aln_format
+
+        if not suffix:
+            suffix = self.ALN_FORMATS[self.aln_format]['suffix']
+
+        self._file_parser = self.ALN_FORMATS[self.aln_format]['file_parser']
+
         self.suffix = suffix
         self.skipempty = skipempty
         self.recursive = recursive
+        LOG.info('here')
         if aln_file:
             self._files = [aln_file]
         elif aln_dir:
+            LOG.info("Scanning directory '%s' for files with suffix '*%s'", 
+                aln_dir, suffix)
             self._files = self._get_files(aln_dir, suffix=suffix, recursive=recursive)
         else:
             raise Exception("error: expected 'aln_file' or 'aln_dir'")
@@ -588,7 +617,7 @@ class AlignmentSummaryRunner(object):
         all_aln_files = []
 
         for dirpath, dirnames, filenames in os.walk(input_dir):
-            aln_files = [os.path.join(dirpath, f) for f in filenames 
+            aln_files = [os.path.join(dirpath, f) for f in filenames
                 if os.path.basename(f).endswith(self.suffix)]
 
             nonempty_files = []
@@ -618,16 +647,20 @@ class AlignmentSummaryRunner(object):
 
         for aln_file in self._files:
             try:
-                aln = Align.from_stockholm(aln_file)
+                aln = self._file_parser(aln_file)
             except:
-                raise Exception("Failed to parse STOCKHOLM alignment from file {}".format(aln_file))
+                raise ParseError("Failed to parse alignment from file {} (parser: {})".format(
+                    aln_file, self._parser_name.__name__))
+
+            if not aln.dops_score:
+                aln.add_scorecons()
 
             try:
-                aln_sum = AlignmentSummary(path=aln_file, 
-                    dops=aln.dops_score, 
-                    aln_length=aln.aln_positions, 
+                aln_sum = AlignmentSummary(path=aln_file,
+                    dops=aln.dops_score,
+                    aln_length=aln.aln_positions,
                     seq_count=aln.count_sequences,
-                    gap_count=aln.total_gap_positions, 
+                    gap_count=aln.total_gap_positions,
                     total_positions=aln.total_positions)
                 summary_entries.extend([aln_sum])
             except:
