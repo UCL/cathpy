@@ -33,7 +33,7 @@ GROUPSIM_DIR = os.path.join(TOOL_DIR, 'GroupSim')
 SCORECONS_EXE = os.path.join(TOOL_DIR, PLATFORM_DIRNAME, 'scorecons')
 SCORECONS_MATRIX_FILE = os.path.join(DATA_DIR, 'PET91mod.mat2')
 CATH_RESOLVE_HITS_EXE = os.path.join(TOOL_DIR, PLATFORM_DIRNAME, 'cath-resolve-hits')
-
+CATH_SSAP_EXE = os.path.join(TOOL_DIR, PLATFORM_DIRNAME, 'cath-ssap')
 
 class GroupsimResult(object):
     """Represents the result from running the `groupsim` algorithm."""
