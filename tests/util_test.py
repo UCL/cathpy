@@ -35,8 +35,7 @@ class TestUtil(TestBase):
 
     def test_alignment_summary_file(self):
 
-        runner = AlignmentSummaryRunner(
-            aln_file=self.merge_sto_file)
+        runner = AlignmentSummaryRunner(aln_file=self.merge_sto_file, aln_format='stockholm')
         entries = runner.run()
         self.assertEqual(len(entries), 1)
         summary = entries[0]
@@ -49,13 +48,16 @@ class TestUtil(TestBase):
 
     def test_alignment_summary_dir(self):
 
+        with self.assertRaises(TypeError):
+            AlignmentSummaryRunner(aln_dir=self.data_dir, suffix='.sto')
+
         runner = AlignmentSummaryRunner(
-            aln_dir=self.data_dir, suffix='.sto')
+            aln_dir=self.data_dir, suffix='.sto', aln_format='stockholm')
         entries = runner.run()
         self.assertEqual(len(entries), 3)
 
         runner = AlignmentSummaryRunner(
-            aln_dir=self.data_dir, suffix='.sto', recursive=True)
+            aln_dir=self.data_dir, suffix='.sto', recursive=True, aln_format='stockholm')
         entries = runner.run()
         self.assertEqual(len(entries), 7)
 
