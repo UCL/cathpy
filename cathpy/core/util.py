@@ -582,8 +582,8 @@ class AlignmentSummaryRunner(object):
     """
 
     ALN_FORMATS = {
-        'fasta': { 'suffix': '.faa', 'file_parser': Align.from_fasta }, 
-        'stockholm': { 'suffix': '.faa', 'file_parser': Align.from_stockholm },
+        'fasta': {'suffix': '.faa', 'file_parser': Align.from_fasta}, 
+        'stockholm': {'suffix': '.faa', 'file_parser': Align.from_stockholm},
     }
     VALID_ALN_FORMATS = set(ALN_FORMATS.keys())
 
