@@ -304,7 +304,7 @@ class ClusterFile(object):
         """
         Returns the cluster id as a :class:`ClusterID` object
         """
-        ClusterID(sfam_id=self.sfam_id, cluster_type=self.cluster_type,
+        return ClusterID(sfam_id=self.sfam_id, cluster_type=self.cluster_type,
                   cluster_num=self.cluster_num)
 
     @classmethod
