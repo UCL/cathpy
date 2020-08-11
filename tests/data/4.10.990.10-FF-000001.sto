@@ -1,0 +1,197 @@
+# STOCKHOLM 1.0
+#=GF ID 4.10.990.10/FF/000001
+#=GF AC 4.10.990.10/FF/000001
+#=GF TP FunFam
+#=GF DR CATH: v4.3
+#=GF DR DOPS: 86.445
+#=GS Q8ZT50/5-55      AC Q8ZT50
+#=GS Q8ZT50/5-55      OS Pyrobaculum aerophilum str. IM2
+#=GS Q8ZT50/5-55      DE 50S ribosomal protein L15
+#=GS Q8ZT50/5-55      DR ORG; Archaea; Crenarchaeota; Thermoprotei; Thermoproteales; Thermoproteaceae; Pyrobaculum; Pyrobaculum aerophilum; 
+#=GS Q9UX85/6-54      AC Q9UX85
+#=GS Q9UX85/6-54      OS Saccharolobus solfataricus P2
+#=GS Q9UX85/6-54      DE 50S ribosomal protein L15
+#=GS Q9UX85/6-54      DR ORG; Archaea; Crenarchaeota; Thermoprotei; Sulfolobales; Sulfolobaceae; Saccharolobus; Saccharolobus solfataricus; 
+#=GS Q5JJH0/5-52      AC Q5JJH0
+#=GS Q5JJH0/5-52      OS Thermococcus kodakarensis KOD1
+#=GS Q5JJH0/5-52      DE 50S ribosomal protein L15
+#=GS Q5JJH0/5-52      DR ORG; Archaea; Euryarchaeota; Thermococci; Thermococcales; Thermococcaceae; Thermococcus; Thermococcus kodakarensis; 
+#=GS O59441/5-52      AC O59441
+#=GS O59441/5-52      OS Pyrococcus horikoshii OT3
+#=GS O59441/5-52      DE 50S ribosomal protein L15
+#=GS O59441/5-52      DR ORG; Archaea; Euryarchaeota; Thermococci; Thermococcales; Thermococcaceae; Pyrococcus; Pyrococcus horikoshii; 
+#=GS B1L788/8-54      AC B1L788
+#=GS B1L788/8-54      OS Candidatus Korarchaeum cryptofilum OPF8
+#=GS B1L788/8-54      DE 50S ribosomal protein L15
+#=GS B1L788/8-54      DR ORG; Archaea; Candidatus Korarchaeota; Candidatus Korarchaeum; Candidatus Korarchaeum cryptofilum; 
+#=GS B0R678/1-51      AC B0R678
+#=GS B0R678/1-51      OS Halobacterium salinarum R1
+#=GS B0R678/1-51      DE 50S ribosomal protein L15
+#=GS B0R678/1-51      DR ORG; Archaea; Euryarchaeota; Halobacteria; Halobacteriales; Halobacteriaceae; Halobacterium; Halobacterium salinarum; 
+#=GS Q8TRS5/2-53      AC Q8TRS5
+#=GS Q8TRS5/2-53      OS Methanosarcina acetivorans C2A
+#=GS Q8TRS5/2-53      DE 50S ribosomal protein L15
+#=GS Q8TRS5/2-53      DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina acetivorans; 
+#=GS P54047/4-51      AC P54047
+#=GS P54047/4-51      OS Methanocaldococcus jannaschii DSM 2661
+#=GS P54047/4-51      DE 50S ribosomal protein L15
+#=GS P54047/4-51      DR ORG; Archaea; Euryarchaeota; Methanococci; Methanococcales; Methanocaldococcaceae; Methanocaldococcus; Methanocaldococcus jannaschii; 
+#=GS A3MUZ1/5-55      AC A3MUZ1
+#=GS A3MUZ1/5-55      OS Pyrobaculum calidifontis JCM 11548
+#=GS A3MUZ1/5-55      DE 50S ribosomal protein L15
+#=GS A3MUZ1/5-55      DR ORG; Archaea; Crenarchaeota; Thermoprotei; Thermoproteales; Thermoproteaceae; Pyrobaculum; Pyrobaculum calidifontis; 
+#=GS B1Y901/5-55      AC B1Y901
+#=GS B1Y901/5-55      OS Pyrobaculum neutrophilum V24Sta
+#=GS B1Y901/5-55      DE 50S ribosomal protein L15
+#=GS B1Y901/5-55      DR ORG; Archaea; Crenarchaeota; Thermoprotei; Thermoproteales; Thermoproteaceae; Pyrobaculum; Pyrobaculum neutrophilum; 
+#=GS A4WM07/5-55      AC A4WM07
+#=GS A4WM07/5-55      OS Pyrobaculum arsenaticum DSM 13514
+#=GS A4WM07/5-55      DE 50S ribosomal protein L15
+#=GS A4WM07/5-55      DR ORG; Archaea; Crenarchaeota; Thermoprotei; Thermoproteales; Thermoproteaceae; Pyrobaculum; Pyrobaculum arsenaticum; 
+#=GS G7VHP0/5-55      AC G7VHP0
+#=GS G7VHP0/5-55      OS Pyrobaculum ferrireducens
+#=GS G7VHP0/5-55      DE 50S ribosomal protein L15
+#=GS G7VHP0/5-55      DR ORG; Archaea; Crenarchaeota; Thermoprotei; Thermoproteales; Thermoproteaceae; Pyrobaculum; Pyrobaculum ferrireducens; 
+#=GS A0A142CW89/5-52  AC A0A142CW89
+#=GS A0A142CW89/5-52  OS Thermococcus peptonophilus
+#=GS A0A142CW89/5-52  DE 50S ribosomal protein L15
+#=GS A0A142CW89/5-52  DR ORG; Archaea; Euryarchaeota; Thermococci; Thermococcales; Thermococcaceae; Thermococcus; Thermococcus peptonophilus; 
+#=GS Q8U018/5-52      AC Q8U018
+#=GS Q8U018/5-52      OS Pyrococcus furiosus DSM 3638
+#=GS Q8U018/5-52      DE 50S ribosomal protein L15
+#=GS Q8U018/5-52      DR ORG; Archaea; Euryarchaeota; Thermococci; Thermococcales; Thermococcaceae; Pyrococcus; Pyrococcus furiosus; 
+#=GS Q9V1V7/5-52      AC Q9V1V7
+#=GS Q9V1V7/5-52      OS Pyrococcus abyssi GE5
+#=GS Q9V1V7/5-52      DE 50S ribosomal protein L15
+#=GS Q9V1V7/5-52      DR ORG; Archaea; Euryarchaeota; Thermococci; Thermococcales; Thermococcaceae; Pyrococcus; Pyrococcus abyssi; 
+#=GS A0A1I0QBC6/1-51  AC A0A1I0QBC6
+#=GS A0A1I0QBC6/1-51  OS Halobacterium jilantaiense
+#=GS A0A1I0QBC6/1-51  DE 50S ribosomal protein L15
+#=GS A0A1I0QBC6/1-51  DR ORG; Archaea; Euryarchaeota; Halobacteria; Halobacteriales; Halobacteriaceae; Halobacterium; Halobacterium jilantaiense; 
+#=GS W0K5J3/1-51      AC W0K5J3
+#=GS W0K5J3/1-51      OS Halobacterium sp. DL1
+#=GS W0K5J3/1-51      DE 50S ribosomal protein L15
+#=GS W0K5J3/1-51      DR ORG; Archaea; Euryarchaeota; Halobacteria; Halobacteriales; Halobacteriaceae; Halobacterium; Halobacterium sp. DL1; 
+#=GS A0A0U5H463/1-51  AC A0A0U5H463
+#=GS A0A0U5H463/1-51  OS Halobacterium hubeiense
+#=GS A0A0U5H463/1-51  DE 50S ribosomal protein L15
+#=GS A0A0U5H463/1-51  DR ORG; Archaea; Euryarchaeota; Halobacteria; Halobacteriales; Halobacteriaceae; Halobacterium; Halobacterium hubeiense; 
+#=GS Q46GB7/2-53      AC Q46GB7
+#=GS Q46GB7/2-53      OS Methanosarcina barkeri str. Fusaro
+#=GS Q46GB7/2-53      DE 50S ribosomal protein L15
+#=GS Q46GB7/2-53      DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina barkeri; 
+#=GS Q8PV28/3-53      AC Q8PV28
+#=GS Q8PV28/3-53      OS Methanosarcina mazei Go1
+#=GS Q8PV28/3-53      DE 50S ribosomal protein L15
+#=GS Q8PV28/3-53      DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina mazei; 
+#=GS A0A0E3P0Y5/2-53  AC A0A0E3P0Y5
+#=GS A0A0E3P0Y5/2-53  OS Methanosarcina sp. MTP4
+#=GS A0A0E3P0Y5/2-53  DE 50S ribosomal protein L15
+#=GS A0A0E3P0Y5/2-53  DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina sp. MTP4; 
+#=GS A0A0E3NNV9/3-53  AC A0A0E3NNV9
+#=GS A0A0E3NNV9/3-53  OS Methanosarcina sp. WH1
+#=GS A0A0E3NNV9/3-53  DE 50S ribosomal protein L15
+#=GS A0A0E3NNV9/3-53  DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina sp. WH1; 
+#=GS A0A0E3KT73/3-53  AC A0A0E3KT73
+#=GS A0A0E3KT73/3-53  OS Methanosarcina sp. WWM596
+#=GS A0A0E3KT73/3-53  DE 50S ribosomal protein L15
+#=GS A0A0E3KT73/3-53  DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina sp. WWM596; 
+#=GS C9RES4/4-51      AC C9RES4
+#=GS C9RES4/4-51      OS Methanocaldococcus vulcanius M7
+#=GS C9RES4/4-51      DE 50S ribosomal protein L15
+#=GS C9RES4/4-51      DR ORG; Archaea; Euryarchaeota; Methanococci; Methanococcales; Methanocaldococcaceae; Methanocaldococcus; Methanocaldococcus vulcanius; 
+#=GS D0KTA3/6-54      AC D0KTA3
+#=GS D0KTA3/6-54      OS Saccharolobus solfataricus 98/2
+#=GS D0KTA3/6-54      DE 50S ribosomal protein L15
+#=GS D0KTA3/6-54      DR ORG; Archaea; Crenarchaeota; Thermoprotei; Sulfolobales; Sulfolobaceae; Saccharolobus; Saccharolobus solfataricus; 
+#=GS A0A0E3JXU6/6-54  AC A0A0E3JXU6
+#=GS A0A0E3JXU6/6-54  OS Saccharolobus solfataricus
+#=GS A0A0E3JXU6/6-54  DE 50S ribosomal protein L15
+#=GS A0A0E3JXU6/6-54  DR ORG; Archaea; Crenarchaeota; Thermoprotei; Sulfolobales; Sulfolobaceae; Saccharolobus; Saccharolobus solfataricus; 
+#=GS I6TZ89/5-52      AC I6TZ89
+#=GS I6TZ89/5-52      OS Pyrococcus furiosus COM1
+#=GS I6TZ89/5-52      DE 50S ribosomal protein L15
+#=GS I6TZ89/5-52      DR ORG; Archaea; Euryarchaeota; Thermococci; Thermococcales; Thermococcaceae; Pyrococcus; Pyrococcus furiosus; 
+#=GS A0A3R9PDY3/8-54  AC A0A3R9PDY3
+#=GS A0A3R9PDY3/8-54  OS Candidatus Korarchaeum cryptofilum
+#=GS A0A3R9PDY3/8-54  DE 50S ribosomal protein L15
+#=GS A0A3R9PDY3/8-54  DR ORG; Archaea; Candidatus Korarchaeota; Candidatus Korarchaeum; Candidatus Korarchaeum cryptofilum; 
+#=GS P05971/1-51      AC P05971
+#=GS P05971/1-51      OS Halobacterium salinarum NRC-1
+#=GS P05971/1-51      DE 50S ribosomal protein L15
+#=GS P05971/1-51      DR ORG; Archaea; Euryarchaeota; Halobacteria; Halobacteriales; Halobacteriaceae; Halobacterium; Halobacterium salinarum; 
+#=GS A0A0E3LKV1/2-53  AC A0A0E3LKV1
+#=GS A0A0E3LKV1/2-53  OS Methanosarcina barkeri str. Wiesmoor
+#=GS A0A0E3LKV1/2-53  DE 50S ribosomal protein L15
+#=GS A0A0E3LKV1/2-53  DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina barkeri; 
+#=GS A0A0E3RE00/3-53  AC A0A0E3RE00
+#=GS A0A0E3RE00/3-53  OS Methanosarcina mazei SarPi
+#=GS A0A0E3RE00/3-53  DE 50S ribosomal protein L15
+#=GS A0A0E3RE00/3-53  DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina mazei; 
+#=GS A0A0F8KVD7/3-53  AC A0A0F8KVD7
+#=GS A0A0F8KVD7/3-53  OS Methanosarcina mazei
+#=GS A0A0F8KVD7/3-53  DE 50S ribosomal protein L15
+#=GS A0A0F8KVD7/3-53  DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina mazei; 
+#=GS A0A0E3RHF3/3-53  AC A0A0E3RHF3
+#=GS A0A0E3RHF3/3-53  OS Methanosarcina mazei S-6
+#=GS A0A0E3RHF3/3-53  DE 50S ribosomal protein L15
+#=GS A0A0E3RHF3/3-53  DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina mazei; 
+#=GS A0A0E3RT67/3-53  AC A0A0E3RT67
+#=GS A0A0E3RT67/3-53  OS Methanosarcina mazei LYC
+#=GS A0A0E3RT67/3-53  DE 50S ribosomal protein L15
+#=GS A0A0E3RT67/3-53  DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina mazei; 
+#=GS A0A0E3RZ57/3-53  AC A0A0E3RZ57
+#=GS A0A0E3RZ57/3-53  OS Methanosarcina mazei C16
+#=GS A0A0E3RZ57/3-53  DE 50S ribosomal protein L15
+#=GS A0A0E3RZ57/3-53  DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina mazei; 
+#=GS A0A0E3PZV5/3-53  AC A0A0E3PZV5
+#=GS A0A0E3PZV5/3-53  OS Methanosarcina mazei WWM610
+#=GS A0A0E3PZV5/3-53  DE 50S ribosomal protein L15
+#=GS A0A0E3PZV5/3-53  DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina mazei; 
+#=GS A0A0E3SNH7/2-53  AC A0A0E3SNH7
+#=GS A0A0E3SNH7/2-53  OS Methanosarcina barkeri 3
+#=GS A0A0E3SNH7/2-53  DE 50S ribosomal protein L15
+#=GS A0A0E3SNH7/2-53  DR ORG; Archaea; Euryarchaeota; Methanomicrobia; Methanosarcinales; Methanosarcinaceae; Methanosarcina; Methanosarcina barkeri; 
+#=GF SQ 37
+Q8ZT50/5-55              FKRGTKYRRGSRTHGWGRVGQHRKSGGSGGKGMVGFHK---HKWSLVMK----YGESG
+Q9UX85/6-54              -EKKSRKMRGSRTMGWGIRGQHRDRGSQGGR-QIGMHK---EKWSWLVK----YGKGW
+Q5JJH0/5-52              -RKKVRKLRGSHTHGWGCKKKHRGGGSKGGRGMAGTGKRKDQKWTWTIK---------
+O59441/5-52              -RKKVRKLRGSHTHGWGCKKKHRGGGSKGGRGMAGTGKRNKSKWTWTIK---------
+B1L788/8-54              -RKKSRKMRGSRLHGYGLQRQHRRSGRIGGFGMAGTKK---HLWTWVTA----YE---
+B0R678/1-51              MTDKKRRQRGSRTHGGGTHKNRRGAGNRGGRGRAGRKK---HEQHNYED----VGKSG
+Q8TRS5/2-53              ---DTKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGGCK---HHFVRAMMRGYSYGKHG
+P54047/4-51              KKKKVKKIRGSRTCGGGSHKKRRGAGNKGGRGMAGGHK---HKWTWIIK----YC---
+A3MUZ1/5-55              FKRATKYRRGSRTHGWGRVGQHRKSGGSGGKGMVGFHK---HKWSLVMK----YGESG
+B1Y901/5-55              FKRAVKYRRGSRTHGWGRVGQHRKSGGSGGKGMVGFHK---HKWSLVMK----YGESG
+A4WM07/5-55              FKRAVKYRRGSRTHGWGRVGQHRKSGGSGGKGMVGFHK---HKWSLVMK----YGESG
+G7VHP0/5-55              FKRAVKYRRGSRTHGWGRVGQHRKSGGSGGKGMVGFHK---HKWSLVMK----YGESG
+A0A142CW89/5-52          -RKKVRKLRGSHTHGWGCKKKHRGGGSKGGRGMAGTGKRKDQKWTWTIK---------
+Q8U018/5-52              -RKKVRKLRGSHTHGWGCKKKHRGGGSKGGRGMAGTGKRNKSKWTWTIK---------
+Q9V1V7/5-52              -RKKVRKLRGSHTHGWGCKKKHRGGGSKGGRGMAGTGKRNKSKWTWTIK---------
+A0A1I0QBC6/1-51          MTDKKRRQRGSRTHGGGTHKNRRGAGNRGGRGRAGRKK---HEQHNYED----VGKSG
+W0K5J3/1-51              MTSKKRRQRGSRTHGGGTHKNRRGAGNRGGRGRAGRKK---HEQHNYED----VGKSG
+A0A0U5H463/1-51          MTSKKRRQRGSRTHGGGTHKNRRGAGNRGGRGRAGRKK---HEQHLYED----VGKSG
+Q46GB7/2-53              ---DTKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGACK---HHFVRAMFRGYSYGKHG
+Q8PV28/3-53              ----IKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGGCK---HHFVRAMMRGYSYGKHG
+A0A0E3P0Y5/2-53          ---NTKKFRGSRTCGGGTTKNRRGAGNRGGRGKAGGCK---HHFVRALQRGYSYGKHG
+A0A0E3NNV9/3-53          ----VKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGGCK---HHFVRAMMRGYSYGKHG
+A0A0E3KT73/3-53          ----VKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGGCK---HHFVRAMMRGYSYGKHG
+C9RES4/4-51              KKRKVKKIRGSRTCGGGSHKKRRGAGNKGGRGMAGGLK---HKWTWIIK----NC---
+D0KTA3/6-54              -EKKSRKMRGSRTMGWGIRGQHRDRGSQGGR-QIGMHK---EKWSWLVK----YGKGW
+A0A0E3JXU6/6-54          -EKKSRKMRGSRTMGWGIRGQHRDRGSQGGR-QIGMHK---EKWSWLVK----YGKGW
+I6TZ89/5-52              -RKKVRKLRGSHTHGWGCKKKHRGGGSKGGRGMAGTGKRNKSKWTWTIK---------
+A0A3R9PDY3/8-54          -RKKSRKMRGSRLHGYGLQRQHRRSGRIGGFGMAGTKK---HLWTWVTA----YE---
+P05971/1-51              MTDKKRRQRGSRTHGGGTHKNRRGAGNRGGRGRAGRKK---HEQHNYED----VGKSG
+A0A0E3LKV1/2-53          ---DTKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGACK---HHFVRAMFRGYSYGKHG
+A0A0E3RE00/3-53          ----IKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGGCK---HHFVRAMMRGYSYGKHG
+A0A0F8KVD7/3-53          ----IKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGGCK---HHFVRAMMRGYSYGKHG
+A0A0E3RHF3/3-53          ----IKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGGCK---HHFVRAMMRGYSYGKHG
+A0A0E3RT67/3-53          ----IKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGGCK---HHFVRAMMRGYSYGKHG
+A0A0E3RZ57/3-53          ----IKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGGCK---HHFVRAMMRGYSYGKHG
+A0A0E3PZV5/3-53          ----IKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGGCK---HHFVRAMMRGYSYGKHG
+A0A0E3SNH7/2-53          ---DTKKFRGSRTCGGGTHKNRRGAGNRGGRGKAGGCK---HHFVRAMLRGYSYGKHG
+#=GC scorecons           0223476399978594944656955955997746933900065444444000044323
+#=GC scorecons_70        _____*__*****_*_*____**__*__****_**__*____________________
+#=GC scorecons_80        ________*****_*_*_____*__*__**_*__*__*____________________
+#=GC scorecons_90        ________***_*_*_*_____*__*__**____*__*____________________
+//

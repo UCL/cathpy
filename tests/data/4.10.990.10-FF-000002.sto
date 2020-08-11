@@ -1,0 +1,27 @@
+# STOCKHOLM 1.0
+#=GF ID 4.10.990.10/FF/000002
+#=GF AC 4.10.990.10/FF/000002
+#=GF TP FunFam
+#=GF DR CATH: v4.3
+#=GF DR DOPS: 10.394
+#=GS A9A598/5-51      AC A9A598
+#=GS A9A598/5-51      OS Nitrosopumilus maritimus SCM1
+#=GS A9A598/5-51      DE 50S ribosomal protein L15
+#=GS A9A598/5-51      DR ORG; Archaea; Thaumarchaeota; Nitrosopumilales; Nitrosopumilaceae; Nitrosopumilus; Nitrosopumilus maritimus; 
+#=GS A0A0D5C427/5-52  AC A0A0D5C427
+#=GS A0A0D5C427/5-52  OS Candidatus Nitrosopumilus adriaticus
+#=GS A0A0D5C427/5-52  DE 50S ribosomal protein L15
+#=GS A0A0D5C427/5-52  DR ORG; Archaea; Thaumarchaeota; Nitrosopumilales; Nitrosopumilaceae; Nitrosopumilus; Candidatus Nitrosopumilus adriaticus; 
+#=GS A0A0C5C1E2/5-51  AC A0A0C5C1E2
+#=GS A0A0C5C1E2/5-51  OS Candidatus Nitrosopumilus piranensis
+#=GS A0A0C5C1E2/5-51  DE 50S ribosomal protein L15
+#=GS A0A0C5C1E2/5-51  DR ORG; Archaea; Thaumarchaeota; Nitrosopumilales; Nitrosopumilaceae; Nitrosopumilus; Candidatus Nitrosopumilus piranensis; 
+#=GF SQ 3
+A9A598/5-51              LRKTRRLRGGRHMGWGQVGQHRASGHKGGLGVTGMMKHHWSTTLKDE-
+A0A0D5C427/5-52          LRKTRRLRGGRHMGWGQVGQHRASGHKGGLGVTGMLKHHWSSTLKYEP
+A0A0C5C1E2/5-51          LRKTRRLRGGRHMGWGQVGQHRASGHKGGLGVTGMMKHHWSTTLKDE-
+#=GC scorecons           999999999999999999999999999999999995999994999390
+#=GC scorecons_70        ***********************************_*****_***_*_
+#=GC scorecons_80        ***********************************_*****_***_*_
+#=GC scorecons_90        ***********************************_*****_***_*_
+//
