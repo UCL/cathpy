@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.4.0
+
+*Release date: 08/7/2021*
+
+* upgrade cath-tools binaries (#13 - thanks Nico)
+* fixes to fasta header parsers (#12 - thanks Clemens)
+
 ## v0.3.8
 
 *Release date: 10/01/2020*
