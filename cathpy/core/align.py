@@ -93,24 +93,24 @@ class Sequence(object):
                 LOG.warning("Explicitly changed the segment start/stop from strings to numbers "
                             "when retrieving residues. Consider specifying the option 'parse_segments_as_numbers'")
         else:
-            segs=[NumericSegment(1, len(self.seq_no_gaps))]
+            segs = [NumericSegment(1, len(self.seq_no_gaps))]
 
-        current_seg_offset=0
+        current_seg_offset = 0
 
         def next_seg():
             nonlocal current_seg_offset
             if current_seg_offset < len(segs):
-                seg=segs[current_seg_offset]
+                seg = segs[current_seg_offset]
                 current_seg_offset += 1
                 return seg
             else:
                 return None
 
         # theoretical length according to segment info vs length according to sequence
-        seg_length=0
+        seg_length = 0
         for seg in segs:
             seg_length += seg.stop - seg.start + 1
-        actual_length=len(self.seq_no_gaps)
+        actual_length = len(self.seq_no_gaps)
 
         if seg_length != actual_length:
             # should this be a warning? (with 1-n numbering as fallback?)
@@ -177,7 +177,7 @@ class Sequence(object):
         """Returns sequence position (ignoring gaps) of the given residue (may include gaps)."""
 
         seq_to_offset = self.seq[:offset+1]
-        if re.match(seq_to_offset[-1], Sequence.re_gap_chars):
+        if re.match(Sequence.re_gap_chars, seq_to_offset[-1]):
             raise err.GapError(
                 "Cannot get sequence position at offset {} since this corresponds to a gap".format(
                     offset))
@@ -327,12 +327,12 @@ class Sequence(object):
         # features
         if meta_str:
             meta_parts = meta_str.split()
-            for f in meta_parts.split('=', maxsplit=1):
-                if len(f) == 2:
-                    meta[f[0]] = f[1]
+            for key_index, kv in enumerate(meta_parts):
+                if '=' in kv:
+                    _key, _value = kv.split('=', maxsplit=1)
+                    meta[_key] = _value
                 else:
-                    LOG.warning(
-                        "failed to parse meta feature from string %s", meta_str)
+                    meta[key_index] = kv
 
         return({'accession': accession,
                 'id': id_with_segs_str,
@@ -438,7 +438,7 @@ class Sequence(object):
     def seginfo(self):
         """Returns the segment info for this Sequence."""
         segs_str = '_'.join(['-'.join([str(s.start), str(s.stop)])
-                             for s in self.segs])
+                            for s in self.segs])
         return segs_str
 
     def apply_segments(self, segs):
@@ -460,7 +460,7 @@ class Sequence(object):
         acc = self.accession
         startstops = [(seg[0], seg[1]) for seg in segs]
         seq_range = '_'.join(['{}-{}'.format(ss[0], ss[1])
-                              for ss in startstops])
+                             for ss in startstops])
         seq_parts = [seq[ss[0]-1:ss[1]] for ss in startstops]
 
         subseq = Sequence(hdr="{}/{}".format(acc, seq_range),

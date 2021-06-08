@@ -6,6 +6,8 @@ import unittest
 from cathpy.core.align import (
     Align, Correspondence, Residue, SegmentBase, NumericSegment, StringSegment, Sequence,)
 
+from cathpy.core.error import GapError, OutOfBoundsError, SeqIOError
+
 from . import testutils
 
 LOG = logging.getLogger(__name__)
@@ -400,6 +402,50 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
         self.assertEqual(meta_info.seq_count, 51)
         self.assertEqual(meta_info.dops_score, 61.529)
         self.assertEqual(meta_info.organism_newick, "((((((((((((((Homo,(Gorilla_gorilla)'Gorilla Gorilla gorilla (1)',Pan)'Homininae Homo (5)',(Pongo)'Ponginae Pongo (1)')'Hominidae Homininae (6)')'Hominoidea Hominidae (6)',(((Chlorocebus,Macaca,Papio)'Cercopithecinae Chlorocebus (3)')'Cercopithecidae Cercopithecinae (3)')'Cercopithecoidea Cercopithecidae (3)')'Catarrhini Hominoidea (9)')'Simiiformes Catarrhini (9)')'Haplorrhini Simiiformes (9)')'Primates Haplorrhini (9)',(((((Mus)'Mus Mus (1)',Rattus)'Murinae Mus (2)')'Muridae Murinae (2)')'Myomorpha Muridae (2)',((Heterocephalus,Fukomys)'Bathyergidae Heterocephalus (2)')'Hystricomorpha Bathyergidae (2)')'Rodentia Myomorpha (4)',((Oryctolagus)'Leporidae Oryctolagus (1)')'Lagomorpha Leporidae (1)')'Euarchontoglires Primates (14)',(((((Bos)'Bovinae Bos (1)')'Bovidae Bovinae (1)')'Pecora Bovidae (1)')'Ruminantia Pecora (1)',((Camelus)'Camelidae Camelus (1)')'Tylopoda Camelidae (1)',((((Pteropus)'Pteropodinae Pteropus (1)')'Pteropodidae Pteropodinae (1)')'Megachiroptera Pteropodidae (1)',((Myotis)'Vespertilionidae Myotis (1)')'Microchiroptera Vespertilionidae (1)')'Chiroptera Megachiroptera (2)',((((Felis)'Felinae Felis (1)')'Felidae Felinae (1)')'Feliformia Felidae (1)',(((Canis_lupus)'Canis Canis lupus (1)')'Canidae Canis (1)',(((Mustela_putorius)'Mustela Mustela putorius (1)')'Mustelinae Mustela (1)')'Mustelidae Mustelinae (1)')'Caniformia Canidae (2)')'Carnivora Feliformia (3)',(((Equus)'Equus Equus (2)')'Equidae Equus (2)')'Perissodactyla Equidae (2)')'Laurasiatheria Ruminantia (9)',(((Loxodonta)'Elephantidae Loxodonta (1)')'Proboscidea Elephantidae (1)')'Afrotheria Proboscidea (1)')'Mammalia Euarchontoglires (24)',(((((((Silurana)'Xenopus Silurana (4)')'Xenopodinae Xenopus (4)',(Hymenochirus)'Pipinae Hymenochirus (1)')'Pipidae Xenopodinae (5)')'Pipoidea Pipidae (5)')'Anura Pipoidea (5)')'Batrachia Anura (5)')'Amphibia Batrachia (5)',((((((Ophiophagus)'Elapinae Ophiophagus (1)')'Elapidae Elapinae (1)')'Colubroidea Elapidae (1)')'Serpentes Colubroidea (1)')'Squamata Serpentes (1)')'Lepidosauria Squamata (1)',(((((((((Poeciliopsis,Xiphophorus,Poecilia)'Poeciliinae Poeciliopsis (4)')'Poeciliidae Poeciliinae (4)',(Fundulus)'Fundulidae Fundulus (1)')'Cyprinodontoidei Poeciliidae (5)')'Cyprinodontiformes Cyprinodontoidei (5)',((((Oryzias)'Oryziinae Oryzias (1)')'Adrianichthyidae Oryziinae (1)')'Adrianichthyoidei Adrianichthyidae (1)')'Beloniformes Adrianichthyoidei (1)')'Atherinomorphae Cyprinodontiformes (6)',((((Astyanax)'Characidae Astyanax (1)')'Characoidei Characidae (1)')'Characiformes Characoidei (1)')'Characiphysae Characiformes (1)',((((Gasterosteus)'Gasterosteidae Gasterosteus (1)')'Gasterosteales Gasterosteidae (1)')'Cottioidei Gasterosteales (1)')'Perciformes Cottioidei (1)',((((Takifugu)'Tetraodontidae Takifugu (1)')'Tetradontoidea Tetraodontidae (1)')'Tetraodontoidei Tetradontoidea (1)')'Tetraodontiformes Tetraodontoidei (1)',((((Danio)'Cyprinidae Danio (2)')'Cyprinoidea Cyprinidae (2)')'Cypriniformes Cyprinoidea (2)')'Cypriniphysae Cypriniformes (2)',(((((Oreochromis)'Oreochromini Oreochromis (1)')'Pseudocrenilabrinae Oreochromini (1)')'Cichlidae Pseudocrenilabrinae (1)')'Cichliformes Cichlidae (1)')'Cichlomorphae Cichliformes (1)',(((Oncorhynchus)'Salmoninae Oncorhynchus (1)')'Salmonidae Salmoninae (1)')'Salmoniformes Salmonidae (1)')'Teleostei Atherinomorphae (13)',(((Lepisosteus)'Lepisosteidae Lepisosteus (1)')'Semionotiformes Lepisosteidae (1)')'Holostei Semionotiformes (1)')'Neopterygii Teleostei (14)')'Actinopteri Neopterygii (14)')'Actinopterygii Actinopteri (14)',(((((Gallus)'Phasianinae Gallus (1)')'Phasianidae Phasianinae (1)')'Galliformes Phasianidae (1)',((Picoides)'Picidae Picoides (1)')'Piciformes Picidae (1)',((((Taeniopygia)'Estrildinae Taeniopygia (1)')'Estrildidae Estrildinae (1)')'Passeroidea Estrildidae (1)',(Ficedula)'Muscicapidae Ficedula (1)')'Passeriformes Passeroidea (2)')'Neognathae Galliformes (4)')'Aves Neognathae (4)',((((Callorhinchus)'Callorhinchidae Callorhinchus (1)')'Chimaeriformes Callorhinchidae (1)')'Holocephali Chimaeriformes (1)')'Chondrichthyes Holocephali (1)',((Latimeria)'Coelacanthidae Latimeria (1)')'Coelacanthiformes Coelacanthidae (1)',(((Alligator)'Alligatorinae Alligator (1)')'Alligatoridae Alligatorinae (1)')'Crocodylia Alligatoridae (1)')'Craniata Mammalia (51)')'Chordata Craniata (51)')'Metazoa Chordata (51)')'Eukaryota Metazoa (51)')'ROOT (51)';")
+
+    def test_fasta_with_meta(self):
+        fasta_str = """
+>seq1 bla1 bla2
+TTTTLLASAMLSASVFALTDPPVDPVDPVDPTDPPSSD
+>seq2 key1=value1 key2=value2
+TTTTLLASAMLSASVFALTDPPVDPVDPVDPTDPPSSD
+""".strip()
+
+        aln = Align.from_fasta(fasta_str)
+        seq1 = aln.get_seq_at_offset(0)
+        seq2 = aln.get_seq_at_offset(1)
+        self.assertEqual(seq1.accession, 'seq1')
+        self.assertEqual(seq2.accession, 'seq2')
+
+        self.assertEqual(seq1.meta, {0: 'bla1', 1: 'bla2'})
+        self.assertEqual(seq2.meta, {'key1': 'value1', 'key2': 'value2'})
+
+    def test_incorrect_fasta_headers(self):
+        fasta_str = """
+>seq1/100-200
+TTTTL-LASAM
+""".strip()
+        aln = Align.from_fasta(fasta_str)
+        seq = aln.get_seq_at_offset(0)
+        with self.assertRaises(OutOfBoundsError):
+            residues = seq.get_residues()
+
+    def test_sequence_errors(self):
+        seq = Sequence('seq1', '-TTTTL-LASAM')
+        self.assertEqual(seq.get_res_at_offset(0), '-')
+        self.assertEqual(seq.get_res_at_offset(1), 'T')
+        self.assertEqual(seq.get_res_at_offset(11), 'M')
+        self.assertEqual(seq.get_res_at_offset(-3), 'S')
+
+        with self.assertRaises(SeqIOError):
+            seq.get_res_at_offset(12)
+
+        with self.assertRaises(SeqIOError):
+            seq.get_res_at_seq_position(11)
+
+        self.assertEqual(seq.get_seq_position_at_offset(2), 2)
+        with self.assertRaises(GapError):
+            seq.get_seq_position_at_offset(6)
 
 
 if __name__ == '__main__':
