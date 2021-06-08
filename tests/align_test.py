@@ -6,6 +6,8 @@ import unittest
 from cathpy.core.align import (
     Align, Correspondence, Residue, SegmentBase, NumericSegment, StringSegment, Sequence,)
 
+from cathpy.core.error import OutOfBoundsError
+
 from . import testutils
 
 LOG = logging.getLogger(__name__)
@@ -417,6 +419,16 @@ TTTTLLASAMLSASVFALTDPPVDPVDPVDPTDPPSSD
 
         self.assertEqual(seq1.meta, {0: 'bla1'})
         self.assertEqual(seq2.meta, {0: 'bla2'})
+
+    def test_incorrect_fasta_headers(self):
+        fasta_str = """
+>seq1/100-200
+TTTTL-LASAM
+""".strip()
+        aln = Align.from_fasta(fasta_str)
+        seq = aln.get_seq_at_offset(0)
+        with self.assertRaises(OutOfBoundsError):
+            residues = seq.get_residues()
 
 
 if __name__ == '__main__':
