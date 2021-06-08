@@ -4,7 +4,7 @@ import tempfile
 import unittest
 
 from cathpy.core.align import (
-    Align, Correspondence, Residue, Segment, Sequence,)
+    Align, Correspondence, Residue, SegmentBase, NumericSegment, StringSegment, Sequence,)
 
 from . import testutils
 
@@ -20,8 +20,8 @@ class TestSequence(testutils.TestBase):
         self.assertEqual(seq.uid, 'id1/23-123')
         self.assertEqual(seq.accession, 'id1')
         self.assertEqual(len(seq.segs), 1)
-        self.assertEqual(seq.segs[0].start, 23)
-        self.assertEqual(seq.segs[0].stop, 123)
+        self.assertEqual(seq.segs[0].start, '23')
+        self.assertEqual(seq.segs[0].stop, '123')
         self.assertEqual(seq.seq, '---AKGHP--GPKAPGPAK--')
         self.assertEqual(seq.get_res_at_offset(0), '-')
         self.assertEqual(seq.get_res_at_offset(3), 'A')
@@ -45,7 +45,7 @@ class TestSequence(testutils.TestBase):
         self.assertEqual(seq.seq, '---AKGhP--GPKAPGPAK--')
 
     def test_create_segment(self):
-        seg = Segment(1, 10)
+        seg = NumericSegment(1, 10)
         self.assertEqual(seg.start, 1)
         self.assertEqual(seg.stop, 10)
         self.assertEqual(str(seg), '1-10')
@@ -55,12 +55,36 @@ class TestSequence(testutils.TestBase):
         self.assertEqual(hdr['id'], 'domain|1cukA01/12-134_178-234')
         self.assertEqual(hdr['accession'], '1cukA01')
         self.assertEqual(hdr['id_type'], 'domain')
-        self.assertIsInstance(hdr['segs'][0], Segment)
-        self.assertEqual(hdr['segs'][0].start, 12)
-        self.assertEqual(hdr['segs'][0].stop, 134)
-        self.assertIsInstance(hdr['segs'][1], Segment)
+        self.assertIsInstance(hdr['segs'][0], SegmentBase)
+        self.assertEqual(hdr['segs'][0].start, '12')
+        self.assertEqual(hdr['segs'][0].stop, '134')
+        self.assertIsInstance(hdr['segs'][1], SegmentBase)
         self.assertEqual(str(hdr['segs'][1]), '178-234')
         self.assertEqual(hdr['id_ver'], None)
+
+    def test_pdb_coords_hdr(self):
+        hdr = Sequence.split_hdr('cath|4_3_0|4w5hA00/-1-211')
+        self.assertEqual(hdr['id'], 'cath|4_3_0|4w5hA00/-1-211')
+        self.assertEqual(hdr['accession'], '4w5hA00')
+        self.assertEqual(hdr['id_type'], 'domain')
+        self.assertEqual(hdr['segs'][0].start, "-1")
+        self.assertEqual(hdr['segs'][0].stop, "211")
+
+    def test_pdb_numeric_coords_hdr(self):
+        hdr = Sequence.split_hdr(
+            'cath|4_3_0|4w5hA00/23-211_232-345', parse_segments_as_numbers=True)
+        self.assertEqual(hdr['id'], 'cath|4_3_0|4w5hA00/23-211_232-345')
+        self.assertEqual(hdr['accession'], '4w5hA00')
+        self.assertEqual(hdr['id_type'], 'domain')
+        self.assertEqual(hdr['segs'][0].start, 23)
+        self.assertEqual(hdr['segs'][0].stop, 211)
+        self.assertEqual(hdr['segs'][1].start, 232)
+        self.assertEqual(hdr['segs'][1].stop, 345)
+
+    def test_pdb_numeric_coords_hdr_fails(self):
+        with self.assertRaises(ValueError):
+            hdr = Sequence.split_hdr(
+                'cath|4_3_0|4w5hA00/-1-211', parse_segments_as_numbers=True)
 
     def test_apply_segments(self):
         seq1str = 'AKGHP GPKAP GPAKK APHPP PAIIH PAPIL HADSA P'.replace(
@@ -69,14 +93,14 @@ class TestSequence(testutils.TestBase):
         self.assertEqual(seq1.uid, 'testid')
         self.assertEqual(len(seq1.seq), len(seq1str))
 
-        seq2 = seq1.apply_segments([Segment(3, 5)])
+        seq2 = seq1.apply_segments([NumericSegment(3, 5)])
         self.assertEqual(seq1.uid, 'testid')
         self.assertEqual(len(seq1.seq), len(seq1str))
         self.assertEqual(seq2.uid, 'testid/3-5')
         self.assertEqual(seq2.seq, 'GHP')
 
         seq3 = seq1.apply_segments(
-            [Segment(3, 10), Segment(15, 25)])
+            [NumericSegment(3, 10), NumericSegment(15, 25)])
 
         seq3str = ''.join(['GHPGPKAP', 'KAPHPPPAIIH'])
         self.assertEqual(seq3.uid, 'testid/3-10_15-25')
