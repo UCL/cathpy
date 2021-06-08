@@ -1,7 +1,7 @@
 import logging
 import unittest
 
-from cathpy.core.align import Align, Sequence, Segment, Correspondence
+from cathpy.core.align import Align, Sequence, StringSegment, Correspondence
 
 from . import testutils
 
@@ -120,7 +120,7 @@ ghCHC.fsAK.HP-PK.A-..-AHGP.....--GPa
         def _res(r):
             return (r.seq_num, r.pdb_label, r.aa)
 
-        segs = [Segment(start=3, stop=11)]
+        segs = [StringSegment(start=3, stop=11)]
 
         # [3-11]
         #
@@ -146,7 +146,8 @@ ghCHC.fsAK.HP-PK.A-..-AHGP.....--GPa
         self.assertEqual(_res(res), (11, None, 'G'))
         del segs, corr, res
 
-        segs = [Segment(start=3, stop=7), Segment(start=9, stop=13)]
+        segs = [StringSegment(start=3, stop=7),
+                StringSegment(start=9, stop=13)]
 
         # [3-7, 9-13]
         #
