@@ -177,7 +177,7 @@ class Sequence(object):
         """Returns sequence position (ignoring gaps) of the given residue (may include gaps)."""
 
         seq_to_offset = self.seq[:offset+1]
-        if re.match(seq_to_offset[-1], Sequence.re_gap_chars):
+        if re.match(Sequence.re_gap_chars, seq_to_offset[-1]):
             raise err.GapError(
                 "Cannot get sequence position at offset {} since this corresponds to a gap".format(
                     offset))
