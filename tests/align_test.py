@@ -405,9 +405,9 @@ ghCHC-fsAK-HP-PK-A----AHG--P--GPa
 
     def test_fasta_with_meta(self):
         fasta_str = """
->seq1 bla1
+>seq1 bla1 bla2
 TTTTLLASAMLSASVFALTDPPVDPVDPVDPTDPPSSD
->seq2 bla2
+>seq2 key1=value1 key2=value2
 TTTTLLASAMLSASVFALTDPPVDPVDPVDPTDPPSSD
 """.strip()
 
@@ -417,8 +417,8 @@ TTTTLLASAMLSASVFALTDPPVDPVDPVDPTDPPSSD
         self.assertEqual(seq1.accession, 'seq1')
         self.assertEqual(seq2.accession, 'seq2')
 
-        self.assertEqual(seq1.meta, {0: 'bla1'})
-        self.assertEqual(seq2.meta, {0: 'bla2'})
+        self.assertEqual(seq1.meta, {0: 'bla1', 1: 'bla2'})
+        self.assertEqual(seq2.meta, {'key1': 'value1', 'key2': 'value2'})
 
     def test_incorrect_fasta_headers(self):
         fasta_str = """
