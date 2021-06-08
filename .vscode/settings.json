@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/Users/ian/Documents/GitHub/cathpy/venv/bin/python3",
+    "python.pythonPath": "${workspaceFolder}/venv/bin/python3",
     "editor.formatOnSave": true
 }
