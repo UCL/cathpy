@@ -6,7 +6,7 @@ import unittest
 from cathpy.core.align import (
     Align, Correspondence, Residue, SegmentBase, NumericSegment, StringSegment, Sequence,)
 
-from cathpy.core.error import OutOfBoundsError
+from cathpy.core.error import GapError, OutOfBoundsError, SeqIOError
 
 from . import testutils
 
@@ -429,6 +429,23 @@ TTTTL-LASAM
         seq = aln.get_seq_at_offset(0)
         with self.assertRaises(OutOfBoundsError):
             residues = seq.get_residues()
+
+    def test_sequence_errors(self):
+        seq = Sequence('seq1', '-TTTTL-LASAM')
+        self.assertEqual(seq.get_res_at_offset(0), '-')
+        self.assertEqual(seq.get_res_at_offset(1), 'T')
+        self.assertEqual(seq.get_res_at_offset(11), 'M')
+        self.assertEqual(seq.get_res_at_offset(-3), 'S')
+
+        with self.assertRaises(SeqIOError):
+            seq.get_res_at_offset(12)
+
+        with self.assertRaises(SeqIOError):
+            seq.get_res_at_seq_position(11)
+
+        self.assertEqual(seq.get_seq_position_at_offset(2), 2)
+        with self.assertRaises(GapError):
+            seq.get_seq_position_at_offset(6)
 
 
 if __name__ == '__main__':
