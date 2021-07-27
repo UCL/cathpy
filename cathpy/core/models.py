@@ -305,7 +305,7 @@ class ClusterFile(object):
         Returns the cluster id as a :class:`ClusterID` object
         """
         return ClusterID(sfam_id=self.sfam_id, cluster_type=self.cluster_type,
-                  cluster_num=self.cluster_num)
+                         cluster_num=self.cluster_num)
 
     @classmethod
     def split_path(cls, path):
@@ -361,9 +361,60 @@ class ClusterFile(object):
         return self.to_string()
 
 
-class Segment(object):
+class SegmentBase(object):
     """
     Class to represent a protein segment.
+
+    Args:
+        start: numeric start position of the segment
+        stop (str): numeric stop position of the segment
+
+    """
+
+    SEGMENT_TYPE_STRING = 'STRING'
+    SEGMENT_TYPE_NUMERIC = 'NUMERIC'
+
+    def __init__(self, start, stop):
+        raise NotImplementedError
+
+    def __str__(self):
+        return "{}-{}".format(self.start, self.stop)
+
+    def __repr__(self):
+        return "{}:{}-{}".format(self.__class__.__name__, self.start, self.stop)
+
+    @property
+    def is_numeric(self):
+        return self.type == self.SEGMENT_TYPE_NUMERIC
+
+    @property
+    def is_string(self):
+        return self.type == self.SEGMENT_TYPE_STRING
+
+    def __getitem__(self, idx):
+        items = [self.start, self.stop]
+        return items[idx]
+
+
+class StringSegment(SegmentBase):
+    """
+    Class to represent a string protein segment (eg ATOM).
+
+    Args:
+        start (str): start position of the segment
+        stop (str): stop position of the segment
+
+    """
+
+    def __init__(self, start: str, stop: str):
+        self.type = self.SEGMENT_TYPE_STRING
+        self.start = str(start)
+        self.stop = str(stop)
+
+
+class NumericSegment(SegmentBase):
+    """
+    Class to represent a SeqRes protein segment (numeric).
 
     Args:
         start (int): numeric start position of the segment
@@ -372,18 +423,9 @@ class Segment(object):
     """
 
     def __init__(self, start: int, stop: int):
+        self.type = self.SEGMENT_TYPE_NUMERIC
         self.start = int(start)
         self.stop = int(stop)
-
-    def __str__(self):
-        return "{}-{}".format(self.start, self.stop)
-
-    def __repr__(self):
-        return "Segment:{}-{}".format(self.start, self.stop)
-
-    def __getitem__(self, idx):
-        items = [self.start, self.stop]
-        return items[idx]
 
 
 class ScanHsp(object):

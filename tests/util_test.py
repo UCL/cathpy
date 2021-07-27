@@ -149,7 +149,8 @@ class TestUtil(TestBase):
         LOG.info("Writing STOCKHOLM file (without groupsim): %s", sto_file.name)
         aln.write_sto(sto_file.name)
         LOG.info("Adding groupsim data ... ")
-        aln.add_groupsim()
+        gs_res1 = aln.add_groupsim()
+        self.assertIsInstance(gs_res1, GroupsimResult)
         LOG.info("Writing STOCKHOLM file (with groupsim): %s",
                  sto_with_groupsim_file.name)
         aln.write_sto(sto_with_groupsim_file.name)

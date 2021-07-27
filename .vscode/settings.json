@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "${workspaceFolder}/venv/bin/python",
+    "python.pythonPath": "${workspaceFolder}/venv/bin/python3",
     "editor.formatOnSave": true
 }
