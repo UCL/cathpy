@@ -29,7 +29,7 @@ parser.add_argument('--format', '-f', type=str, default='csv',
 parser.add_argument('--out', '-o', type=str, dest='out_file', required=False,
                     help='output file')
 
-parser.add_argument('--allhits', '-a', type=bool, dest='all_hits', action='store_true', default=False,
+parser.add_argument('--allhits', '-a', dest='all_hits', action='store_true', default=False,
                     help='show all hits (default: resolved hits)')
 
 parser.add_argument('--verbose', '-v', required=False, action='count', default=0,
