@@ -7,7 +7,7 @@ import os
 import sys
 
 # local
-from cathpy.core import util
+from cathpy.core.util import AlignmentSummary, AlignmentSummaryRunner
 
 parser = argparse.ArgumentParser(
     description="Provide summary stats for alignments")
@@ -18,11 +18,18 @@ input_group.add_argument('-d', '--aln_dir', type=str, dest='aln_dir',
 input_group.add_argument('-i', '--aln_file', type=str, dest='aln_file',
                          help='input alignment file')
 
-parser.add_argument('--suffix', type=str, dest='suffix', default='.sto',
-                    help='suffix to use when matching alignment files')
+parser.add_argument('-f', type=str, choices=AlignmentSummaryRunner.VALID_ALN_FORMATS,
+                    dest='aln_format', default='fasta',
+                    help=f'alignment file format (default: fasta)')
+
+parser.add_argument('--suffix', type=str, dest='suffix', default=None,
+                    help='suffix to use when matching alignment files (default: .faa)')
 
 parser.add_argument('--skipempty', default=False, action="store_true",
                     help='skip empty files')
+
+parser.add_argument('-r', '--recursive', default=True, action="store_true",
+                    help='recursive search')
 
 parser.add_argument('--verbose', '-v', required=False, action='count', default=0,
                     help='more verbose logging')
@@ -41,10 +48,13 @@ if __name__ == '__main__':
         level=log_level, format='%(asctime)s %(levelname)-8s | %(message)s')
 
     merged_args = dict([(key, vars(args)[key]) for key in (
-        'aln_dir', 'aln_file', 'suffix', 'skipempty')])
+        'aln_dir', 'aln_file', 'aln_format', 'suffix', 'skipempty', 'recursive')])
 
-    aln_sum = util.AlignmentSummaryRunner(**merged_args)
+    aln_sum = AlignmentSummaryRunner(**merged_args)
+    entries = aln_sum.run()
 
-    aln_sum.run()
+    print("# " + "\t".join(AlignmentSummary.col_names()))
+    for e in entries:
+        print(e.to_string())
 
     logging.info('DONE')
